@@ -14,11 +14,33 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li <% if(title == 'Home') { %>class="active"<% } %>><a href="/"><span class="glyphicon glyphicon-home"> Home</a></li>
-            <li <% if(title == 'Events') { %>class="active"<% } %>><a href="/"><span class="glyphicon glyphicon-info-sign"></span> News</a></li>
-            <li <% if(title == 'Events') { %>class="active"<% } %>><a href="/"><span class="glyphicon glyphicon-calendar"></span> Events</a></li>
-            <li <% if(title == 'User Groups') { %>class="active"<% } %>><a href="/"><span class="glyphicon glyphicon-user"></span> Find User Groups</a></li>
-            <li <% if(title == 'Articles') { %>class="active"<% } %>><a href="/"><span class="glyphicon glyphicon-book"></span> Articles</a></li>
+            <li <% if(title == 'Home') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-home"> Home</a>
+            </li>
+
+            <li <% if(title == 'About') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-info-sign"></span> About</a>
+            </li>
+
+            <li <% if(title == 'Events') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-info-sign"></span> News</a>
+            </li>
+
+            <li <% if(title == 'Events') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-calendar"></span> Events</a>
+            </li>
+
+            <li <% if(title == 'User Groups') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-user"></span> Find Usergroups</a>
+            </li>
+
+            <li <% if(title == 'Articles') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-book"></span> Articles</a>
+            </li>
+
+            <li <% if(title == 'Companies') { %>class="active"<% } %>>
+              <a href="/"><span class="glyphicon glyphicon-book"></span> Companies</a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
           <% if (!user) { %>

@@ -1,11 +1,18 @@
-# Express, MySQL & MongoDB 
-> A starter pack for building Node.js & MySQL applications
+# NodeZA
+> A portal for Node.js developers in South Africa. 
 
-This is starter pack for building Node.js & MySQL applications. It is adapated from the hackerthon-starter project.
 
-### Todo
-- Add twitter, google and linkedIn authantication
-- Write more tests
+### Vision
+Create a platform interested parties share about things Node.js in South Africa.
 
-### License
-MIT
+### Objectives
+- Connect all Node.js developers in SA under one roof
+- Provide information about the state of Node.js in SA
+- News updates
+- ProvideEvents
+- Make it easy to find Node.js usergroups
+- Collect information about companies using Node
+- Share technical information
+- Register all Node.js developers in SA (Profiles)
+- Fresh content and updates in form of newletters
+- Make our platform opensource and extendable

@@ -1,0 +1,138 @@
+
+  <form class="form-horizontal" id="signup-form" action="/account" method="POST">
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      <legend>Profile Information</legend>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="name">Name</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="<%= user.get('name') %>" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="last_name">Last Name</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Name" value="<%= user.get('last_name') %>" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="email">Email</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="email" name="email" id="email" value="<%= user.get('email') %>" placeholder="Email" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="gender">Gender</label>
+        <div class="col-sm-7">
+          <label style="margin-left:20px" class="radio">
+            <input type="radio" <% if(user.get('gender') === 'male') { %>checked="checked"<% } %> name="gender" value="male" data-toggle="radio">
+            <span>Male</span>
+          </label>
+
+          <label style="margin-left:20px" class="radio">
+            <input type="radio" <% if(user.get('gender') === 'female') { %>checked="checked"<% } %>  name="gender" value="female" data-toggle="radio">
+            <span>Female</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="location">Location</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" value="<%= user.get('location') %>" name="location" id="location" placeholder="Location">
+          <span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="website">Website</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" value="<%= user.get('website') %>" name="website" id="website" placeholder="Website">
+          <span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="about">About Me</label>
+        <div class="col-sm-7">
+          <textarea class="form-control" name="about" id="about" placeholder="Write something about yourself..."><%= user.get('about') %></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="gravatar">Gravatar</label>
+        <div class="col-sm-7">
+          <img class="profile" height="100" width="100" src="<%= user.gravatar() %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-7">
+          <button class="btn btn-success" type="submit">
+            <i class="fa fa-check"></i> Update Profile
+          </button>
+        </div>
+      </div>
+  </form>
+
+
+
+  <form style="margin-top:50px;" class="form-horizontal" id="signup-form" action="/account/password" method="POST">
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      <legend>Change Password</legend>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="password">Password</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="confirmPassword">Confirm Password</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="password" name="confirm" id="confirm" placeholder="Confirm Password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-7">
+          <button class="btn btn-success" type="submit">
+            <i class="fa fa-keyboard-o"></i> Change Password
+          </button>
+        </div>
+      </div>
+  </form>
+
+  <form style="margin-top:50px;" class="form-horizontal">
+    <legend>Linked Accounts</legend>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-7">
+        <p>
+        <% if (github) { %>
+          <a class="btn btn-block btn-danger" href="/account/unlink/github"><i class="fa fa-github"></i> Unlink your GitHub account</a>
+        <% } else { %>
+          <a class="btn btn-block btn-primary" href="/auth/github"><i class="fa fa-github"></i> Link your GitHub account</a> 
+        <% } %>
+        </p>
+      </div>
+    </div>
+  </form>
+
+
+  <form style="margin-top:50px;" class="form-horizontal" id="signup-form" action="/account/delete" onsubmit="return confirm('Are you sure you want to delete your account forever?')" method="POST">
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+    <legend>Delete Account</legend>
+
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-7">
+        <button class="btn btn-block btn-danger" type="submit">
+          <i class="fa fa-trash-o"></i> Delete my account
+        </button>
+      </div>
+    </div>
+  </form>
+  <br><br>

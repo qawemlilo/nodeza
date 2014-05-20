@@ -1,0 +1,58 @@
+
+
+
+
+   <div class="container-fluid">
+    <div class="row">
+      <ul class="list-inline">
+        <li class="pull-right">
+          <a href="/events/new" class="btn btn-success">
+            <span class="glyphicon glyphicon-ok"></span> Add New Event
+          </a>
+        </li>
+      </ul>
+
+    </div>
+      
+      <div class="row" style="border: 1px solid #E7E7E7; background-color: #F5F5F5; margin-top: 10px; margin-bottom: 20px;padding-top: 10px; padding-bottom: 10px;">
+
+        <div class="col-md-8">
+          <h2 class="blog-post-title"><%= myEvent.get('title') %></h2>
+
+          <% if(myEvent.get('url') && myEvent.get('url').length > 0) { %>
+            <p class="blog-post-meta">
+              Website: <a href="<%= myEvent.get('url') %>" target="_blank"><%= myEvent.get('url') %></a>
+            </p>
+          <% } %>
+
+          <p><%= myEvent.get('desc') %></p>
+
+          <p style="color: #999; margin-top:20px">
+            <span class="glyphicon glyphicon-map-marker"></span> 
+            <%= myEvent.get('address') %>
+          </p>
+        </div>
+
+        <div class="col-md-4">
+          <p>
+            <span class="glyphicon glyphicon-tag"></span> 
+            <a href="/events/<%= myEvent.get('city') %>"><%= myEvent.get('city') %></a>
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-calendar"></span> <%= myEvent.parseDate() %>
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-time"></span> <%= myEvent.parseTime() %>
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-earphone"></span> <%= myEvent.get('number') %>
+          </p>
+          <p>
+            <a href="mailto:<%= myEvent.get('email') %>" role="button" class="btn btn-primary"> 
+              <span class="glyphicon glyphicon-envelope"></span> Contact</>
+            </a>
+          </p>
+        </div>
+      </div>
+
+    </div>

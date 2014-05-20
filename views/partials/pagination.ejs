@@ -1,0 +1,57 @@
+
+<div class="row">
+<ul class="pagination">
+  <%
+    if (pagination.isFirstPage) {
+  %>
+    <li class="disabled">
+      <a href="#">&laquo; Prev</a>
+    </li>
+  <%
+    }
+    else {
+  %>
+    <li>
+      <a href="<%= pagination.base %>?p=<%= pagination.prev %><% if (query.sort) { %>&sort=<%= query.sort %><% } %><% if (query.sortorder) { %>&order=<%= query.sortorder %><% } %>">&laquo; Prev</a>
+    </li>
+  <%
+    }
+  %>
+
+
+  <%
+    pagination.items.forEach(function (page) { 
+      if (page == '...') {
+  %>
+        <li class="disabled"><a href="#">...</a></li>
+  <%  
+      } 
+      else {
+  %>
+        <li <% if(page === pagination.currentpage) { %>class="active"<% } %>>
+          <a href="<%= pagination.base %>?p=<%= page %><% if (query.sort) { %>&sort=<%= query.sort %><% } %><% if (query.order) { %>&order=<%= query.order %><% } %>">
+            <%= page %>
+          </a>
+        </li>
+  <%
+      }
+    })
+  %>
+
+
+  <%
+    if (pagination.isLastPage) {
+  %>
+    <li class="disabled"><a href="#">Next &raquo;</a></li>
+  <%
+    }
+    else {
+  %>
+    <li>
+      <a href="<%= pagination.base %>?p=<%= pagination.next %><% if (query.sort) { %>&sort=<%= query.sort %><% } %><% if (query.order) { %>&order=<%= query.order %><% } %>">Next &raquo;</a>
+    </li>
+  <%
+    }
+  %>
+</ul>
+</div>

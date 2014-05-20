@@ -1,21 +1,25 @@
 
-  <form class="form-horizontal" id="signup-form" method="POST">
-    
-    <legend>Sign In</legend>
-
-    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <i class="fa fa-unlock-alt"></i> Sign In
+  </div>
+  
+  <div class="panel-body">
+    <form class="form-horizontal" id="signup-form" method="POST">
+  
+      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+  
       <div class="form-group">
         <label class="col-sm-3 control-label" for="email">Email</label>
         <div class="col-sm-7">
-          <input class="form-control" type="email" name="email" id="email" placeholder="Email" required="" autofocus />
+          <input class="form-control" type="email" name="email"   id="emailplaceholder="Email" required="" autofocus />
         </div>
       </div>
       
       <div class="form-group">
         <label class="col-sm-3 control-label" for="password">Password</label>
         <div class="col-sm-7">
-          <input class="form-control" type="password" name="password" id="password" placeholder="Password" required="">
+          <input class="form-control" type="password" name="password"   id="passwordplaceholder="Password" required="">
         </div>
       </div>
 
@@ -27,14 +31,15 @@
           <a class="btn btn-link" href="/forgot"> Forgot your password?</a>
         </div>
       </div>
-      <hr>
+
+      <hr />
+
       <div class="form-group">
         <label class="col-sm-3 control-label" for="email">&nbsp;</label>
         <div class="col-sm-7">
           <a class="btn btn-block btn-default" href="/auth/github">
             <i class="fa fa-github"></i> Sign in with GitHub
           </a>
-
           <!--
           <a class="btn btn-block btn-danger" href="/auth/google">
             <i class="fa fa-google-plus"></i> Sign in with Google
@@ -44,7 +49,8 @@
             <i class="fa fa-twitter"></i> Sign in with Twitter
           </a>
           -->
-
         </div>
       </div>
-  </form>
+    </form>
+  </div>
+</div>

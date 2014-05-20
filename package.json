@@ -56,7 +56,8 @@
     "mysql": "~2.1.1",
     "ejs": "~1.0.0",
     "async": "~0.7.0",
-    "lusca": "~1.0.0"
+    "lusca": "~1.0.0",
+    "moment": "~2.6.0"
   },
   "devDependencies": {
     "mocha": "^1.18.2",

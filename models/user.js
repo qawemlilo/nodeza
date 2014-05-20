@@ -4,24 +4,31 @@
 var MySql  = require('bookshelf').PG;
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
-var Tokens = require('./token');
+var Token = require('./token');
 var Roles = require('./roles');
+var myEvents = require('./event');
 
 
 module.exports = MySql.Model.extend({
 
   tableName: 'users',
 
+
   hasTimestamps: true,
 
 
   tokens: function() {
-    return this.hasMany(Tokens);
+    return this.hasMany(Token);
   },
 
 
   role: function() {
     return this.belongsTo(Roles);
+  },
+
+
+  myEvents: function() {
+    return this.hasMany(myEvents);
   },
 
 

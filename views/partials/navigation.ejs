@@ -14,32 +14,24 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li <% if(title == 'Home') { %>class="active"<% } %>>
+            <li <% if(title == 'Welcome to NodeZA, a portal of Node.js developers in South Africa') { %>class="active"<% } %>>
               <a href="/"><span class="glyphicon glyphicon-home"> Home</a>
             </li>
 
-            <li <% if(title == 'About') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-info-sign"></span> About</a>
+            <li <% if(title == 'Event' || title == 'Events' || title == 'My Events' || title == 'New Event') { %>class="active"<% } %>>
+              <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
             </li>
 
-            <li <% if(title == 'Events') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-info-sign"></span> News</a>
+            <li <% if(title == 'Blog') { %>class="active"<% } %>>
+              <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
             </li>
 
-            <li <% if(title == 'Events') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-calendar"></span> Events</a>
+            <li <% if(title == 'Find Meetups') { %>class="active"<% } %>>
+              <a href="/meetups"><span class="glyphicon glyphicon-search"></span> MeetUps</a>
             </li>
-
-            <li <% if(title == 'User Groups') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-user"></span> Find Usergroups</a>
-            </li>
-
-            <li <% if(title == 'Articles') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-book"></span> Articles</a>
-            </li>
-
-            <li <% if(title == 'Companies') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-book"></span> Companies</a>
+            
+            <li <% if(title == 'Companies using Node.js in South Africa') { %>class="active"<% } %>>
+              <a href="/companies"><span class="glyphicon glyphicon-registration-mark"></span> Companies</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -50,11 +42,55 @@
             <li <% if(title == 'Sign Up') { %>class="active"<% } %>>
               <a href="/signup">Sign Up</a>
             </li>
-            <% } else { %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><!-- <img src="<%= user.gravatar() %>">--> <%= user.get('name') %> <span class="caret"></span></a>
+            <% 
+            } 
+            else { %>
+
+            <li <% 
+              var klass='';
+              switch(title) {
+                case 'My Account':
+                case 'Change Password':
+                case 'Linked Accounts':
+                  klass = "class=active";
+                break;
+              }
+            %>
+            <%= klass %>>
+              <a href="/account" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-wrench"></span> Account 
+                <span class="caret"></span>
+              </a>
+
               <ul class="dropdown-menu">
-                <li <% if(title == 'My Account') { %>class="active"<% } %>><a href="/account">My Account</a></li>
+                <li>
+                  <a href="/account">Profile Infomation</a>
+                </li>
+
+                <li>
+                  <a href="/account/password">Change Password</a>
+                </li>
+
+                <li>
+                  <a href="/account/linked">Linked Accounts</a>
+                </li>
+
+                <li class="divider"></li>
+                <li><a href="/account/#delete">Delete Account</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user"></span>
+                <%= user.get('name') %> <span class="caret"></span>
+              </a>
+
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/events">My Events</a>
+                </li>
+
                 <li class="divider"></li>
                 <li><a href="/logout">Logout</a></li>
               </ul>

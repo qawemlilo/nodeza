@@ -1,0 +1,31 @@
+
+<ul class="nav nav-tabs" style="margin-bottom: 20px;">
+  <li><a href="/account"><span class="glyphicon glyphicon-user"></span> Profile Information</a></li>
+  <li><a href="/account/password"><i class="fa fa-keyboard-o"></i> Change Password</a></li>
+  <li class="active"><a href="/account/linked"><i class="fa fa-chain"></i> Linked Accounts</a></li>
+</ul>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Linked Accounts
+  </div>
+  
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-6">
+          <p>
+          <% if (github) { %>
+            <a class="btn btn-block btn-danger" href="/account/unlink/github"><i class="fa   fa-github"></i> Unlink your GitHub account</a>
+          <% } else { %>
+            <a class="btn btn-block btn-primary" href="/auth/github"><i class="fa fa-  github"></i> Link your GitHub account</a> 
+          <% } %>
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br><br>

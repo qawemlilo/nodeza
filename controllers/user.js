@@ -12,8 +12,9 @@ var _ = require('underscore');
 /**
  * Converts date in milliseconds to MySQL datetime format
  * @param: ts - date in milliseconds
- * @returns - MySQL datetime
+ * @returns: - MySQL datetime
  */
+
 function datetime(ts) {
   return new Date(ts).toISOString().slice(0, 19).replace('T', ' ');
 }
@@ -25,9 +26,11 @@ module.exports = {
    * GET /login
    * View login page
    */
+
   getLogin: function (req, res) {
     res.render('login', {
-      title: 'Log In'
+      title: 'Log In',
+      loggedIn: !!req.user
     });
   },
 
@@ -36,6 +39,7 @@ module.exports = {
    * POST /login
    * Logs in user
    */
+
   postLogin: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password cannot be blank').notEmpty();
@@ -44,6 +48,7 @@ module.exports = {
   
     if (errors) {
       req.flash('errors',  { msg: errors});
+
       return res.redirect('/login');
     }
   
@@ -56,6 +61,7 @@ module.exports = {
         req.flash('errors', { msg: info.message });
         return res.redirect('/login');
       }
+      
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
@@ -71,6 +77,7 @@ module.exports = {
    * GET /logout
    * Logout user
    */
+
   logout: function(req, res) {
     req.logout();
     res.redirect('/');
@@ -81,9 +88,11 @@ module.exports = {
    * GET /signup
    * Get signup form.
    */
+
   getSignup: function (req, res) {
     res.render('signup', {
-      title: 'Sign Up'
+      title: 'Sign Up',
+      loggedIn: !!req.user
     });
   },
 
@@ -92,6 +101,7 @@ module.exports = {
    * POST /signup
    * Registers user
    */
+
   postSignup: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 6 characters long').len(6);
@@ -145,6 +155,7 @@ module.exports = {
    * GET /reset/:token
    * Loads password reset form.
    */
+
   getReset: function(req, res) {
 
     var user =  new User();
@@ -161,7 +172,8 @@ module.exports = {
       }
       res.render('password', {
         title: 'Password Reset',
-        token: req.params.token
+        token: req.params.token,
+        loggedIn: !!req.user
       });
     })
     .otherwise(function () {
@@ -175,6 +187,7 @@ module.exports = {
    * POST /reset/:token
    * Process the reset password request.
    */
+
   postReset: function (req, res, next) {
     req.assert('password', 'Password must be at least 6 characters long.').len(6);
     req.assert('confirm', 'Passwords must match.').equals(req.body.password);
@@ -252,9 +265,11 @@ module.exports = {
    * GET /forgot
    * Loads forgot password page.
    */
+
   getForgot: function (req, res) {
     res.render('forgot', {
-      title: 'Forgot Password'
+      title: 'Forgot Password',
+      loggedIn: !!req.user
     });
   },
 
@@ -263,6 +278,7 @@ module.exports = {
    * POST /forgot
    * Create a random token, then the send user an email with a reset link.
    */
+
   postForgot: function (req, res, next) {
     req.assert('email', 'Please enter a valid email address.').isEmail();
   
@@ -311,7 +327,8 @@ module.exports = {
           body: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
             'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            'If you did not request this, please ignore this email and your password will remain unchanged.\n\n\n' +
+            'NodeZA Team'
         };
 
         Mailer(mailOptions, function(err, resp) {
@@ -330,13 +347,11 @@ module.exports = {
    * GET /account
    * logged in user account details form.
    */
-  getAccount: function (req, res) {
-    var tokens = req.user.related('tokens').toJSON();
-    var github = _.findWhere(tokens, { kind: 'github' });
 
+  getAccount: function (req, res) {
     res.render('account', {
       title: 'My Account',
-      github: github
+      loggedIn: !!req.user
     });
   },
 
@@ -345,9 +360,28 @@ module.exports = {
    * GET /account/password
    * logged in user password form
    */
+
   getPasswordForm: function (req, res) {
     res.render('password', {
-      title: 'Change Password'
+      title: 'Change Password',
+      loggedIn: !!req.user
+    });
+  },
+
+
+  /**
+   * GET /account/password
+   * logged in user password form
+   */
+
+  getLinkedAccounts: function (req, res) {
+    var tokens = req.user.related('tokens').toJSON();
+    var github = _.findWhere(tokens, { kind: 'github' });
+
+    res.render('linkedaccounts', {
+      title: 'Linked Accounts',
+      github: github,
+      loggedIn: !!req.user
     });
   },
 
@@ -356,6 +390,7 @@ module.exports = {
    * POST /account/password
    * change user password.
   */
+
   postPassword: function(req, res, next) {
     req.assert('password', 'Password must be at least 4 characters long').len(4);
     req.assert('confirm', 'Passwords do not match').equals(req.body.password);
@@ -374,11 +409,11 @@ module.exports = {
       .save()
       .then(function () {
         req.flash('success', { msg: 'Password has been changed.' });
-        res.redirect('/account');
+        res.redirect('/account/password');
       })
       .otherwise(function () {
         req.flash('error', { msg: 'Failed to change password.' });
-        res.redirect('/account');
+        res.redirect('/account/password');
       });
 
     });
@@ -389,6 +424,7 @@ module.exports = {
    * POST /account
    * Edit user account.
   */
+
   postAccount: function(req, res, next) {
     var user = req.user, name;
 
@@ -420,17 +456,20 @@ module.exports = {
    * POST /account/delete
    * Delete user account.
   */
+
   postDeleteAccount: function(req, res, next) {
     var user = req.user;
     var tokens = user.related('tokens');
 
     if (tokens) {
-
+      
+      // first remove tokens associated with user 
       tokens.mapThen(function(model) {
         return model.destroy().then(function() {
           return 'TokenId ' + model.get('id') + ' - Deleted';
         });
-      }).then(function(resp) {
+      })
+      .then(function(resp) {
         user.destroy().then(function () {
           req.logout();
           res.redirect('/');
@@ -462,6 +501,7 @@ module.exports = {
    * GET /account/unlink/:provider
    * Unlink an auth account
    */
+
   getOauthUnlink: function(req, res, next) {
     var provider = req.params.provider;
     var tokens = req.user.related('tokens').toJSON();
@@ -476,7 +516,7 @@ module.exports = {
         Tokens.forge({id: token.id}).fetch().then(function(model) {
           model.destroy().then(function () {
             req.flash('info', { msg: provider + ' account has been unlinked.' }); 
-            res.redirect('/account');
+            res.redirect('/account/linked');
           })
           .otherwise(function () {
             req.flash('error', { msg: 'Database error. ' + provider + ' account has been unlinked.' }); 

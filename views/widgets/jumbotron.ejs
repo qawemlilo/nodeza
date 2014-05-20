@@ -1,0 +1,29 @@
+    
+<div id="jumbotron" class="jumbotron">
+  <div class="container">
+    <h1>Pushing Node.js forward...</h1>
+  
+    <p>NodeZA is a community of Node.js developers in South Africa</p>
+    
+    
+    <ul class="list-inline">
+      <% if (!loggedIn) { %>
+      <li>
+        <a href="/signup" class="btn btn-danger btn-lg" role="button">
+          <span class="glyphicon glyphicon-heart"></span> Join the community!
+        </a>
+      </li>
+      <% } %>
+      <li>
+        <a href="/events" class="btn btn-success btn-lg" role="button">
+          <span class="glyphicon glyphicon-calendar"></span> Checkout upcoming events
+        </a>
+      </li>
+      <li>
+        <a href="/meetups" class="btn btn-primary btn-lg" role="button">
+          <span class="glyphicon glyphicon-search"></span> Find meetups near you
+        </a>
+      </li>
+    </ul>
+    </div>
+</div>

@@ -12,9 +12,8 @@ var _ = require('underscore');
 /**
  * Converts date in milliseconds to MySQL datetime format
  * @param: ts - date in milliseconds
- * @returns: - MySQL datetime
+ * @returns: MySQL datetime
  */
-
 function datetime(ts) {
   return new Date(ts).toISOString().slice(0, 19).replace('T', ' ');
 }
@@ -26,7 +25,6 @@ module.exports = {
    * GET /login
    * View login page
    */
-
   getLogin: function (req, res) {
     res.render('login', {
       title: 'Log In',
@@ -37,9 +35,8 @@ module.exports = {
 
   /**
    * POST /login
-   * Logs in user
+   * Log in user
    */
-
   postLogin: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password cannot be blank').notEmpty();
@@ -77,7 +74,6 @@ module.exports = {
    * GET /logout
    * Logout user
    */
-
   logout: function(req, res) {
     req.logout();
     res.redirect('/');
@@ -88,7 +84,6 @@ module.exports = {
    * GET /signup
    * Get signup form.
    */
-
   getSignup: function (req, res) {
     res.render('signup', {
       title: 'Sign Up',
@@ -101,7 +96,6 @@ module.exports = {
    * POST /signup
    * Registers user
    */
-
   postSignup: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 6 characters long').len(6);
@@ -122,31 +116,22 @@ module.exports = {
     userData.email = req.body.email;
     userData.role_id = 1;
 
-    user.generatePasswordHash(req.body.password, function (err, hash) {
-      
-      if (err) {
-        return next(err);
-      }
+    user.set(userData)
+    .save()
+    .then(function (model) {
+      req.flash('success', { msg: 'Account successfully created! You are now logged in.' });
 
-      userData.password = hash;
-
-      user.set(userData)
-      .save()
-      .then(function (model) {
-        req.flash('success', { msg: 'Account successfully created! You are now logged in.' });
-
-        req.logIn(model, function(err) {
-          if (err) {
-            return next(err);
-          }
-          
-          res.redirect('/');
-        });         
-      })
-      .otherwise(function () {
-        req.flash('errors', {'msg': 'Database error. Account not created.'});
-        return res.redirect('/signup');
-      });
+      req.logIn(model, function(err) {
+        if (err) {
+          return next(err);
+        }
+        
+        res.redirect('/');
+      });         
+    })
+    .otherwise(function (error) {
+      req.flash('errors', {'msg': 'Database error. Account not created.'});
+      res.redirect('/signup');
     });
   },
 
@@ -155,7 +140,6 @@ module.exports = {
    * GET /reset/:token
    * Loads password reset form.
    */
-
   getReset: function(req, res) {
 
     var user =  new User();
@@ -187,7 +171,6 @@ module.exports = {
    * POST /reset/:token
    * Process the reset password request.
    */
-
   postReset: function (req, res, next) {
     req.assert('password', 'Password must be at least 6 characters long.').len(6);
     req.assert('confirm', 'Passwords must match.').equals(req.body.password);
@@ -213,27 +196,24 @@ module.exports = {
             req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
             return res.redirect('back');
           }
-          user.generatePasswordHash(req.body.password, function (err, hash) {
-            if (err) {
-              return next(error);
-            }
-            user.set({
-              password: hash,
-              resetPasswordToken: null,
-              resetPasswordExpires: null
-            });
 
-            user.save().then(function (user) {
-              if (!user) {
-                return next({errors: {msg: 'Failed to save new password.'}});
-              }
-              req.logIn(user, function (err) {
-                done(err, user);
-              });
-            })
-            .otherwise(function () {
-              next({errors: {msg: 'Database error. Failed to save new password.'}});
+          user.set({
+            password: req.body.password,
+            resetPasswordToken: null,
+            resetPasswordExpires: null
+          });
+
+          user.save()
+          .then(function (user) {
+            if (!user) {
+              return next({errors: {msg: 'Failed to save new password.'}});
+            }
+            req.logIn(user, function (err) {
+              done(err, user);
             });
+          })
+          .otherwise(function () {
+            next({errors: {msg: 'Database error. Failed to save new password.'}});
           });
         })              
         .otherwise(function () {
@@ -265,7 +245,6 @@ module.exports = {
    * GET /forgot
    * Loads forgot password page.
    */
-
   getForgot: function (req, res) {
     res.render('forgot', {
       title: 'Forgot Password',
@@ -278,7 +257,6 @@ module.exports = {
    * POST /forgot
    * Create a random token, then the send user an email with a reset link.
    */
-
   postForgot: function (req, res, next) {
     req.assert('email', 'Please enter a valid email address.').isEmail();
   
@@ -310,7 +288,8 @@ module.exports = {
             resetPasswordExpires: datetime(Date.now() + 3600000)
           });
   
-          user.save().then(function(model) {
+          user.save()
+          .then(function(model) {
             done(false, token, model);
           })
           .otherwise(function () {
@@ -347,7 +326,6 @@ module.exports = {
    * GET /account
    * logged in user account details form.
    */
-
   getAccount: function (req, res) {
     res.render('account', {
       title: 'My Account',
@@ -360,7 +338,6 @@ module.exports = {
    * GET /account/password
    * logged in user password form
    */
-
   getPasswordForm: function (req, res) {
     res.render('password', {
       title: 'Change Password',
@@ -373,7 +350,6 @@ module.exports = {
    * GET /account/password
    * logged in user password form
    */
-
   getLinkedAccounts: function (req, res) {
     var tokens = req.user.related('tokens').toJSON();
     var github = _.findWhere(tokens, { kind: 'github' });
@@ -390,7 +366,6 @@ module.exports = {
    * POST /account/password
    * change user password.
   */
-
   postPassword: function(req, res, next) {
     req.assert('password', 'Password must be at least 4 characters long').len(4);
     req.assert('confirm', 'Passwords do not match').equals(req.body.password);
@@ -404,18 +379,15 @@ module.exports = {
 
     user = req.user;
 
-    user.generatePasswordHash(req.body.password, function (err, hash) {
-      user.set({password: hash})
-      .save()
-      .then(function () {
-        req.flash('success', { msg: 'Password has been changed.' });
-        res.redirect('/account/password');
-      })
-      .otherwise(function () {
-        req.flash('error', { msg: 'Failed to change password.' });
-        res.redirect('/account/password');
-      });
-
+    user.set({password: req.body.password})
+    .save()
+    .then(function () {
+      req.flash('success', { msg: 'Password has been changed.' });
+      res.redirect('/account/password');
+    })
+    .otherwise(function () {
+      req.flash('error', { msg: 'Failed to change password.' });
+      res.redirect('/account/password');
     });
   },
 
@@ -424,7 +396,6 @@ module.exports = {
    * POST /account
    * Edit user account.
   */
-
   postAccount: function(req, res, next) {
     var user = req.user, name;
 
@@ -441,7 +412,8 @@ module.exports = {
       about: req.body.about
     });
 
-    user.save().then(function() {
+    user.save()
+    .then(function() {
       req.flash('success', { msg: 'Account information updated.' });
       res.redirect('/account');
     })
@@ -456,7 +428,6 @@ module.exports = {
    * POST /account/delete
    * Delete user account.
   */
-
   postDeleteAccount: function(req, res, next) {
     var user = req.user;
     var tokens = user.related('tokens');
@@ -501,7 +472,6 @@ module.exports = {
    * GET /account/unlink/:provider
    * Unlink an auth account
    */
-
   getOauthUnlink: function(req, res, next) {
     var provider = req.params.provider;
     var tokens = req.user.related('tokens').toJSON();

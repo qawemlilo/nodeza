@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "clean": "rm -f *~",
-    "jshint": "jshint models controllers lib test/app.js app.js config/passport.js routes.js",
+    "cleanup": "rm -f *~",
+    "jshint": "jshint models collections controllers lib test app.js config/passport.js routes.js",
     "test": "npm run jshint && ./node_modules/mocha/bin/mocha test"
   },
   "repository": {
@@ -63,6 +63,7 @@
     "mocha": "^1.18.2",
     "chai": "^1.9.1",
     "supertest": "^0.11.0",
-    "jshint": "~2.5.0"
+    "jshint": "~2.5.0",
+    "Faker": "~0.7.2"
   }
 }

@@ -4,8 +4,14 @@
 
 var MySql  = require('bookshelf').PG;
 var Event = require('../models/event');
-var async = require('async');
+var when = require('when');
 
+
+/**
+ * Converts date in milliseconds to MySQL datetime format
+ * @param: ts - date in milliseconds
+ * @returns: MySQL datetime
+ */
 function datetime(ts) {
   return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
 }
@@ -16,7 +22,7 @@ module.exports = MySql.Collection.extend({
   model: Event,
 
 
-  limit: 5,
+  limit: 10,
   
 
   total: 0,
@@ -34,112 +40,122 @@ module.exports = MySql.Collection.extend({
   sortby: 'dt',
 
 
-  sortorder: 'asc',
+  order: 'asc',
 
-  
-  paginate: function (total) {
+ 
+  /**
+   * Creates pagination data
+   *
+   * @returns: promise
+  */ 
+  paginate: function () {
+    var self = this;
+    var deferred = when.defer();
 
-    var pages = Math.ceil(total / this.limit);
-    var groups = Math.ceil(pages / this.paginationLimit);
-    var currentpage = this.currentpage; 
-    var items = [];
-    var prev = currentpage - 1;
-    var next = currentpage + 1;
-    var isFirstPage = currentpage === 1;
-    var lastpage = pages;
-    var isLastPage = currentpage === lastpage;
-    var highestF = currentpage + 2;
-    var lowestF = currentpage - 2;
-    var counterLimit = pages - 2; // last nu
+    self.model.forge()
+    .query()
+    .count('id AS total')
+    .then(function (results) {
+
+      var total = results[0].total;
+
+      var pages = Math.ceil(total / self.limit);
+      var groups = Math.ceil(pages / self.paginationLimit);
+      var currentpage = self.currentpage; 
+      var items = [];
+      var prev = currentpage - 1;
+      var next = currentpage + 1;
+      var isFirstPage = currentpage === 1;
+      var lastpage = pages;
+      var isLastPage = currentpage === lastpage;
+      var highestF = currentpage + 2;
+      var lowestF = currentpage - 2;
+      var counterLimit = pages - 2; 
 
 
-    if (groups > 1) {
-      items.push(1);
-      items.push(2);
+      if (groups > 1) {
+        items.push(1);
+        items.push(2);
+        
+        // if our current page is higher than 3
+        if (lowestF > 3) {
+          items.push('...');
 
-      if (lowestF > 3) {
-        items.push('...');
-
-        if (lastpage - currentpage < 2) {
-           lowestF -=  3;        
+          //lets check if we our current page is towards the end
+          if (lastpage - currentpage < 2) {
+             lowestF -=  3; // add more previous links       
+          }
         }
+        else {
+          lowestF = 3; // lowest num to start looping from
+        }
+
+        for (var counter = lowestF; counter < lowestF + 5; counter++) {
+          if (counter > counterLimit) break;
+
+          items.push(counter);
+        }
+        
+        // if current page not towards the end
+        if (highestF < pages - 2) {
+          items.push('...');
+        }
+
+        items.push(lastpage - 1);
+        items.push(lastpage);
       }
       else {
-        lowestF = 3;
+        // no complex pagination required
+        for (var counter2 = 1; counter2 <= lastpage; counter2++) {
+          items.push(counter2);
+        }
       }
+      
+      
+      deferred.resolve({
+        items: items,
+        currentpage: currentpage,
+        base: self.base,
+        isFirstPage: isFirstPage,
+        isLastPage: isLastPage,
+        next: next,
+        prev: prev
+      });
 
-      for (var counter = lowestF; counter < lowestF + 5; counter++) {
-        if (counter > counterLimit) break;
+    })
+    .otherwise(function () {
+      deferred.reject();
+    });
 
-        items.push(counter);
-      }
-
-      if (highestF < pages - 2) {
-        items.push('...');
-      }
-
-      items.push(lastpage - 1);
-      items.push(lastpage);
-    }
-    else {
-      for (var counter2 = 1; counter2 <= lastpage; counter2++) {
-        items.push(counter2);
-      }
-    }
-
-
-    return {
-      items: items,
-      currentpage: currentpage,
-      base: this.base,
-      isFirstPage: isFirstPage,
-      isLastPage: isLastPage,
-      next: next,
-      prev: prev
-    };
+    return deferred.promise;
   },
 
 
   
-
+  /**
+   * Fetches events by filtering options
+   *
+   * @param: success {Function} - accepts models and pagination data
+   * @param: error {Function} - error callback
+  */
   fetchItems: function (success, error) {
     var self = this;
 
-    async.waterfall([
-      function(done) {
-        self.model.forge()
-        .query()
-        .count('id AS total')
-        .then(function (results) {
-          done(false, self.paginate(results[0].total));
-        })
-        .otherwise(function () {
-          done(true);
-        });
-      },
-      
-      function(pagination, done) {
-        var query = self.query();
+    self.paginate()
+    .then(function(pagination) {
+      var query = self.query();
     
-        query.limit(self.limit)
-         .offset((self.currentpage - 1) * self.limit)
-         .orderBy(self.sortby, self.sortorder)
-         .where('dt', '>', datetime())
-         .select()
-         .then(function (models) {
-            self.reset(models);
-            success(self.models, pagination);
-         })
-         .otherwise(function (models) {
-            done(true);
-         });
-      }, 
-
-      function(err) {
-        if (err) {
-          return error();
-        }
-      }
-    ]);
+      query.limit(self.limit)
+      .offset((self.currentpage - 1) * self.limit)
+      .orderBy(self.sortby, self.order)
+      .where('dt', '>', datetime())
+      .select()
+      .then(function (models) {
+        self.reset(models);
+        success(self.models, pagination);
+      })
+      .otherwise(error);
+    })
+    .otherwise(error);
   }
 });

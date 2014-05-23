@@ -2,20 +2,18 @@
 var Events = require('../collections/events');
 
 
-function getEvents (callback, err) {
+module.exports = {
+
+  /**
+   * Get /
+   * load home page
+  */
+  index: function (req, res) {
     var events = new Events();
 
-    events.sortby = 'dt';
-    events.sortorder = 'asc';
-  
-    events.fetchItems(callback, err);
-}
+    events.limit = 3;
 
-
-
-module.exports = {
-  index: function (req, res) {
-    getEvents(function (events, pagination) {
+    events.fetchItems(function (events, pagination) {
       res.render('index', {
         title: 'Welcome to NodeZA, a portal of Node.js developers in South Africa',
         p: 'home',
@@ -33,6 +31,10 @@ module.exports = {
   },
 
 
+  /**
+   * Get /about
+   * load about page
+  */
   about: function (req, res) {
     res.render('about', {
       title: 'About',

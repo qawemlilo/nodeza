@@ -1,10 +1,10 @@
 var request = require('supertest');
-var agent = require('superagent');
 var app = require('../app.js');
 var cheerio = require('cheerio');
 var when = require('when');
 
 
+/*
 function getCsrf(url) {
   
   var deferred = when.defer();
@@ -13,7 +13,6 @@ function getCsrf(url) {
   .get('url')
   .end(function (res) {
     if(res) {
-      console.log('header.......................');
 
       $ = cheerio.load(res.body);
       _csrf = $('input[name=_csrf]').val();
@@ -27,6 +26,7 @@ function getCsrf(url) {
 
   return deferred.promise;
 }
+*/
 
 
 describe('GET /', function() {

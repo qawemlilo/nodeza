@@ -2,6 +2,8 @@
  *  Database connection.
  */
 
+
+
 var Bookshelf  = require('bookshelf');
 var secrets = require('./config/secrets');
 
@@ -92,6 +94,7 @@ app.use(logger('dev'));
 app.use(function(req, res, next) {
   csrf(req, res, next);
 });
+
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   req.session.user = req.user;
@@ -124,3 +127,4 @@ app.listen(app.get('port'), function() {
 
 
 module.exports = app;
+module.exports.PG = Bookshelf.PG;

@@ -1,13 +1,8 @@
 
 var Event = require('../models/event');
 var Events = require('../collections/events');
-var _ = require('underscore');
 var moment = require('moment');
 
-
-
-var previousSortby = '';
-var previousOrder = '';
 
 
 module.exports = {
@@ -16,7 +11,6 @@ module.exports = {
    * GET /events/new
    * load new event page
    */
-
   newEvent: function (req, res) {
     res.render('newevent', {
       title: 'New Event',
@@ -26,7 +20,22 @@ module.exports = {
   },
 
 
+  /*
+   * Post /events/limit
+   * sets the limit for the number of events per page
+   */
+  setLimit: function (req, res) {
 
+    req.session.elimit = req.body.limit;
+
+    res.redirect('/events');
+  },
+
+
+  /*
+   * GET /events/:id
+   * loads an event by id
+   */
   getEvent: function (req, res) {
     var id = req.params.id;
 
@@ -57,58 +66,59 @@ module.exports = {
 
   /**
    * GET /events
-   * logged in user password form
+   * get upcoming events
    */
-
   getEvents: function (req, res, next) {
     var events = new Events();
   
     var page = parseInt(req.query.p, 10);
-    var sortby = req.query.sort;
+    var sortby = req.query.sortby;
     var order = req.query.order;
     var query = {};
 
+    var previousSortby = req.session.previousSortby;
+    var previousOrder = req.session.previousOrder;
+
     query.sortby = events.sortby;
-    query.sortorder = events.sortorder;
   
     if (page && page < 1) {
       res.redirect('/events');
     }
   
     events.currentpage = page || 1;
+    events.limit = req.session.elimit || 2;
+    query.limit = events.limit;
   
     if(sortby) {
       events.sortby = sortby;
       
       // if a sort link is clicked several times
       if (previousSortby == sortby && !page) {
-        console.log('detected')
-        events.sortorder = (previousOrder === 'asc' ? 'desc' : 'asc');
+        events.order = (previousOrder === 'asc' ? 'desc' : 'asc');
       }
       // if checking pages of sorted results
       else if (page){
-        events.sortorder = previousOrder;
+        events.order = previousOrder;
       }
       // if clicking a different sort link
       else {
-        events.sortorder = 'asc';
+        events.order = 'asc';
       }
 
       query.sort = events.sortby;
+      query.order = events.order;
     }
       
-    previousSortby = events.sortby;
-    previousOrder = events.sortorder;
+    req.session.previousSortby = events.sortby;
+    req.session.previousOrder = events.order;
   
   
     events.fetchItems(function (myEvents, pagination) {
-  
       res.render('events', {
         title: 'Events',
         myEvents: myEvents,
         pagination: pagination,
         query: query,
-        order: events.sortorder,
         collection: events,
         loggedIn: !!req.user
       });
@@ -123,9 +133,8 @@ module.exports = {
 
   /*
    * POST /events/new
-   * Save an event
+   * create an event
    */
-
   postNewEvent: function (req, res) {
     req.assert('title', 'Title must be at least 4 characters long').len(4);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);

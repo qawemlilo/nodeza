@@ -12,7 +12,7 @@
     else {
   %>
     <li>
-      <a href="<%= pagination.base %>?p=<%= pagination.prev %><% if (query.sort) { %>&sort=<%= query.sort %><% } %><% if (query.sortorder) { %>&order=<%= query.sortorder %><% } %>">&laquo; Prev</a>
+      <a href="<%= pagination.base %>?p=<%= pagination.prev %><% if (query.sort) { %>&sortby=<%= query.sort %><% } %>">&laquo; Prev</a>
     </li>
   <%
     }
@@ -29,7 +29,7 @@
       else {
   %>
         <li <% if(page === pagination.currentpage) { %>class="active"<% } %>>
-          <a href="<%= pagination.base %>?p=<%= page %><% if (query.sort) { %>&sort=<%= query.sort %><% } %><% if (query.order) { %>&order=<%= query.order %><% } %>">
+          <a href="<%= pagination.base %>?p=<%= page %><% if (query.sort) { %>&sortby=<%= query.sort %><% } %>">
             <%= page %>
           </a>
         </li>
@@ -48,7 +48,7 @@
     else {
   %>
     <li>
-      <a href="<%= pagination.base %>?p=<%= pagination.next %><% if (query.sort) { %>&sort=<%= query.sort %><% } %><% if (query.order) { %>&order=<%= query.order %><% } %>">Next &raquo;</a>
+      <a href="<%= pagination.base %>?p=<%= pagination.next %><% if (query.sort) { %>&sortby=<%= query.sort %><% } %>">Next &raquo;</a>
     </li>
   <%
     }

@@ -21,7 +21,9 @@ passport.deserializeUser(function(id, done) {
 
 // Sign in using Email and Password.
 passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
-  User.forge({email: email}).fetch().then(function(user) {
+  User.forge({email: email})
+  .fetch()
+  .then(function(user) {
     if (!user) {
       return done(null, false, { message: 'Email ' + email + ' not found'});
     }
@@ -70,7 +72,8 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
           role_id: 1
         }); 
 
-        existingUser.save().then(function(model) {
+        existingUser.save()
+        .then(function(model) {
           Tokens.forge({
             user_id: model.get('id'), 
             kind: 'github',

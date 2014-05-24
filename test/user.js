@@ -16,11 +16,9 @@ function createFakeUser() {
 }
 
 
-
 describe('User', function(){
 
   var fakeUser = createFakeUser();
-
 
   describe('#set #save', function() {
     it('should create a new user', function(done){

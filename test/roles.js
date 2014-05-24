@@ -2,9 +2,6 @@
 var should = require('chai').should();
 var User = require('../models/user');
 
-//var Bookshelf  = require('bookshelf');
-//var secrets = require('../config/secrets');
-
 
 
 describe('Roles', function(){

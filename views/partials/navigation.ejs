@@ -22,16 +22,16 @@
               <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
             </li>
 
-            <li <% if(title == 'Blog') { %>class="active"<% } %>>
-              <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
-            </li>
-
             <li <% if(title == 'Find Meetups') { %>class="active"<% } %>>
               <a href="/meetups"><span class="glyphicon glyphicon-search"></span> MeetUps</a>
             </li>
             
             <li <% if(title == 'Companies using Node.js in South Africa') { %>class="active"<% } %>>
               <a href="/companies"><span class="glyphicon glyphicon-registration-mark"></span> Companies</a>
+            </li>
+
+            <li <% if(title == 'Blog') { %>class="active"<% } %>>
+              <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -108,107 +108,13 @@
 
 
     <!-- Static navbar 
-    <div class="navbar navbar-default navbar-static-top" role="navigation" style="margin-top:-20px">
+    <div style="margin-top:-20px" class="block">
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">NodeZA</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li <% if(title == 'Welcome to NodeZA, a portal of Node.js developers in South Africa') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-home"> Home</a>
-            </li>
-
-            <li <% if(title == 'Event' || title == 'Events' || title == 'My Events' || title == 'New Event') { %>class="active"<% } %>>
-              <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
-            </li>
-
-            <li <% if(title == 'Blog') { %>class="active"<% } %>>
-              <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
-            </li>
-
-            <li <% if(title == 'Find Meetups') { %>class="active"<% } %>>
-              <a href="/meetups"><span class="glyphicon glyphicon-search"></span> MeetUps</a>
-            </li>
-            
-            <li <% if(title == 'Companies using Node.js in South Africa') { %>class="active"<% } %>>
-              <a href="/companies"><span class="glyphicon glyphicon-registration-mark"></span> Companies</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-          <% if (!user) { %>
-            <li <% if(title == 'Log In') { %>class="active"<% } %>>
-              <a href="/login">Log In</a>
-            </li>
-            <li <% if(title == 'Sign Up') { %>class="active"<% } %>>
-              <a href="/signup">Sign Up</a>
-            </li>
-            <% 
-            } 
-            else { %>
-
-            <li <% 
-              var klass='';
-              switch(title) {
-                case 'My Account':
-                case 'Change Password':
-                case 'Linked Accounts':
-                  klass = "class=active";
-                break;
-              }
-            %>
-            <%= klass %>>
-              <a href="/account" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-wrench"></span> Account 
-                <span class="caret"></span>
-              </a>
-
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/account">Profile Infomation</a>
-                </li>
-
-                <li>
-                  <a href="/account/password">Change Password</a>
-                </li>
-
-                <li>
-                  <a href="/account/linked">Linked Accounts</a>
-                </li>
-
-                <li class="divider"></li>
-                <li><a href="/account/#delete">Delete Account</a></li>
-              </ul>
-            </li>
-            <!--
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span>
-                <%= user.get('name') %> <span class="caret"></span>
-              </a>
-
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/events">My Events</a>
-                </li>
-
-                <li class="divider"></li>
-                <li><a href="/logout">Logout</a></li>
-              </ul>
-            </li>
-            
-            <li>
-              <a href="/logout"><span class="glyphicon glyphicon-lock"></span> Logout</a>
-            </li>
-            <% } %>
-          </ul>
-        </div><!--/.nav-collapse 
+        <ul class="nav nav-pills">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Messages</a></li>
+        </ul>        
       </div>
     </div>
     -->

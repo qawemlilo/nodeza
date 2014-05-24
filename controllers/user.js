@@ -27,8 +27,7 @@ module.exports = {
    */
   getLogin: function (req, res) {
     res.render('login', {
-      title: 'Log In',
-      loggedIn: !!req.user
+      title: 'Log In'
     });
   },
 
@@ -86,8 +85,7 @@ module.exports = {
    */
   getSignup: function (req, res) {
     res.render('signup', {
-      title: 'Sign Up',
-      loggedIn: !!req.user
+      title: 'Sign Up'
     });
   },
 
@@ -156,8 +154,7 @@ module.exports = {
       }
       res.render('password', {
         title: 'Password Reset',
-        token: req.params.token,
-        loggedIn: !!req.user
+        token: req.params.token
       });
     })
     .otherwise(function () {
@@ -247,8 +244,7 @@ module.exports = {
    */
   getForgot: function (req, res) {
     res.render('forgot', {
-      title: 'Forgot Password',
-      loggedIn: !!req.user
+      title: 'Forgot Password'
     });
   },
 
@@ -328,8 +324,7 @@ module.exports = {
    */
   getAccount: function (req, res) {
     res.render('account', {
-      title: 'My Account',
-      loggedIn: !!req.user
+      title: 'My Account'
     });
   },
 
@@ -340,8 +335,7 @@ module.exports = {
    */
   getPasswordForm: function (req, res) {
     res.render('password', {
-      title: 'Change Password',
-      loggedIn: !!req.user
+      title: 'Change Password'
     });
   },
 
@@ -356,8 +350,7 @@ module.exports = {
 
     res.render('linkedaccounts', {
       title: 'Linked Accounts',
-      github: github,
-      loggedIn: !!req.user
+      github: github
     });
   },
 
@@ -441,7 +434,8 @@ module.exports = {
         });
       })
       .then(function(resp) {
-        user.destroy().then(function () {
+        user.destroy()
+        .then(function () {
           req.logout();
           res.redirect('/');
         })
@@ -482,7 +476,8 @@ module.exports = {
       if (token.kind === 'twitter') req.user.set({'github': null});
       if (token.kind === 'google') req.user.set({'google': null});
 
-      req.user.save().then(function () {
+      req.user.save()
+      .then(function () {
         Tokens.forge({id: token.id}).fetch().then(function(model) {
           model.destroy().then(function () {
             req.flash('info', { msg: provider + ' account has been unlinked.' }); 

@@ -4,10 +4,6 @@ var Event = require('../models/event');
 var Faker = require('Faker');
 var moment = require('moment');
 
-var Bookshelf  = require('bookshelf');
-var secrets = require('../config/secrets');
-
-
 
 
 function createFakeEvent() {
@@ -35,23 +31,7 @@ function createFakeEvent() {
 }
 
 
-
 describe('Event', function(){
-
-  beforeEach(function(done){
-    Bookshelf.PG = Bookshelf.initialize({
-      client: 'mysql',
-      connection: {
-        host: secrets.host,
-        user: secrets.user,
-        password: secrets.password,
-        database: secrets.db,
-        charset: secrets.charset
-      }
-    });
-    done();
-  });
-  
 
   var eventData = createFakeEvent();
   var event = new Event();

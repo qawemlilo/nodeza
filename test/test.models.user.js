@@ -3,10 +3,6 @@ var should = require('chai').should();
 var User = require('../models/user');
 var Faker = require('Faker');
 
-var Bookshelf  = require('bookshelf');
-var secrets = require('../config/secrets');
-
-
 
 
 function createFakeUser() {
@@ -23,35 +19,40 @@ function createFakeUser() {
 
 describe('User', function(){
 
-  beforeEach(function(done){
-    Bookshelf.PG = Bookshelf.initialize({
-      client: 'mysql',
-      connection: {
-        host: secrets.host,
-        user: secrets.user,
-        password: secrets.password,
-        database: secrets.db,
-        charset: secrets.charset
-      }
-    });
-    done();
-  });
-  
-
   var fakeUser = createFakeUser();
-  var user = new User();
 
 
   describe('#set #save', function() {
     it('should create a new user', function(done){
+      User.forge(fakeUser)
+      .save()
+      .then(function(model) {
+        model.get('id').should.above(0);
+        model.get('email').should.equal(fakeUser.email);
+        done();
+      })
+      .otherwise(function (err) {
+        done(err);
+      });
+    });
+  });
 
-      user.set(fakeUser);
 
-      user.save()
+  describe('#fetch #comparePassword', function() {
+    it('should update user details', function(done){
+      User.forge({email: fakeUser.email})
+      .fetch()
       .then(function (model) {
-         model.get('id').should.above(0);
-         model.get('email').should.equal(fakeUser.email);
-         done();
+        model.comparePassword(fakeUser.password)
+        .then(function (isMatch) {
+          isMatch.should.equal(true);
+          model.get('id').should.above(0);
+          model.get('email').should.equal(fakeUser.email);
+          done();
+        })
+        .otherwise(function (error) {
+          done(error);
+        });
       })
       .otherwise(function (error) {
         done(error);
@@ -62,13 +63,30 @@ describe('User', function(){
 
   describe('#set #update', function() {
     it('should update user details', function(done){
-
-      user.set({last_name: 'Mlilo'});
-
-      user.save()
+      User.forge({email: fakeUser.email})
+      .fetch()
       .then(function (model) {
-         model.get('last_name').should.equal('Mlilo');
-         done();
+        model.set({last_name: 'Mlilo'});
+        model.save()
+        .then(function (user) {
+          user.get('last_name').should.equal('Mlilo');
+          done();
+        })
+        .otherwise(function (error) {
+          done(error);
+        });
+      });
+    });
+  });
+
+
+  describe('#gravatar', function() {
+    it('should return gravatar  url', function(done){
+      User.forge({email: fakeUser.email})
+      .fetch()
+      .then(function (model) {
+        model.gravatar().should.contain('gravatar.com');
+        done();
       })
       .otherwise(function (error) {
         done(error);
@@ -79,9 +97,13 @@ describe('User', function(){
 
   describe('#destroy', function() {
     it('should delete a user from database', function(done){
-      user.destroy()
-      .then(function () {
-         done();
+      User.forge({email: fakeUser.email})
+      .fetch()
+      .then(function (model) {
+        model.destroy()
+        .then(function () {
+          done();
+        });
       })
       .otherwise(function (error) {
         done(error);

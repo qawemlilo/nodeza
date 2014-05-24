@@ -138,8 +138,9 @@ module.exports = MySql.Collection.extend({
    * @param: success {Function} - accepts models and pagination data
    * @param: error {Function} - error callback
   */
-  fetchItems: function (success, error) {
+  fetchItems: function () {
     var self = this;
+    var deferred = when.defer();
 
     self.paginate()
     .then(function(pagination) {
@@ -152,10 +153,20 @@ module.exports = MySql.Collection.extend({
       .select()
       .then(function (models) {
         self.reset(models);
-        success(self.models, pagination);
+
+        deferred.resolve({
+          models: self.models,
+          pagination: pagination
+        });
       })
-      .otherwise(error);
+      .otherwise(function () {
+        deferred.reject();
+      });
     })
-    .otherwise(error);
+    .otherwise(function () {
+      deferred.reject();
+    });
+
+    return deferred.promise;
   }
 });

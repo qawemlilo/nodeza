@@ -13,9 +13,7 @@ module.exports = {
    */
   newEvent: function (req, res) {
     res.render('newevent', {
-      title: 'New Event',
-      user: req.user,
-      loggedIn: !!req.user
+      title: 'New Event'
     });
   },
 
@@ -25,9 +23,7 @@ module.exports = {
    * sets the limit for the number of events per page
    */
   setLimit: function (req, res) {
-
     req.session.elimit = req.body.limit;
-
     res.redirect('/events');
   },
 
@@ -39,21 +35,21 @@ module.exports = {
   getEvent: function (req, res) {
     var id = req.params.id;
 
-    Event.forge({id: id}).fetch().then(function (model) {
+    Event.forge({id: id})
+    .fetch()
+    .then(function (event) {
+      if(!event) return res.redirect('/events');
 
-      if(!model) return res.redirect('/events');
+      var views = event.get('views');
 
-      var views = model.get('views');
-
-      model.set({views: views + 1});
+      event.set({views: views + 1});
 
       res.render('event', {
         title: 'Event',
-        myEvent: model,
-        loggedIn: !!req.user
+        myEvent: event
       });
 
-      model.save()
+      event.save()
       .then(function () {})
       .otherwise(function () {});
     })
@@ -78,8 +74,6 @@ module.exports = {
 
     var previousSortby = req.session.previousSortby;
     var previousOrder = req.session.previousOrder;
-
-    query.sortby = events.sortby;
   
     if (page && page < 1) {
       res.redirect('/events');
@@ -87,7 +81,6 @@ module.exports = {
   
     events.currentpage = page || 1;
     events.limit = req.session.elimit || 2;
-    query.limit = events.limit;
   
     if(sortby) {
       events.sortby = sortby;
@@ -108,23 +101,23 @@ module.exports = {
       query.sort = events.sortby;
       query.order = events.order;
     }
+
+    query.limit = events.limit;
       
     req.session.previousSortby = events.sortby;
     req.session.previousOrder = events.order;
   
   
-    events.fetchItems(function (myEvents, pagination) {
+    events.fetchItems()
+    .then(function (collection) {
       res.render('events', {
         title: 'Events',
-        myEvents: myEvents,
-        pagination: pagination,
-        query: query,
-        collection: events,
-        loggedIn: !!req.user
+        myEvents: collection.models,
+        pagination: collection.pagination,
+        query: query
       });
-  
-    },
-    function () {
+    })
+    .otherwise(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
       res.redirect('/');      
     });
@@ -170,7 +163,9 @@ module.exports = {
     eventData.number = req.body.number;
 
 
-    Event.forge(eventData).save().then(function (model) {
+    Event.forge(eventData)
+    .save()
+    .then(function (model) {
       if (!model) {
         req.flash('errors', {'msg': 'Database error. Event not created.'});
       }
@@ -181,7 +176,6 @@ module.exports = {
       res.redirect('/events/new');
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('errors', {'msg': 'Database error. Event not created.'});
       res.redirect('/events/new');
     });

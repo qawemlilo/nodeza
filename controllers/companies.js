@@ -10,8 +10,7 @@ module.exports = {
    */
   getCompanies: function (req, res) {
     res.render('companies', {
-      title: 'Companies using Node.js in South Africa',
-      loggedIn: !!req.user
+      title: 'Companies using Node.js in South Africa'
     });
   }
 };

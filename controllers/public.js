@@ -10,22 +10,21 @@ module.exports = {
   */
   index: function (req, res) {
     var events = new Events();
-
+    
+    // display 3 upcoming events on the front page
     events.limit = 3;
 
-    events.fetchItems(function (events, pagination) {
+    events.fetchItems()
+    .then(function (collection) {
       res.render('index', {
         title: 'Welcome to NodeZA, a portal of Node.js developers in South Africa',
-        p: 'home',
-        events: events,
-        loggedIn: !!req.user
+        events: collection.models
       });
-    },
-    function () {
+    })
+    .otherwise(function () {
       res.render('index', {
         title: 'Home',
-        events: [],
-        loggedIn: !!req.user
+        events: []
       });
     });
   },
@@ -37,8 +36,7 @@ module.exports = {
   */
   about: function (req, res) {
     res.render('about', {
-      title: 'About',
-      loggedIn: !!req.user
+      title: 'About'
     });
   }
 };

@@ -28,16 +28,20 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
       return done(null, false, { message: 'Email ' + email + ' not found'});
     }
 
-    user.comparePassword(password, function(err, isMatch) {
+    user.comparePassword(password)
+    .then(function(isMatch) {
       if (isMatch) {
-        return done(null, user);
+        done(null, user);
       } else {
-        return done(null, false, { message: 'Invalid password.' });
+        done(null, false, { message: 'Invalid password.' });
       }
+    })
+    .otherwise(function () {
+      done(null, false, { message: 'Invalid password.' });
     });
   })
   .otherwise(function () {
-    return done(null, false, {message: 'Database error'});
+    done(null, false, {message: 'Database error'});
   });
 }));
 
@@ -116,49 +120,48 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
       User.forge({email: profile._json.email})
       .fetch()
       .then(function(existingEmailUser) {
-          var user;
-          if (existingEmailUser) { 
-            user = existingEmailUser;         
-          } else {
-            isNewAccount = true;
-            user = new User();
-          }
+        var user;
+        if (existingEmailUser) { 
+          user = existingEmailUser;         
+        } else {
+          isNewAccount = true;
+          user = new User();
+        }
 
-          user.set({
-            email: profile._json.email,
-            github: profile.id,
-            name: profile.displayName,
-            image_url: profile._json.avatar_url,
-            location: profile._json.location,
-            website: profile._json.blog,
-            role_id: 1
+        user.set({
+          email: profile._json.email,
+          github: profile.id,
+          name: profile.displayName,
+          image_url: profile._json.avatar_url,
+          location: profile._json.location,
+          website: profile._json.blog,
+          role_id: 1
+        });
+
+        user.save()
+        .then(function(model) {
+          Tokens.forge({
+            user_id: model.get('id'), 
+            kind: 'github',
+            accessToken: accessToken
+          })
+          .save()
+          .then(function () {
+            if (isNewAccount) {
+              req.isNewAccount = true;
+              req.flash('info', { msg: 'Account successfully created! You can may also set your password to activate email login.' });
+            }
+            else {
+              req.flash('info', { msg: 'GitHub account has been linked.' });
+            }
+              
+            done(false, model);
+          })
+          .otherwise(function () {
+            req.flash('errors', { msg: 'Database error. Failed to save token'});
+            done(false, model);
           });
-
-          user.save()
-          .then(function(model) {
-            Tokens.forge({
-              user_id: model.get('id'), 
-              kind: 'github',
-              accessToken: accessToken
-            })
-            .save()
-            .then(function () {
-              if (isNewAccount) {
-                req.isNewAccount = true;
-                req.flash('info', { msg: 'Account successfully created! You can may also set your password to activate email login.' });
-              }
-              else {
-                req.flash('info', { msg: 'GitHub account has been linked.' });
-              }
-
-              done(false, model);
-            })
-            .otherwise(function () {
-              req.flash('errors', { msg: 'Database error. Failed to save token'});
-              done(false, model);
-            });
-          });
-        //}
+        });
       });
     })
     .otherwise(function () {

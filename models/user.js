@@ -13,25 +13,7 @@ var _ = require('underscore');
 
 
 
-function generatePasswordHash(password) {
-  var deferred = when.defer();
 
-  bcrypt.genSalt(5, function(err, salt) {
-    if (err) {
-      deferred.reject(err);
-    }
-
-    bcrypt.hash(password, salt, null, function(err, hash) {
-      if (err) {
-        deferred.reject(err);
-      }
-      
-      deferred.resolve(hash);
-    });
-  });
-
-  return deferred.promise;
-}
 
 
 module.exports = MySql.Model.extend({
@@ -57,32 +39,39 @@ module.exports = MySql.Model.extend({
   },
 
 
-  generatePasswordHash: function(password, next) {
+  generatePasswordHash: function (password) {
+    var deferred = when.defer();
+  
     bcrypt.genSalt(5, function(err, salt) {
       if (err) {
-        return next(err);
+        deferred.reject(err);
       }
-
+  
       bcrypt.hash(password, salt, null, function(err, hash) {
         if (err) {
-          return next(err);
+          deferred.reject(err);
         }
-      
-        password = hash;
-        next(false, password);
+        
+        deferred.resolve(hash);
       });
     });
+  
+    return deferred.promise;
   },
 
 
-  comparePassword: function(candidatePassword, cb) {
+  comparePassword: function(candidatePassword) {
+    var deferred = when.defer();
+
     bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
       if (err) {
-      	return cb(err);
+      	deferred.reject(err);
       }
 
-      cb(null, isMatch);
+      deferred.resolve(isMatch);
     });
+
+    return deferred.promise;
   },
 
 
@@ -107,32 +96,30 @@ module.exports = MySql.Model.extend({
 
   save: function (data, options) {
     var self = this;
-    var password = '';
+    
+    data = data || {};
 
-    if(!self.isNew()) {
+    var password = self.get('password') || data.password;
+
+    if (self.isNew() || self.hasChanged('password')) {
+      return self.generatePasswordHash(password)
+      .then(function (hash) {
+        if (data && data.password) {
+          data.password = hash;
+        }
+        else {
+          self.set({password: hash});
+        }
+  
+        // Save the user with the hashed password
+        return MySql.Model.prototype.save.call(self, data, options);
+      });
+    }
+    else {
       var args = [].slice.call(arguments, 0);
 
-      return MySql.Model.prototype.save.apply(self, args);
-    }
-    
-
-    if(data) {
-      password = (data.password) ? data.password : self.get('password');
+      return MySql.Model.prototype.save.apply(self, args);      
     }
 
-    options = (options) ? options : {};
-
-    return generatePasswordHash(password)
-    .then(function (hash) {
-      if (data && data.password) {
-        data.password = hash;
-      }
-      else {
-        self.set({password: hash});
-      }
-
-      // Save the user with the hashed password
-      return MySql.Model.prototype.save.call(self, data, options);
-    });
   }
 });

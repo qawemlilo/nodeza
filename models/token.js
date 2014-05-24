@@ -4,7 +4,6 @@
 
 
 var MySql  = require('bookshelf').PG;
-var User = require('./user');
 
 
 module.exports = MySql.Model.extend({

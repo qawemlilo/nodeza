@@ -1,7 +1,7 @@
 
 /*
  *Dependency modules
- */
+**/
 var passportConf = require('./config/passport');
 var passport = require('passport');
 
@@ -76,19 +76,19 @@ module.exports.setup = function (app) {
 
 
   /*
-     Companies
-  */
+   * Companies
+  **/
   app.get('/companies', CompaniesController.getCompanies);
 
 
   /*
-     Meetups
-  */
+   *Meetups
+  **/
   app.get('/meetups', MeetupsController.getMeetups);
 
 
   /*
-     Blog
-  */
+   * Blog
+  **/
   app.get('/blog', BlogController.getBlog);
 };

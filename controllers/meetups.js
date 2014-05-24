@@ -10,8 +10,7 @@ module.exports = {
    */
   getMeetups: function (req, res) {
     res.render('meetups', {
-      title: 'Find Meetups',
-      loggedIn: !!req.user
+      title: 'Find Meetups'
     });
   }
 };

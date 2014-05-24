@@ -10,6 +10,7 @@
 Procfile~
 *~
 *.gitignore~
+*.secret
 node_modules/
 build/
 

@@ -35,7 +35,7 @@ var errorHandler = require('errorhandler');
 var expressValidator = require('express-validator');
 var path = require('path');
 var passport = require('passport');
-var _ = require('underscore');
+var _ = require('lodash');
 var routes = require('./routes');
 var MongoStore = require('connect-mongo')({ session: session });
 

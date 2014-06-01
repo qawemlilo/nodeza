@@ -6,7 +6,7 @@ var async = require('async');
 var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
-var _ = require('underscore');
+var _ = require('lodash');
 
 
 /**
@@ -112,6 +112,7 @@ module.exports = {
 
     userData.name = req.body.name;
     userData.email = req.body.email;
+    userData.password = req.body.password;
     userData.role_id = 1;
 
     user.set(userData)
@@ -297,9 +298,10 @@ module.exports = {
         
         var mailOptions = {
           to: user.get('email'),
-          from: 'qawemlilo@gmail.com',
+          from: 'NodeZA <info@nodeza.co.za>',
           subject: 'Reset your password on NodeZA',
-          body: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          body: 'Hi there ' + user.get('name') + ', \n\n'
+            + 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
             'http://' + req.headers.host + '/reset/' + token + '\n\n' +
             'If you did not request this, please ignore this email and your password will remain unchanged.\n\n\n' +
@@ -347,10 +349,14 @@ module.exports = {
   getLinkedAccounts: function (req, res) {
     var tokens = req.user.related('tokens').toJSON();
     var github = _.findWhere(tokens, { kind: 'github' });
+    var google = _.findWhere(tokens, { kind: 'google' });
+    var twitter = _.findWhere(tokens, { kind: 'twitter' });
 
     res.render('linkedaccounts', {
       title: 'Linked Accounts',
-      github: github
+      github: github,
+      twitter: twitter,
+      google: google
     });
   },
 
@@ -473,7 +479,7 @@ module.exports = {
     
     if (token) {
       if (token.kind === 'github') req.user.set({'github': null});
-      if (token.kind === 'twitter') req.user.set({'github': null});
+      if (token.kind === 'twitter') req.user.set({'twitter': null});
       if (token.kind === 'google') req.user.set({'google': null});
 
       req.user.save()

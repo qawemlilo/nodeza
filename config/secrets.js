@@ -1,54 +1,47 @@
+
+var secrets = require('./secrets.json');
+
 module.exports = {
 
   client: 'mysql',
 
-  db: 'nodeza',
+  db: secrets.mysql.db,
 
-  mongodb: process.env.MONGODB|| 'mongodb://localhost:27017/test',
+  mongodb: process.env.MONGODB || secrets.mongodb,
 
-  user: 'root',
+  user: secrets.mysql.user,
 
-  host: 'localhost',
+  host: secrets.mysql.host,
 
-  password: 'juliet',
+  password: secrets.mysql.password,
 
-  charset: 'utf8',
+  charset: secrets.mysql.charset,
 
-  sessionSecret: process.env.SESSION_SECRET || 'skjsdfjhs3535fduyywerw57',
+  sessionSecret: process.env.SESSION_SECRET || secrets.sessionSecret,
 
   mailgun: {
-    login: process.env.MAILGUN_LOGIN || 'postmaster@sandbox697fcddc09814c6b83718b9fd5d4e5dc.mailgun.org',
-    password: process.env.MAILGUN_PASSWORD || '29eldds1uri6'
-  },
-
-  sendgrid: {
-    user: process.env.SENDGRID_USER || 'hslogin',
-    password: process.env.SENDGRID_PASSWORD || 'hspassword00'
+    login: process.env.MAILGUN_LOGIN || secrets.mailgun.login,
+    password: process.env.MAILGUN_PASSWORD || secrets.mailgun.password
   },
 
   github: {
-    clientID: process.env.GITHUB_ID || 'cb448b1d4f0c743a1e36',
-    clientSecret: process.env.GITHUB_SECRET || '815aa4606f476444691c5f1c16b9c70da6714dc6',
-    callbackURL: '/auth/github/callback',
-    passReqToCallback: true
+    clientID: process.env.GITHUB_ID || secrets.github.clientID,
+    clientSecret: process.env.GITHUB_SECRET || secrets.github.clientSecret,
+    callbackURL: secrets.github.callbackURL,
+    passReqToCallback: secrets.github.passReqToCallback
   },
 
   twitter: {
-    consumerKey: process.env.TWITTER_KEY || '6NNBDyJ2TavL407A3lWxPFKBI',
-    consumerSecret: process.env.TWITTER_SECRET  || 'ZHaYyK3DQCqv49Z9ofsYdqiUgeoICyh6uoBgFfu7OeYC7wTQKa',
-    callbackURL: '/auth/twitter/callback',
-    passReqToCallback: true
+    consumerKey: process.env.TWITTER_KEY || secrets.twitter.consumerKey,
+    consumerSecret: process.env.TWITTER_SECRET  || secrets.twitter.consumerSecret,
+    callbackURL: secrets.twitter.callbackURL,
+    passReqToCallback: secrets.twitter.passReqToCallback
   },
 
   google: {
-    clientID: process.env.GOOGLE_ID || '828110519058.apps.googleusercontent.com',
-    clientSecret: process.env.GOOGLE_SECRET || 'JdZsIaWhUFIchmC1a_IZzOHb',
-    callbackURL: '/auth/google/callback',
-    passReqToCallback: true
-  },
-
-  GmailAuth: {
-    email: 'qawemlilo@gmail.com',
-    password: 'woktcytzxsjqumbi'
+    clientID: process.env.GOOGLE_ID || secrets.google.clientID,
+    clientSecret: process.env.GOOGLE_SECRET || secrets.google.clientSecret,
+    callbackURL: secrets.google.callbackURL,
+    passReqToCallback: secrets.google.passReqToCallback
   }
 };

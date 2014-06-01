@@ -17,9 +17,31 @@
         <div class="col-sm-6">
           <p>
           <% if (github) { %>
-            <a class="btn btn-block btn-danger" href="/account/unlink/github"><i class="fa   fa-github"></i> Unlink your GitHub account</a>
+            <a class="text-danger" href="/account/unlink/github">
+             Unlink your <i class="fa fa-github"></i> GitHub account</a>
           <% } else { %>
-            <a class="btn btn-block btn-primary" href="/auth/github"><i class="fa fa-  github"></i> Link your GitHub account</a> 
+            <a class="text-primary" href="/auth/github">
+             Link your <i class="fa fa-github"></i> GitHub account</a> 
+          <% } %>
+          </p>
+
+          <p>
+          <% if (twitter) { %>
+            <a class="text-danger" href="/account/unlink/twitter">
+            Unlink your <i class="fa fa-twitter"></i> Twitter account</a>
+          <% } else { %>
+            <a class="text-primary" href="/auth/twitter">
+             Link your <i class="fa fa-twitter"></i> Twitter account</a> 
+          <% } %>
+          </p>
+
+          <p>
+          <% if (google) { %>
+            <a class="text-danger" href="/account/unlink/google">
+             Unlink your <i class="fa fa-google-plus"></i>oogle account</a>
+          <% } else { %>
+            <a class="text-primary" href="/auth/google">
+             Link your <i class="fa fa-google-plus"></i>oogle account</a> 
           <% } %>
           </p>
         </div>

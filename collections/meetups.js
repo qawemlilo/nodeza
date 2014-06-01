@@ -3,7 +3,7 @@
  */
 
 var MySql  = require('bookshelf').PG;
-var Event = require('../models/event');
+var Meetup = require('../models/meetup');
 var when = require('when');
 
 
@@ -19,7 +19,7 @@ function datetime(ts) {
 
 module.exports = MySql.Collection.extend({
 
-  model: Event,
+  model: Meetup,
 
 
   limit: 10,
@@ -31,13 +31,13 @@ module.exports = MySql.Collection.extend({
   currentpage: 1,
 
 
-  base: '/events',
+  base: '/meetups',
 
   
   paginationLimit: 10,
 
 
-  sortby: 'dt',
+  sortby: 'id',
 
 
   order: 'asc',
@@ -54,7 +54,6 @@ module.exports = MySql.Collection.extend({
 
     self.model.forge()
     .query()
-    .where('dt', '>', datetime())
     .count('id AS total')
     .then(function (results) {
 
@@ -136,7 +135,7 @@ module.exports = MySql.Collection.extend({
 
   
   /**
-   * Fetches events by filtering options
+   * Fetches meetups by filtering options
    *
    * @param: success {Function} - accepts models and pagination data
    * @param: error {Function} - error callback
@@ -151,7 +150,6 @@ module.exports = MySql.Collection.extend({
 
       query.limit(self.limit)
       .offset((self.currentpage - 1) * self.limit)
-      .where('dt', '>', datetime())
       .orderBy(self.sortby, self.order)
       .select()
       .then(function (models) {

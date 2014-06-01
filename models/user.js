@@ -9,9 +9,7 @@ var Token = require('./token');
 var Roles = require('./roles');
 var myEvents = require('./event');
 var when = require('when');
-var _ = require('underscore');
-
-
+var _ = require('lodash');
 
 
 

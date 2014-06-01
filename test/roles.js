@@ -13,8 +13,8 @@ describe('Roles', function(){
       .then(function(user) {
         var role = user.related('role');
 
-        role.get('id').should.equal(1);
-        role.get('role').should.equal('Registered');
+        role.get('id').should.equal(3);
+        role.get('role').should.equal('Super Administrator');
         done();
       })
       .otherwise(function (error) {

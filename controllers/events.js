@@ -80,7 +80,7 @@ module.exports = {
     }
   
     events.currentpage = page || 1;
-    events.limit = req.session.elimit || 2;
+    events.limit = req.session.elimit || 5;
   
     if(sortby) {
       events.sortby = sortby;
@@ -158,7 +158,8 @@ module.exports = {
     eventData.city = req.body.locality;
     eventData.town = req.body.sublocality;
     eventData.address = req.body.formatted_address;
-    eventData.url = req.body.webpage;
+    eventData.website = req.body.webpage;
+    eventData.url = req.body.url;
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 

@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node app.js",
     "cleanup": "rm -f *~",
-    "jshint": "jshint models collections controllers lib test app.js config/passport.js routes.js",
-    "test": "npm run jshint && ./node_modules/mocha/bin/mocha test"
+    "jshint": "jshint models collections tools controllers lib sql/data.js test app.js config/passport.js routes.js",
+    "test": "npm run jshint && ./node_modules/mocha/bin/mocha test",
+    "setup": "node tools/dbsetup.js && node tools/migrate.js && node app"
   },
   "repository": {
     "type": "git",
@@ -57,13 +58,16 @@
     "ejs": "~1.0.0",
     "async": "~0.7.0",
     "lusca": "~1.0.0",
-    "moment": "~2.6.0"
+    "moment": "~2.6.0",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "mocha": "^1.18.2",
     "chai": "^1.9.1",
     "supertest": "^0.11.0",
     "jshint": "~2.5.0",
-    "Faker": "~0.7.2"
+    "Faker": "~0.7.2",
+    "simple-prompt": "~0.2.1",
+    "chalk": "~0.4.0"
   }
 }

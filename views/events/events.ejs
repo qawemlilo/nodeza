@@ -1,6 +1,5 @@
 
 
-<h1 class="blog-post-title" style="margin-bottom: 20px;">Upcoming Node.js Events</h1>
 
 <% 
   if(myEvents.length > 0) {
@@ -101,7 +100,7 @@
 
         <li class="pull-right">
           <a href="/events/new" class="btn <% if(user) { %>btn-success<% } else {%>btn-danger<% } %>">
-            <span class="glyphicon glyphicon-ok"></span> Create An Event
+            <span class="glyphicon glyphicon-calendar"></span> Create An Event
           </a>
         </li>
       </ul>
@@ -117,9 +116,9 @@
             <a href="/events/<%= myEvent.get('id') %>"><%= myEvent.get('title') %></a>
           </h2>
 
-          <% if(myEvent.get('url') && myEvent.get('url').length > 0) { %>
+          <% if(myEvent.get('website') && myEvent.get('website').length > 0) { %>
             <p class="blog-post-meta">
-              Website: <a href="<%= myEvent.get('url') %>" target="_blank"><%= myEvent.get('url') %></a>
+              Website: <a href="<%= myEvent.get('website') %>" target="_blank"><%= myEvent.get('website') %></a>
             </p>
           <% } %>
 
@@ -127,7 +126,9 @@
 
           <p style="color: #999; margin-top:20px">
             <span class="glyphicon glyphicon-map-marker"></span> 
-            <%= myEvent.get('address') %>
+            <a href="<%= myEvent.get('url') %>" target="_blank">
+              <%= myEvent.get('address') %>
+            </a>
           </p>
         </div>
 

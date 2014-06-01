@@ -1,4 +1,7 @@
 
+<%
+  if (pagination.limit < pagination.total) {
+%>
 <div class="row">
 <ul class="pagination">
   <%
@@ -55,3 +58,6 @@
   %>
 </ul>
 </div>
+<%
+}
+%>

@@ -1,0 +1,57 @@
+
+
+
+
+   <div class="container-fluid">
+    <div class="row">
+      <ul class="list-inline">
+        <li class="pull-right">
+          <a href="/events/new" class="btn btn-danger">
+            <span class="glyphicon glyphicon-heart"></span> Join this meetup
+          </a>
+        </li>
+      </ul>
+
+    </div>
+      
+      <div class="row" style="border: 1px solid #E7E7E7;margin-top: 10px; margin-bottom: 20px;padding-top: 10px; padding-bottom: 10px;">
+
+        <div class="col-md-9">
+          <h2 class="blog-post-title"><%= meetup.get('name') %></h2>
+
+          <% if(meetup.get('website') && meetup.get('website').length > 0) { %>
+            <p class="blog-post-meta">
+              Website: <a href="<%= meetup.get('website') %>" target="_blank"><%= meetup.get('website') %></a>
+            </p>
+          <% } %>
+
+        <p>
+          <strong>Organiser:</strong> <%= meetup.get('organiser') %>
+          <br>
+          <strong>When?</strong> <%= meetup.get('meetings') %>
+          <br>
+          <strong>Venue:</strong> <a href="<%= meetup.get('url') %>" target="_blank"><%= meetup.get('address') %></a>
+        </p>
+
+          <p><%= meetup.get('desc') %></p>
+
+        </div>
+
+        <div class="col-md-3">
+          <p>
+            <span class="glyphicon glyphicon-tag"></span> 
+            <a href="/events/<%= meetup.get('city') %>"><%= meetup.get('city') %></a>
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-earphone"></span> <%= meetup.get('number') %>
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-envelope"></span>
+            <a href="mailto:<%= meetup.get('email') %>"> 
+               Contact
+            </a>
+          </p>
+        </div>
+      </div>
+
+    </div>

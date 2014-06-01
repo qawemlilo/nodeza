@@ -13,6 +13,9 @@ module.exports = MySql.Model.extend({
   hasTimestamps: true,
 
 
+  /**
+   * parses date
+   */
   parseDate: function (fmt) {
   	var dt = this.get('dt');
 
@@ -20,19 +23,25 @@ module.exports = MySql.Model.extend({
   },
 
 
+  /**
+   * Checks if its future event
+   */
   isUpComing: function () {
     var dt = this.get('dt');
     var ts = this.get('start_time');
 
-    var cleandate = moment(dt).format('YYYY-MM-DD') + ' ' + ts; 
+    var cleandate = moment(dt).format('YYYY-MM-DD') + ' ' + ts;
 
     return moment(cleandate).unix() > moment().unix();
   },
 
 
-  parseTime: function () {
+  /**
+   * parses time
+   */
+  parseTime: function (fmt) {
   	var ts = this.get('start_time');
 
-    return moment(ts, 'HH:mm:ss').format('HH:mm');
+    return moment(ts, 'HH:mm:ss').format(fmt || 'HH:mm');
   }
 });

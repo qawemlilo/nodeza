@@ -1,6 +1,25 @@
     
-<div id="jumbotron" class="jumbotron">
+<div id="jumbotron" class="jumbotron" <% 
+  if (title=='Events' || title=='Blog' || title=='Find Meetups' || title == 'Companies using Node.js in South Africa') {%>style="padding-top:20px; padding-bottom:20px;"<%}%>>
   <div class="container">
+    <% if (title=='Events') {%>
+
+     <h1 style="font-size: 42px">Upcoming Node.js events</h1>
+
+    <% } else if (title == 'Companies using Node.js in South Africa') {%>
+
+     <h1 style="font-size: 42px">Companies using Node.js</h1>
+
+    <% } else if (title == 'Find Meetups') {%>
+
+     <h1 style="font-size: 42px">Find meetup groups</h1>
+
+    <% } else if (title == 'Blog') {%>
+
+     <h1 style="font-size: 42px">Blog</h1>
+
+    <% } else {%>
+
     <h1>Pushing Node.js forward...</h1>
   
     <p>NodeZA is a community of Node.js developers in South Africa</p>
@@ -25,5 +44,6 @@
         </a>
       </li>
     </ul>
-    </div>
+    <% } %>
+  </div>
 </div>

@@ -12,7 +12,9 @@ module.exports = {
    */
   newMeetup: function (req, res) {
     res.render('newmeetup', {
-      title: 'New Meetup'
+      title: 'New Meetup',
+      description: 'Create a meetup group',
+      page: 'newmeetup'
     });
   },
 
@@ -32,9 +34,9 @@ module.exports = {
    * loads an meetup by id
    */
   getMeetup: function (req, res) {
-    var id = req.params.id;
+    var slug = req.params.slug;
 
-    Meetup.forge({id: id})
+    Meetup.forge({slug: slug})
     .fetch()
     .then(function (meetup) {
       if(!meetup) return res.redirect('/meetups');
@@ -45,6 +47,8 @@ module.exports = {
 
       res.render('meetup', {
         title: 'Meetup',
+        description: meetup.get('short_desc'),
+        page: 'meetup', 
         meetup: meetup
       });
 
@@ -72,7 +76,9 @@ module.exports = {
         title: 'Find Meetups',
         meetups: collection.models,
         pagination: collection.pagination,
-        query: {}
+        query: {},
+        description: 'Find a meetup group in South Africa',
+        page: 'meetups'
       });
     })
     .otherwise(function () {
@@ -88,6 +94,7 @@ module.exports = {
    */
   postNewMeetup: function (req, res) {
     req.assert('title', 'Name must be at least 4 characters long').len(4);
+    req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
     req.assert('administrative_area_level_1', 'Please make sure location is showing in map').notEmpty();
@@ -103,6 +110,7 @@ module.exports = {
 
     meetupData.user_id = user.get('id');
     meetupData.name = req.body.title;
+    meetupData.short_desc = req.body.short_desc;
     meetupData.organiser = req.body.organiser;
     meetupData.desc = req.body.desc;
     meetupData.province = req.body.administrative_area_level_1;

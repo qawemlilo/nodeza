@@ -4,9 +4,11 @@
 var Base  = require('./base');
 
 
+
+
 module.exports =  Base.Model.extend({
 
-  tableName: 'meetups',
+  tableName: 'companies',
 
 
   hasTimestamps: true,

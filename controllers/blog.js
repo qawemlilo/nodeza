@@ -10,7 +10,9 @@ module.exports = {
    */
   getBlog: function (req, res) {
     res.render('blog', {
-      title: 'Blog'
+      title: 'Blog',
+      description: 'Node.js related articles, tutorials and news',
+      page: 'blog'
     });
   }
 };

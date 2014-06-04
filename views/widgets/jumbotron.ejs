@@ -1,10 +1,14 @@
     
 <div id="jumbotron" class="jumbotron" <% 
-  if (title=='Events' || title=='Blog' || title=='Find Meetups' || title == 'Companies using Node.js in South Africa') {%>style="padding-top:20px; padding-bottom:20px;"<%}%>>
+  if (title=='Meetup' || title=='Event' || title=='Events' || title=='Blog' || title=='Find Meetups' || title == 'Companies using Node.js in South Africa') {%>style="padding-top:20px; padding-bottom:20px;"<%}%>>
   <div class="container">
     <% if (title=='Events') {%>
 
      <h1 style="font-size: 42px">Upcoming Node.js events</h1>
+
+    <% } else if (title == 'Event') {%>
+
+     <h1 style="font-size: 42px">Event</h1>
 
     <% } else if (title == 'Companies using Node.js in South Africa') {%>
 
@@ -13,6 +17,10 @@
     <% } else if (title == 'Find Meetups') {%>
 
      <h1 style="font-size: 42px">Find meetup groups</h1>
+
+    <% } else if (title == 'Meetup') {%>
+
+     <h1 style="font-size: 42px"><%= meetup.get('name') %></h1>
 
     <% } else if (title == 'Blog') {%>
 

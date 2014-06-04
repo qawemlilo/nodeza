@@ -2,30 +2,19 @@
 
 
 
-   <div class="container-fluid">
-    <div class="row">
-      <ul class="list-inline">
-        <li class="pull-right">
-          <a href="/events/new" class="btn btn-danger">
-            <span class="glyphicon glyphicon-heart"></span> Join this meetup
-          </a>
-        </li>
-      </ul>
-
-    </div>
-      
-      <div class="row" style="border: 1px solid #E7E7E7;margin-top: 10px; margin-bottom: 20px;padding-top: 10px; padding-bottom: 10px;">
-
+<div class="container-fluid">
+  <div class="row" style="margin-bottom: 20px;">
+    <div class="panel panel-default">
+      <div class="panel-body">
         <div class="col-md-9">
-          <h2 class="blog-post-title"><%= meetup.get('name') %></h2>
-
+          
+          <p>
           <% if(meetup.get('website') && meetup.get('website').length > 0) { %>
-            <p class="blog-post-meta">
-              Website: <a href="<%= meetup.get('website') %>" target="_blank"><%= meetup.get('website') %></a>
-            </p>
+            <strong>Website:</strong> <a href="<%= meetup.get('website') %>" target="_blank"><%= meetup.get('website') %></a><br>
+            
           <% } %>
 
-        <p>
+        
           <strong>Organiser:</strong> <%= meetup.get('organiser') %>
           <br>
           <strong>When?</strong> <%= meetup.get('meetings') %>
@@ -33,7 +22,7 @@
           <strong>Venue:</strong> <a href="<%= meetup.get('url') %>" target="_blank"><%= meetup.get('address') %></a>
         </p>
 
-          <p><%= meetup.get('desc') %></p>
+          <p><%- meetup.get('desc') %></p>
 
         </div>
 
@@ -53,5 +42,6 @@
           </p>
         </div>
       </div>
-
     </div>
+  </div>
+</div>

@@ -17,9 +17,11 @@
         <div class="col-sm-6">
           <p>
           <% if (github) { %>
+            <span class="glyphicon glyphicon-remove"></span> 
             <a class="text-danger" href="/account/unlink/github">
              Unlink your <i class="fa fa-github"></i> GitHub account</a>
           <% } else { %>
+            <span class="glyphicon glyphicon-hand-right"></span> 
             <a class="text-primary" href="/auth/github">
              Link your <i class="fa fa-github"></i> GitHub account</a> 
           <% } %>
@@ -27,9 +29,11 @@
 
           <p>
           <% if (twitter) { %>
+            <span class="glyphicon glyphicon-remove"></span> 
             <a class="text-danger" href="/account/unlink/twitter">
             Unlink your <i class="fa fa-twitter"></i> Twitter account</a>
           <% } else { %>
+            <span class="glyphicon glyphicon-hand-right"></span>  
             <a class="text-primary" href="/auth/twitter">
              Link your <i class="fa fa-twitter"></i> Twitter account</a> 
           <% } %>
@@ -37,9 +41,11 @@
 
           <p>
           <% if (google) { %>
+            <span class="glyphicon glyphicon-remove"></span> 
             <a class="text-danger" href="/account/unlink/google">
              Unlink your <i class="fa fa-google-plus"></i>oogle account</a>
           <% } else { %>
+            <span class="glyphicon glyphicon-hand-right"></span>  
             <a class="text-primary" href="/auth/google">
              Link your <i class="fa fa-google-plus"></i>oogle account</a> 
           <% } %>

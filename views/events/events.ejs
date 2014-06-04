@@ -5,60 +5,6 @@
   if(myEvents.length > 0) {
 %>
    <div class="container-fluid">
-   <!--
-    <div class="row">
-     <form>
-      <ul class="list-unstyled list-inline">
-        <li>
-          <strong>Province:</strong> 
-          <select name="province">
-            <option>All</option>
-            <option value="Eastern Cape">Eastern Cape</option>
-            <option valuve="Free State">Free State</option>
-            <option value="Gauteng">Gauteng</option>
-            <option value="KwaZulu Natal">KwaZulu Natal</option>
-            <option value="Limpopo">Limpopo</option>
-            <option value="Mpumalanga">Mpumalanga</option>
-            <option value="Northern Cape">Northern Cape</option>
-            <option value="North West">North West</option>
-            <option value="Western Province">Western Province</option>
-          </select>
-        </li>
-      
-        <li>
-          <strong>City:</strong> 
-          <select name="city">
-            <option>All</option>
-          </select>
-        </li>
-      
-        <li>
-          <strong>Month:</strong> 
-          <select name="month">
-            <option value="Jan">Jan</option>
-            <option value="Feb">Feb</option>
-            <option value="Mar">Mar</option>
-            <option value="Apr">Apr</option>
-            <option value="May">May</option>
-            <option value="Jun">Jun</option>
-            <option value="Jul">Jul</option>
-            <option value="Aug">Aug</option>
-            <option value="Sep">Sep</option>
-            <option value="Oct">Oct</option>
-            <option value="Nov">Nov</option>
-            <option value="Dec">Dec</option>
-          </select>
-        </li>
-      
-        <li class="pull-right">
-          <a href="/events/new" class="btn btn-success">
-            <span class="glyphicon glyphicon-ok"></span> Add New Event
-          </a>
-        </li>
-      </ul>
-     <form>
-    </div>
-   -->
     <div class="row">
       <ul class="list-inline">
 
@@ -99,70 +45,75 @@
         </li>
 
         <li class="pull-right">
-          <a href="/events/new" class="btn <% if(user) { %>btn-success<% } else {%>btn-danger<% } %>">
+          <a href="/events/new" class="btn btn-danger">
             <span class="glyphicon glyphicon-calendar"></span> Create An Event
           </a>
         </li>
       </ul>
     </div>
-<%
+  <%
     myEvents.forEach(function (myEvent) {
-%>
-      
-      <div class="row" style="border: 1px solid #E7E7E7; background-color: #F5F5F5; margin-top: 10px; margin-bottom: 20px;padding-top: 10px; padding-bottom: 10px;">
+  %>
 
-        <div class="col-md-8">
+  <div class="row" style="margin-top:10px;">  
+      <div class="panel panel-default">
+        <div class="panel-body">
           <h2 class="blog-post-title">
-            <a href="/events/<%= myEvent.get('id') %>"><%= myEvent.get('title') %></a>
+            <a href="/events/<%= myEvent.get('slug') %>"><%= myEvent.get('title') %></a>
           </h2>
 
-          <% if(myEvent.get('website') && myEvent.get('website').length > 0) { %>
+          
             <p class="blog-post-meta">
-              Website: <a href="<%= myEvent.get('website') %>" target="_blank"><%= myEvent.get('website') %></a>
+              <span class="glyphicon glyphicon-map-marker"></span>
+              <a href="<%= myEvent.get('url') %>" target="_blank">
+                <%= myEvent.get('address') %>
+              </a> | 
+              <span class="glyphicon glyphicon-tag"></span> 
+              <a href="/events/<%= myEvent.get('city') %>"><%= myEvent.get('city') %></a>
             </p>
-          <% } %>
+          
 
           <p><%= myEvent.get('desc') %></p>
 
-          <p style="color: #999; margin-top:20px">
-            <span class="glyphicon glyphicon-map-marker"></span> 
-            <a href="<%= myEvent.get('url') %>" target="_blank">
-              <%= myEvent.get('address') %>
-            </a>
-          </p>
         </div>
 
-        <div class="col-md-4">
-          <p>
-            <span class="glyphicon glyphicon-tag"></span> 
-            <a href="/events/<%= myEvent.get('city') %>"><%= myEvent.get('city') %></a>
-          </p>
-          <p>
-            <span class="glyphicon glyphicon-calendar"></span> <%= myEvent.parseDate() %>
-          </p>
-          <p>
-            <span class="glyphicon glyphicon-time"></span> <%= myEvent.parseTime() %>
-          </p>
+        <div class="panel-footer" style="text-align:center">
+          <div class="row">
+            <div class="col-md-4">
+              <span class="glyphicon glyphicon-calendar"></span> <%= myEvent.parseDate() %>
+            </div>
 
-          <%
-            if (myEvent.isUpComing()) {
-          %>
-          <p>
-            <a href="mailto:<%= myEvent.get('email') %>" role="button" class="btn btn-primary"> 
-              <span class="glyphicon glyphicon-envelope"></span> Contact Email</>
-            </a>
-          </p>
-          <%
-            }
-          %>
+            <div class="col-md-3">
+              <span class="glyphicon glyphicon-time"></span> <%= myEvent.parseTime() %>
+            </div>
+
+            <div class="col-md-2">
+              <span class="glyphicon glyphicon-map-marker"></span> 
+              <a href="<%= myEvent.get('url') %>" target="_blank">Map</a>
+            </div>
+
+            <%
+              if (myEvent.isUpComing()) {
+            %>
+            <div class="col-md-3">
+              <span class="glyphicon glyphicon-envelope"></span> 
+              <a href="mailto:<%= myEvent.get('email') %>"> 
+                Contact</>
+              </a>
+            </div>
+            <%
+              }
+            %>
+          </div>
         </div>
       </div>
-<%
-    })
-%>
-
-      <% include ../partials/pagination %>
     </div>
+  <%
+    });
+  %>
+
+    <% include ../partials/pagination %>
+  </div>
 <%
   }
 %>

@@ -2,6 +2,7 @@
 var _ = require('lodash');
 var Role = require('../models/roles');
 var Event = require('../models/event');
+var Meetup = require('../models/meetup');
 var Faker = require('Faker');
 var sequence = require('when/sequence');
 var chalk = require('chalk');
@@ -21,8 +22,6 @@ function fakeEvent() {
   eventData.dt = date;
   eventData.start_time = start_time;
   eventData.province = Faker.Address.usState();
-  eventData.lat = Faker.Address.latitude();
-  eventData.lng = Faker.Address.longitude();
   eventData.city = Faker.Address.city();
   eventData.town = Faker.Address.city();
   eventData.address = Faker.Address.streetAddress().split(',').join(' ');
@@ -30,8 +29,36 @@ function fakeEvent() {
   eventData.url = 'http://www.' + Faker.Internet.domainName();
   eventData.email = Faker.Internet.email();
   eventData.number = Faker.PhoneNumber.phoneNumberFormat(0);
+  eventData.views = 0;
 
   return eventData;
+}
+
+
+
+
+function fakeMeetup(opts) {
+  var meetupData = {};
+
+  meetupData.user_id = 16;
+  meetupData.name = opts.name;
+  meetupData.desc = Faker.Lorem.paragraph().replace(/,/g, ';');
+  meetupData.short_desc = Faker.Lorem.sentence().replace(/,/g, ';');
+  meetupData.organiser= Faker.Name.firstName();
+  meetupData.meetings = 'First week of the month';
+  meetupData.province = Faker.Address.usState();
+  meetupData.city = Faker.Address.city();
+  meetupData.town = Faker.Address.city();
+  meetupData.lat = Faker.Address.latitude();
+  meetupData.lng = Faker.Address.longitude();
+  meetupData.address = Faker.Address.streetAddress().split(',').join(' ');
+  meetupData.website = 'http://www.' + Faker.Internet.domainName();
+  meetupData.url = 'http://www.' + Faker.Internet.domainName();
+  meetupData.email = Faker.Internet.email();
+  meetupData.number = Faker.PhoneNumber.phoneNumberFormat(0);
+  meetupData.views = 0;
+
+  return meetupData;
 }
 
 
@@ -57,8 +84,12 @@ module.exports.populate  = function () {
     {role: 'Publisher'}, 
     {role: 'Super Administrator'}
   ];
+  var fakeMeetups = [];
   var fakeEvents = createFakeEvents(100);
   var operations =  [];
+
+  fakeMeetups.push(fakeMeetup({name: 'Node.js Cape Town'}));
+  fakeMeetups.push(fakeMeetup({name: 'Jozi.Node.JS'}));
 
   console.log();
   console.log(chalk.yellow('--------------------------------------------------------'));
@@ -74,6 +105,18 @@ module.exports.populate  = function () {
         console.log(chalk.green(' > ') + res);
         return res;
       }); 
+    });
+  });
+
+
+  _.each(fakeMeetups, function (model) {
+
+    operations.push(function () {
+      return Meetup.forge(model).save().then(function(role) {
+        var res = 'Meetup entry id: ' + role.get('id') + ' created';
+        console.log(chalk.green(' > ') + res);
+        return res;
+      }).otherwise(function (err) { throw err;}); 
     });
   });
 

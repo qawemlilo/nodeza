@@ -27,7 +27,9 @@ module.exports = {
    */
   getLogin: function (req, res) {
     res.render('login', {
-      title: 'Log In'
+      title: 'Log In',
+      description: 'NodeZA log in page',
+      page: 'login'
     });
   },
 
@@ -85,7 +87,9 @@ module.exports = {
    */
   getSignup: function (req, res) {
     res.render('signup', {
-      title: 'Sign Up'
+      title: 'Sign Up',
+      description: 'Sign up and become part of the Node.js community in South Africa',
+      page: 'signup'
     });
   },
 
@@ -155,7 +159,9 @@ module.exports = {
       }
       res.render('password', {
         title: 'Password Reset',
-        token: req.params.token
+        token: req.params.token,
+        description: 'Reset your password',
+        page: 'resetpassword'
       });
     })
     .otherwise(function () {
@@ -245,7 +251,9 @@ module.exports = {
    */
   getForgot: function (req, res) {
     res.render('forgot', {
-      title: 'Forgot Password'
+      title: 'Forgot Password',
+      description: 'Forgotten password',
+      page: 'forgot'
     });
   },
 
@@ -300,8 +308,8 @@ module.exports = {
           to: user.get('email'),
           from: 'NodeZA <info@nodeza.co.za>',
           subject: 'Reset your password on NodeZA',
-          body: 'Hi there ' + user.get('name') + ', \n\n'
-            + 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n' +
+          body: 'Hi there ' + user.get('name') + ', \n\n' +
+            'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
             'http://' + req.headers.host + '/reset/' + token + '\n\n' +
             'If you did not request this, please ignore this email and your password will remain unchanged.\n\n\n' +
@@ -326,7 +334,9 @@ module.exports = {
    */
   getAccount: function (req, res) {
     res.render('account', {
-      title: 'My Account'
+      title: 'My Account',
+      description: 'My account details',
+      page: 'account'
     });
   },
 
@@ -337,7 +347,9 @@ module.exports = {
    */
   getPasswordForm: function (req, res) {
     res.render('password', {
-      title: 'Change Password'
+      title: 'Change Password',
+      description: 'Change your password',
+      page: 'changepassword'
     });
   },
 
@@ -356,7 +368,9 @@ module.exports = {
       title: 'Linked Accounts',
       github: github,
       twitter: twitter,
-      google: google
+      google: google,
+      description: 'Your linked accounts',
+      page: 'linkedaccounts'
     });
   },
 

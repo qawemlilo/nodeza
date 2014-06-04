@@ -13,7 +13,9 @@ module.exports = {
    */
   newEvent: function (req, res) {
     res.render('newevent', {
-      title: 'New Event'
+      title: 'New Event',
+      description: 'Create a new Node.js event',
+      page: 'newevent'
     });
   },
 
@@ -33,9 +35,9 @@ module.exports = {
    * loads an event by id
    */
   getEvent: function (req, res) {
-    var id = req.params.id;
+    var slug = req.params.slug;
 
-    Event.forge({id: id})
+    Event.forge({slug: slug})
     .fetch()
     .then(function (event) {
       if(!event) return res.redirect('/events');
@@ -46,7 +48,9 @@ module.exports = {
 
       res.render('event', {
         title: 'Event',
-        myEvent: event
+        myEvent: event,
+        description: 'Node.js event in ' + event.get('city'),
+        page: 'event'
       });
 
       event.save()
@@ -114,7 +118,9 @@ module.exports = {
         title: 'Events',
         myEvents: collection.models,
         pagination: collection.pagination,
-        query: query
+        query: query,
+        description: 'Find all upcoming Node.js events in South Africa',
+        page: 'events'
       });
     })
     .otherwise(function () {
@@ -153,8 +159,6 @@ module.exports = {
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
     eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
     eventData.province = req.body.administrative_area_level_1;
-    eventData.lat = req.body.lat;
-    eventData.lng = req.body.lng;
     eventData.city = req.body.locality;
     eventData.town = req.body.sublocality;
     eventData.address = req.body.formatted_address;

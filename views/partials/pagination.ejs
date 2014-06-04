@@ -19,45 +19,32 @@
     </li>
   <%
     }
-  %>
 
-
-  <%
     pagination.items.forEach(function (page) { 
       if (page == '...') {
   %>
         <li class="disabled"><a href="#">...</a></li>
-  <%  
-      } 
-      else {
+
+  <% } 
+     else { 
   %>
         <li <% if(page === pagination.currentpage) { %>class="active"<% } %>>
           <a href="<%= pagination.base %>?p=<%= page %><% if (query.sort) { %>&sortby=<%= query.sort %><% } %>">
             <%= page %>
           </a>
         </li>
-  <%
-      }
-    })
-  %>
+  <% } 
+  })
 
+  if (pagination.isLastPage) { %>
 
-  <%
-    if (pagination.isLastPage) {
-  %>
     <li class="disabled"><a href="#">Next &raquo;</a></li>
-  <%
-    }
-    else {
-  %>
+
+  <% } else { %>
     <li>
       <a href="<%= pagination.base %>?p=<%= pagination.next %><% if (query.sort) { %>&sortby=<%= query.sort %><% } %>">Next &raquo;</a>
     </li>
-  <%
-    }
-  %>
+  <% } %>
 </ul>
 </div>
-<%
-}
-%>
+<% } %>

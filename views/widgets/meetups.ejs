@@ -2,22 +2,18 @@
 
 <h3><span class="glyphicon glyphicon-user text-info"></span> Featured Meetups</h3>
 
-<div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" data-src="holder.js/48x48" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Cape Town Meetup</h4>
-    Cras sit amet nibh libero, in gravida nulla.
+<% meetups.forEach(function(meetup) { %>
+  <div class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" data-src="holder.js/48x48" alt="...">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">
+        <a href="/meetups/<%= meetup.get('slug') %>">
+          <%= meetup.get('name') %>
+        </a>
+      </h4>
+      <%- meetup.get('short_desc') %>
+    </div>
   </div>
-</div>
-
-<div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" data-src="holder.js/48x48" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Jozi Node Meetup</h4>
-    Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-  </div>
-</div>
+<% }); %>

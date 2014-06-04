@@ -22,7 +22,14 @@
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">Description *</label>
+      <label class="col-sm-3 control-label" for="desc">Short Description *</label>
+      <div class="col-sm-7">
+        <textarea class="form-control" size="124" rows="2" name="short_desc" id="short_desc" placeholder="" required=""></textarea>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="desc">Full Description *</label>
       <div class="col-sm-7">
         <textarea class="form-control" rows="4" name="desc" id="desc" placeholder="" required=""></textarea>
       </div>
@@ -46,8 +53,8 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="meetings" id="meetings" placeholder="" value="<%= user.get('name') %>" required="" />
-      </div>
+        <textarea class="form-control" rows="2" name="meetings" id="meetings" placeholder="" required=""></textarea>
+      </div> 
     </div>
 
 

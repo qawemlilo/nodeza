@@ -81,7 +81,7 @@ module.exports.setup = function (app) {
   app.get('/events/new', passportConf.isAuthenticated, EventsController.newEvent);
   app.post('/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
   app.get('/events', EventsController.getEvents);
-  app.get('/events/:id', EventsController.getEvent);
+  app.get('/events/:slug', EventsController.getEvent);
 
 
   /*
@@ -97,7 +97,7 @@ module.exports.setup = function (app) {
   app.get('/meetups/new', passportConf.isAuthenticated, MeetupsController.newMeetup);
   app.post('/meetups/new', passportConf.isAuthenticated, MeetupsController.postNewMeetup);
   app.get('/meetups', MeetupsController.getMeetups);
-  app.get('/meetups/:id', MeetupsController.getMeetup);
+  app.get('/meetups/:slug', MeetupsController.getMeetup);
 
 
   /*

@@ -8,18 +8,17 @@ var moment = require('moment');
 
 function createFakeEvent() {
   var eventData = {};
-  var start_time = '06:00 PM';
-  var finish_time = '07:00 PM';
+  var dateTime = Faker.Date.future(10);
+
+  var start_time = dateTime.substring(11, 19);
+  var date = dateTime.substring(0, 10);
 
   eventData.user_id = 16;
   eventData.title = Faker.Lorem.sentence().split(',').join(' ');
   eventData.desc = Faker.Lorem.sentence().split(',').join(' ');
-  eventData.dt = moment(Date.now() + (1000 * 60 * 60 * 24 * 30)).format('YYYY-MM-DD');
-  eventData.start_time = moment(start_time, 'h:mm A').format('HH:mm:ss');
-  eventData.finish_time = moment(finish_time, 'h:mm A').format('HH:mm:ss');
+  eventData.dt = date;
+  eventData.start_time = start_time;
   eventData.province = Faker.Address.usState();
-  eventData.lat = Faker.Address.latitude();
-  eventData.lng = Faker.Address.longitude();
   eventData.city = Faker.Address.city();
   eventData.town = Faker.Address.city();
   eventData.address = Faker.Address.streetAddress().split(',').join(' ');

@@ -3,14 +3,20 @@
  */
 
 var MySql  = require('bookshelf').PG;
-var Meetup = require('../models/meetup');
 var when = require('when');
 
 
+/**
+ * Converts date in milliseconds to MySQL datetime format
+ * @param: ts - date in milliseconds
+ * @returns: MySQL datetime
+ */
+function datetime(ts) {
+  return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
+}
 
-module.exports = MySql.Collection.extend({
 
-  model: Meetup,
+module.exports.Collection = MySql.Collection.extend({
 
 
   limit: 10,
@@ -21,9 +27,6 @@ module.exports = MySql.Collection.extend({
 
   currentpage: 1,
 
-
-  base: '/meetups',
-
   
   paginationLimit: 10,
 
@@ -33,19 +36,24 @@ module.exports = MySql.Collection.extend({
 
   order: 'asc',
 
+  where: [],
+
  
   /**
    * Creates pagination data
    *
    * @returns: promise
   */ 
-  paginate: function () {
+  paginate: function (where) {
     var self = this;
     var deferred = when.defer();
+    var query = self.model.forge().query();
 
-    self.model.forge()
-    .query()
-    .count('id AS total')
+    if (query) {
+      query.where(where.join(','));
+    }
+
+    query.count('id AS total')
     .then(function (results) {
 
       var total = results[0].total;
@@ -126,7 +134,7 @@ module.exports = MySql.Collection.extend({
 
   
   /**
-   * Fetches meetups by filtering options
+   * Fetches events by filtering options
    *
    * @param: success {Function} - accepts models and pagination data
    * @param: error {Function} - error callback
@@ -141,6 +149,7 @@ module.exports = MySql.Collection.extend({
 
       query.limit(self.limit)
       .offset((self.currentpage - 1) * self.limit)
+      .where('dt', '>', datetime())
       .orderBy(self.sortby, self.order)
       .select()
       .then(function (models) {

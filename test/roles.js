@@ -8,7 +8,7 @@ describe('Roles', function(){
 
   describe('#fetch', function() {
     it('should fetch a role from a user', function(done){
-      User.forge({email: 'qawemlilo@gmail.com'})
+      User.forge({id: 1})
       .fetch({withRelated: ['role']})
       .then(function(user) {
         var role = user.related('role');

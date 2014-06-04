@@ -5,7 +5,7 @@
 </h3>
 
 <dl class="dl-horizontal">  
-  <% events.forEach(function (event) {%>
+  <% events.forEach(function (event) { %>
     <dt><%= event.parseDate('DD/MM/YY') %></dt>
     <dd><a href="/events/<%= event.get('id') %>"><%= event.get('title') %></a></dd>
   <% }) %>

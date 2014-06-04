@@ -1,11 +1,12 @@
 /**
  * Module dependencies.
  */
-var MySql  = require('bookshelf').PG;
+
+var Base  = require('./base');
 var moment = require('moment');
 
 
-module.exports = MySql.Model.extend({
+module.exports = Base.Model.extend({
 
   tableName: 'events',
 

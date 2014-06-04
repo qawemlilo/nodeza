@@ -136,7 +136,7 @@ label {
 /* Sidebar modules for boxing content */
 .sidebar-module {
   padding: 15px;
-  margin: 0 -15px 15px;
+  margin-bottom: 15px;
 }
 .sidebar-module-inset {
   padding: 15px;
@@ -148,7 +148,6 @@ label {
 .sidebar-module-inset ol:last-child {
   margin-bottom: 0;
 }
-
 
 
 /* Pagination */
@@ -195,4 +194,34 @@ label {
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
+}
+
+
+@media (min-width: 768px) {
+  /* Sidebar modules for boxing content */
+  .blog-sidebar .panel {
+    margin-left: -15px; 
+    margin-right:-15px; 
+    border-radius: 4px 4px 0px 0px;
+  }
+
+  .sidebar-module {
+    margin: 0 -15px 15px;
+  }
+
+  .panel-footer {
+    text-align: : center;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sidebar modules for boxing content */
+
+  .sidebar-module {
+    margin-top: 15px;
+  }
+
+  .navbar-toggle { 
+    border-radius: 0px;
+  }
 }

@@ -15,7 +15,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li <% if(title == 'Welcome to NodeZA, a portal of Node.js developers in South Africa') { %>class="active"<% } %>>
-              <a href="/"><span class="glyphicon glyphicon-home"> Home</a>
+              <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
             </li>
 
             <li <% if(title == 'Event' || title == 'Events' || title == 'My Events' || title == 'New Event') { %>class="active"<% } %>>
@@ -79,23 +79,7 @@
                 <li><a href="/account/#delete">Delete Account</a></li>
               </ul>
             </li>
-            <!--
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span>
-                <%= user.get('name') %> <span class="caret"></span>
-              </a>
-
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/events">My Events</a>
-                </li>
-
-                <li class="divider"></li>
-                <li><a href="/logout">Logout</a></li>
-              </ul>
-            </li>
-            -->
+            
             <li>
               <a href="/logout"><span class="glyphicon glyphicon-lock"></span> Logout</a>
             </li>

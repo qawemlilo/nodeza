@@ -3,13 +3,16 @@
  */
 var Base  = require('./base');
 var when  = require('when');
+var markdown = require('markdown').markdown;
 var Category  = require('./category');
 var Tag  = require('./tag');
-var Tags  = require('./collections/tags');
+var Tags  = require('../collections/tags');
 var _ = require('lodash');
+var moment = require('moment');
+var Post;
 
 
-module.exports =  Base.Model.extend({
+Post = Base.Model.extend({
 
   tableName: 'posts',
 
@@ -17,7 +20,7 @@ module.exports =  Base.Model.extend({
   initialize: function () {
     var self = this;
 
-    ghostBookshelf.Model.prototype.initialize.apply(this, arguments);
+    Base.Model.prototype.initialize.apply(this, arguments);
 
     this.on('saved', function (model, attributes, options) {
       return self.updateTags(model, attributes, options);
@@ -31,36 +34,35 @@ module.exports =  Base.Model.extend({
   saving: function () {
     /*jshint unused:false*/
     var self = this;
-    var desc = self.get('desc');
-    var tagsToCheck;
+    var tagsToCheck = [];
+    var tags = self.tags;
 
-    options = options || {};
+    if (tags) {
+      tags = tags.split(',');
 
-    if (self.hasChanged('desc') || self.isNew()) {
-      desc = desc.replace(/\n\n\n/g, '<br>');
-      desc = desc.replace(/\n\n/g, '<br>');
-      desc = desc.replace(/\n/g, '<br>');
-      self.set({desc: desc});
+      if (tags.length > 0) {
+        tagsToCheck = tags.map(function (tag) {
+          return {name: tag.trim()};
+        });
+      }
     }
 
-    tagsToCheck = self.get('tags');
     self.myTags = [];
 
     _.each(tagsToCheck, function (item) {
-      if (_.isObject(self.myTags)) {
+      console.log(item);
+      if (self.myTags && self.myTags.length > 0) {
         for (i = 0; i < self.myTags.length; i = i + 1) {
           if (self.myTags[i].name.toLocaleLowerCase() === item.name.toLocaleLowerCase()) {
-            return;
+              return;
           }
         }
-
-        self.myTags.push(item);
       }
+
+      self.myTags.push(item);
     });
 
-    Base.Model.prototype.saving.call(self);
-
-    self.set('html', converter.makeHtml(self.get('markdown')));
+    self.set('html', markdown.toHTML(self.get('markdown')));
 
     self.set('title', self.get('title').trim());
 
@@ -69,6 +71,8 @@ module.exports =  Base.Model.extend({
         self.set('published_at', new Date());
       }
     }
+
+    return Base.Model.prototype.saving.call(self);
   },
 
 
@@ -79,6 +83,16 @@ module.exports =  Base.Model.extend({
 
   category: function () {
     return this.belongsTo(Category, 'category_id');
+  },
+
+
+  /**
+   * parses date
+   */
+  publishingDate: function (fmt) {
+    var dt = this.get('published_at');
+
+    return moment(dt).format(fmt || 'MMMM D, YYYY');
   },
 
 
@@ -97,11 +111,11 @@ module.exports =  Base.Model.extend({
 
     options = options || {};
 
-    if (!this.myTags) {
-        return;
+    if (!self.myTags) {
+      return;
     }
 
-    return self.constructor.forge({id: newPost.id})
+    return Post.forge({id: newPost.id})
     .fetch({withRelated: ['tags'], transacting: options.transacting})
     .then(function (post) {
       var tagOps = [];
@@ -112,7 +126,7 @@ module.exports =  Base.Model.extend({
       tagOps.push(post.tags().detach(null, _.omit(options, 'query')));
 
       if (_.isEmpty(self.myTags)) {
-          return when.all(tagOps);
+        return when.all(tagOps);
       }
 
       return Tags.forge()
@@ -132,7 +146,7 @@ module.exports =  Base.Model.extend({
 
         // Create tags that don't exist and attach to post
         _.each(doNotExist, function (tag) {
-          createAndAttachOperation = Tag.add({name: tag.name}, options).then(function (createdTag) {
+          createAndAttachOperation = Tag.forge({name: tag.name}, options).save().then(function (createdTag) {
             createdTag = createdTag.toJSON();
 
             // _.omit(options, 'query') is a fix for using bookshelf 0.6.8
@@ -155,3 +169,6 @@ module.exports =  Base.Model.extend({
     });
   },
 });
+
+
+module.exports = Post;

@@ -35,27 +35,15 @@
       <div class="row">
 
         <div class="col-sm-9 blog-main">
-
+        <% posts.forEach(function (post) { %>
           <div class="blog-post">
-            <h1 class="blog-post-title">Welcome to Node South Africa</h1>
-            <p class="blog-post-meta">January 1, 2014 by <a href="#">Que</a></p>
+            <h1 class="blog-post-title"><%= post.get('title') %></h1>
+            <p class="blog-post-meta"><%= post.publishingDate() %></p>
 
-            <p>NodeZA, pronounced as Node Z A, is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js developers under one roof and promote Node as a technology.</p>
-
-            <p>NodeZA is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js deveoplers under one roof and promote Node as a technology.</p>
+            <%- post.get('html') %>
             
           </div><!-- /.blog-post -->
-
-
-          <div class="blog-post">
-            <h1 class="blog-post-title">Welcome to Node South Africa</h1>
-            <p class="blog-post-meta">January 1, 2014 by <a href="#">Que</a></p>
-
-            <p>NodeZA, pronounced as Node Z A, is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js developers under one roof and promote Node as a technology.</p>
-
-            <p>NodeZA is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js deveoplers under one roof and promote Node as a technology.</p>
-            
-          </div><!-- /.blog-post -->
+        <% }); %>
 
         </div><!-- /.blog-main -->
 

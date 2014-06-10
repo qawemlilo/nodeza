@@ -1,7 +1,7 @@
 
 var Events = require('../collections/events');
 var Meetups = require('../collections/meetups');
-var async = require('async');
+var Posts = require('../collections/posts');
 
 
 module.exports = {
@@ -13,6 +13,8 @@ module.exports = {
   index: function (req, res, next) {
     var events = new Events();
     var meetups = new Meetups();
+    var posts = new Posts();
+
     var opts = {
       title: 'Welcome to NodeZA, a portal of Node.js developers in South Africa',
       description: 'NodeZA is a community of Node.js developers in South Africa',
@@ -22,38 +24,41 @@ module.exports = {
     // display 3 upcoming events on the front page
     events.limit = 3;
     meetups.limit = 2;
+    posts.limit = 2;
+    
+    // first fetch events
+    events.fetchItems()
+    .then(function (collection) {
+      return collection.models;
+    })
+    .then(function (events) {
+      opts.events = events;
+      
+      // then get meetups
+      return meetups.fetchItems()
+      .then(function (collection) {
+        return collection.models;
+      });
+    })
+    .then(function (meetups) {
+      opts.meetups = meetups;
+      
+      // then get posts
+      return posts.fetchItems()
+      .then(function (collection) {
+        return collection.models;
+      });
+    })
+    .then(function (blogposts) {
+      opts.posts = blogposts;
 
-    async.waterfall([
-      function(done) {
-        events.fetchItems()
-        .then(function (collection) {
-          done(false, collection.models);
-        })
-        .otherwise(function () {
-          done('Could not fetch events collection');
-        });
-      },
-
-      function (events, done) {
-        opts.events = events;
-
-        meetups.fetchItems()
-        .then(function (collection) {
-          done(false, collection.models);
-        })
-        .otherwise(function () {
-          done('Could not fetch meetups collection');
-        });
-      },
-
-      function (meetups, done) {
-        opts.meetups = meetups;
-
-        res.render('index', opts);
-
-        done();
-      }
-    ]);
+      res.render('index', opts);
+    })
+    .otherwise(function (error) {
+      req.flash('errors', { msg: 'Could not fetch of the items'});
+      res.render('index', opts);
+      console.log(error);
+    });
   },
 
 

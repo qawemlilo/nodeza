@@ -38,7 +38,6 @@ module.exports = {
     id: {type: 'increments', nullable: false, primary: true},
     user_id: {type: 'integer', nullable: false, unsigned: true},
     title: {type: 'string', maxlength: 150, nullable: false},
-    slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
     email: {type: 'string', maxlength: 254, nullable: false, unique: true, validations: {'isEmail': true}},
     number: {type: 'string', maxlength: 24, nullable: false},
     desc: {type: 'string', maxlength: 254, nullable: false},

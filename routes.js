@@ -105,4 +105,5 @@ module.exports.setup = function (app) {
   **/
   app.get('/blog', BlogController.getBlog);
   app.get('/admin/blog/new', passportConf.isAuthenticated, BlogController.newPost);
+  app.post('/admin/blog/new', passportConf.isAuthenticated, BlogController.postBlog);
 };

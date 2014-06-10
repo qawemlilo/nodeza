@@ -27,7 +27,7 @@ module.exports = MySql.Collection.extend({
   paginationLimit: 10,
 
 
-  sortby: 'dt',
+  sortby: 'id',
 
 
   order: 'asc',
@@ -44,6 +44,7 @@ module.exports = MySql.Collection.extend({
 
     self.model.forge()
     .query()
+    .where('published_at', '<', new Date())
     .count('id AS total')
     .then(function (results) {
 
@@ -138,6 +139,7 @@ module.exports = MySql.Collection.extend({
       var query = self.query();
 
       query.limit(self.limit)
+      .where('published_at', '<', new Date())
       .offset((self.currentpage - 1) * self.limit)
       .orderBy(self.sortby, self.order)
       .select()

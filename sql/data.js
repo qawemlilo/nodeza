@@ -1,8 +1,10 @@
 
 var _ = require('lodash');
 var Role = require('../models/roles');
+var Category = require('../models/category');
 var Event = require('../models/event');
 var Meetup = require('../models/meetup');
+var Post = require('../models/post');
 var Faker = require('Faker');
 var sequence = require('when/sequence');
 var chalk = require('chalk');
@@ -40,7 +42,7 @@ function fakeEvent() {
 function fakeMeetup(opts) {
   var meetupData = {};
 
-  meetupData.user_id = 16;
+  meetupData.user_id = 1;
   meetupData.name = opts.name;
   meetupData.desc = Faker.Lorem.paragraph().replace(/,/g, ';');
   meetupData.short_desc = Faker.Lorem.sentence().replace(/,/g, ';');
@@ -75,7 +77,8 @@ function createFakeEvents (total) {
   return events;
 }
 
-
+var intoPost = 'NodeZA, pronounced as Node Z A, is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js developers under one roof and promote Node as a technology.\n';
+intoPost += 'NodeZA is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js deveoplers under one roof and promote Node as a technology.';
 
 
 module.exports.populate  = function () {
@@ -83,6 +86,12 @@ module.exports.populate  = function () {
     {role: 'Registered'}, 
     {role: 'Publisher'}, 
     {role: 'Super Administrator'}
+  ];
+  var catsData = [
+    {name: 'Articles'}, 
+    {name: 'Interviews'},
+    {name: 'Tutorials'}, 
+    {name: 'Company Profiles'}
   ];
   var fakeMeetups = [];
   var fakeEvents = createFakeEvents(100);
@@ -108,12 +117,22 @@ module.exports.populate  = function () {
     });
   });
 
+  _.each(catsData, function (model) {
+
+    operations.push(function () {
+      return Category.forge(model).save().then(function(cat) {
+        var res = 'Category entry id: ' + cat.get('id') + ' created';
+        console.log(chalk.green(' > ') + res);
+        return res;
+      }); 
+    });
+  });
 
   _.each(fakeMeetups, function (model) {
 
     operations.push(function () {
-      return Meetup.forge(model).save().then(function(role) {
-        var res = 'Meetup entry id: ' + role.get('id') + ' created';
+      return Meetup.forge(model).save().then(function(meetup) {
+        var res = 'Meetup entry id: ' + meetup.get('id') + ' created';
         console.log(chalk.green(' > ') + res);
         return res;
       }).otherwise(function (err) { throw err;}); 
@@ -131,4 +150,33 @@ module.exports.populate  = function () {
   });
 
   return sequence(operations);
+};
+
+
+
+
+module.exports.addPost = function (id) {
+  var blogData = {
+    title: 'Welcome to NodeZA',
+    category_id: 1,
+    user_id: id,
+    views: 0,
+    meta_title: 'Welcome to NodeZA, a portal of Node.js developers in South Africa',
+    meta_description: 'NodeZA is a community of Node.js developers in South Africa',
+    markdown: intoPost,
+    published: 0,
+    featured: 0
+  };
+
+  var post = new Post();
+
+  post.tags = 'demo, nodeza';
+  post.set(blogData);
+
+  return post.save().then(function(model) {
+    var res = 'Default blog post created';
+    console.log(chalk.green(' > ') + res);
+    console.log('');
+    return res;
+  });
 };

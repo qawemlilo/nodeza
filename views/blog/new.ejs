@@ -2,14 +2,12 @@
 <div class="panel panel-default">
 
   <div class="panel-heading">
-    <span class="glyphicon glyphicon-calendar"></span> New Post
-
+    <span class="glyphicon glyphicon-list-alt"></span> New Post
     <a href="/blog" class="close pull-right">&times;</a>
-
   </div>
 
   <div class="panel-body">
-  <form class="form-horizontal" id="event-form" action="/blog/new" method="POST">
+  <form class="form-horizontal" id="event-form" action="/admin/blog/new" method="POST">
     <input type="hidden" name="_csrf" value="<%= _csrf %>" />
     <div class="form-group">
       <label class="col-sm-3 control-label" for="title">
@@ -17,131 +15,82 @@
       </label>
 
       <div class="col-sm-8">
-        <input class="form-control" type="text" name="title" id="title" placeholder="Event Title" required="" autofocus />
+        <input class="form-control" type="text" name="title" id="title" placeholder="" required="" autofocus />
       </div>
     </div>
 
-
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="title">
-        Tags *
+      <label class="col-sm-3 control-label" for="category">
+        Category
       </label>
 
       <div class="col-sm-8">
-        <input class="form-control" type="text" name="title" id="title" placeholder="Event Title" required="" />
+        <select name="category" id="category">
+          <option value="post">Articles</option>
+          <option value="">Tutorials</option>
+          <option value="">Interviews</option>
+          <option value="">Company Profiles</option>
+        </select>
       </div>
     </div>
-
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">Details *</label>
-      <div class="col-sm-7">
-        <textarea class="form-control" rows="4" name="desc" id="desc" placeholder="" required=""></textarea>
+      <label class="col-sm-3 control-label" for="tags">Tags</label>
+      <div class="col-sm-8">
+        <input class="form-control" type="text" name="tags" id="tags" placeholder="comma, seperated" required="" />
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="date">Date *</label>
-      <div class="col-sm-7">
-          <div class='input-group date' id='dateDiv'>
-            <input class="form-control" type="text" name="date" id="date" required="">
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-          </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-3 control-label" for="start_time"></label>
-      <div class="col-sm-7">
-          <div class='col-sm-5'>
-            <div class="form-group">
-
-              <label class="control-label" for="start_time">Starting Time *</label>
-
-              <div class='input-group date' id='startTimeDiv'>
-                <input class="form-control" type="text" name="start_time" id="start_time" required="">
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class='col-sm-offset-2 col-sm-5'>
-            <div class="form-group">
-
-              <label class="control-label" for="finish_time">Finishing Time</label>
-
-              <div class='input-group date' id='finishTimeDiv'>
-                <input class="form-control" type="text" name="finish_time" id="finish_time" >
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-                </span>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-
-
-    <div class="form-group">
-      <label class="col-sm-3 control-label" for="email">
-        Contact Email *
+      <label class="col-sm-3 control-label" for="meta_title">
+        Meta Title
       </label>
 
-      <div class="col-sm-7">
-        <input class="form-control" type="text" name="email" id="email" placeholder="Email Address" value="<%= user.get('email') %>" required="" />
+      <div class="col-sm-8">
+        <input class="form-control" type="text" name="meta_title" id="meta_title" placeholder="meta data for page title" required="" autofocus />
       </div>
     </div>
 
-
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="number">
-        Contact Number
+      <label class="col-sm-3 control-label" for="meta_description">
+        Meta Description
       </label>
 
-      <div class="col-sm-7">
-        <input class="form-control" type="text" name="number" id="number" placeholder="Contact Number" />
+      <div class="col-sm-8">
+        <input class="form-control" type="text" name="meta_description" id="meta_description" placeholder="meta data for page description" required="" />
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="post">Post *</label>
+      <div class="col-sm-8">
+        <textarea class="form-control" rows="15" name="post" id="post" placeholder="" required=""></textarea>
       </div>
     </div>
 
 
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="webpage">
-        Url
-      </label>
-
-      <div class="col-sm-7">
-        <input class="form-control" type="text" name="webpage" id="webpage" placeholder="Url" />
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-3 control-label" for="geocomplete">Location</label>
-      <div class="col-sm-7">
-        <input class="form-control" type="text" name="geocomplete" id="geocomplete" placeholder="" required="">
-        
-        <div id="googlemap" style="height:255px; width: 100%">
+      <div class="col-sm-offset-3 col-sm-8">
+        <div class="checkbox-inline">
+          <label>
+            <input type="checkbox"> Published
+          </label>
+        </div>
+        <div class="checkbox-inline">
+          <label>
+            <input type="checkbox"> Featured
+          </label>
         </div>
       </div>
     </div>
 
-    <input type="hidden" name="administrative_area_level_1" />
-    <input type="hidden" name="lat" />
-    <input type="hidden" name="lng" />
-    <input type="hidden" name="locality" />
-    <input type="hidden" name="sublocality" />
-    <input type="hidden" name="formatted_address" />
-
     <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-7">
+      <div class="col-sm-offset-3 col-sm-8">
         <button class="btn btn-success" type="submit">
-          <i class="fa fa-check"></i> Create Event
+          <i class="fa fa-check"></i> Create Post
         </button>
 
-        <a href="/events" class="btn btn-default">
+        <a href="/blog" class="btn btn-default">
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </a>
       </div>

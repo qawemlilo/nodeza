@@ -42,10 +42,6 @@ module.exports = {
     .then(function (event) {
       if(!event) return res.redirect('/events');
 
-      var views = event.get('views');
-
-      event.set({views: views + 1});
-
       res.render('event', {
         title: 'Event',
         myEvent: event,
@@ -53,9 +49,7 @@ module.exports = {
         page: 'event'
       });
 
-      event.save()
-      .then(function () {})
-      .otherwise(function () {});
+      event.viewed();
     })
     .otherwise(function () {
       res.redirect('/events');

@@ -28,7 +28,7 @@ module.exports = {
 
   tokens: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
     kind: {type: 'string', nullable: false, maxlength: 32},
     accessToken: {type: 'string', maxlength: 254, nullable: false},
     tokenSecret: {type: 'string', maxlength: 254, nullable: true}
@@ -36,7 +36,7 @@ module.exports = {
 
   events: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
     email: {type: 'string', maxlength: 254, nullable: false, unique: true, validations: {'isEmail': true}},
@@ -58,13 +58,15 @@ module.exports = {
 
   meetups: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
     organiser: {type: 'string', maxlength: 254, nullable: false},
     name: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
     email: {type: 'string', maxlength: 254, nullable: false, unique: true, validations: {'isEmail': true}},
     number: {type: 'string', maxlength: 24, nullable: false},
     short_desc: {type: 'string', maxlength: 128, nullable: false},
+    meta_title: {type: 'string', maxlength: 150, nullable: true},
+    meta_description: {type: 'string', maxlength: 200, nullable: true},
     desc: {type: 'string', maxlength: 254, nullable: false},
     meetings: {type: 'string', maxlength: 150, nullable: false},
     province: {type: 'string', maxlength: 64, nullable: false},
@@ -83,16 +85,31 @@ module.exports = {
 
   posts: {
     id: {type: 'increments', nullable: false, primary: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
+    category_id: {type: 'integer', nullable: false, unsigned: true},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
     markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
     html: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
     image: {type: 'text', maxlength: 2000, nullable: true},
     featured: {type: 'integer', nullable: false, defaultTo: 0},
-    status: {type: 'string', maxlength: 150, nullable: false, defaultTo: 'draft'},
+    published: {type: 'integer', nullable: false, defaultTo: 0},
     meta_title: {type: 'string', maxlength: 150, nullable: true},
     meta_description: {type: 'string', maxlength: 200, nullable: true},
-    user_id: {type: 'integer', nullable: false},
+    views: {type: 'integer', nullable: false},
+    published_at: {type: 'dateTime', nullable: true},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_at: {type: 'dateTime', nullable: true}
+  },
+
+
+  categories: {
+    id: {type: 'increments', nullable: false, primary: true},
+    name: {type: 'string', maxlength: 150, nullable: false},
+    slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
+    description: {type: 'string', maxlength: 200, nullable: false},
+    meta_title: {type: 'string', maxlength: 150, nullable: true},
+    meta_description: {type: 'string', maxlength: 200, nullable: true},
     created_at: {type: 'dateTime', nullable: false},
     updated_at: {type: 'dateTime', nullable: true}
   },
@@ -100,11 +117,9 @@ module.exports = {
 
   tags: {
     id: {type: 'increments', nullable: false, primary: true},
-    uuid: {type: 'string', maxlength: 36, nullable: false, validations: {'isUUID': true}},
     name: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
-    description: {type: 'string', maxlength: 200, nullable: true},
-    parent_id: {type: 'integer', nullable: true},
+    description: {type: 'string', maxlength: 200, nullable: false},
     meta_title: {type: 'string', maxlength: 150, nullable: true},
     meta_description: {type: 'string', maxlength: 200, nullable: true},
     created_at: {type: 'dateTime', nullable: false},

@@ -6,8 +6,8 @@ var MySql  = Bookshelf.PG;
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var Token = require('./token');
-var Roles = require('./roles');
-var myEvents = require('./event');
+var Role = require('./roles');
+var Event = require('./event');
 var when = require('when');
 var _ = require('lodash');
 
@@ -28,12 +28,12 @@ module.exports = MySql.Model.extend({
 
 
   role: function() {
-    return this.belongsTo(Roles);
+    return this.belongsTo(Role);
   },
 
 
   myEvents: function() {
-    return this.hasMany(myEvents);
+    return this.hasMany(Event);
   },
 
 

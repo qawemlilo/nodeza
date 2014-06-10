@@ -27,7 +27,7 @@
             </li>
             
             <li <% if(title == 'Companies using Node.js in South Africa') { %>class="active"<% } %>>
-              <a href="/companies"><span class="glyphicon glyphicon-search"></span> Companies</a>
+              <a href="/companies"><span class="glyphicon glyphicon-registration-mark"></span> Companies</a>
             </li>
 
             <li <% if(title == 'Blog') { %>class="active"<% } %>>
@@ -57,26 +57,25 @@
               }
             %>
             <%= klass %>>
-              <a href="/account" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-wrench"></span> Account 
+              <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-wrench"></span> Admin 
                 <span class="caret"></span>
               </a>
 
               <ul class="dropdown-menu">
                 <li>
-                  <a href="/account">Profile Infomation</a>
+                  <a href="/account">Account</a>
                 </li>
 
                 <li>
-                  <a href="/account/password">Change Password</a>
+                  <a href="/admin/events">Events</a>
                 </li>
 
                 <li>
-                  <a href="/account/linked">Linked Accounts</a>
+                  <a href="/admin/meetups">Meetups</a>
                 </li>
 
-                <li class="divider"></li>
-                <li><a href="/account/#delete">Delete Account</a></li>
+                <li><a href="/admin/blog">Blog</a></li>
               </ul>
             </li>
             

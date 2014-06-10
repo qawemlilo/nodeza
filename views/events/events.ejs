@@ -1,13 +1,10 @@
 
 
 
-<% 
-  if(myEvents.length > 0) {
-%>
-   <div class="container-fluid">
+
+  <div class="container-fluid">
     <div class="row">
       <ul class="list-inline">
-
         <li>
           <form action="/events/limit" name="eventslimit" method="post">
             <input type="hidden" name="_csrf" value="<%= _csrf %>" />
@@ -45,17 +42,17 @@
         </li>
 
         <li class="pull-right">
-          <a href="/events/new" class="btn btn-danger">
+          <a href="/admin/events/new" class="btn btn-danger">
             <span class="glyphicon glyphicon-calendar"></span> Create An Event
           </a>
         </li>
       </ul>
     </div>
   <%
+  if(myEvents.length > 0) {
     myEvents.forEach(function (myEvent) {
   %>
-
-  <div class="row" style="margin-top:10px;">  
+    <div class="row" style="margin-top:10px;">  
       <div class="panel panel-default">
         <div class="panel-body">
           <h2 class="blog-post-title">
@@ -110,10 +107,9 @@
     </div>
   <%
     });
+  }
   %>
 
     <% include ../partials/pagination %>
+
   </div>
-<%
-  }
-%>

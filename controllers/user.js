@@ -4,7 +4,6 @@ var Tokens = require('../models/token');
 var Mailer = require('../lib/mailer');
 var async = require('async');
 var crypto = require('crypto');
-var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
 var _ = require('lodash');
 
@@ -284,7 +283,7 @@ module.exports = {
         .fetch()
         .then(function(user) {
           if (!user) {
-            req.flash('errors', { msg: 'No account with that email address exists.' });
+            req.flash('errors', {msg: 'No account with that email address exists.' });
             return res.redirect('/forgot');
           }
   
@@ -504,18 +503,18 @@ module.exports = {
             res.redirect('/account/linked');
           })
           .otherwise(function () {
-            req.flash('error', { msg: 'Database error. ' + provider + ' account has been unlinked.' }); 
-            next({'errors': { msg: 'Failed to unlinked ' + provider + ' account.'}});
+            req.flash('error', {msg: 'Database error. ' + provider + ' account has been unlinked.' }); 
+            next({'errors': {msg: 'Failed to unlinked ' + provider + ' account.'}});
           }); 
         })
         .otherwise(function () {
-          req.flash('error', { msg: 'Database error. Failed to fetch ' + provider + ' token.' }); 
-          next({'errors': { msg: 'Database error. Failed to fetch ' + provider + ' token.'}});
+          req.flash('error', {msg: 'Database error. Failed to fetch ' + provider + ' token.' }); 
+          next({'errors': {msg: 'Database error. Failed to fetch ' + provider + ' token.'}});
         });
       })
       .otherwise(function () {
-        req.flash('error', { msg: 'Database error. Failed to update user ' + provider + ' id.' }); 
-        next({'errors': { msg: 'Database error. Failed to update user ' + provider + ' id.'}});
+        req.flash('error', {msg: 'Database error. Failed to update user ' + provider + ' id.' }); 
+        next({'errors': {msg: 'Database error. Failed to update user ' + provider + ' id.'}});
       });
     }
     else {

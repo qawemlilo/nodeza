@@ -5,6 +5,7 @@ var MySql  = require('bookshelf').PG;
 var User  = require('./user');
 var unidecode  = require('unidecode');
 var when  = require('when');
+var _ = require('lodash');
 
 
 module.exports.Model = MySql.Model.extend({
@@ -12,15 +13,24 @@ module.exports.Model = MySql.Model.extend({
   initialize: function () {
     var self = this;
     var options = arguments[1] || {};
-    //
+    
     // make options include available for toJSON()
     if (options.include) {
-      this.include = _.clone(options.include);
+      self.include = _.clone(options.include);
     }
 
-    this.on('saving', function (model, attributes, options) {
+    self.on('saving', function (model, attributes, options) {
       return self.saving();
     });
+  },
+
+
+  viewed: function () {
+    var views = this.get('views');
+
+    this.set('views', views + 1);
+
+    return this.save();
   },
 
 
@@ -49,7 +59,8 @@ module.exports.Model = MySql.Model.extend({
 
 
   /**
-   * *This method was taken from Ghost
+   * Credit: https://github.com/TryGhost/Ghost
+   *
    * ### Generate Slug
    * Create a string to act as the permalink for an object.
    * @param {ghostBookshelf.Model} Model Model type to generate a slug for
@@ -62,9 +73,10 @@ module.exports.Model = MySql.Model.extend({
     var slug;
     var slugTryCount = 1;
     var baseName = self.getTableName().replace(/s$/, '');
+
     // Look for a post with a matching slug, append an incrementing number if so
     var checkIfSlugExists;
-    //
+    
     checkIfSlugExists = function (slugToFind) {
       var args = {slug: slugToFind};
 
@@ -72,13 +84,13 @@ module.exports.Model = MySql.Model.extend({
         .fetch()
         .then(function (found) {
         var trimSpace;
-        //
+        
         if (!found) {
           return when.resolve(slugToFind);
         }
-        //
+        
         slugTryCount += 1;
-        //
+        
         // If this is the first time through, add the hyphen
         if (slugTryCount === 2) {
           slugToFind += '-';
@@ -87,35 +99,35 @@ module.exports.Model = MySql.Model.extend({
           trimSpace = -(String(slugTryCount - 1).length);
           slugToFind = slugToFind.slice(0, trimSpace);
         }
-        //
+        
         slugToFind += slugTryCount;
-        //
+        
         return checkIfSlugExists(slugToFind);
       });
     };
-    //
+    
     slug = base.trim();
-    //
+    
     // Remove non ascii characters
     slug = unidecode(slug);
-    //
+    
     // Remove URL reserved chars: `:/?#[]@!$&'()*+,;=` as well as `\%<>|^~£"`
     slug = slug.replace(/[:\/\?#\[\]@!$&'()*+,;=\\%<>\|\^~£"]/g, '')
       // Replace dots and spaces with a dash
       .replace(/(\s|\.)/g, '-')
       // Convert 2 or more dashes into a single dash
       .replace(/-+/g, '-')
-      // Make the whole thing lowercase
+ 
       .toLowerCase();
-    //
+    
     // Remove trailing hyphen
     slug = slug.charAt(slug.length - 1) === '-' ? slug.substr(0, slug.length - 1) : slug;
 
-    //
     //if slug is empty after trimming use "post"
     if (!slug) {
       slug = baseName;
     }
+
     // Test for duplicate slugs.
     return checkIfSlugExists(slug);
   }

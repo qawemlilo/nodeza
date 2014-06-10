@@ -2,23 +2,14 @@
  * Module dependencies.
 **/
 var MySql  = require('bookshelf').PG;
-var Event = require('../models/event');
+var Tag = require('../models/tag');
 var when = require('when');
 
-
-/**
- * Converts date in milliseconds to MySQL datetime format
- * @param: ts - date in milliseconds
- * @returns: MySQL datetime
- */
-function datetime(ts) {
-  return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
-}
 
 
 module.exports = MySql.Collection.extend({
 
-  model: Event,
+  model: Tag,
 
 
   limit: 10,
@@ -30,7 +21,7 @@ module.exports = MySql.Collection.extend({
   currentpage: 1,
 
 
-  base: '/events',
+  base: '/blog/tags',
 
   
   paginationLimit: 10,
@@ -53,7 +44,6 @@ module.exports = MySql.Collection.extend({
 
     self.model.forge()
     .query()
-    .where('dt', '>', datetime())
     .count('id AS total')
     .then(function (results) {
 
@@ -149,7 +139,6 @@ module.exports = MySql.Collection.extend({
 
       query.limit(self.limit)
       .offset((self.currentpage - 1) * self.limit)
-      .where('dt', '>', datetime())
       .orderBy(self.sortby, self.order)
       .select()
       .then(function (models) {

@@ -362,3 +362,14 @@ exports.isAuthorized = function (req, res, next) {
     res.redirect('/auth/' + provider);
   }
 };
+
+
+exports.isUserAdmin = function (req, res, next) {
+
+  if (req.user && req.user.related('role').get('role') === 'Super Administrator') {
+    next();
+  } else {
+    req.flash('errors', { msg: 'You are not authorized to perform that action' });
+    res.redirect('/');
+  }
+};

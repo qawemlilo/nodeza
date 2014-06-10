@@ -78,8 +78,8 @@ module.exports.setup = function (app) {
    * Events
   **/
   app.post('/events/limit', EventsController.setLimit);
-  app.get('/events/new', passportConf.isAuthenticated, EventsController.newEvent);
-  app.post('/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
+  app.get('/admin/events/new', passportConf.isAuthenticated, EventsController.newEvent);
+  app.post('/admin/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
   app.get('/events', EventsController.getEvents);
   app.get('/events/:slug', EventsController.getEvent);
 
@@ -94,8 +94,8 @@ module.exports.setup = function (app) {
    *Meetups
   **/
   app.get('/meetups', MeetupsController.getMeetups);
-  app.get('/meetups/new', passportConf.isAuthenticated, MeetupsController.newMeetup);
-  app.post('/meetups/new', passportConf.isAuthenticated, MeetupsController.postNewMeetup);
+  app.get('/admin/meetups/new', passportConf.isAuthenticated, MeetupsController.newMeetup);
+  app.post('/admin/meetups/new', passportConf.isAuthenticated, MeetupsController.postNewMeetup);
   app.get('/meetups', MeetupsController.getMeetups);
   app.get('/meetups/:slug', MeetupsController.getMeetup);
 
@@ -104,4 +104,5 @@ module.exports.setup = function (app) {
    * Blog
   **/
   app.get('/blog', BlogController.getBlog);
+  app.get('/admin/blog/new', passportConf.isAuthenticated, BlogController.newPost);
 };

@@ -41,20 +41,15 @@ module.exports = {
     .then(function (meetup) {
       if(!meetup) return res.redirect('/meetups');
 
-      var views = meetup.get('views');
-
-      meetup.set({views: views + 1});
-
       res.render('meetup', {
         title: 'Meetup',
         description: meetup.get('short_desc'),
-        page: 'meetup', 
+        page: meetup.get('slug'), 
         meetup: meetup
       });
 
-      meetup.save()
-      .then(function () {})
-      .otherwise(function () {});
+      // count number of views
+      meetup.viewed();
     })
     .otherwise(function () {
       res.redirect('/meetups');

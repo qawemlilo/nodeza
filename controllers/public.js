@@ -24,7 +24,6 @@ module.exports = {
     // display 3 upcoming events on the front page
     events.limit = 3;
     meetups.limit = 2;
-    posts.limit = 2;
     
     // first fetch events
     events.fetchItems()
@@ -44,7 +43,7 @@ module.exports = {
       opts.meetups = meetups;
       
       // then get posts
-      return posts.fetchItems()
+      return posts.fetchFeatured(2)
       .then(function (collection) {
         return collection.models;
       });

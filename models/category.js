@@ -1,8 +1,9 @@
 /**
  * Module dependencies.
  */
-var Base  = require('./base');
+
 var Posts  = require('../collections/posts');
+var Base  = require('./base');
 
 
 module.exports =  Base.Model.extend({

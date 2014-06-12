@@ -14,23 +14,23 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li <% if(title == 'Welcome to NodeZA, a portal of Node.js developers in South Africa') { %>class="active"<% } %>>
+            <li <% if(page == 'home') { %>class="active"<% } %>>
               <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
             </li>
 
-            <li <% if(title == 'Event' || title == 'Events' || title == 'My Events' || title == 'New Event') { %>class="active"<% } %>>
+            <li <% if(page == 'event' || page == 'events' || title == 'My Events' || title == 'New Event') { %>class="active"<% } %>>
               <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
             </li>
 
-            <li <% if(title == 'Meetup' || title == 'Find Meetups') { %>class="active"<% } %>>
+            <li <% if(page == 'meetup' || title == 'Find Meetups') { %>class="active"<% } %>>
               <a href="/meetups"><span class="glyphicon glyphicon-search"></span> MeetUps</a>
             </li>
-            
-            <li <% if(title == 'Companies using Node.js in South Africa') { %>class="active"<% } %>>
+            <!--
+            <li <% if(page == 'companies') { %>class="active"<% } %>>
               <a href="/companies"><span class="glyphicon glyphicon-registration-mark"></span> Companies</a>
-            </li>
+            </li>-->
 
-            <li <% if(title == 'Blog') { %>class="active"<% } %>>
+            <li <% if(page == 'blog' || page == 'post') { %>class="active"<% } %>>
               <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
             </li>
           </ul>
@@ -75,7 +75,7 @@
                   <a href="/meetups">Meetups</a>
                 </li>
 
-                <li><a href="/blog">Blog</a></li>
+                <li><a href="/blog">Posts</a></li>
               </ul>
             </li>
             

@@ -1,6 +1,7 @@
 
-var Event = require('../models/event');
+
 var Events = require('../collections/events');
+var Event = require('../models/event');
 var moment = require('moment');
 
 
@@ -34,13 +35,16 @@ module.exports = {
    * GET /events/:id
    * loads an event by id
    */
-  getEvent: function (req, res) {
-    var slug = req.params.slug;
+  getEvent: function (req, res, next) {
+    var id = parseInt(req.params.id, 10);
 
-    Event.forge({slug: slug})
+    Event.forge({id: id})
     .fetch()
     .then(function (event) {
-      if(!event) return res.redirect('/events');
+      if(!event) {
+        req.flash('errors', {'msg': 'Database error. Could not fetch event.'});
+        return res.redirect('/events');
+      }
 
       res.render('event', {
         title: 'Event',
@@ -51,7 +55,8 @@ module.exports = {
 
       event.viewed();
     })
-    .otherwise(function () {
+    .otherwise(function (error) {
+      req.flash('errors', {'msg': 'Database error. Could not fetch event.'});
       res.redirect('/events');
     });
   },

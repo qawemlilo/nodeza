@@ -30,8 +30,8 @@ module.exports = {
 
 
   /*
-   * GET /meetups/:id
-   * loads an meetup by id
+   * GET /meetups/:slug
+   * loads an meetup by slug
    */
   getMeetup: function (req, res) {
     var slug = req.params.slug;

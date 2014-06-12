@@ -1,13 +1,14 @@
 /**
  * Module dependencies.
  */
-var Bookshelf  = require('bookshelf');
-var MySql  = Bookshelf.PG;
+
+var MySql  = require('bookshelf').PG;
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var Token = require('./token');
 var Role = require('./roles');
-var Event = require('./event');
+var Posts = require('../collections/posts');
+var Events = require('../collections/events');
 var when = require('when');
 var _ = require('lodash');
 
@@ -32,8 +33,13 @@ module.exports = MySql.Model.extend({
   },
 
 
-  myEvents: function() {
-    return this.hasMany(Event);
+  events: function() {
+    return this.hasMany(Events);
+  },
+
+
+  posts: function() {
+    return this.hasMany(Posts);
   },
 
 

@@ -26,10 +26,9 @@
 
       <div class="col-sm-8">
         <select name="category" id="category">
-          <option value="1">Articles</option>
-          <option value="2">Tutorials</option>
-          <option value="3">Interviews</option>
-          <option value="4">Company Profiles</option>
+          <% categories.forEach(function (category) { %>
+            <option value="<%= category.id %>"><%= category.name %></option>
+          <% }); %>
         </select>
       </div>
     </div>

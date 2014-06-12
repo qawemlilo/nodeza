@@ -21,6 +21,19 @@ var BlogController = require('./controllers/blog');
  * Routes
  */
 module.exports.setup = function (app) {
+
+  app.use(function (req, res, next) {
+    
+    BlogController.getCategories()
+    .then(function (categories) {
+      res.locals.categories = categories;
+      next();
+    })
+    .otherwise(function () {
+      res.locals.categories = [];
+      next();
+    });
+  });
 	/* 
 	 * Public Routes
 	 * passing 'passportConf.isNotAuthenticated' middle to avoid logged in users from viewing some pages
@@ -50,6 +63,8 @@ module.exports.setup = function (app) {
 	app.post('/account/password', passportConf.isAuthenticated, UserController.postPassword);
 	app.post('/account/delete', passportConf.isAuthenticated, UserController.postDeleteAccount);
 	app.get('/account/unlink/:provider', passportConf.isAuthenticated, UserController.getOauthUnlink);
+
+  app.get('/users/:id', UserController.getUser);
 
 
 	/* 
@@ -81,7 +96,7 @@ module.exports.setup = function (app) {
   app.get('/admin/events/new', passportConf.isAuthenticated, EventsController.newEvent);
   app.post('/admin/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
   app.get('/events', EventsController.getEvents);
-  app.get('/events/:slug', EventsController.getEvent);
+  app.get('/events/:id', EventsController.getEvent);
 
 
   /*
@@ -103,7 +118,9 @@ module.exports.setup = function (app) {
   /*
    * Blog
   **/
-  app.get('/blog', BlogController.getBlog);
+  app.get('/blog', BlogController.getPosts);
+  app.get('/blog/:slug', BlogController.getPost);
   app.get('/admin/blog/new', passportConf.isAuthenticated, BlogController.newPost);
-  app.post('/admin/blog/new', passportConf.isAuthenticated, BlogController.postBlog);
+  app.post('/admin/blog/new', passportConf.isAuthenticated, BlogController.postPost);
+  
 };

@@ -1,11 +1,10 @@
 /**
  * Module dependencies.
 **/
+
+var when = require('when');
 var MySql  = require('bookshelf').PG;
 var Post = require('../models/post');
-var when = require('when');
-
-
 
 module.exports = MySql.Collection.extend({
 
@@ -27,25 +26,28 @@ module.exports = MySql.Collection.extend({
   paginationLimit: 10,
 
 
-  sortby: 'id',
+  whereQuery: ['published_at', '<', new Date()],
 
 
-  order: 'asc',
+  sortby: 'published_at',
+
+
+  order: 'desc',
 
  
   /**
    * Creates pagination data
    *
-   * @returns: promise
+   * @returns: {Promise} - resolves with pagination
   */ 
   paginate: function () {
     var self = this;
     var deferred = when.defer();
+    var query = self.model.forge().query();
 
-    self.model.forge()
-    .query()
-    .where('published_at', '<', new Date())
-    .count('id AS total')
+    query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    
+    query.count('id AS total')
     .then(function (results) {
 
       var total = results[0].total;
@@ -125,10 +127,9 @@ module.exports = MySql.Collection.extend({
 
   
   /**
-   * Fetches events by filtering options
+   * Fetches posts plus pagination
    *
-   * @param: success {Function} - accepts models and pagination data
-   * @param: error {Function} - error callback
+   * @returns: {Promise} - a promise that resolves with {Object.models[] Object.pagination{}}
   */
   fetchItems: function () {
     var self = this;
@@ -138,11 +139,12 @@ module.exports = MySql.Collection.extend({
     .then(function(pagination) {
       var query = self.query();
 
-      query.limit(self.limit)
-      .where('published_at', '<', new Date())
-      .offset((self.currentpage - 1) * self.limit)
-      .orderBy(self.sortby, self.order)
-      .select()
+      query.limit(self.limit);
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      query.offset((self.currentpage - 1) * self.limit);
+      query.orderBy(self.sortby, self.order);
+
+      query.select()
       .then(function (models) {
         self.reset(models);
 
@@ -153,6 +155,37 @@ module.exports = MySql.Collection.extend({
       })
       .otherwise(function () {
         deferred.reject();
+      });
+    })
+    .otherwise(function () {
+      deferred.reject();
+    });
+
+    return deferred.promise;
+  },
+
+
+  
+  /**
+   * Fetches featured front page posts
+  */
+  fetchFeatured: function (limit) {
+    var self = this;
+    var deferred = when.defer();
+    var query = self.query();
+
+    query.limit(limit || 2);
+    query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    query.andWhere('featured', '=', 1);
+    query.offset((self.currentpage - 1) * self.limit);
+    query.orderBy(self.sortby, self.order);
+    query.join('users', 'users.id', '=', 'posts.user_id');
+
+    query.select('posts.id', 'posts.user_id', 'posts.title', 'posts.slug', 'posts.published_at', 'posts.featured', 'posts.html', 'users.name')
+    .then(function (models) {
+      self.reset(models);
+      deferred.resolve({
+        models: self.models
       });
     })
     .otherwise(function () {

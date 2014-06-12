@@ -4,16 +4,43 @@
 
     <% include partials/navigation %>
 
+
     <% include widgets/jumbotron %>
+    
 
     <div class="container">
+      <!--
+      <div class="row">
+
+        <% include partials/flash %>
+
+        <div class="col-sm-6 col-md-4">
+
+          
+
+        </div>
+
+        <div class="col-sm-6 col-md-5">
+
+          
+
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+
+          <% include widgets/subscribe %>
+          
+        </div>
+      </div>
+
+      <hr style="margin-top:0px">-->
 
       <div class="row">
 
           <div class="col-sm-9 blog-main">
             <% include partials/flash %>
             
-            <% include blog/blog %>
+            <% include blog/posts %>
           </div>
 
           <% include partials/sidebar %>

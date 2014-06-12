@@ -1,12 +1,12 @@
   
 <h3>
   <span class="glyphicon glyphicon-calendar text-danger"></span> 
-  Upcoming Events
+  <a href="/events">Upcoming Events</a>
 </h3>
 
 <dl class="dl-horizontal">  
   <% events.forEach(function (event) { %>
     <dt><%= event.parseDate('DD/MM/YY') %></dt>
     <dd><a href="/events/<%= event.get('id') %>"><%= event.get('title') %></a></dd>
-  <% }) %>
+  <% }) %>    
 </dl>

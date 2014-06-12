@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 var MySql  = require('bookshelf').PG;
-var User  = require('./user');
 var unidecode  = require('unidecode');
 var when  = require('when');
 var _ = require('lodash');
+var Base;
 
 
 module.exports.Model = MySql.Model.extend({
@@ -49,11 +49,6 @@ module.exports.Model = MySql.Model.extend({
           self.set({slug: slug});
         });
     }
-  },
-
-
-  created_by: function () {
-    return this.belongsTo(User);
   },
 
 

@@ -1,19 +1,76 @@
 
-var Post = require('../models/post');
+
+var Posts = require('../collections/posts');
+var Categories = require('../collections/categories');
 var _ = require('lodash');
+var Post = require('../models/posthack');
 
 
 module.exports = {
-  
+
+
+  /*
+   * GET /blog/:slug
+   * loads a blog post by slug
+   */
+  getPost: function (req, res) {
+    var slug = req.params.slug;
+
+    Post.forge({slug: slug})
+    .fetch({withRelated: ['created_by', 'tags', 'category']})
+    .then(function (post) {
+      if(!post) {
+        req.flash('error', {msg: 'The requested post is empty.'});
+        return res.redirect('/meetups');
+      }
+
+      res.render('post', {
+        title: post.get('meta_title'),
+        description: post.get('meta_description'),
+        page: 'post',
+        author: post.related('created_by'),
+        category: post.related('category'),
+        tags: post.related('tags').toJSON(),  
+        post: post
+      });
+
+      // count number of views
+      post.viewed();
+    })
+    .otherwise(function (err) {
+      console.log(err);
+      req.flash('error', {msg: 'The requested post was not found.'});
+      res.redirect('back');
+    });
+  },
+
+
+
   /**
-   * GET /blog
-   * load blog page
-  **/
-  getBlog: function (req, res) {
-    res.render('blog', {
-      title: 'Blog',
-      description: 'Node.js related articles, tutorials and news',
-      page: 'blog'
+   * GET /events
+   * get upcoming events
+   */
+  getPosts: function (req, res) {
+    var posts = new Posts();
+    var page = parseInt(req.query.p, 10);
+  
+    posts.limit = 2;
+    posts.currentpage = page || 1;
+  
+    posts.fetchItems()
+    .then(function (items) {
+      res.render('blog', {
+        title: 'Blog',
+        posts: items.models,
+        pagination: items.pagination,
+        description: 'Node.js tutorials, articles and news',
+        page: 'blog',
+        query: {}
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error.'});
+      res.redirect('/');      
     });
   },
 
@@ -24,10 +81,35 @@ module.exports = {
    * load new post page
    */
   newPost: function (req, res) {
-    res.render('newpost', {
-      title: 'New Post',
-      description: 'Create a new post',
-      page: 'newpost'
+    var categories = new Categories();
+
+    categories.fetch()
+    .then(function (collection) {
+      res.render('newpost', {
+        title: 'New Post',
+        description: 'Create a new post',
+        page: 'newpost',
+        categories: collection.toJSON()
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error.'});
+      res.redirect('back');       
+    });
+  },
+
+
+
+  /*
+   * GET /admin/blog/new
+   * load new post page
+   */
+  getCategories: function () {
+    var categories = new Categories();
+
+    return categories.fetch()
+    .then(function (collection) {
+      return collection;
     });
   },
 
@@ -36,7 +118,7 @@ module.exports = {
    * POST /admin/blog/new
    * Edit user account.
   */
-  postBlog: function(req, res, next) {
+  postPost: function(req, res, next) {
     var post = new Post();
     var tags = [];
 

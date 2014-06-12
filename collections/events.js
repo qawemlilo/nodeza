@@ -32,6 +32,9 @@ module.exports = MySql.Collection.extend({
 
   base: '/events',
 
+
+  whereQuery: ['dt', '>', datetime()],
+
   
   paginationLimit: 10,
 
@@ -50,11 +53,11 @@ module.exports = MySql.Collection.extend({
   paginate: function () {
     var self = this;
     var deferred = when.defer();
+    var query = self.model.forge().query();
 
-    self.model.forge()
-    .query()
-    .where('dt', '>', datetime())
-    .count('id AS total')
+    query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+
+    query.count('id AS total')
     .then(function (results) {
 
       var total = results[0].total;
@@ -145,14 +148,17 @@ module.exports = MySql.Collection.extend({
 
     self.paginate()
     .then(function(pagination) {
+
       var query = self.query();
 
-      query.limit(self.limit)
-      .offset((self.currentpage - 1) * self.limit)
-      .where('dt', '>', datetime())
-      .orderBy(self.sortby, self.order)
-      .select()
+      query.limit(self.limit);
+      query.offset((self.currentpage - 1) * self.limit);
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      query.orderBy(self.sortby, self.order);
+
+      query.select()
       .then(function (models) {
+        
         self.reset(models);
 
         deferred.resolve({

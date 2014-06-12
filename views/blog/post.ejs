@@ -1,0 +1,24 @@
+
+
+
+
+  <div class="container-fluid"> 
+    <div class="row">  
+      <h2 class="blog-post-title">
+        <%= post.get('title') %>
+      </h2>
+
+      <p class="blog-post-meta">
+        <%= post.publishingDate() %> by 
+        <a href="/users/<%= author.get('id') %>"><%= author.get('name') %></a>
+        | 
+        <span class="glyphicon glyphicon-tag"></span>
+        <% tags.forEach(function (tag) { %>
+          <a href="/blog/tags/<%= tag.slug %>"><%= tag.name %></a> 
+        <% }); %>
+      </p>
+
+      <%- post.get('html') %>
+
+    </div>
+  </div>

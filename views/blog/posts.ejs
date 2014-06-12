@@ -1,0 +1,48 @@
+
+<!--
+<h1 class="blog-post-title" style="margin-bottom: 15px;">
+  Blog
+</h1>-->
+
+<div class="container-fluid">
+  <!--
+  <div class="row">
+    <ul class="list-inline">
+      <li class="pull-right">
+        <a href="/admin/blog/new" class="btn btn-danger">
+          <span class="glyphicon glyphicon-list-alt"></span> Create A New Post
+        </a>
+      </li>
+    </ul>
+  </div>-->
+  
+  <%
+  if(posts.length > 0) {
+    posts.forEach(function (post) {
+
+    var open = post.get('html').indexOf('<p>');
+    var close = post.get('html').indexOf('</p>');
+  %>
+  <div class="row" style="margin-bottom: 20px">
+    <div class="media">
+      <a href="/blog/<%= post.get('slug') %>" class="pull-left">
+        <img class="media-object" data-src="holder.js/100x100" alt="...">
+      </a>
+      <div class="media-body">
+        <h3 class="media-heading">
+          <a href="/blog/<%= post.get('slug') %>">
+            <%= post.get('title') %>
+          </a>
+        </h3>
+        <%- post.get('html').substring(open, close) %> 
+        <a href="/blog/<%= post.get('slug') %>">Read more &raquo;</a>
+      </div>
+    </div>
+  </div>
+  <% 
+    });
+  }
+  %>
+
+  <% include ../partials/pagination %>
+</div>

@@ -42,14 +42,12 @@ module.exports = MySql.Collection.extend({
   paginate: function () {
     var self = this;
     var deferred = when.defer();
-
-    self.model.forge()
-    .query()
-    .count('id AS total')
+    var query = self.model.forge().query();
+    
+    query.count('id AS total')
     .then(function (results) {
-
+      
       var total = results[0].total;
-
       var pages = Math.ceil(total / self.limit);
       var groups = Math.ceil(pages / self.paginationLimit);
       var currentpage = self.currentpage; 
@@ -139,10 +137,11 @@ module.exports = MySql.Collection.extend({
     .then(function(pagination) {
       var query = self.query();
 
-      query.limit(self.limit)
-      .offset((self.currentpage - 1) * self.limit)
-      .orderBy(self.sortby, self.order)
-      .select()
+      query.limit(self.limit);
+      query.offset((self.currentpage - 1) * self.limit);
+      query.orderBy(self.sortby, self.order);
+
+      query.select()
       .then(function (models) {
         self.reset(models);
 

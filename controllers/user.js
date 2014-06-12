@@ -33,6 +33,39 @@ module.exports = {
   },
 
 
+  /*
+   * GET /users/:id
+   * loads an event by id
+   */
+  getUser: function (req, res, next) {
+    var id = parseInt(req.params.id, 10);
+
+    User.forge({id: id})
+    .fetch({withRelated: ['posts', 'events']})
+    .then(function (profile) {
+      if(!profile) {
+        req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
+        return res.redirect('back');
+      }
+
+      res.render('profile', {
+        title: 'NodeZA profile of ' + profile.get('name'),
+        profile: profile,
+        myposts: profile.related('posts'),
+        myevents: profile.related('events'),
+        description: 'NodeZA profile of ' + profile.get('name'),
+        page: 'profile'
+      });
+
+      //profile.viewed();
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
+      res.redirect('back');
+    });
+  },
+
+
   /**
    * POST /login
    * Log in user

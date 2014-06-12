@@ -9,6 +9,7 @@
 
 
     <div class="container">
+      
       <div class="row">
 
         <% include partials/flash %>
@@ -31,21 +32,16 @@
           
         </div>
       </div>
+
       <hr style="margin-top:0px">
+
       <div class="row">
 
         <div class="col-sm-9 blog-main">
-        <% posts.forEach(function (post) { %>
-          <div class="blog-post">
-            <h1 class="blog-post-title"><%= post.get('title') %></h1>
-            <p class="blog-post-meta"><%= post.publishingDate() %></p>
 
-            <%- post.get('html') %>
-            
-          </div><!-- /.blog-post -->
-        <% }); %>
+          <% include widgets/content %>
 
-        </div><!-- /.blog-main -->
+        </div>
 
 
         <% include partials/sidebar %>
@@ -54,6 +50,7 @@
       </div><!-- /.row -->
 
     </div><!-- /.container -->
+
 
     <% include partials/footer %>
 

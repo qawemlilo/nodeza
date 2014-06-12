@@ -15,5 +15,5 @@ module.exports =  Base.Model.extend({
 
   posts: function () {
     return this.belongsToMany(Posts);
-  },
+  }
 });

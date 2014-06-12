@@ -22,6 +22,7 @@ module.exports = {
     google: {type: 'string', maxlength: 150, nullable: false},
     about: {type: 'string', maxlength: 254, nullable: false},
     image_url: {type: 'text', maxlength: 2000, nullable: false},
+    views: {type: 'integer', nullable: false},
     created_at: {type: 'dateTime', nullable: false},
     updated_at: {type: 'dateTime', nullable: true}
   },

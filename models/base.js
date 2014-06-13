@@ -1,14 +1,13 @@
 /**
  * Module dependencies.
  */
-var MySql  = require('bookshelf').PG;
+var Base  = require('bookshelf').PG;
 var unidecode  = require('unidecode');
 var when  = require('when');
 var _ = require('lodash');
-var Base;
 
 
-module.exports.Model = MySql.Model.extend({
+Base.Model = Base.Model.extend({
 
   initialize: function () {
     var self = this;
@@ -20,6 +19,7 @@ module.exports.Model = MySql.Model.extend({
     }
 
     self.on('saving', function (model, attributes, options) {
+
       return self.saving();
     });
   },
@@ -41,8 +41,10 @@ module.exports.Model = MySql.Model.extend({
 
   saving: function () {
     var self = this;
+    var whiteListedTables = ['users', 'roles', 'tokens', 'events', 'posts_tags'];
+    var table = self.getTableName();
     
-    if (self.hasChanged('slug') || !self.get('slug')) {
+    if ((self.hasChanged('slug') || !self.get('slug')) && whiteListedTables.indexOf(table) < 0) {
       // Pass the new slug through the generator to strip illegal characters, detect duplicates
       return self.generateSlug(self.get('slug') || self.get('name') || self.get('title'))
         .then(function (slug) {
@@ -127,3 +129,5 @@ module.exports.Model = MySql.Model.extend({
     return checkIfSlugExists(slug);
   }
 });
+
+module.exports = Base;

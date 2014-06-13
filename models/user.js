@@ -15,7 +15,7 @@ var _ = require('lodash');
 
 
 
-module.exports = MySql.Model.extend({
+var User = MySql.Model.extend({
 
   tableName: 'users',
 
@@ -24,22 +24,22 @@ module.exports = MySql.Model.extend({
 
 
   tokens: function() {
-    return this.hasMany(Token);
+    return this.hasMany('Token');
   },
 
 
   role: function() {
-    return this.belongsTo(Role);
+    return this.belongsTo('Role');
   },
 
 
   events: function() {
-    return this.hasMany(Events);
+    return this.hasMany('Events');
   },
 
 
   posts: function() {
-    return this.hasMany(Posts);
+    return this.hasMany('Posts');
   },
 
 
@@ -127,3 +127,6 @@ module.exports = MySql.Model.extend({
 
   }
 });
+
+
+module.exports = MySql.model('User', User);

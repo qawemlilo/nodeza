@@ -6,8 +6,11 @@
 var MySql  = require('bookshelf').PG;
 
 
-module.exports = MySql.Model.extend({
+var Token = MySql.Model.extend({
 
   tableName: 'tokens'
   
 });
+
+
+module.exports = MySql.model('Token', Token);

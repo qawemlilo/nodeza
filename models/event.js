@@ -6,7 +6,7 @@ var MySql  = require('bookshelf').PG;
 var moment = require('moment');
 
 
-module.exports = MySql.Model.extend({
+var Event = MySql.Model.extend({
 
   tableName: 'events',
 
@@ -55,3 +55,7 @@ module.exports = MySql.Model.extend({
     return moment(ts, 'HH:mm:ss').format(fmt || 'HH:mm');
   }
 });
+
+
+
+module.exports = MySql.model('Event', Event);

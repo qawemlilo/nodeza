@@ -4,8 +4,10 @@
 var MySql  = require('bookshelf').PG;
 var Category = require('../models/category');
 
-module.exports = MySql.Collection.extend({
+var Categories = MySql.Collection.extend({
 
   model: Category
 
 });
+
+module.exports = MySql.collection('Categories', Categories);

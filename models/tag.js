@@ -5,7 +5,7 @@ var Base  = require('./base');
 var Posts =  require('../collections/posts');
 
 
-module.exports =  Base.Model.extend({
+var Tag =  Base.Model.extend({
 
   tableName: 'tags',
 
@@ -14,6 +14,9 @@ module.exports =  Base.Model.extend({
 
 
   posts: function () {
-    return this.belongsToMany(Posts);
+    return this.belongsToMany('Posts');
   }
 });
+
+
+module.exports = Base.model('Tag', Tag);

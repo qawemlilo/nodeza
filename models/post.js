@@ -10,12 +10,11 @@ var User  = require('./user');
 var Tags  = require('../collections/tags');
 var _ = require('lodash');
 var moment = require('moment');
-var Post;
 
 
 
 
-Post = Base.Model.extend({
+var Post = Base.Model.extend({
 
   tableName: 'posts',
 
@@ -35,17 +34,17 @@ Post = Base.Model.extend({
 
 
   tags: function () {
-    return this.belongsToMany(Tag);
+    return this.belongsToMany('Tag');
   },
 
 
   created_by: function () {
-    return this.belongsTo(User);
+    return this.belongsTo('User');
   },
 
 
   category: function () {
-    return this.belongsTo(Category, 'category_id');
+    return this.belongsTo('Category', 'category_id');
   },
 
 
@@ -177,7 +176,7 @@ Post = Base.Model.extend({
         return when.all(tagOps);
       });
     });
-  },
+  }
 });
 
-module.exports = Post;
+module.exports = Base.model('Post', Post);

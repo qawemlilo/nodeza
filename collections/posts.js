@@ -6,7 +6,7 @@ var when = require('when');
 var MySql  = require('bookshelf').PG;
 var Post = require('../models/post');
 
-module.exports = MySql.Collection.extend({
+var Posts = MySql.Collection.extend({
 
   model: Post,
 
@@ -195,3 +195,5 @@ module.exports = MySql.Collection.extend({
     return deferred.promise;
   }
 });
+
+module.exports = MySql.collection('Posts', Posts);

@@ -8,7 +8,7 @@ var when = require('when');
 
 
 
-module.exports = MySql.Collection.extend({
+var Meetups = MySql.Collection.extend({
 
   model: Meetup,
 
@@ -161,3 +161,6 @@ module.exports = MySql.Collection.extend({
     return deferred.promise;
   }
 });
+
+
+module.exports = MySql.collection('Meetups', Meetups);

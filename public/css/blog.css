@@ -57,15 +57,15 @@ label {
 }
 
 #jumbotron.meetups {
-  background: url(../img/slide-03.jpg) no-repeat top center!important;
+  background: url(../img/slide-03.jpg) no-repeat top center;
   padding-top:80px; 
   padding-bottom:80px;
 }
 
 #jumbotron.blog {
-  background: url(../img/intro-bg.jpg) no-repeat center center!important;
-  padding-top:80px; 
-  padding-bottom:80px;
+  background: url(../img/intro-bg.jpg) no-repeat center center;
+  padding-top:20px; 
+  padding-bottom:20px;
 }
 
 .dl-horizontal dd {

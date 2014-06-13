@@ -4,7 +4,7 @@
 var Base  = require('./base');
 
 
-module.exports =  Base.Model.extend({
+var Meetup =  Base.Model.extend({
 
   tableName: 'meetups',
 
@@ -27,3 +27,5 @@ module.exports =  Base.Model.extend({
     return Base.Model.prototype.saving.call(self);
   }
 });
+
+module.exports = Base.model('Meetup', Meetup);

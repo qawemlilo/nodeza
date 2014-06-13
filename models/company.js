@@ -4,9 +4,7 @@
 var Base  = require('./base');
 
 
-
-
-module.exports =  Base.Model.extend({
+var Company =  Base.Model.extend({
 
   tableName: 'companies',
 
@@ -29,3 +27,6 @@ module.exports =  Base.Model.extend({
     return Base.Model.prototype.saving.call(self);
   }
 });
+
+
+module.exports = Base.model('Company', Company);

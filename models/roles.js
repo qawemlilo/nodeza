@@ -6,8 +6,10 @@
 var MySql  = require('bookshelf').PG;
 
 
-module.exports = MySql.Model.extend({
+var Role = MySql.Model.extend({
 	
   tableName: 'roles'
 
 });
+
+module.exports = MySql.model('Role', Role);

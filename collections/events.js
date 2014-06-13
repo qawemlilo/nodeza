@@ -16,7 +16,7 @@ function datetime(ts) {
 }
 
 
-module.exports = MySql.Collection.extend({
+var Events = MySql.Collection.extend({
 
   model: Event,
 
@@ -177,3 +177,6 @@ module.exports = MySql.Collection.extend({
     return deferred.promise;
   }
 });
+
+
+module.exports = MySql.collection('Events', Events);

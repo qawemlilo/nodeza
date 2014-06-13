@@ -3,7 +3,7 @@
 var Posts = require('../collections/posts');
 var Categories = require('../collections/categories');
 var _ = require('lodash');
-var Post = require('../models/posthack');
+var Post = require('../models/post');
 
 
 module.exports = {

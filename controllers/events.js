@@ -11,7 +11,7 @@ module.exports = {
   /*
    * GET /events/new
    * load new event page
-   */
+  **/
   newEvent: function (req, res) {
     res.render('newevent', {
       title: 'New Event',
@@ -114,6 +114,74 @@ module.exports = {
     events.fetchItems()
     .then(function (collection) {
       res.render('events', {
+        title: 'Events',
+        myEvents: collection.models,
+        pagination: collection.pagination,
+        query: query,
+        description: 'Find all upcoming Node.js events in South Africa',
+        page: 'events'
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
+      res.redirect('/');      
+    });
+  },
+
+
+  /**
+   * GET /events
+   * get upcoming events
+   */
+  getEventsAdmin: function (req, res, next) {
+    var events = new Events();
+  
+    var page = parseInt(req.query.p, 10);
+    var sortby = req.query.sortby;
+    var order = req.query.order;
+    var query = {};
+
+    var previousSortby = req.session.previousSortby;
+    var previousOrder = req.session.previousOrder;
+  
+    if (page && page < 1) {
+      res.redirect('/events');
+    }
+  
+    events.currentpage = page || 1;
+    events.limit = req.session.elimit || 5;
+    events.base = '/admin/events';
+    events.andWhereQuery = ['user_id', '=', req.user.get('id')];
+  
+    if(sortby) {
+      events.sortby = sortby;
+      
+      // if a sort link is clicked several times
+      if (previousSortby == sortby && !page) {
+        events.order = (previousOrder === 'asc' ? 'desc' : 'asc');
+      }
+      // if checking pages of sorted results
+      else if (page){
+        events.order = previousOrder;
+      }
+      // if clicking a different sort link
+      else {
+        events.order = 'asc';
+      }
+
+      query.sort = events.sortby;
+      query.order = events.order;
+    }
+
+    query.limit = events.limit;
+      
+    req.session.previousSortby = events.sortby;
+    req.session.previousOrder = events.order;
+  
+  
+    events.fetchMyEvents()
+    .then(function (collection) {
+      res.render('event-admin', {
         title: 'Events',
         myEvents: collection.models,
         pagination: collection.pagination,

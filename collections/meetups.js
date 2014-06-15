@@ -24,6 +24,12 @@ var Meetups = MySql.Collection.extend({
 
   base: '/meetups',
 
+
+  whereQuery: [],
+
+
+  andWhereQuery: [],
+
   
   paginationLimit: 10,
 
@@ -43,7 +49,14 @@ var Meetups = MySql.Collection.extend({
     var self = this;
     var deferred = when.defer();
     var query = self.model.forge().query();
-    
+
+    if (self.whereQuery.length) {
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    }  
+
+    if (self.andWhereQuery.length) {
+      query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+    }        
     query.count('id AS total')
     .then(function (results) {
       
@@ -139,6 +152,16 @@ var Meetups = MySql.Collection.extend({
 
       query.limit(self.limit);
       query.offset((self.currentpage - 1) * self.limit);
+
+      
+      if (self.whereQuery.length) {
+        query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      }
+
+      if (self.andWhereQuery.length) {
+        query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+      }
+      
       query.orderBy(self.sortby, self.order);
 
       query.select()

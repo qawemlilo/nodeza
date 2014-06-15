@@ -35,6 +35,9 @@ var Events = MySql.Collection.extend({
 
   whereQuery: ['dt', '>', datetime()],
 
+
+  andWhereQuery: null,
+
   
   paginationLimit: 10,
 
@@ -56,6 +59,10 @@ var Events = MySql.Collection.extend({
     var query = self.model.forge().query();
 
     query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+
+    if (self.andWhereQuery) {
+      query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+    }
 
     query.count('id AS total')
     .then(function (results) {
@@ -154,6 +161,54 @@ var Events = MySql.Collection.extend({
       query.limit(self.limit);
       query.offset((self.currentpage - 1) * self.limit);
       query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      query.orderBy(self.sortby, self.order);
+
+      query.select()
+      .then(function (models) {
+        
+        self.reset(models);
+
+        deferred.resolve({
+          models: self.models,
+          pagination: pagination
+        });
+      })
+      .otherwise(function () {
+        deferred.reject();
+      });
+    })
+    .otherwise(function () {
+      deferred.reject();
+    });
+
+    return deferred.promise;
+  },
+
+
+  
+  /**
+   * Fetches events by filtering options
+   *
+   * @param: success {Function} - accepts models and pagination data
+   * @param: error {Function} - error callback
+  */
+  fetchMyEvents: function () {
+    var self = this;
+    var deferred = when.defer();
+
+    self.paginate()
+    .then(function(pagination) {
+
+      var query = self.query();
+
+      query.limit(self.limit);
+      query.offset((self.currentpage - 1) * self.limit);
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+
+      if (self.andWhereQuery) {
+        query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+      }
+      
       query.orderBy(self.sortby, self.order);
 
       query.select()

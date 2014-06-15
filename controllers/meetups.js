@@ -83,6 +83,36 @@ module.exports = {
   },
 
 
+
+  /**
+   * GET /meetups
+   * get upcoming meetups
+   */
+  getMeetupsAdmin: function (req, res, next) {
+    var meetups = new Meetups();
+
+
+    meetups.base = '/admin/events';
+    meetups.whereQuery = ['user_id', '=', req.user.get('id')];
+  
+    meetups.fetchItems()
+    .then(function (collection) {
+      res.render('meetup-admin', {
+        title: 'Find Meetups',
+        meetups: collection.models,
+        pagination: collection.pagination,
+        query: {},
+        description: 'Find a meetup group in South Africa',
+        page: 'meetups'
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error. Could not fetch meetups.'});
+      res.redirect('/');      
+    });
+  },
+
+
   /*
    * POST /meetups/new
    * create an meetup

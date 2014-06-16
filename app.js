@@ -39,6 +39,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var csrf = require('lusca').csrf();
 var errorHandler = require('errorhandler');
+var widgets = require('./lib/express-widgets');
 var expressValidator = require('express-validator');
 var path = require('path');
 var passport = require('passport');
@@ -141,10 +142,12 @@ app.use(function(req, res, next) {
 // error handling
 app.use(errorHandler());
 
+// Load widgets
+app.use(widgets());
+
 // pass the app object to routes
 routes.setup(app);
 
-// create mice 404s
 
 
 /**

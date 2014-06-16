@@ -76,6 +76,38 @@ module.exports = {
 
 
 
+  /**
+   * GET /events
+   * get upcoming events
+   */
+  newPostsAdmin: function (req, res) {
+    var posts = new Posts();
+    var page = parseInt(req.query.p, 10);
+  
+    posts.limit = 5;
+    posts.currentpage = page || 1;
+    posts.base = '/admin/blog'
+    posts.whereQuery = ['user_id', '=', req.user.get('id')];
+  
+    posts.fetchItems()
+    .then(function (items) {
+      res.render('blog-admin', {
+        title: 'Blog',
+        posts: items.models,
+        pagination: items.pagination,
+        description: 'Node.js tutorials, articles and news',
+        page: 'blog',
+        query: {}
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error.'});
+      res.redirect('/');      
+    });
+  },
+
+
+
   /*
    * GET /admin/blog/new
    * load new post page

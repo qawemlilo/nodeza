@@ -56,7 +56,8 @@ var Meetups = MySql.Collection.extend({
 
     if (self.andWhereQuery.length) {
       query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
-    }        
+    } 
+           
     query.count('id AS total')
     .then(function (results) {
       

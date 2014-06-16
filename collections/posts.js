@@ -29,6 +29,9 @@ var Posts = MySql.Collection.extend({
   whereQuery: ['published_at', '<', new Date()],
 
 
+  andWhereQuery: [],
+
+
   sortby: 'published_at',
 
 
@@ -45,7 +48,13 @@ var Posts = MySql.Collection.extend({
     var deferred = when.defer();
     var query = self.model.forge().query();
 
-    query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    if (self.whereQuery.length) {
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    }  
+
+    if (self.andWhereQuery.length) {
+      query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+    }
     
     query.count('id AS total')
     .then(function (results) {
@@ -140,7 +149,14 @@ var Posts = MySql.Collection.extend({
       var query = self.query();
 
       query.limit(self.limit);
-      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+
+      if (self.whereQuery.length) {
+        query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      }  
+      if (self.andWhereQuery.length) {
+        query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+      }
+
       query.offset((self.currentpage - 1) * self.limit);
       query.orderBy(self.sortby, self.order);
 

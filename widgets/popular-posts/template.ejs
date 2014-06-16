@@ -3,11 +3,11 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    Categories
+    Blog Categories
   </div>
   <div class="panel-body">
     <ul class="list-unstyled">
-      <% popularposts.categories.forEach(function (category) { %>
+      <% categories.forEach(function (category) { %>
         <li>
           <a href="/blog/category/<%= category.get('slug')%>">
             <%= category.get('name') %>

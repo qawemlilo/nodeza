@@ -1,10 +1,10 @@
 
 <ul class="nav nav-tabs" style="margin-bottom: 20px;">
   <li class="active">
-    <a href="/admin/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
+    <a href="/admin/events"><span class="glyphicon glyphicon-list-alt"></span> Posts</a>
   </li>
   <li>
-    <a href="/admin/events"><span class="glyphicon glyphicon-user"></span> Members</a>
+    <a href="/admin/events"><span class="glyphicon glyphicon-th-list"></span> Categories</a>
   </li>
   <li>
     <a href="/admin/events"><span class="glyphicon glyphicon-cog"></span> Settings</a>
@@ -12,57 +12,46 @@
 </ul>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="btn-group pull-right">
-      <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-pencil"></span> Edit
-      </button> 
-      <button type="button" class="btn btn-primary">
-        <span class="glyphicon glyphicon-check"></span> Publish
-      </button> 
-      <button type="button" class="btn btn-danger">
-        <span class="glyphicon glyphicon-trash"></span> Delete
-      </button>
-    </div>
-  </div>
-  <br>
 
   <div class="row">
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th>
-            <input type="checkbox" id="selectall">
-          </th>
-          <th>
             Title
           </th>
           <th>
-            City
           </th>
           <th>
-            Date
+          </th>
+          <th>
           </th>
         </tr>
       </thead>
 
       <tbody>
         <%
-        if(myEvents.length > 0) {
-          myEvents.forEach(function (myEvent) {
+        if(posts.length > 0) {
+          posts.forEach(function (post) {
         %>
           <tr>
             <td>
-              <input type="checkbox" name="id" value="<%= myEvent.get('id') %>">
+              <a href="#"><%= post.get('title') %></a>
             </td>
-            <td>
-              <a href="#"><%= myEvent.get('title') %></a>
+            <td style="text-align:center">
+              <a href="#" title="Edit">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a> 
             </td>
-            <td>
-              <a href="#"><%= myEvent.get('city') %></a>
+            <td style="text-align:center">
+              <a href="#"  title="Publish">
+                <span class="glyphicon glyphicon-check"></span>
+              </a> 
             </td>
-            <td>
-              <a href="#"><%= myEvent.parseDate('DD-MM-YYYY') %></a>
+            <td style="text-align:center">
+              <a href="#" title="Delete">
+                <span class="glyphicon glyphicon-trash"></span> 
+              </a> 
             </td>
           </tr>
         <%

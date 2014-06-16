@@ -21,19 +21,6 @@ var BlogController = require('./controllers/blog');
  * Routes
  */
 module.exports.setup = function (app) {
-
-  app.use(function (req, res, next) {
-    
-    BlogController.getCategories()
-    .then(function (categories) {
-      res.locals.categories = categories;
-      next();
-    })
-    .otherwise(function () {
-      res.locals.categories = [];
-      next();
-    });
-  });
 	/* 
 	 * Public Routes
 	 * passing 'passportConf.isNotAuthenticated' middle to avoid logged in users from viewing some pages
@@ -122,6 +109,7 @@ module.exports.setup = function (app) {
   **/
   app.get('/blog', BlogController.getPosts);
   app.get('/blog/:slug', BlogController.getPost);
+  app.get('/admin/blog', passportConf.isAuthenticated, BlogController.newPostsAdmin);
   app.get('/admin/blog/new', passportConf.isAuthenticated, BlogController.newPost);
   app.post('/admin/blog/new', passportConf.isAuthenticated, BlogController.postPost);
   

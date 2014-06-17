@@ -86,7 +86,7 @@ module.exports = {
   
     posts.limit = 5;
     posts.currentpage = page || 1;
-    posts.base = '/admin/blog'
+    posts.base = '/admin/blog';
     posts.whereQuery = ['user_id', '=', req.user.get('id')];
   
     posts.fetchItems()

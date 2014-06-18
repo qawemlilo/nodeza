@@ -1,22 +1,11 @@
 
-    <% include partials/header %>
 
-    <div class="container">
+{{> adminmenu}}
 
-      <div class="row">
+<div class="col-sm-9 blog-main">
+  {{> flash}}
 
-          <% include partials/adminmenu %>
-    
-          <div class="col-sm-9 blog-main">
-            <% include partials/flash %>
-            
-            <% include blog/admin_post %>
-          </div>
-
-          
-          
-      </div>
-
-    </div><!-- /.container -->
-
-    <% include partials/footer %>
+  <div class="row">
+    {{> blog_adminposts}}
+  </div>
+</div>

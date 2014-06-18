@@ -153,13 +153,12 @@ var Meetups = MySql.Collection.extend({
 
       query.limit(self.limit);
       query.offset((self.currentpage - 1) * self.limit);
-
       
-      if (self.whereQuery.length) {
+      if (self.whereQuery.length > 0) {
         query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
       }
 
-      if (self.andWhereQuery.length) {
+      if (self.andWhereQuery.length > 0) {
         query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
       }
       
@@ -168,11 +167,7 @@ var Meetups = MySql.Collection.extend({
       query.select()
       .then(function (models) {
         self.reset(models);
-
-        deferred.resolve({
-          models: self.models,
-          pagination: pagination
-        });
+        deferred.resolve(self);
       })
       .otherwise(function () {
         deferred.reject();

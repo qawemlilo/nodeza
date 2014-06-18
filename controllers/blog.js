@@ -14,34 +14,9 @@ module.exports = {
    * loads a blog post by slug
    */
   getPost: function (req, res) {
-    var slug = req.params.slug;
-
-    Post.forge({slug: slug})
-    .fetch({withRelated: ['created_by', 'tags', 'category']})
-    .then(function (post) {
-      if(!post) {
-        req.flash('error', {msg: 'The requested post is empty.'});
-        return res.redirect('/meetups');
-      }
-
       res.render('post', {
-        title: post.get('meta_title'),
-        description: post.get('meta_description'),
-        page: 'post',
-        author: post.related('created_by'),
-        category: post.related('category'),
-        tags: post.related('tags').toJSON(),  
-        post: post
+        page: 'post'
       });
-
-      // count number of views
-      post.viewed();
-    })
-    .otherwise(function (err) {
-      console.log(err);
-      req.flash('error', {msg: 'The requested post was not found.'});
-      res.redirect('back');
-    });
   },
 
 

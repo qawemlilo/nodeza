@@ -36,7 +36,7 @@ var Events = MySql.Collection.extend({
   whereQuery: ['dt', '>', datetime()],
 
 
-  andWhereQuery: null,
+  andWhereQuery: [],
 
   
   paginationLimit: 10,
@@ -58,9 +58,11 @@ var Events = MySql.Collection.extend({
     var deferred = when.defer();
     var query = self.model.forge().query();
 
-    query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    if (self.whereQuery.length > 0) {
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+    }
 
-    if (self.andWhereQuery) {
+    if (self.andWhereQuery.length > 0) {
       query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
     }
 
@@ -165,13 +167,8 @@ var Events = MySql.Collection.extend({
 
       query.select()
       .then(function (models) {
-        
         self.reset(models);
-
-        deferred.resolve({
-          models: self.models,
-          pagination: pagination
-        });
+        deferred.resolve(self);
       })
       .otherwise(function () {
         deferred.reject();
@@ -203,9 +200,12 @@ var Events = MySql.Collection.extend({
 
       query.limit(self.limit);
       query.offset((self.currentpage - 1) * self.limit);
-      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
 
-      if (self.andWhereQuery) {
+      if (self.whereQuery.length > 0) {
+        query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      }
+
+      if (self.andWhereQuery.length > 0) {
         query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
       }
       

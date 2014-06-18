@@ -200,9 +200,7 @@ var Posts = MySql.Collection.extend({
     query.select('posts.id', 'posts.user_id', 'posts.title', 'posts.slug', 'posts.published_at', 'posts.featured', 'posts.html', 'users.name')
     .then(function (models) {
       self.reset(models);
-      deferred.resolve({
-        models: self.models
-      });
+      deferred.resolve(self);
     })
     .otherwise(function () {
       deferred.reject();

@@ -41,10 +41,12 @@ var csrf = require('lusca').csrf();
 var errorHandler = require('errorhandler');
 var widgets = require('./lib/express-widgets');
 var expressValidator = require('express-validator');
+var hbs = require('hbs');
 var path = require('path');
 var passport = require('passport');
 var _ = require('lodash');
 var routes = require('./routes');
+var hbsHelpers = require('./helpers');
 var MongoStore = require('connect-mongo')({ session: session });
 
 
@@ -82,8 +84,21 @@ app.set('port', process.env.PORT || 3000);
 // define views folder  
 app.set('views', path.join(__dirname, 'views'));
 
-// template engine
-app.set('view engine', 'ejs');
+
+/*
+ * Handlebars settings
+**/
+app.set('view engine', 'hbs');
+app.engine('hbs', hbs.__express);
+
+hbs.localsAsTemplateData(app);
+hbs.registerPartials(path.join(__dirname,'views', 'partials'));
+hbs.registerPartials(path.join(__dirname,'views', 'account'))
+hbs.registerPartials(path.join(__dirname,'views', 'widgets'));
+
+// setup and register handlebars helpers
+hbsHelpers.setup(hbs);
+
 
 // parse cookies
 app.use(cookieParser());

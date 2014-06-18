@@ -48,7 +48,10 @@ module.exports = {
 
       res.render('event', {
         title: 'Event',
-        myEvent: event,
+        parseDate: event.parseDate(),
+        parseTime: event.parseTime(),
+        isUpComing: event.isUpComing(),
+        myEvent: event.toJSON(),
         description: 'Node.js event in ' + event.get('city'),
         page: 'event'
       });
@@ -113,10 +116,11 @@ module.exports = {
   
     events.fetchItems()
     .then(function (collection) {
+      
       res.render('events', {
         title: 'Events',
-        myEvents: collection.models,
-        pagination: collection.pagination,
+        pagination: collection.paginated,
+        myEvents: collection.toJSON(),
         query: query,
         description: 'Find all upcoming Node.js events in South Africa',
         page: 'events'

@@ -79,7 +79,7 @@ var csrfWhitelist = [
 ];
 
 // port
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 
 // define views folder  
 app.set('views', path.join(__dirname, 'views'));
@@ -95,6 +95,7 @@ hbs.localsAsTemplateData(app);
 hbs.registerPartials(path.join(__dirname,'views', 'partials'));
 hbs.registerPartials(path.join(__dirname,'views', 'account'))
 hbs.registerPartials(path.join(__dirname,'views', 'widgets'));
+hbs.registerPartials(path.join(__dirname,'views', 'events'));
 
 // setup and register handlebars helpers
 hbsHelpers.setup(hbs);

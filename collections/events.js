@@ -30,6 +30,9 @@ var Events = MySql.Collection.extend({
   currentpage: 1,
 
 
+  paginated: {},
+
+
   base: '/events',
 
 
@@ -123,7 +126,7 @@ var Events = MySql.Collection.extend({
       }
       
       
-      deferred.resolve({
+      var paginated = {
         items: items,
         currentpage: currentpage,
         base: self.base,
@@ -133,7 +136,10 @@ var Events = MySql.Collection.extend({
         prev: prev,
         total: total,
         limit: self.limit
-      });
+      };
+
+      self.paginated = paginated;
+      deferred.resolve(paginated);
 
     })
     .otherwise(function () {

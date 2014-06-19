@@ -1,0 +1,64 @@
+
+
+<!-- Static navbar -->
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">NodeZA</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li {{#activeMenu 'home' page}}{{/activeMenu}}>
+          <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+        </li>
+        <li {{#activeMenu 'events' page}}{{/activeMenu}}>
+          <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
+        </li>
+        <li {{#activeMenu 'meetups' page}}{{/activeMenu}}>
+          <a href="/meetups"><span class="glyphicon glyphicon-search"></span> MeetUps</a>
+        </li>
+        <li {{#activeMenu 'blog' page}}{{/activeMenu}}>
+          <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      {{#if user}}
+        <li {{#activeMenu 'admin' page}}{{/activeMenu}}>
+          <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-wrench"></span> Admin 
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/account">Account</a>
+            </li>
+            <li>
+              <a href="/admin/events">Events</a>
+            </li>
+            <li>
+              <a href="/admin/meetups">Meetups</a>
+            </li>
+            <li><a href="/admin/blog">Posts</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/logout"><span class="glyphicon glyphicon-lock"></span> Logout</a>
+        </li>
+      {{else}}
+        <li {{#activeMenu 'login' page}}{{/activeMenu}}>
+          <a href="/login">Log In</a>
+        </li>
+        <li {{#activeMenu 'signup' page}}{{/activeMenu}}>
+          <a href="/signup">Sign Up</a>
+        </li>
+      {{/if}}
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>

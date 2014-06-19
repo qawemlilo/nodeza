@@ -1,0 +1,13 @@
+{
+  "name": "featuredposts",
+  "title": "Featured Posts",
+  "version": "0.0.1",
+  "pages": ["/"],
+  "description": "Front page featured posts",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "content",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-posts.git"
+}

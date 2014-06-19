@@ -1,0 +1,15 @@
+  
+{{#if collection}}
+<div class="col-sm-6 col-md-4">
+  <h3>
+    <span class="glyphicon glyphicon-calendar text-danger"></span> 
+    <a href="/events">Upcoming Events</a>
+  </h3>
+  <dl class="dl-horizontal">
+  {{#each collection}}
+    <dt>{{#parseDate dt 'DD/MM/YY'}}{{/parseDate}}</dt>
+    <dd><a href="/events/{{id}}">{{title}}</a></dd>
+  {{/each}}    
+  </dl>
+</div>
+{{/if}}

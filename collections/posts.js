@@ -20,6 +20,9 @@ var Posts = MySql.Collection.extend({
   currentpage: 1,
 
 
+  paginated: {},
+
+
   base: '/blog',
 
   
@@ -113,7 +116,7 @@ var Posts = MySql.Collection.extend({
       }
       
       
-      deferred.resolve({
+      var paginated = {
         items: items,
         currentpage: currentpage,
         base: self.base,
@@ -123,7 +126,10 @@ var Posts = MySql.Collection.extend({
         prev: prev,
         total: total,
         limit: self.limit
-      });
+      };
+      
+      self.paginated = paginated;
+      deferred.resolve(paginated);
 
     })
     .otherwise(function () {
@@ -163,11 +169,7 @@ var Posts = MySql.Collection.extend({
       query.select()
       .then(function (models) {
         self.reset(models);
-
-        deferred.resolve({
-          models: self.models,
-          pagination: pagination
-        });
+        deferred.resolve(self);
       })
       .otherwise(function () {
         deferred.reject();

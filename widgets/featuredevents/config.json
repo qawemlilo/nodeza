@@ -1,0 +1,13 @@
+{
+  "name": "featuredevents",
+  "title": "Upcoming events",
+  "version": "0.0.1",
+  "pages": ["/"],
+  "description": "Featured events",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "abovecontent",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-posts.git"
+}

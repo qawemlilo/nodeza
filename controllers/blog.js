@@ -1,8 +1,7 @@
 
 
-var Posts = require('../collections/posts');
-var Categories = require('../collections/categories');
 var _ = require('lodash');
+var Posts = require('../collections/posts');
 var Post = require('../models/post');
 
 
@@ -14,9 +13,26 @@ module.exports = {
    * loads a blog post by slug
    */
   getPost: function (req, res) {
+    var slug = req.params.slug;
+
+    return Post.forge({slug: slug})
+    .fetch({withRelated: ['created_by', 'tags']})
+    .then(function (post) {
       res.render('post', {
-        page: 'post'
+        page: 'post',
+        gravatar: post.related('created_by').gravatar(48),
+        title: post.get('meta_title'),
+        description: post.get('meta_description'),
+        page: 'post',
+        tags: post.related('tags').toJSON(),
+        author: post.related('created_by').toJSON(),
+        post: post.toJSON()
       });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Post not found :('});
+      res.redirect('/blog');      
+    });
   },
 
 
@@ -29,15 +45,15 @@ module.exports = {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
   
-    posts.limit = 2;
+    posts.limit = 5;
     posts.currentpage = page || 1;
   
     posts.fetchItems()
-    .then(function (items) {
+    .then(function (collection) {
       res.render('blog', {
         title: 'Blog',
-        posts: items.models,
-        pagination: items.pagination,
+        pagination: collection.paginated,
+        posts: collection.toJSON(),
         description: 'Node.js tutorials, articles and news',
         page: 'blog',
         query: {}
@@ -105,20 +121,6 @@ module.exports = {
     });
   },
 
-
-
-  /*
-   * GET /admin/blog/new
-   * load new post page
-   */
-  getCategories: function () {
-    var categories = new Categories();
-
-    return categories.fetch()
-    .then(function (collection) {
-      return collection;
-    });
-  },
 
 
   /**

@@ -44,8 +44,8 @@ module.exports = {
       res.render('meetup', {
         title: 'Meetup',
         description: meetup.get('short_desc'),
-        page: meetup.get('slug'), 
-        meetup: meetup
+        page: 'meetup', 
+        meetup: meetup.toJSON()
       });
 
       // count number of views
@@ -69,8 +69,8 @@ module.exports = {
     .then(function (collection) {
       res.render('meetups', {
         title: 'Find Meetups',
-        meetups: collection.models,
-        pagination: collection.pagination,
+        pagination: collection.paginated,
+        meetups: collection.toJSON(),
         query: {},
         description: 'Find a meetup group in South Africa',
         page: 'meetups'

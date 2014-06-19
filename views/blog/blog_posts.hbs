@@ -1,0 +1,30 @@
+
+<!--
+<h1 class="blog-post-title" style="margin-bottom: 15px;">
+  Blog
+</h1>-->
+
+<div class="container-fluid">
+  
+  {{#each posts}}
+  <div class="row" style="margin-bottom: 20px">
+    <div class="media">
+      <a href="/blog/{{slug}}" class="pull-left">
+        <img class="media-object" title="Post" data-src="holder.js/100x100" alt="...">
+      </a>
+      <div class="media-body">
+        <h3 class="media-heading">
+          <a href="/blog/{{slug}}">
+            {{title}}
+          </a>
+        </h3>
+
+        {{#htmlSummary html}}{{/htmlSummary}}
+        <a href="/blog/{{slug}}">Read more &raquo;</a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+  {{> pagination }}
+</div>

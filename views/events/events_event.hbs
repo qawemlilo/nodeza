@@ -1,0 +1,53 @@
+
+
+
+
+  <div class="container-fluid"> 
+    <div class="row">  
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2 class="blog-post-title">
+            {{myEvent.title}}
+          </h2>
+          <p class="blog-post-meta">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            <a href="{{myEvent.url}}" target="_blank">
+              {{myEvent.address}}
+            </a> | 
+            <span class="glyphicon glyphicon-tag"></span> 
+            <a href="/events/{{myEvent.city}}">{{myEvent.city}}</a>
+            {{#if myEvent.website}}
+             | <span class="glyphicon glyphicon-globe"></span> 
+             <a href="{{myEvent.website}}" target="_blank">{{myEvent.website}}</a>
+            {{/if}}
+          </p>
+
+          <p>{{{myEvent.desc}}}</p>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-3">
+              <span class="glyphicon glyphicon-calendar"></span> {{parseDate}}
+            </div>
+            <div class="col-md-3">
+              <span class="glyphicon glyphicon-time"></span> {{parseTime}}
+            </div>
+
+            <div class="col-md-3">
+              <span class="glyphicon glyphicon-map-marker"></span> 
+              <a href="{{myEvent.url}}" target="_blank">Map</a>
+            </div>
+
+            {{#if isUpComing}}
+            <div class="col-md-3">
+              <span class="glyphicon glyphicon-envelope"></span> 
+              <a href="mailto:{{myEvent.email}}"> 
+                Contact</>
+              </a>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

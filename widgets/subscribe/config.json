@@ -1,0 +1,13 @@
+{
+  "name": "subscribe",
+  "title": "Subscribe",
+  "version": "0.0.1",
+  "pages": ["/"],
+  "description": "Subscribe",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "abovecontent",
+  "order": 3,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-subscribe.git"
+}

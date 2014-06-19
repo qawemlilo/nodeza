@@ -1,0 +1,16 @@
+
+{{#if collection}}
+  {{#each collection}}
+    <div class="blog-post">
+      <h1 class="blog-post-title">
+        <a href="/blog/{{slug}}">
+        	{{title}}
+        </a>
+      </h1>
+      <p class="blog-post-meta">
+       {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}} by <a href="/users/{{user_id}}">{{name}}</a>
+      </p>
+      {{{html}}}
+    </div>
+  {{/each}}
+{{/if}}

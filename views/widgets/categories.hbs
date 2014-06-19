@@ -1,0 +1,21 @@
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Categories
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      {{#if collection}}
+        {{#each collection}}
+          <li>
+            <a href="/blog/category/{{slug}}">
+              {{name}}
+            </a>
+          </li>
+        {{/each}}
+      {{/if}}
+    </ul>
+  </div>
+</div>

@@ -77,7 +77,6 @@ label {
   text-align: left;
 }
 
-
 /*
  * Masthead for nav
  */
@@ -195,6 +194,18 @@ label {
   margin-bottom: 10px;
   color: #999;
   font-size: 12px;
+}
+
+.post-author {
+  margin-top:30px; 
+  margin-bottom:30px; 
+  background:#F8F8F8;
+  border: 1px solid #E7E7E7;
+  font-size: 14px;
+}
+
+.post-author .media-heading {
+  font-size: 16px;
 }
 
 

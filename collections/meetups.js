@@ -14,6 +14,9 @@ var Meetups = MySql.Collection.extend({
 
 
   limit: 10,
+
+
+  paginated: {},
   
 
   total: 0,
@@ -115,7 +118,7 @@ var Meetups = MySql.Collection.extend({
       }
       
       
-      deferred.resolve({
+      var paginated = {
         items: items,
         currentpage: currentpage,
         base: self.base,
@@ -125,7 +128,10 @@ var Meetups = MySql.Collection.extend({
         prev: prev,
         total: total,
         limit: self.limit
-      });
+      };
+
+      self.paginated = paginated;
+      deferred.resolve(paginated);
 
     })
     .otherwise(function () {

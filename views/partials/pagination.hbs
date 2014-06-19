@@ -1,0 +1,8 @@
+
+{{#ifCond pagination.limit '<' pagination.total}}
+  <div class="row" style="text-align: center">
+    <ul class="pagination">
+      {{#paginate pagination query}}{{/paginate}}
+    </ul>
+  </div>
+{{/ifCond}}

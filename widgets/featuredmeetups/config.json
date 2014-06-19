@@ -1,0 +1,13 @@
+{
+  "name": "featuredmeetups",
+  "title": "Featured Meetups",
+  "version": "0.0.1",
+  "pages": ["/"],
+  "description": "Meetup groups",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "abovecontent",
+  "order": 2,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-meetups.git"
+}

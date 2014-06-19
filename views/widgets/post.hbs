@@ -1,0 +1,34 @@
+
+
+{{#if post}}
+  <div class="blog-main">  
+    <h2 class="blog-post-title">
+      {{post.title}}
+    </h2>
+    <p class="blog-post-meta">
+      {{post.publishingDate}} by 
+      <a href="/users/{{author.id}}">{{author.name}}</a>
+      | 
+      <span class="glyphicon glyphicon-tag"></span>
+      {{#each tags}}
+        <a href="/blog/tags/{{slug}}">{{name}}</a> 
+      {{/each}}
+    </p>
+    {{{post.html}}}
+  </div>
+
+  <div class="blog-main" style="margin-top:30px; margin-bottom:30px; background:#F8F8F8;border: 1px solid #E7E7E7;">
+    <div style="padding:10px">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object" data-src="holder.js/48x48"  alt="{{author.name}}">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Author</h4>
+          <a href="/users/{{author.id}}">{{author.name}}</a><br>
+          {{author.about}}
+        </div>
+      </div>
+    </div>     
+  </div>
+{{/if}}

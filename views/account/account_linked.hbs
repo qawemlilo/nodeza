@@ -1,0 +1,64 @@
+
+<ul class="nav nav-tabs" style="margin-bottom: 20px;">
+  <li><a href="/account"><span class="glyphicon glyphicon-user"></span> Profile Information</a></li>
+  <li><a href="/account/password"><i class="fa fa-keyboard-o"></i> Change Password</a></li>
+  <li class="active"><a href="/account/linked"><i class="fa fa-chain"></i> Linked Accounts</a></li>
+</ul>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Linked Accounts
+  </div>
+  
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-12">
+          <p class="text-muted">
+            <span class="glyphicon glyphicon-bell"></span> 
+            Linking your account provides easy logins and updates some your profile informations.
+          </p>
+
+          <p>
+          {{#if github}}
+            <span class="glyphicon glyphicon-remove"></span> 
+            <a class="text-danger" href="/account/unlink/github">
+             Unlink your <i class="fa fa-github"></i> GitHub account</a>
+          {{else}}
+            <span class="glyphicon glyphicon-hand-right"></span> 
+            <a class="text-primary" href="/auth/github">
+             Link your <i class="fa fa-github"></i> GitHub account</a> 
+          {{/if}}
+          </p>
+
+          <p>
+          {{#if twitter}}
+            <span class="glyphicon glyphicon-remove"></span> 
+            <a class="text-danger" href="/account/unlink/twitter">
+            Unlink your <i class="fa fa-twitter"></i> Twitter account</a>
+          {{else}}
+            <span class="glyphicon glyphicon-hand-right"></span>  
+            <a class="text-primary" href="/auth/twitter">
+             Link your <i class="fa fa-twitter"></i> Twitter account</a> 
+          {{/if}}
+          </p>
+
+          <p>
+          {{#if google}}
+            <span class="glyphicon glyphicon-remove"></span> 
+            <a class="text-danger" href="/account/unlink/google">
+             Unlink your <i class="fa fa-google-plus"></i>oogle account</a>
+          {{else}}
+            <span class="glyphicon glyphicon-hand-right"></span>  
+            <a class="text-primary" href="/auth/google">
+             Link your <i class="fa fa-google-plus"></i>oogle account</a> 
+          {{/if}}
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br><br>

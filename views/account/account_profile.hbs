@@ -1,0 +1,58 @@
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <img class="img-circle" src="{{gravatar}}" alt="{{profile.name}}">
+    </div>
+
+    <div class="col-sm-10">
+      <h1 class="blog-post-title">{{profile.name}}</h1>
+
+      {{#if profile.about}}
+        <p>{{{profile.about}}}</p>
+      {{/if}}
+
+      <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+        <li class="active">
+          <a href="#myposts" data-toggle="tab">
+            <span class="glyphicon glyphicon-list-alt"></span> 
+            Posts
+          </a>
+        </li>
+        <li>
+          <a href="#myevents" data-toggle="tab">
+            <span class="glyphicon glyphicon-calendar"></span>
+            Events
+          </a>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="myposts">
+        {{#ifCond myposts.length '>' 0}}
+          <dl class="dl-horizontal"> 
+          {{#each myposts}}
+            {{#if post.published}}
+            <dt style="width:84px">{{#parseDate post.published_at 'DD-MM-YYYY'}}{{parseDate}}</dt>
+            <dd><a href="/blog/{{slug}}">{{post.title}}</a></dd>
+            {{/if}}
+          {{/each}}
+          </dl>
+        {{/ifCond}}
+        </div>
+        <div class="tab-pane" id="myevents">
+        {{#ifCond myevents.length '>' 0}}
+          <dl class="dl-horizontal"> 
+          {{#each myevents}}
+            <dt style="width:84px">{{#parseDate post.dt 'DD-MM-YYYY'}}{{parseDate}}</dt>
+            <dd><a href="/events/{{id}}">{{title}}</a></dd>
+          {{/each}}
+          </dl>
+        {{/ifCond}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

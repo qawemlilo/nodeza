@@ -11,7 +11,7 @@ var passport = require('passport');
 **/
 var UserController = require('./controllers/user');
 var EventsController = require('./controllers/events');
-var PublicController = require('./controllers/public');
+var HomeController = require('./controllers/home');
 var CompaniesController = require('./controllers/companies');
 var MeetupsController = require('./controllers/meetups');
 var BlogController = require('./controllers/blog');
@@ -22,11 +22,10 @@ var BlogController = require('./controllers/blog');
  */
 module.exports.setup = function (app) {
 	/* 
-	 * Public Routes
+	 * Home Route
 	 * passing 'passportConf.isNotAuthenticated' middle to avoid logged in users from viewing some pages
 	**/
-	app.get('/', PublicController.index);
-	app.get('/about', PublicController.about);
+	app.get('/', HomeController.index);
 	
 	app.get('/login', passportConf.isNotAuthenticated, UserController.getLogin);
 	app.post('/login', passportConf.isNotAuthenticated, UserController.postLogin);

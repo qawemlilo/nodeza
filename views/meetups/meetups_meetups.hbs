@@ -4,6 +4,7 @@
 
      <form>
       <ul class="list-unstyled list-inline">
+        <!--
         <li>
           <strong>Province:</strong> 
           <select name="province">
@@ -18,7 +19,7 @@
             <option value="North West">North West</option>
             <option value="Western Province">Western Province</option>
           </select>
-        </li>
+        </li>-->
       
         <li class="pull-right">
           <a href="/admin/meetups/new" class="btn btn-danger">
@@ -29,37 +30,35 @@
      <form>
     </div>
 
-<%
-    meetups.forEach(function (meetup) {
-%>
+    {{#each meetups}}
   <div class="row" style="margin-top: 10px;">
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="col-md-9">
           <h2 class="blog-post-title">
-            <a href="/meetups/<%= meetup.get('slug') %>"><%= meetup.get('name') %></a>
+            <a href="/meetups/{{slug}}">{{name}}</a>
           </h2>
           <p>
-            <strong>Organiser:</strong> <%= meetup.get('organiser') %>
+            <strong>Organiser:</strong> {{organiser}}
             <br>
-            <strong>When?</strong> <%= meetup.get('meetings') %>
+            <strong>When?</strong> {{meetings}}
             <br>
-            <strong>Venue:</strong> <a href="<%= meetup.get('url') %>" target="_blank"><%=   meetup.get('address') %></a>
+            <strong>Venue:</strong> <a href="{{url}}" target="_blank">{{address}}</a>
           </p>
           <!-- <p><%= meetup.get('desc').replace(/\n/g, "<br>") %></p> -->
         </div>
         <div class="col-md-3">
             <p>
               <span class="glyphicon glyphicon-tag"></span> 
-              <%= meetup.get('city') %>
+              {{city}}
             </p>
             <p>
               <span class="glyphicon glyphicon-earphone"></span>
-              <%= meetup.get('number') %>
+              {{number}}
             </p>
             <p>
               <span class="glyphicon glyphicon-envelope"></span>
-              <a href="mailto:<%= meetup.get('email') %>"> 
+              <a href="mailto:{{email}}"> 
                  Contact
               </a>
             </p>
@@ -67,8 +66,7 @@
       </div>
     </div>
   </div>
-<%
-    });
-%>
-    <% include ../partials/pagination %>
+  {{/each}}
+  
+  {{> pagination }}
 </div>

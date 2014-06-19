@@ -1,0 +1,13 @@
+{
+  "name": "categories",
+  "title": "Categories",
+  "version": "0.0.1",
+  "pages": "all",
+  "description": "Lists most read posts",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "sidebar",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/qawemlilo/nodeza-categories.git"
+}

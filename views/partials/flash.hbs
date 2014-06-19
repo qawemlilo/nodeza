@@ -1,0 +1,23 @@
+<div id="flash">
+  {{#if messages.errors}}
+    <div class="alert alert-danger animated fadeIn">
+      {{#each messages.errors}}
+          <div>{{msg}}</div>
+      {{/each}}
+    </div>
+  {{/if}}
+  {{#if messages.info}}
+    <div class="alert alert-info animated fadeIn">
+      {{#each messages.info}}
+        <div>{{msg}}</div>
+      {{/each}}
+    </div>
+  {{/if}}
+  {{#if messages.success}} 
+    <div class="alert alert-success animated fadeIn">
+      {{#each messages.success}}
+        <div>{{msg}}</div>
+      {{/each}}
+    </div>
+  {{/if}}
+</div>

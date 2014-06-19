@@ -50,10 +50,11 @@ module.exports = {
 
       res.render('profile', {
         title: 'NodeZA profile of ' + profile.get('name'),
-        profile: profile,
-        myposts: profile.related('posts'),
-        myevents: profile.related('events'),
+        myposts: profile.related('posts').toJSON(),
+        gravatar: profile.gravatar(120),
+        myevents: profile.related('events').toJSON(),
         description: 'NodeZA profile of ' + profile.get('name'),
+        profile: profile.toJSON(),
         page: 'profile'
       });
 
@@ -368,7 +369,9 @@ module.exports = {
     res.render('account', {
       title: 'My Account',
       description: 'My account details',
-      page: 'account'
+      page: 'account',
+      gravatar: req.user.gravatar(),
+      user: req.user.toJSON()
     });
   },
 

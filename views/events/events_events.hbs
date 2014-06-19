@@ -1,0 +1,92 @@
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <ul class="list-inline">
+      <li>
+        <form action="/events/limit" name="eventslimit" method="post">
+          <input type="hidden" name="_csrf" value="{{_csrf}}" />
+          <strong>Limit #</strong> <select name="limit" onchange="document.forms.eventslimit.submit()">
+              <option value="2" {{#ifCond query.limit '==' 2}}selected{{/ifCond}}>2</option>
+              <option value="5" {{#ifCond query.limit '==' 10}}selected{{/ifCond}}>5</option>
+              <option value="10" {{#ifCond query.limit '==' 10}}selected{{/ifCond}}>10</option>
+              <option value="20" {{#ifCond query.limit '==' 20}}selected{{/ifCond}}>20</option>
+              <option value="50" {{#ifCond query.limit '==' 50}}selected{{/ifCond}}>50</option>
+              <option value="100" {{#ifCond query.limit '==' 100}}selected{{/ifCond}}>100</option>
+            </select>
+        </form>
+      </li>
+      <li><strong>Sort by:</strong></li>
+      <li>
+        <a href="/events?sortby=dt">
+          Date {{#caret query.sort query.order 'dt'}}{{/caret}}
+        </a> 
+      </li>
+      <li>&middot;</li>
+      <li>
+        <a href="/events?sortby=province">
+          Province {{#caret query.sort query.order 'province'}}{{/caret}}
+        </a> 
+      </li>
+      <li>&middot;</li>
+      <li>
+        <a href="/events?sortby=city">
+        City {{#caret query.sort query.order 'city'}}{{/caret}}
+        </a>
+      </li>
+      <li class="pull-right">
+        <a href="/admin/events/new" class="btn btn-danger">
+          <span class="glyphicon glyphicon-calendar"></span> Create An Event
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  {{#each myEvents}}
+  <div class="row" style="margin-top:10px;">  
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 class="blog-post-title">
+          <a href="/events/{{id}}">{{title}}</a>
+        </h2>
+          <p class="blog-post-meta">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            <a href="{{url}}" target="_blank">
+              {{address}}
+            </a> | 
+            <span class="glyphicon glyphicon-tag"></span> 
+            <a href="/events/{{city}}">{{city}}</a>
+          </p>
+        <p>{{desc}}</p>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="glyphicon glyphicon-calendar"></span> 
+            {{#parseDate dt ''}}{{/parseDate}}
+          </div>
+          <div class="col-md-3">
+            <span class="glyphicon glyphicon-time"></span>
+            {{#myTime start_time}}{{/myTime}} 
+          </div>
+          <div class="col-md-2">
+            <span class="glyphicon glyphicon-map-marker"></span> 
+            <a href="{{url}}" target="_blank">Map</a>
+          </div>
+          
+          <div class="col-md-3">
+            <span class="glyphicon glyphicon-envelope"></span> 
+            <a href="mailto:{{email}}"> 
+              Contact
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+  {{> pagination}}
+</div>

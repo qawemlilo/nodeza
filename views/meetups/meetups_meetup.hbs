@@ -1,0 +1,48 @@
+
+
+
+
+<div class="container-fluid">
+  <div class="row" style="margin-bottom: 20px;">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-md-9">
+          
+          <p>
+          {{#if meetup.website}}
+            <strong>Website:</strong> 
+            <a href="{{meetup.website}}" target="_blank">
+              {{meetup.website}}
+            </a><br>
+          {{/if}}
+
+          <strong>Organiser:</strong> {{meetup.organiser}}
+          <br>
+          <strong>When?</strong> {{meetup.meetings}}
+          <br>
+          <strong>Venue:</strong> <a href="{{meetup.url}}" target="_blank">{{meetup.address}}</a>
+        </p>
+
+          <p>{{{meetup.desc}}}</p>
+
+        </div>
+
+        <div class="col-md-3">
+          <p>
+            <span class="glyphicon glyphicon-tag"></span> 
+            <a href="/events/{{meetup.city}}">{{meetup.city}}</a>
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-earphone"></span> {{meetup.number}}
+          </p>
+          <p>
+            <span class="glyphicon glyphicon-envelope"></span>
+            <a href="mailto:{{meetup.email}}"> 
+              Contact
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

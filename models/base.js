@@ -19,7 +19,6 @@ Base.Model = Base.Model.extend({
     }
 
     self.on('saving', function (model, attributes, options) {
-
       return self.saving();
     });
   },
@@ -28,9 +27,7 @@ Base.Model = Base.Model.extend({
   viewed: function () {
     var views = this.get('views');
 
-    this.set('views', views + 1);
-
-    return this.save();
+    return this.save({'views': views + 1}, {patch: true});
   },
 
 
@@ -119,6 +116,10 @@ Base.Model = Base.Model.extend({
     
     // Remove trailing hyphen
     slug = slug.charAt(slug.length - 1) === '-' ? slug.substr(0, slug.length - 1) : slug;
+
+    // Check the filtered slug doesn't match any of the reserved keywords
+    slug = /^(events|meetups|admin|blog|companies|jobs|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|public|user|users|rss|feed)$/g
+            .test(slug) ? slug + '-' + baseName : slug;
 
     //if slug is empty after trimming use "post"
     if (!slug) {

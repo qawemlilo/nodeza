@@ -1,13 +1,13 @@
 {
-  "name": "categories",
-  "title": "Categories",
+  "name": "popularposts",
+  "title": "Popular posts",
   "version": "0.0.1",
-  "pages": [],
-  "description": "Lists most read posts",
+  "pages": ["/blog", "/blog/:any", "/meetups"],
+  "description": "Lists most Popular posts",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",
   "position": "sidebar",
-  "order": 2,
-  "active": true,
+  "order": 1,
+  "active": false,
   "repo": "git://github.com/qawemlilo/nodeza-categories.git"
 }

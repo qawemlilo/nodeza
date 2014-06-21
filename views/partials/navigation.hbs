@@ -14,22 +14,22 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li {{#activeMenu 'home' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'home' page}}{{/activeMenu}}">
           <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
         </li>
-        <li {{#activeMenu 'events' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'events' page}}{{/activeMenu}}">
           <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
         </li>
-        <li {{#activeMenu 'meetups' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'meetups' page}}{{/activeMenu}}">
           <a href="/meetups"><span class="glyphicon glyphicon-search"></span> MeetUps</a>
         </li>
-        <li {{#activeMenu 'blog' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'blog' page}}{{/activeMenu}}">
           <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       {{#if user}}
-        <li {{#activeMenu 'admin' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'admin' page}}{{/activeMenu}}">
           <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
             <span class="glyphicon glyphicon-wrench"></span> Admin 
             <span class="caret"></span>
@@ -51,10 +51,10 @@
           <a href="/logout"><span class="glyphicon glyphicon-lock"></span> Logout</a>
         </li>
       {{else}}
-        <li {{#activeMenu 'login' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'login' page}}{{/activeMenu}}">
           <a href="/login">Log In</a>
         </li>
-        <li {{#activeMenu 'signup' page}}{{/activeMenu}}>
+        <li class="{{#activeMenu 'signup' page}}{{/activeMenu}}">
           <a href="/signup">Sign Up</a>
         </li>
       {{/if}}

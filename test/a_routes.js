@@ -4,13 +4,16 @@ var app = require('../app.js');
 
 
 
-describe('GET /', function() {
-  it('should return 200 OK', function(done) {
+
+
+describe('GET /random-url', function() {
+  it('should return 404', function(done) {
     request(app)
-      .get('/')
-      .expect(200, done);
+      .get('/random-url')
+      .expect(404, done);
   });
 });
+
 
 
 describe('GET /login', function() {
@@ -36,15 +39,6 @@ describe('GET /signup', function() {
     request(app)
       .get('/signup')
       .expect(200, done);
-  });
-});
-
-
-describe('GET /random-url', function() {
-  it('should return 404', function(done) {
-    request(app)
-      .get('/random-url')
-      .expect(404, done);
   });
 });
 
@@ -88,7 +82,15 @@ describe('GET /meetups', function() {
   });
 });
 
+describe('GET /', function() {
+  it('should return 200 OK', function(done) {
+    request(app)
+      .get('/')
+      .expect(200, done);
+  });
+});
 
+/*
 describe('GET /companies', function() {
   it('should return 200 OK', function(done) {
     request(app)
@@ -96,3 +98,4 @@ describe('GET /companies', function() {
       .expect(200, done);
   });
 });
+*/

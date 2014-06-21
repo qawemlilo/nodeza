@@ -1,14 +1,16 @@
 
 <div class="col-sm-3">
   <div class="list-group">
-    <a href="/account" class="list-group-item">
+    <a href="/account" class="list-group-item {{#activeAdminMenu 'account' page}}{{/activeAdminMenu}}">
       Account
     </a>
-    <a href="/admin/events" class="list-group-item">Events</a>
-    <!--
-    <a href="/" class="list-group-item">Companies</a>
-    -->
-    <a href="/admin/meetups" class="list-group-item">Meetups</a>
-    <a href="/admin/blog" class="list-group-item">Blog</a>
+    <a href="/admin/events" class="list-group-item {{#activeAdminMenu 'events' page}}{{/activeAdminMenu}}">Events</a>
+
+    <a href="/admin/meetups" class="list-group-item {{#activeAdminMenu 'meetups' page}}{{/activeAdminMenu}}">Meetups</a>
+    <a href="/admin/blog" class="list-group-item {{#activeAdminMenu 'blog' page}}{{/activeAdminMenu}}">Blog</a>
   </div>
+
+  {{#if @WidgetCollection.leftsidebar}}
+    {{#list @WidgetCollection.leftsidebar}}{{/list}}
+  {{/if}}
 </div>

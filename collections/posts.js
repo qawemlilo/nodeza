@@ -195,6 +195,7 @@ var Posts = MySql.Collection.extend({
     query.limit(limit || 2);
     query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
     query.andWhere('featured', '=', 1);
+    query.andWhere('published', '=', 1);
     query.offset((self.currentpage - 1) * self.limit);
     query.orderBy(self.sortby, self.order);
     query.join('users', 'users.id', '=', 'posts.user_id');

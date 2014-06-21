@@ -10,7 +10,7 @@
 
   <div class="panel-body">
   <form class="form-horizontal" id="event-form" action="/admin/meetups/new" method="POST">
-    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+    <input type="hidden" name="_csrf" value="{{_csrf}}" />
     <div class="form-group">
       <label class="col-sm-3 control-label" for="title">
         Meetup Name *
@@ -42,7 +42,7 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="organiser" id="organiser" placeholder="" value="<%= user.get('name') %>" required="" />
+        <input class="form-control" type="text" name="organiser" id="organiser" placeholder="" value="" required="" />
       </div>
     </div>
 
@@ -64,7 +64,7 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="email" id="email" placeholder="" value="<%= user.get('email') %>" required="" />
+        <input class="form-control" type="text" name="email" id="email" placeholder="" value="" required="" />
       </div>
     </div>
 

@@ -1,0 +1,21 @@
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Popular Posts
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      {{#if collection}}
+        {{#each collection}}
+          <li>
+            <a href="/blog/{{slug}}">
+              {{title}}
+            </a>
+          </li>
+        {{/each}}
+      {{/if}}
+    </ul>
+  </div>
+</div>

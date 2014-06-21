@@ -1,0 +1,13 @@
+{
+  "name": "contactform",
+  "title": "Contact Me",
+  "version": "0.0.1",
+  "pages": ["/events/:any","/meetups/:any"],
+  "description": "Contact Me",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "sidebar",
+  "order": 2,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-contactform.git"
+}

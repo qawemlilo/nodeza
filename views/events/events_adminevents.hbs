@@ -2,11 +2,6 @@
 
 <div class="container-fluid">
   <div class="row" style="text-align:right">
-      <a role="button" href="/admin/blog/new" class="btn btn-danger">
-        <span class="glyphicon glyphicon-list-alt"></span> New Post
-      </a> 
-
-      <!--
       <button type="button" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span> Edit
       </button> 
@@ -18,13 +13,12 @@
       <button type="button" class="btn btn-danger">
         <span class="glyphicon glyphicon-trash"></span> Delete
       </button>
-      -->
   </div>
   <div class="row" style="margin-top:5px;">
     <table class="table table-bordered table-striped table-condensed">
       <thead>
         <tr>
-          <th style="text-align:center" class="active">
+          <th style="text-align:center">
             <input type="checkbox" id="selectall">
           </th>
           <th>
@@ -38,36 +32,31 @@
           <th>
           </th>
           <th>
-          </th>
-          <th>
             <span class="glyphicon glyphicon-eye-open"></span>
           </th>
         </tr>
       </thead>
 
       <tbody>
-        {{#ifCond posts.length '>' 0}}
-          {{#each posts}}
+        {{#ifCond myEvents.length '>' 0}}
+          {{#each myEvents}}
           <tr>
-            <td style="text-align:center" class="active">
+            <td style="text-align:center">
               <input type="checkbox" id="id" value="{{id}}">
             </td>
             <td>
-              <a href="/blog/edit/{{id}}">{{title}}</a>
+              <a href="/events/{{id}}">{{title}}</a>
             </td>
             <td>
               {{#parseDate created_at 'DD-MM-YYYY HH:MM:ss'}}{{/parseDate}}
             </td>
             <td style="text-align:center">
-              <a href="/blog/edit/{{id}}" title="Edit">
+              <a href="/events/edit/{{id}}" title="Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
               </a> 
             </td>
             <td style="text-align:center">
-              {{#isPublished published id}}{{/isPublished}}
-            </td>
-            <td style="text-align:center">
-              <a href="/blog/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
+              <a href="#" class="text-danger" title="Delete">
                 <span class="glyphicon glyphicon-trash"></span> 
               </a> 
             </td>

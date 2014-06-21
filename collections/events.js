@@ -222,10 +222,7 @@ var Events = MySql.Collection.extend({
         
         self.reset(models);
 
-        deferred.resolve({
-          models: self.models,
-          pagination: pagination
-        });
+        deferred.resolve(self);
       })
       .otherwise(function () {
         deferred.reject();

@@ -11,7 +11,7 @@ module.exports = {
    * load new meetup page
    */
   newMeetup: function (req, res) {
-    res.render('newmeetup', {
+    res.render('meetups_new', {
       title: 'New Meetup',
       description: 'Create a meetup group',
       page: 'newmeetup'
@@ -41,7 +41,7 @@ module.exports = {
     .then(function (meetup) {
       if(!meetup) return res.redirect('/meetups');
 
-      res.render('meetup', {
+      res.render('meetups_meetup', {
         title: 'Meetup',
         description: meetup.get('short_desc'),
         page: 'meetup', 
@@ -67,7 +67,7 @@ module.exports = {
   
     meetups.fetchItems()
     .then(function (collection) {
-      res.render('meetups', {
+      res.render('meetups_meetups', {
         title: 'Find Meetups',
         pagination: collection.paginated,
         meetups: collection.toJSON(),
@@ -97,13 +97,13 @@ module.exports = {
   
     meetups.fetchItems()
     .then(function (collection) {
-      res.render('meetup-admin', {
+      res.render('meetups_admin', {
         title: 'Find Meetups',
-        meetups: collection.models,
-        pagination: collection.pagination,
+        pagination: collection.paginated,
+        meetups: collection.toJSON(),
         query: {},
         description: 'Find a meetup group in South Africa',
-        page: 'meetups'
+        page: 'adminmeetups'
       });
     })
     .otherwise(function () {

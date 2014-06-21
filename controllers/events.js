@@ -13,7 +13,7 @@ module.exports = {
    * load new event page
   **/
   newEvent: function (req, res) {
-    res.render('newevent', {
+    res.render('events_new', {
       title: 'New Event',
       description: 'Create a new Node.js event',
       page: 'newevent'
@@ -46,7 +46,7 @@ module.exports = {
         return res.redirect('/events');
       }
 
-      res.render('event', {
+      res.render('events_event', {
         title: 'Event',
         parseDate: event.parseDate(),
         parseTime: event.parseTime(),
@@ -117,7 +117,7 @@ module.exports = {
     events.fetchItems()
     .then(function (collection) {
       
-      res.render('events', {
+      res.render('events_events', {
         title: 'Events',
         pagination: collection.paginated,
         myEvents: collection.toJSON(),
@@ -185,13 +185,13 @@ module.exports = {
   
     events.fetchMyEvents()
     .then(function (collection) {
-      res.render('event-admin', {
+      res.render('events_admin', {
         title: 'Events',
-        myEvents: collection.models,
-        pagination: collection.pagination,
+        pagination: collection.paginated,
+        myEvents: collection.toJSON(),
         query: query,
         description: 'Find all upcoming Node.js events in South Africa',
-        page: 'events'
+        page: 'adminevents'
       });
     })
     .otherwise(function () {

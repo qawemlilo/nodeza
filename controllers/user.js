@@ -25,7 +25,7 @@ module.exports = {
    * View login page
    */
   getLogin: function (req, res) {
-    res.render('login', {
+    res.render('account_login', {
       title: 'Log In',
       description: 'NodeZA log in page',
       page: 'login'
@@ -45,24 +45,24 @@ module.exports = {
     .then(function (profile) {
       if(!profile) {
         req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
-        return res.redirect('back');
+        return res.redirect(req.session.returnTo || '/');
       }
 
-      res.render('profile', {
+      res.render('account_profile', {
         title: 'NodeZA profile of ' + profile.get('name'),
         myposts: profile.related('posts').toJSON(),
-        gravatar: profile.gravatar(120),
+        gravatar: profile.gravatar(198),
         myevents: profile.related('events').toJSON(),
         description: 'NodeZA profile of ' + profile.get('name'),
         profile: profile.toJSON(),
         page: 'profile'
       });
 
-      //profile.viewed();
+      profile.viewed();
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
-      res.redirect('back');
+      res.redirect(req.session.returnTo || '/');
     });
   },
 
@@ -119,7 +119,7 @@ module.exports = {
    * Get signup form.
    */
   getSignup: function (req, res) {
-    res.render('signup', {
+    res.render('account_signup', {
       title: 'Sign Up',
       description: 'Sign up and become part of the Node.js community in South Africa',
       page: 'signup'
@@ -283,7 +283,7 @@ module.exports = {
    * Loads forgot password page.
    */
   getForgot: function (req, res) {
-    res.render('forgot', {
+    res.render('account_forgot', {
       title: 'Forgot Password',
       description: 'Forgotten password',
       page: 'forgot'
@@ -366,7 +366,7 @@ module.exports = {
    * logged in user account details form.
    */
   getAccount: function (req, res) {
-    res.render('account', {
+    res.render('account_account', {
       title: 'My Account',
       description: 'My account details',
       page: 'account',
@@ -381,7 +381,7 @@ module.exports = {
    * logged in user password form
    */
   getPasswordForm: function (req, res) {
-    res.render('password', {
+    res.render('account_password', {
       title: 'Change Password',
       description: 'Change your password',
       page: 'changepassword'
@@ -399,7 +399,7 @@ module.exports = {
     var google = _.findWhere(tokens, { kind: 'google' });
     var twitter = _.findWhere(tokens, { kind: 'twitter' });
 
-    res.render('linkedaccounts', {
+    res.render('account_linked', {
       title: 'Linked Accounts',
       github: github,
       twitter: twitter,

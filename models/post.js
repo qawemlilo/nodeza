@@ -25,7 +25,9 @@ var Post = Base.Model.extend({
     Base.Model.prototype.initialize.apply(this, arguments);
 
     this.on('saved', function (model, attributes, options) {
-      return self.updateTags(model, attributes, options);
+      if (options.updateTags) {
+        return self.updateTags(model, attributes, options);
+      }
     });
   },
 
@@ -62,19 +64,21 @@ var Post = Base.Model.extend({
     var tagsToCheck = [];
     var tags = self.tags || 'uncategorised';
 
-    if(!self.isNew()) {
+    // only update views field
+    if (self.hasChanged('views')) {
       return Base.Model.prototype.saving.call(self);
     }
 
     if (tags && typeof tags === 'string') {
       tags = tags.split(',');
-
-      if (tags.length > 0) {
-        tagsToCheck = tags.map(function (tag) {
-          return {name: tag.trim()};
-        });
-      }
     }
+
+    if (tags.length > 0) {
+      tagsToCheck = tags.map(function (tag) {
+        return {name: tag.trim()};
+      });
+    }
+
 
     self.myTags = [];
 

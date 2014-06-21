@@ -111,5 +111,8 @@ module.exports.setup = function (app) {
   app.get('/admin/blog', passportConf.isAuthenticated, BlogController.newPostsAdmin);
   app.get('/admin/blog/new', passportConf.isAuthenticated, BlogController.newPost);
   app.post('/admin/blog/new', passportConf.isAuthenticated, BlogController.postPost);
-  
+  app.post('/blog/edit', passportConf.isAuthenticated, BlogController.postEdit);
+  app.get('/blog/edit/:id', passportConf.isAuthenticated, BlogController.getEdit);
+  app.get('/blog/delete/:id', passportConf.isAuthenticated, BlogController.getDelete);
+  app.get('/blog/publish/:id', passportConf.isAuthenticated, BlogController.getPublish);
 };

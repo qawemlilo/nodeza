@@ -46,16 +46,16 @@
 {{#extend "abovecontent"}}
   {{> flash}}
 
-  {{#if @widgetGlobals.abovecontent}}
-    {{#list @widgetGlobals.abovecontent}}{{/list}}
+  {{#if @WidgetCollection.abovecontent}}
+    {{#list @WidgetCollection.abovecontent}}{{/list}}
   {{/if}}
 {{/extend}} 
 
 <hr style="margin-top:0px">
 
 <div class="col-sm-9 blog-main">
-  {{#if @widgetGlobals.content}}
-    {{#list @widgetGlobals.content}}{{/list}}
+  {{#if @WidgetCollection.content}}
+    {{#list @WidgetCollection.content}}{{/list}}
   {{/if}}
 </div>
 

@@ -3,7 +3,7 @@ var config = require('./config.json');
 
 module.exports = config;
 
-module.exports.exec = function (collections) {
+module.exports.exec = function (req, res, collections) {
     var meetups = new collections.Meetups();
 
     meetups.limit = 2;

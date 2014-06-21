@@ -1,6 +1,7 @@
 
 
 var moment = require('moment');
+var _ = require('lodash');
 
 
 
@@ -94,6 +95,29 @@ module.exports.setup = function (hbs) {
   });
 
 
+  hbs.registerHelper('fillTags', function(tags, fmtcontext) {
+    var names = _.pluck(tags, 'name');
+
+    return names.join(',');
+  });
+
+
+
+  hbs.registerHelper('isPublished', function(flag, id, context) {
+    var answer = parseInt(flag, 10);
+    var link = '';
+
+    if (answer === 1) {
+      link = link = '<a href="/blog/publish/' + id +'" title="Published" class="text-success"><span class="glyphicon glyphicon-ok"></span></a>';
+    }
+    else {
+      link = '<a href="/blog/publish/' + id +'" title="Draft" class="text-danger"><span class="glyphicon glyphicon-remove"></span></a>';
+    }
+
+    return link;
+  });
+
+
 
   hbs.registerHelper('activeMenu', function(page, val, fmtcontext) {
     page = page.toLowerCase();
@@ -103,15 +127,38 @@ module.exports.setup = function (hbs) {
       events: ['events', 'event'],
       login: ['login'],
       signup: ['signup', 'register', 'join'],
-      blog: ['post', 'post', 'blog'],
+      blog: ['post', 'posts', 'blog'],
       meetups: ['meetups', 'meetup'],
-      admin: ['changepassword', 'account', 'linkedaccounts']
+      admin: ['changepassword', 'postedit', 'newpost', 'adminmeetups', 'account', 'linkedaccounts', 'adminevents', 'adminblog']
     };
+
     var flag = '';
     var matchingPages = menus[page];
 
     if (matchingPages.indexOf(val) > -1) {
-      flag = 'class="active"';
+      flag = 'active';
+    }
+
+    return flag;
+  });
+
+
+
+  hbs.registerHelper('activeAdminMenu', function(page, val, fmtcontext) {
+    page = page.toLowerCase();
+
+    var menus = {
+      account: ['changepassword', 'account', 'linkedaccounts'],
+      events: ['adminevents'],
+      meetups: ['adminmeetups'],
+      blog: ['adminblog']
+    };
+
+    var flag = '';
+    var matchingPages = menus[page];
+
+    if (matchingPages.indexOf(val) > -1) {
+      flag = 'disabled';
     }
 
     return flag;

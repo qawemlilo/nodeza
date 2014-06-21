@@ -1,0 +1,100 @@
+
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <span class="glyphicon glyphicon-list-alt"></span> Edit Post
+    <a href="/admin/blog" class="close pull-right">&times;</a>
+  </div>
+
+  <div class="panel-body">
+  <form class="form-horizontal" id="edit-form" action="/blog/edit" method="POST">
+    <input type="hidden" name="_csrf" value="{{_csrf}}" />
+    <input type="hidden" name="id" value="{{post.id}}" />
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="title">
+        Title *
+      </label>
+
+      <div class="col-sm-9">
+        <input class="form-control" type="text" name="title" id="title" value="{{post.title}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="category">
+        Category
+      </label>
+
+      <div class="col-sm-9">
+        <select name="category" id="category">
+          {{#each categories}}
+            <option value="{{id}}" {{#ifCond id '==' post.category_id}}selected{{/ifCond}}>{{name}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="tags">Tags</label>
+      <div class="col-sm-9">
+        <input class="form-control" type="text" name="tags" id="tags" value="{{#fillTags tags}}{{/fillTags}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="meta_title">
+        Meta Title
+      </label>
+
+      <div class="col-sm-9">
+        <input class="form-control" type="text" name="meta_title" id="meta_title" value="{{post.meta_title}}" required=""  />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="meta_description">
+        Meta Description
+      </label>
+
+      <div class="col-sm-9">
+        <input class="form-control" type="text" name="meta_description" id="meta_description" value="{{post.meta_description}}" required="" />
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="markdown">Post *</label>
+      <div class="col-sm-9">
+        <textarea class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-9">
+        <div class="checkbox-inline">
+          <label>
+            <input type="checkbox" name="published" {{#if post.published}}checked="true"{{/if}} > Published
+          </label>
+        </div>
+        <div class="checkbox-inline">
+          <label>
+            <input type="checkbox" name="featured" {{#if post.featured}}checked="true"{{/if}}> Featured
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-9">
+        <button class="btn btn-success" type="submit">
+          <span class="glyphicon glyphicon-ok"></span> Update Post
+        </button>
+
+        <a href="/admin/blog" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+        </a>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>

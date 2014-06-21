@@ -51,6 +51,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 // Sign in with GitHub.
 passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refreshToken, profile, done) {
 
+   console.log(profile);
   // if the user is already logged in
   if (req.user) {
     var user = new User(); 
@@ -73,7 +74,10 @@ passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refr
           name: existingUser.get('name') || profile.displayName,
           image_url: existingUser.get('image_url') || profile._json.avatar_url,
           location: existingUser.get('location') || profile._json.location,
-          website: existingUser.get('website') || profile._json.blog,
+          website: existingUser.get('website') || profile._json.blog || profile._json.profileUrl,
+          role_id: existingUser.get('role_id') || 1,
+          location: existingUser.get('location') || profile._json.location,
+          about: existingUser.get('about') || profile._json.bio,
           role_id: existingUser.get('role_id') || 1
         }); 
 

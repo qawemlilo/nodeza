@@ -4,7 +4,7 @@ var when = require('when');
 
 module.exports = config;
 
-module.exports.exec = function (collections, req) {
+module.exports.exec = function (req, res, collections) {
     if (!req) {
       return when(config);
     }

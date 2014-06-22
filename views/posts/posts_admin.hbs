@@ -54,6 +54,9 @@
             </td>
             <td>
               <a href="/blog/edit/{{id}}">{{title}}</a>
+              <a href="/blog/{{slug}}" target="_blank" title="View Post" class="text-danger">
+                <small><span class="glyphicon glyphicon-new-window"></span></small>
+              </a>
             </td>
             <td>
               {{#parseDate created_at 'DD-MM-YYYY HH:MM:ss'}}{{/parseDate}}

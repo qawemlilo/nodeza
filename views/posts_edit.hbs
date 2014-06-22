@@ -7,3 +7,17 @@
 
   {{> posts_edit}}
 </div>
+
+{{#extend "scripts"}}
+<script src="/js/epiceditor/js/epiceditor.min.js"></script>
+<script>
+var editor = new EpicEditor({
+  textarea: 'markdown',
+  theme: {
+    base: 'http://localhost:3001/js/epiceditor/themes/base/epiceditor.css',
+    preview: 'http://localhost:3001/js/epiceditor/themes/preview/github.css',
+    editor: 'http://localhost:3001/js/epiceditor/themes/editor/epic-light.css'
+  }
+}).load();
+</script>
+{{/extend}}

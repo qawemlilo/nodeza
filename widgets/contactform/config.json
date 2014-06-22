@@ -8,6 +8,6 @@
   "authorEmail": "qawemlilo@gmail.com",
   "position": "sidebar",
   "order": 2,
-  "active": true,
+  "active": false,
   "repo": "git://github.com/nodeza/nodeza-contactform.git"
 }

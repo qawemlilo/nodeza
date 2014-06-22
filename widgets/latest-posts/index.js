@@ -8,9 +8,13 @@ module.exports.exec = function (req, res, collections) {
 
     posts.limit = 5;
     posts.andWhereQuery = ['published', '=', 1];
+    posts.sort = 'id';
     posts.order = 'desc';
-    posts.sortby = 'views';
-    
+
+    config.globals = {
+      title: 'Hello World!',
+      description: 'Whatsup??' 
+    };
 
     return posts.fetchItems()
     .then(function (collection) {

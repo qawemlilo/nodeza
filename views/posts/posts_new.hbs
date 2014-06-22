@@ -64,7 +64,9 @@
     <div class="form-group">
       <label class="col-sm-2 control-label" for="markdown">Post *</label>
       <div class="col-sm-9">
-        <textarea class="form-control" rows="15" name="markdown" id="markdown" required=""></textarea>
+        <div id="epiceditor" style="height: 400px; padding: 0px;" class="form-control">
+          <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required=""></textarea>
+        </div>
       </div>
     </div>
 
@@ -76,11 +78,13 @@
             <input type="checkbox" name="published"> Published
           </label>
         </div>
+        {{#ifCond user.role.role '==' 'Super Administrator'}}
         <div class="checkbox-inline">
           <label>
             <input type="checkbox" name="featured"> Featured
           </label>
         </div>
+        {{/ifCond}}
       </div>
     </div>
 

@@ -2,7 +2,7 @@
   "name": "categories",
   "title": "Categories",
   "version": "0.0.1",
-  "pages": [],
+  "pages": ["/blog", "/blog/:any"],
   "description": "Lists most read posts",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",

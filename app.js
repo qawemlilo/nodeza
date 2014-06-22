@@ -39,7 +39,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var csrf = require('lusca').csrf();
 var errorHandler = require('errorhandler');
-var widgets = require('./lib/express-widgets');
+var widget = require('./lib/widget');
 var expressValidator = require('express-validator');
 var hbs = require('hbs');
 var path = require('path');
@@ -142,8 +142,11 @@ app.use(function(req, res, next) {
 
 // make user object available in templates
 app.use(function(req, res, next) {
-  res.locals.user = req.user;
-  req.session.user = req.user;
+  if (req.user) {
+    res.locals.user = req.user.toJSON();
+    req.session.user = res.locals.user;
+  }
+
   next();
 });
 
@@ -161,7 +164,7 @@ app.use(function(req, res, next) {
 app.use(errorHandler());
 
 // Load widgets
-app.use(widgets());
+app.use(widget());
 
 // pass the app object to routes
 routes.setup(app);

@@ -63,8 +63,10 @@
     
     <div class="form-group">
       <label class="col-sm-2 control-label" for="markdown">Post *</label>
-      <div class="col-sm-9">
-        <textarea class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
+      <div class="col-sm-9" >
+        <div id="epiceditor" style="height: 400px; padding: 0px;" class="form-control">
+          <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
+        </div>
       </div>
     </div>
 

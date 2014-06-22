@@ -10,7 +10,10 @@
       <p class="blog-post-meta">
        {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}} by <a href="/devs/{{user_id}}">{{name}}</a>
       </p>
-      {{{html}}}
+
+      {{#htmlSummary html}}{{/htmlSummary}}
+
+      <a href="/blog/{{slug}}">Read more &raquo;</a>
     </div>
   {{/each}}
 {{/if}}

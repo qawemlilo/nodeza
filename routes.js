@@ -9,12 +9,12 @@ var passport = require('passport');
 /**
  * Controllers
 **/
-var UserController = require('./controllers/user');
+var AccountController = require('./controllers/account');
 var EventsController = require('./controllers/events');
 var HomeController = require('./controllers/home');
 var CompaniesController = require('./controllers/companies');
 var MeetupsController = require('./controllers/meetups');
-var BlogController = require('./controllers/blog');
+var PostsController = require('./controllers/posts');
 
 
 /**
@@ -27,30 +27,30 @@ module.exports.setup = function (app) {
 	**/
 	app.get('/', HomeController.index);
 	
-	app.get('/login', passportConf.isNotAuthenticated, UserController.getLogin);
-	app.post('/login', passportConf.isNotAuthenticated, UserController.postLogin);
-	app.get('/signup', passportConf.isNotAuthenticated, UserController.getSignup);
-	app.post('/signup', passportConf.isNotAuthenticated, UserController.postSignup);
-	app.get('/forgot', passportConf.isNotAuthenticated, UserController.getForgot);
-  app.post('/forgot', passportConf.isNotAuthenticated, UserController.postForgot);
-  app.get('/reset/:token', passportConf.isNotAuthenticated, UserController.getReset);
-  app.post('/reset/:token', passportConf.isNotAuthenticated, UserController.postReset);
+	app.get('/login', passportConf.isNotAuthenticated, AccountController.getLogin);
+	app.post('/login', passportConf.isNotAuthenticated, AccountController.postLogin);
+	app.get('/signup', passportConf.isNotAuthenticated, AccountController.getSignup);
+	app.post('/signup', passportConf.isNotAuthenticated, AccountController.postSignup);
+	app.get('/forgot', passportConf.isNotAuthenticated, AccountController.getForgot);
+  app.post('/forgot', passportConf.isNotAuthenticated, AccountController.postForgot);
+  app.get('/reset/:token', passportConf.isNotAuthenticated, AccountController.getReset);
+  app.post('/reset/:token', passportConf.isNotAuthenticated, AccountController.postReset);
 
 
 	/* 
 	 * Registered Users Routes
 	 * passing 'passportConf.isAuthenticated' middle to avoid public viewing of pages
 	**/
-	app.get('/logout', passportConf.isAuthenticated, UserController.logout);
-	app.get('/account', passportConf.isAuthenticated, UserController.getAccount);
-	app.post('/account', passportConf.isAuthenticated, UserController.postAccount);
-	app.get('/account/password', passportConf.isAuthenticated, UserController.getPasswordForm);
-	app.get('/account/linked', passportConf.isAuthenticated, UserController.getLinkedAccounts);
-	app.post('/account/password', passportConf.isAuthenticated, UserController.postPassword);
-	app.post('/account/delete', passportConf.isAuthenticated, UserController.postDeleteAccount);
-	app.get('/account/unlink/:provider', passportConf.isAuthenticated, UserController.getOauthUnlink);
+	app.get('/logout', passportConf.isAuthenticated, AccountController.logout);
+	app.get('/account', passportConf.isAuthenticated, AccountController.getAccount);
+	app.post('/account', passportConf.isAuthenticated, AccountController.postAccount);
+	app.get('/account/password', passportConf.isAuthenticated, AccountController.getPasswordForm);
+	app.get('/account/linked', passportConf.isAuthenticated, AccountController.getLinkedAccounts);
+	app.post('/account/password', passportConf.isAuthenticated, AccountController.postPassword);
+	app.post('/account/delete', passportConf.isAuthenticated, AccountController.postDeleteAccount);
+	app.get('/account/unlink/:provider', passportConf.isAuthenticated, AccountController.getOauthUnlink);
 
-  app.get('/users/:id', UserController.getUser);
+  app.get('/devs/:id', AccountController.getUser);
 
 
 	/* 
@@ -106,13 +106,13 @@ module.exports.setup = function (app) {
   /*
    * Blog
   **/
-  app.get('/blog', BlogController.getPosts);
-  app.get('/blog/:slug', BlogController.getPost);
-  app.get('/admin/blog', passportConf.isAuthenticated, BlogController.newPostsAdmin);
-  app.get('/admin/blog/new', passportConf.isAuthenticated, BlogController.newPost);
-  app.post('/admin/blog/new', passportConf.isAuthenticated, BlogController.postPost);
-  app.post('/blog/edit', passportConf.isAuthenticated, BlogController.postEdit);
-  app.get('/blog/edit/:id', passportConf.isAuthenticated, BlogController.getEdit);
-  app.get('/blog/delete/:id', passportConf.isAuthenticated, BlogController.getDelete);
-  app.get('/blog/publish/:id', passportConf.isAuthenticated, BlogController.getPublish);
+  app.get('/blog', PostsController.getPosts);
+  app.get('/blog/:slug', PostsController.getPost);
+  app.get('/admin/blog', passportConf.isAuthenticated, PostsController.newPostsAdmin);
+  app.get('/admin/blog/new', passportConf.isAuthenticated, PostsController.newPost);
+  app.post('/admin/blog/new', passportConf.isAuthenticated, PostsController.postPost);
+  app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
+  app.get('/blog/edit/:id', passportConf.isAuthenticated, PostsController.getEdit);
+  app.get('/blog/delete/:id', passportConf.isAuthenticated, PostsController.getDelete);
+  app.get('/blog/publish/:id', passportConf.isAuthenticated, PostsController.getPublish);
 };

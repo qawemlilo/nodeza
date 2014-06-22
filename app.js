@@ -97,7 +97,7 @@ hbs.registerPartials(path.join(__dirname,'views', 'partials'));
 hbs.registerPartials(path.join(__dirname,'views', 'account'));
 hbs.registerPartials(path.join(__dirname,'views', 'events'));
 hbs.registerPartials(path.join(__dirname,'views', 'meetups'));
-hbs.registerPartials(path.join(__dirname,'views', 'blog'));
+hbs.registerPartials(path.join(__dirname,'views', 'posts'));
 
 // setup and register handlebars helpers
 hbsHelpers.setup(hbs);

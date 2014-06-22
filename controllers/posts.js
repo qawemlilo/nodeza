@@ -19,7 +19,7 @@ module.exports = {
     return Post.forge({slug: slug, published: 1})
     .fetch({withRelated: ['created_by', 'tags']})
     .then(function (post) {
-      res.render('blog_post', {
+      res.render('posts_post', {
         page: 'post',
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('meta_title'),
@@ -54,7 +54,7 @@ module.exports = {
       Post.forge({id: id, user_id: user_id})
       .fetch({withRelated: ['tags']})
       .then(function (post) {
-        res.render('blog_edit', {
+        res.render('posts_edit', {
           page: 'postedit',
           title: 'Post edit',
           description: 'Post edit',
@@ -84,7 +84,7 @@ module.exports = {
   
     posts.fetchItems()
     .then(function (collection) {
-      res.render('blog_posts', {
+      res.render('posts_posts', {
         title: 'Blog',
         pagination: collection.paginated,
         posts: collection.toJSON(),
@@ -116,7 +116,7 @@ module.exports = {
   
     posts.fetchItems()
     .then(function (collection) {
-      res.render('blog_admin', {
+      res.render('posts_admin', {
         title: 'Blog',
         pagination: collection.paginated,
         posts: collection.toJSON(),
@@ -142,7 +142,7 @@ module.exports = {
 
     categories.fetch()
     .then(function (collection) {
-      res.render('blog_new', {
+      res.render('posts_new', {
         title: 'New Post',
         description: 'Create a new post',
         page: 'newpost',

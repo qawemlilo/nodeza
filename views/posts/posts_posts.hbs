@@ -18,6 +18,9 @@
             {{title}}
           </a>
         </h3>
+        <p class="blog-post-meta">
+          {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}}
+        </p>
 
         {{#htmlSummary html}}{{/htmlSummary}}
         <a href="/blog/{{slug}}">Read more &raquo;</a>

@@ -19,8 +19,8 @@ module.exports = {
     return Post.forge({slug: slug, published: 1})
     .fetch({withRelated: ['created_by', 'tags']})
     .then(function (post) {
-      res.render('post', {
-        page: 'blog_post',
+      res.render('blog_post', {
+        page: 'post',
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('meta_title'),
         description: post.get('meta_description'),

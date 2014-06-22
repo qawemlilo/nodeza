@@ -5,22 +5,23 @@ var _ = require('lodash');
 
 
 
-/**
-  * parses date
-**/
-function parseDate(dt, fmt) {
-  return moment(dt).format(fmt || 'ddd MMM D YYYY');
-}
-
-
-/**
- * parses time
-**/
-function myTime(ts) {
-  return moment(ts, 'HH:mm:ss').format('HH:mm');
-}
-
 module.exports.setup = function (hbs) {
+
+  /**
+    * parses date
+  **/
+  function parseDate(dt, fmt) {
+    return moment(dt).format(fmt || 'ddd MMM D YYYY');
+  }
+
+
+  /**
+   * parses time
+  **/
+  function parseTime(ts) {
+    return moment(ts, 'HH:mm:ss').format('HH:mm');
+  }
+
 
   var blocks = {};
   var partials = hbs.handlebars.partials;
@@ -91,7 +92,7 @@ module.exports.setup = function (hbs) {
 
 
   hbs.registerHelper('myTime', function(time, fmtcontext) {
-    return myTime(time);
+    return parseTime(time);
   });
 
 

@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
+var Category = require('../models/category');
 
 
 module.exports = {
@@ -100,6 +101,48 @@ module.exports = {
   },
 
 
+  /**
+   * GET /blog
+   */
+  getPostsByCategory: function (req, res) {
+    var posts = new Posts();
+    var slug = req.params.slug;
+    var page = parseInt(req.query.p, 10);
+  
+    posts.limit = 5;
+    posts.currentpage = page || 1;
+    posts.base = '/blog/category/' + slug;
+    
+    
+    Category.forge({slug: slug})
+    .fetch()
+    .then(function (model) {
+
+      posts.andWhereQuery = ['category_id', '=', model.get('id')];
+
+      posts.fetchItems()
+      .then(function (collection) {
+        res.render('posts_posts', {
+          title: 'Blog',
+          pagination: collection.paginated,
+          posts: collection.toJSON(),
+          description: 'Node.js tutorials, articles and news',
+          page: 'blog',
+          query: {}
+        });
+      })
+      .otherwise(function () {
+        req.flash('errors', {'msg': 'Database error.'});
+        res.redirect('/');      
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error.'});
+      res.redirect('/');      
+    });
+  },
+
+
 
   /**
    * GET /events
@@ -176,18 +219,20 @@ module.exports = {
       meta_title: req.body.meta_title || req.body.title,
       meta_description: req.body.meta_description || req.body.title,
       markdown: req.body.markdown,
-      published: req.body.published ? 1 : 0,
-      featured: req.body.featured ? 1 : 0
+      published: !!req.body.published,
+      featured: !!req.body.featured
     };
 
     
 
     post.save(opts, {updateTags: true})
     .then(function() {
+      console.log('success');
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/admin/blog');
     })
     .otherwise(function (error) {
+      console.log(error);
       req.flash('error', {msg: 'Post could not be created.'});
       res.redirect('/admin/blog');
     });
@@ -211,8 +256,8 @@ module.exports = {
       meta_title: req.body.meta_title || req.body.title,
       meta_description: req.body.meta_description || req.body.title,
       markdown: req.body.markdown,
-      published: req.body.published ? 1 : 0,
-      featured: req.body.featured ? 1 : 0
+      published: !!req.body.published,
+      featured: !!req.body.featured
     };
 
     Post.forge({id: opts.id, user_id: opts.user_id})
@@ -220,6 +265,8 @@ module.exports = {
     .then(function (post) {
 
       post.tags = req.body.tags;
+      
+      // specify explicitly if you want to update tags
       post.save(opts, {updateTags: true})
       .then(function() {
         req.flash('success', { msg: 'Post successfully updated.' });
@@ -254,13 +301,13 @@ module.exports = {
         post.destroy()
         .then(function () {
           req.flash('success', {msg: 'Post successfully deleted.'});
-          res.redirect('/admin/blog');
+          res.redirect('back');
         });
       });
     })
     .otherwise(function () {
       req.flash('error', {msg: 'You do not have access to that post.'});
-      res.redirect('/admin/blog');
+      res.redirect('back');
     });
   },
 
@@ -274,12 +321,19 @@ module.exports = {
     Post.forge({id: req.params.id, user_id: req.user.get('id')})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
-      var published = post.get('published') ? 0 : 1;
+      var published = post.get('published') ? false : true;
       var msg = published ? 'published' : 'unpublished';
 
-      post.tags = _.pluck(post.related('tags').toJSON(), 'name').join(',');
+      //post.tags = _.pluck(post.related('tags').toJSON(), 'name').join(',');
+      var opts = {};
 
-      post.save({published: published}, {patch: true})
+      opts.published = published;
+
+      if(published && !post.get('published_at')) {
+        opts.published_at = new Date();
+      }
+
+      post.save(opts, {patch: true})
       .then(function () {
         req.flash('success', {msg: 'Post successfully ' + msg});
         res.redirect('back');

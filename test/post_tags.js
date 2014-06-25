@@ -10,15 +10,15 @@ function blogData() {
   introPost += 'NodeZA is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js deveoplers under one roof and promote Node as a technology.';
 
   var data = {
-    title: 'Welcome to NodeZA',
+    title: 'Welcome to My Country',
     category_id: 1,
     user_id: 1,
     views: 0,
     meta_title: 'Welcome to NodeZA',
     meta_description: 'NodeZA is a community',
     markdown: introPost,
-    published: 1,
-    featured: 0
+    published: true,
+    featured: false
   };
 
   return data;
@@ -28,16 +28,16 @@ function blogData() {
 describe('Post', function(){
 
   var data = blogData();
-  var post = new Post();
+  
 
 
   describe('#set #save', function() {
     it('should create a new post', function(done){
+      var post = new Post();
       
-      post.tags = 'junk';
-      post.set(data);
+      post.tags = 'test, qawe';
 
-      post.save()
+      post.save(data, {updateTags: true})
       .then(function (model) {
         postID = model.get('id'); 
         postID.should.above(0);
@@ -54,23 +54,31 @@ describe('Post', function(){
   describe('#tags #category #created_by', function() {
     it('should load tags associated this this post', function(done){
       Post.forge({id: postID})
-      .fetch({withRelated: ['tags', 'category', 'created_by']})
+      .fetch({withRelated: ['category', 'created_by', 'tags']})
       .then(function (post) {
-        var tags = post.related('tags').toJSON();
         var category = post.related('category').toJSON();
         var created_by = post.related('created_by').toJSON();
 
-        tags.length.should.be.above(0);
+        created_by.id.should.be.equal(1);
+        category.id.should.be.equal(1);
+
         done();
+      })
+      .otherwise(function (error) {
+        done(error);
       });
     });
   });
+
 
   describe('#destroy', function() {
     it('should destroy post with related tags', function(done){
       Post.forge({id: postID})
       .fetch({withRelated: ['tags']})
       .then(function(post) {
+
+        post.related('tags').length.should.be.equal(2);
+        
         return post.related('tags')
           .detach()
           .then(function () {

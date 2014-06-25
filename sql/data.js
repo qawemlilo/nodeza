@@ -68,7 +68,7 @@ function createFakeEvents (total) {
   var events = [];
   var i;
 
-  total = total || 100;
+  total = total || 10;
 
   for(i = 0; i < total; i++) {
     events.push(fakeEvent());
@@ -94,7 +94,7 @@ module.exports.populate  = function () {
     {name: 'Company Profiles'}
   ];
   var fakeMeetups = [];
-  var fakeEvents = createFakeEvents(100);
+  var fakeEvents = createFakeEvents();
   var operations =  [];
 
   fakeMeetups.push(fakeMeetup({name: 'Node.js Cape Town'}));

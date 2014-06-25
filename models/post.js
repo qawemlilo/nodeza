@@ -26,7 +26,7 @@ var Post = Base.Model.extend({
 
     this.on('saved', function (model, attributes, options) {
       if (options.updateTags) {
-        return self.updateTags(model, attributes, options);
+        self.updateTags(model, attributes, options);
       }
     });
   },
@@ -65,7 +65,7 @@ var Post = Base.Model.extend({
     var tags = self.tags || 'uncategorised';
 
     // only update views field
-    if (self.hasChanged('views')) {
+    if (self.hasChanged('views') && !self.isNew()) {
       return Base.Model.prototype.saving.call(self);
     }
 
@@ -98,8 +98,9 @@ var Post = Base.Model.extend({
     self.set('html', markdown.toHTML(self.get('markdown')));
 
     self.set('title', self.get('title').trim());
-
-    if ((self.hasChanged('published') || !self.get('published_at')) && self.get('published') === 1) {
+    
+    // set publishing date if published and notExists
+    if (self.hasChanged('published') && self.get('published')) {
       if (!self.get('published_at')) {
         self.set('published_at', new Date());
       }

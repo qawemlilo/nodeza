@@ -4,7 +4,7 @@
 <div class="col-sm-12 blog-main">
   {{> flash}}
 
-  {{> meetups_new}}
+  {{> meetups_edit}}
 </div>
 
 {{#extend "scripts"}}
@@ -20,6 +20,8 @@
       },
       componentRestrictions: {country: 'za'}
     });
+
+    //$("#geocomplete").trigger("geocode");
   });
 </script>
 {{/extend}}

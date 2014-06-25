@@ -38,10 +38,9 @@ Base.Model = Base.Model.extend({
 
   saving: function () {
     var self = this;
-    var whiteListedTables = ['users', 'roles', 'tokens', 'events', 'posts_tags'];
     var table = self.getTableName();
     
-    if ((self.hasChanged('slug') || !self.get('slug')) && whiteListedTables.indexOf(table) < 0) {
+    if (self.hasChanged('slug') || !self.get('slug')) {
       // Pass the new slug through the generator to strip illegal characters, detect duplicates
       return self.generateSlug(self.get('slug') || self.get('name') || self.get('title'))
         .then(function (slug) {
@@ -118,7 +117,7 @@ Base.Model = Base.Model.extend({
     slug = slug.charAt(slug.length - 1) === '-' ? slug.substr(0, slug.length - 1) : slug;
 
     // Check the filtered slug doesn't match any of the reserved keywords
-    slug = /^(events|meetups|admin|blog|companies|jobs|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|public|user|users|rss|feed)$/g
+    slug = /^(events|meetups|devs|admin|blog|companies|jobs|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|public|user|users|rss|feed)$/g
             .test(slug) ? slug + '-' + baseName : slug;
 
     //if slug is empty after trimming use "post"

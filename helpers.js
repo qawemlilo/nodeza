@@ -103,6 +103,13 @@ module.exports.setup = function (hbs) {
   });
 
 
+  hbs.registerHelper('htmlToMarkdown', function(html, context) {
+    var markdown = html.replace(/<br>/g, '\n');
+
+    return markdown;
+  });
+
+
 
   hbs.registerHelper('isPublished', function(flag, id, context) {
     var answer = parseInt(flag, 10);

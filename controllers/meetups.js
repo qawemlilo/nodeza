@@ -58,6 +58,32 @@ module.exports = {
 
 
 
+  /*
+   * GET /meetups/edit/:id
+   */
+  getMeetupEdit: function (req, res) {
+    var id = req.params.id;
+    var user_id = req.user.get('id');
+
+    Meetup.forge({id: id, user_id: user_id})
+    .fetch()
+    .then(function (model) {
+
+      res.render('meetups_edit', {
+        page: 'meetupedit',
+        title: 'Meetup edit',
+        description: 'Meetup edit',
+        meetup: model.toJSON()
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'You do not have permission to edit that meetup'});
+      res.redirect('back');      
+    });
+  },
+
+
+
   /**
    * GET /meetups
    * get upcoming meetups
@@ -117,7 +143,7 @@ module.exports = {
    * POST /meetups/new
    * create an meetup
    */
-  postNewMeetup: function (req, res) {
+  postMeetup: function (req, res) {
     req.assert('title', 'Name must be at least 4 characters long').len(4);
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);
@@ -127,10 +153,18 @@ module.exports = {
     var errors = req.validationErrors();
     var meetupData = {};
     var user = req.user;
+    var errMsg = 'Database error. Meetup not created.';
+    var successMsg = 'Meetup successfully created!';
   
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/meetups/new');
+      return res.redirect('/admin/meetups');
+    }
+
+    if (req.body.id) {
+      errMsg = 'Database error. Meetup not updated.';
+      successMsg = 'Meetup successfully updated!';
+      meetupData.id = req.body.id;
     }
 
     meetupData.user_id = user.get('id');
@@ -148,23 +182,24 @@ module.exports = {
     meetupData.url = req.body.url;
     meetupData.email = req.body.email;
     meetupData.number = req.body.number;
+    meetupData.meetings = req.body.meetings;
 
 
     Meetup.forge(meetupData)
     .save()
     .then(function (model) {
       if (!model) {
-        req.flash('errors', {'msg': 'Database error. Meetup not created.'});
+        req.flash('errors', {'msg': errMsg});
       }
       else {
-      	req.flash('success', { msg: 'Meetup successfully created!' });
+      	req.flash('success', { msg: successMsg});
       }
 
-      res.redirect('/meetups/new');
+      res.redirect('/admin/meetups');
     })
     .otherwise(function (error) {
-      req.flash('errors', {'msg': 'Database error. Meetup not created.'});
-      res.redirect('/meetups/new');
+      req.flash('errors', {'msg': errMsg});
+      res.redirect('/admin/meetups');
     });
   }
 };

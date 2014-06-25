@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var MySql  = require('bookshelf').PG;
+var Base  = require('./base');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var Token = require('./token');
@@ -15,7 +15,7 @@ var _ = require('lodash');
 
 
 
-var User = MySql.Model.extend({
+var User = Base.Model.extend({
 
   tableName: 'users',
 
@@ -116,17 +116,17 @@ var User = MySql.Model.extend({
         }
   
         // Save the user with the hashed password
-        return MySql.Model.prototype.save.call(self, data, options);
+        return Base.Model.prototype.save.call(self, data, options);
       });
     }
     else {
       var args = [].slice.call(arguments, 0);
 
-      return MySql.Model.prototype.save.apply(self, args);      
+      return Base.Model.prototype.save.apply(self, args);      
     }
 
   }
 });
 
 
-module.exports = MySql.model('User', User);
+module.exports = Base.model('User', User);

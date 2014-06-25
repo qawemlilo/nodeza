@@ -38,14 +38,14 @@ module.exports = {
    * loads an event by id
    */
   getUser: function (req, res, next) {
-    var id = parseInt(req.params.id, 10);
+    var slug = req.params.slug;
 
-    User.forge({id: id})
+    User.forge({slug: slug})
     .fetch({withRelated: ['posts', 'events']})
     .then(function (profile) {
       if(!profile) {
         req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
-        return res.redirect(req.session.returnTo || '/');
+        return res.redirect('back');
       }
 
       res.render('account_profile', {
@@ -62,7 +62,7 @@ module.exports = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
-      res.redirect(req.session.returnTo || '/');
+      res.redirect('back');
     });
   },
 

@@ -1,0 +1,126 @@
+
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <span class="glyphicon glyphicon-user"></span> Edit Meetup Group
+
+    <a href="/admin/meetups" class="close pull-right">&times;</a>
+
+  </div>
+
+  <div class="panel-body">
+  <form class="form-horizontal" id="meetup-form" action="/admin/meetups/edit" method="POST">
+    <input type="hidden" name="_csrf" autocomplete="off" value="{{_csrf}}" />
+    <input type="hidden" name="id" autocomplete="off" value="{{meetup.id}}" />
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="title">
+        Meetup Name *
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" autocomplete="off" type="text" name="title" id="title" value="{{meetup.name}}" required="" />
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="desc">Short Description *</label>
+      <div class="col-sm-7">
+        <textarea class="form-control" autocomplete="off" size="124" rows="2" name="short_desc" id="short_desc" required="">{{meetup.short_desc}}</textarea>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="desc">Full Description *</label>
+      <div class="col-sm-7">
+        <textarea class="form-control" autocomplete="off" rows="4" name="desc" id="desc" required="">{{#htmlToMarkdown meetup.desc}}{{/htmlToMarkdown}}</textarea>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="organiser">
+        Organiser *
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" autocomplete="off" name="organiser" id="organiser" value="{{meetup.organiser}}" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="organiser">
+        When do you meet? *
+      </label>
+
+      <div class="col-sm-7">
+        <textarea class="form-control" rows="2"  autocomplete="off" name="meetings" id="meetings" required="">{{meetup.meetings}}</textarea>
+      </div> 
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="email">
+        Contact Email *
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control"  autocomplete="off" type="text" name="email" id="email" value="{{meetup.email}}" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="number">
+        Contact Number
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" autocomplete="off" type="text" name="number" id="number" value="{{meetup.number}}" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="website">
+        Website
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" autocomplete="off" name="website" id="website" value="{{meetup.website}}" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="geocomplete">Meetup Venue</label>
+      <div class="col-sm-7">
+        <input class="form-control" type="text" autocomplete="off" name="geocomplete" id="geocomplete" value="{{meetup.address}}">
+        
+        <div id="googlemap" style="height:255px; width: 100%">
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" autocomplete="off" name="administrative_area_level_1" />
+    <input type="hidden" autocomplete="off" name="url" />
+    <input type="hidden" autocomplete="off" name="lat" />
+    <input type="hidden" autocomplete="off" name="lng" />
+    <input type="hidden" autocomplete="off" name="locality" />
+    <input type="hidden" autocomplete="off" name="sublocality" />
+    <input type="hidden" autocomplete="off" name="formatted_address" />
+
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-7">
+        <button class="btn btn-success" type="submit">
+          <i class="fa fa-check"></i> Create Meetup
+        </button>
+
+        <a href="/admin/meetups" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+        </a>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>

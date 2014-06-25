@@ -14,4 +14,34 @@
 {{#extend "scripts"}}
 <script src="/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/js/jquery.geocomplete.min.js"></script>
+<script>
+  $(function(){
+    $("#geocomplete").geocomplete({
+      details: "#event-form",
+      map: "#googlemap",
+      mapOptions: {
+        zoom: 10
+      },
+      componentRestrictions: {country: 'za'}
+    });
+
+
+    $('#googlemap').on("focus", function() {
+      $('#googlemap').slideDown('slow');
+    });
+
+    $('#dateDiv').datetimepicker({
+      pickTime: false,
+      minDate: moment().format('l')
+    });
+
+    $('#startTimeDiv').datetimepicker({
+      pickDate: false
+    });
+
+    $('#finishTimeDiv').datetimepicker({
+      pickDate: false
+    });
+  });
+</script>
 {{/extend}}

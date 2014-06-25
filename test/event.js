@@ -11,7 +11,7 @@ function createFakeEvent() {
   var dateTime = Faker.Date.future(10);
 
   var start_time = dateTime.substring(11, 19);
-  var date = dateTime.substring(0, 10);
+  var date = new Date(Date.now() + (1000 * 60 * 60 * 24 * 30));
 
   eventData.user_id = 16;
   eventData.title = Faker.Lorem.sentence().split(',').join(' ');

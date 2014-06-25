@@ -50,7 +50,7 @@ module.exports.setup = function (app) {
 	app.post('/account/delete', passportConf.isAuthenticated, AccountController.postDeleteAccount);
 	app.get('/account/unlink/:provider', passportConf.isAuthenticated, AccountController.getOauthUnlink);
 
-  app.get('/devs/:id', AccountController.getUser);
+  app.get('/devs/:slug', AccountController.getUser);
 
 
 	/* 
@@ -83,7 +83,7 @@ module.exports.setup = function (app) {
   app.get('/admin/events/new', passportConf.isAuthenticated, EventsController.newEvent);
   app.post('/admin/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
   app.get('/events', EventsController.getEvents);
-  app.get('/events/:id', EventsController.getEvent);
+  app.get('/events/:slug', EventsController.getEvent);
 
 
   /*
@@ -97,8 +97,10 @@ module.exports.setup = function (app) {
   **/
   app.get('/admin/meetups', passportConf.isAuthenticated, MeetupsController.getMeetupsAdmin);
   app.get('/admin/meetups/new', passportConf.isAuthenticated, MeetupsController.newMeetup);
-  app.post('/admin/meetups/new', passportConf.isAuthenticated, MeetupsController.postNewMeetup);
+  app.post('/admin/meetups/new', passportConf.isAuthenticated, MeetupsController.postMeetup);
+  app.post('/admin/meetups/edit', passportConf.isAuthenticated, MeetupsController.postMeetup);
   app.get('/meetups', MeetupsController.getMeetups);
+  app.get('/meetups/edit/:id', passportConf.isAuthenticated, MeetupsController.getMeetupEdit);
   app.get('/meetups/:slug', MeetupsController.getMeetup);
   app.get('/meetups', MeetupsController.getMeetups);
 
@@ -108,6 +110,7 @@ module.exports.setup = function (app) {
   **/
   app.get('/blog', PostsController.getPosts);
   app.get('/blog/:slug', PostsController.getPost);
+  app.get('/blog/category/:slug', PostsController.getPostsByCategory);
   app.get('/admin/blog', passportConf.isAuthenticated, PostsController.newPostsAdmin);
   app.get('/admin/blog/new', passportConf.isAuthenticated, PostsController.newPost);
   app.post('/admin/blog/new', passportConf.isAuthenticated, PostsController.postPost);

@@ -76,9 +76,7 @@ passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refr
           location: existingUser.get('location') || profile._json.location,
           website: existingUser.get('website') || profile._json.blog || profile._json.profileUrl,
           role_id: existingUser.get('role_id') || 1,
-          location: existingUser.get('location') || profile._json.location,
-          about: existingUser.get('about') || profile._json.bio,
-          role_id: existingUser.get('role_id') || 1
+          about: existingUser.get('about') || profile._json.bio
         }); 
 
         existingUser.save()

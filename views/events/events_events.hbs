@@ -9,7 +9,7 @@
           <input type="hidden" name="_csrf" value="{{_csrf}}" />
           <strong>Limit #</strong> <select name="limit" onchange="document.forms.eventslimit.submit()">
               <option value="2" {{#ifCond query.limit '==' 2}}selected{{/ifCond}}>2</option>
-              <option value="5" {{#ifCond query.limit '==' 10}}selected{{/ifCond}}>5</option>
+              <option value="5" {{#ifCond query.limit '==' 5}}selected{{/ifCond}}>5</option>
               <option value="10" {{#ifCond query.limit '==' 10}}selected{{/ifCond}}>10</option>
               <option value="20" {{#ifCond query.limit '==' 20}}selected{{/ifCond}}>20</option>
               <option value="50" {{#ifCond query.limit '==' 50}}selected{{/ifCond}}>50</option>
@@ -48,7 +48,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <h2 class="blog-post-title">
-          <a href="/events/{{id}}">{{title}}</a>
+          <a href="/events/{{slug}}">{{title}}</a>
         </h2>
           <p class="blog-post-meta">
             <span class="glyphicon glyphicon-map-marker"></span>

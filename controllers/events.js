@@ -36,9 +36,9 @@ module.exports = {
    * loads an event by id
    */
   getEvent: function (req, res, next) {
-    var id = parseInt(req.params.id, 10);
+    var slug = req.params.slug;
 
-    Event.forge({id: id})
+    Event.forge({slug: slug})
     .fetch()
     .then(function (event) {
       if(!event) {

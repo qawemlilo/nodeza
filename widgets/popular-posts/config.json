@@ -2,7 +2,7 @@
   "name": "popularposts",
   "title": "Popular posts",
   "version": "0.0.1",
-  "pages": ["/blog", "/blog/:any", "/meetups"],
+  "pages": ["/blog", "/blog/:any", "/meetups", "/blog/category/:any"],
   "description": "Lists most popular posts",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",

@@ -188,6 +188,9 @@ label {
 }
 .blog-post-title {
   margin-bottom: 10px;
+  font-size: 24px;
+}
+.blog-main .blog-post-title {
   font-size: 40px;
 }
 .blog-post-meta {

@@ -79,7 +79,7 @@ var csrfWhitelist = [
 ];
 
 // port
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 
 // define views folder  
 app.set('views', path.join(__dirname, 'views'));

@@ -51,7 +51,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 // Sign in with GitHub.
 passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refreshToken, profile, done) {
 
-   console.log(profile);
+  //console.log(profile);
   // if the user is already logged in
   if (req.user) {
     var user = new User(); 

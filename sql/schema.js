@@ -22,6 +22,8 @@ module.exports = {
     github: {type: 'string', maxlength: 150, nullable: false},
     google: {type: 'string', maxlength: 150, nullable: false},
     about: {type: 'string', maxlength: 254, nullable: false},
+    github_url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true},
+    twitter_url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true},
     image_url: {type: 'text', maxlength: 2000, nullable: false},
     views: {type: 'integer', nullable: false},
     created_at: {type: 'dateTime', nullable: false},

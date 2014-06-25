@@ -1,5 +1,5 @@
 
-var migrate = require('../lib/migrate');
+var migrate = require('../sql/migrate');
 
 migrate.reset()
 .then(function () {

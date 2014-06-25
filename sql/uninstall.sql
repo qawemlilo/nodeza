@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS `users`, `roles_map`, `roles`, `tokens`;

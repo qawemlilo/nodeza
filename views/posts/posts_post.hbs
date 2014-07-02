@@ -1,7 +1,7 @@
 
 
 {{#if post}}
-  <div class="blog-main">  
+  <div class="blog-main-body">  
     <h2 class="blog-post-title">
       {{post.title}}
     </h2>
@@ -13,13 +13,26 @@
       {{#each post.tags}}
         <a href="/blog/tags/{{slug}}">{{name}}</a> 
       {{/each}}
+
+      <a target="_blank" href="http://www.facebook.com/share.php?u={{post.id}}" class="share share-fb" title="Share on Facebook"> 
+        &nbsp;
+      </a>
+      <a target="_blank" href="http://twitter.com/home?status={{post.id}}" class="share share-twitter" title="Share on Twitter">
+        &nbsp;
+      </a>
+      <a target="_blank" href="http://reddit.com/submit?url={{post.id}}" class="share share-reddit" title="Share on Reddit">
+        &nbsp;
+      </a>
+      <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url={{post.id}}" class="share share-linkedin" title="Share on LinkedIn">
+        &nbsp;
+      </a>
     </p>
 
     {{{post.html}}}
     
   </div>
 
-  <div class="blog-main post-author">
+  <div class="blog-main-footer post-author">
     <div style="padding:10px">
       <div class="media">
         <a class="pull-left" href="/devs/{{author.slug}}">

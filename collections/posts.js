@@ -146,30 +146,29 @@ var Posts = MySql.Collection.extend({
    *
    * @returns: {Promise} - a promise that resolves with {Object.models[] Object.pagination{}}
   */
-  fetchItems: function () {
+  fetchItems: function (options) {
     var self = this;
     var deferred = when.defer();
 
     self.paginate()
     .then(function(pagination) {
-      var query = self.query();
+      var posts = Posts.forge();
 
-      query.limit(self.limit);
+      posts.query(function (query) {
+        query.limit(self.limit);
+        if (self.whereQuery.length) {
+          query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+        }  
+        if (self.andWhereQuery.length) {
+          query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
+        }
 
-      if (self.whereQuery.length) {
-        query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
-      }  
-      if (self.andWhereQuery.length) {
-        query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
-      }
-
-      query.offset((self.currentpage - 1) * self.limit);
-      query.orderBy(self.sortby, self.order);
-
-      query.select()
-      .then(function (models) {
-        self.reset(models);
-        deferred.resolve(self);
+        query.offset((self.currentpage - 1) * self.limit);
+        query.orderBy(self.sortby, self.order);
+      })
+      .fetch(options)
+      .then(function (collection) {
+        deferred.resolve(collection);
       })
       .otherwise(function () {
         deferred.reject();
@@ -187,23 +186,23 @@ var Posts = MySql.Collection.extend({
   /**
    * Fetches featured front page posts
   */
-  fetchFeatured: function (limit) {
+  fetchFeatured: function (limit, options) {
     var self = this;
     var deferred = when.defer();
-    var query = self.query();
-
-    query.limit(limit || 2);
-    query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
-    query.andWhere('featured', '=', 1);
-    query.andWhere('published', '=', 1);
-    query.offset((self.currentpage - 1) * self.limit);
-    query.orderBy(self.sortby, self.order);
-    query.join('users', 'users.id', '=', 'posts.user_id');
-
-    query.select('posts.id', 'posts.user_id', 'posts.title', 'posts.slug', 'posts.published_at', 'posts.featured', 'posts.html', 'users.name')
-    .then(function (models) {
-      self.reset(models);
-      deferred.resolve(self);
+    var posts = Posts.forge();
+    
+    posts.query(function (query) {
+      query.limit(limit || 2);
+      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
+      query.andWhere('featured', '=', 1);
+      query.andWhere('published', '=', 1);
+      query.offset((self.currentpage - 1) * self.limit);
+      query.orderBy(self.sortby, self.order);
+      query.join('users', 'users.id', '=', 'posts.user_id');
+    })
+    .fetch()
+    .then(function (collection) {
+      deferred.resolve(collection);
     })
     .otherwise(function () {
       deferred.reject();

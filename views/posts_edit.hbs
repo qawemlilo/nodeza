@@ -13,10 +13,11 @@
 <script>
 var editor = new EpicEditor({
   textarea: 'markdown',
+  basePath: '/js/epiceditor',
   theme: {
-    base: 'http://localhost:3001/js/epiceditor/themes/base/epiceditor.css',
-    preview: 'http://localhost:3001/js/epiceditor/themes/preview/github.css',
-    editor: 'http://localhost:3001/js/epiceditor/themes/editor/epic-light.css'
+    base: '/themes/base/epiceditor.css',
+    preview: '/themes/preview/github.css',
+    editor: '/themes/editor/epic-light.css'
   }
 }).load();
 </script>

@@ -147,6 +147,8 @@ app.use(function(req, res, next) {
     req.session.user = res.locals.user;
   }
 
+  res.locals.base = 'http://localhost:' + app.get('port');
+
   next();
 });
 

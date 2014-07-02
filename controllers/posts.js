@@ -223,11 +223,8 @@ module.exports = {
       featured: !!req.body.featured
     };
 
-    
-
     post.save(opts, {updateTags: true})
     .then(function() {
-      console.log('success');
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/admin/blog');
     })

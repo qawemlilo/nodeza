@@ -41,7 +41,7 @@ Base.Model = Base.Model.extend({
     var self = this;
     var table = self.getTableName();
 
-    if (self.hasChanged('slug') || !self.get('slug') && Databases[table] && Databases[table]['slug']) {
+    if (self.hasChanged('slug') || !self.get('slug') && Databases[table] && Databases[table].slug) {
 
       // Pass the new slug through the generator to strip illegal characters, detect duplicates
       return self.generateSlug(self.get('slug') || self.get('name') || self.get('title'))

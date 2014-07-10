@@ -81,6 +81,8 @@ module.exports = {
   
     posts.limit = 5;
     posts.currentpage = page || 1;
+    posts.base = '/blog';
+    posts.whereQuery = ['published_at', '<', new Date()];
     posts.andWhereQuery = ['published', '=', 1];
   
     posts.fetchItems()
@@ -117,7 +119,8 @@ module.exports = {
     Category.forge({slug: slug})
     .fetch()
     .then(function (model) {
-
+      
+      posts.whereQuery = ['published_at', '<', new Date()];
       posts.andWhereQuery = ['category_id', '=', model.get('id')];
 
       posts.fetchItems()

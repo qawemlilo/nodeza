@@ -7,6 +7,7 @@ module.exports.exec = function (req, res, collections) {
     var posts = new collections.Posts();
 
     posts.limit = 5;
+    posts.whereQuery = ['published_at', '<', new Date()];
     posts.andWhereQuery = ['published', '=', 1];
     posts.sort = 'id';
     posts.order = 'desc';

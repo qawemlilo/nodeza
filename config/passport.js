@@ -51,7 +51,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 // Sign in with GitHub.
 passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refreshToken, profile, done) {
 
-  //console.log(profile);
   // if the user is already logged in
   if (req.user) {
     var user = new User(); 
@@ -91,7 +90,8 @@ passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refr
             req.flash('info', { msg: 'GitHub account has been linked.' });
             done(false, model);
           })
-          .otherwise(function () {
+          .otherwise(function (error) {
+            console.log('94: %s', error);
             req.flash('errors', { msg: 'Database error. Failed to save token'});
             done(false, model);
           });
@@ -163,7 +163,8 @@ passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refr
               
             done(false, model);
           })
-          .otherwise(function () {
+          .otherwise(function (error) {
+            console.log('167: %s', error);
             req.flash('errors', { msg: 'Database error. Failed to save token'});
             done(false, model);
           });

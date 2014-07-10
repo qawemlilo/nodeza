@@ -4,6 +4,7 @@
 var Base  = require('bookshelf').PG;
 var unidecode  = require('unidecode');
 var when  = require('when');
+var Databases = require('../sql/schema');
 var _ = require('lodash');
 
 
@@ -39,8 +40,9 @@ Base.Model = Base.Model.extend({
   saving: function () {
     var self = this;
     var table = self.getTableName();
-    
-    if (self.hasChanged('slug') || !self.get('slug')) {
+
+    if (self.hasChanged('slug') || !self.get('slug') && Databases[table] && Databases[table]['slug']) {
+
       // Pass the new slug through the generator to strip illegal characters, detect duplicates
       return self.generateSlug(self.get('slug') || self.get('name') || self.get('title'))
         .then(function (slug) {

@@ -3,14 +3,14 @@
  */
 
 
-var MySql  = require('bookshelf').PG;
+var Base  = require('./base');
 
 
-var Token = MySql.Model.extend({
+var Token = Base.Model.extend({
 
   tableName: 'tokens'
   
 });
 
 
-module.exports = MySql.model('Token', Token);
+module.exports = Base.model('Token', Token);

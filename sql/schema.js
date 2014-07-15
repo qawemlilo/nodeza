@@ -82,6 +82,7 @@ module.exports = {
     url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     website: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     views: {type: 'integer', nullable: false},
+    image_url: {type: 'text', maxlength: 2000, nullable: false},
     created_at: {type: 'dateTime', nullable: false},
     updated_at: {type: 'dateTime', nullable: true}
   },

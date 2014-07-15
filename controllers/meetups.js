@@ -118,7 +118,7 @@ module.exports = {
     var meetups = new Meetups();
 
 
-    meetups.base = '/admin/events';
+    meetups.base = '/account/events';
     meetups.whereQuery = ['user_id', '=', req.user.get('id')];
   
     meetups.fetchItems()
@@ -158,7 +158,7 @@ module.exports = {
   
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/admin/meetups');
+      return res.redirect('/account/meetups');
     }
 
     if (req.body.id) {
@@ -195,11 +195,11 @@ module.exports = {
       	req.flash('success', { msg: successMsg});
       }
 
-      res.redirect('/admin/meetups');
+      res.redirect('/account/meetups');
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': errMsg});
-      res.redirect('/admin/meetups');
+      res.redirect('/account/meetups');
     });
   }
 };

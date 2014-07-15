@@ -4,12 +4,12 @@
   <div class="panel-heading">
     <span class="glyphicon glyphicon-user"></span> Edit Meetup Group
 
-    <a href="/admin/meetups" class="close pull-right">&times;</a>
+    <a href="/account/meetups" class="close pull-right">&times;</a>
 
   </div>
 
   <div class="panel-body">
-  <form class="form-horizontal" id="meetup-form" action="/admin/meetups/edit" method="POST">
+  <form class="form-horizontal" id="meetup-form" action="/account/meetups/edit" method="POST">
     <input type="hidden" name="_csrf" autocomplete="off" value="{{_csrf}}" />
     <input type="hidden" name="id" autocomplete="off" value="{{meetup.id}}" />
 
@@ -116,7 +116,7 @@
           <i class="fa fa-check"></i> Create Meetup
         </button>
 
-        <a href="/admin/meetups" class="btn btn-default">
+        <a href="/account/meetups" class="btn btn-default">
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </a>
       </div>

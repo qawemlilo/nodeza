@@ -154,7 +154,7 @@ module.exports = {
   
     events.currentpage = page || 1;
     events.limit = req.session.elimit || 5;
-    events.base = '/admin/events';
+    events.base = '/account/events';
     events.andWhereQuery = ['user_id', '=', req.user.get('id')];
   
     if(sortby) {

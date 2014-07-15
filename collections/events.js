@@ -36,7 +36,7 @@ var Events = MySql.Collection.extend({
   base: '/events',
 
 
-  whereQuery: ['dt', '>', datetime()],
+  whereQuery: ['dt', '>', new Date()],
 
 
   andWhereQuery: [],

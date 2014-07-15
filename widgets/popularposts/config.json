@@ -4,11 +4,9 @@
   "version": "0.0.1",
   "pages": [
     "/blog", 
-    "/blog/:any", 
-    "/meetups", 
+    "/blog/:any",
     "/blog/category/:any",
-    "/events",
-    "/events/:any"
+    "/blog/tags/:any"
   ],
   "description": "Lists most popular posts",
   "author": "Qawelesizwe Mlilo",

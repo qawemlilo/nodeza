@@ -34,10 +34,8 @@ describe('Post', function(){
   describe('#set #save', function() {
     it('should create a new post', function(done){
       var post = new Post();
-      
-      post.tags = 'test, qawe';
 
-      post.save(data, {updateTags: true})
+      post.save(data, {updateTags: [{name: 'qawe'},{name: 'test'}]})
       .then(function (model) {
         postID = model.get('id'); 
         postID.should.above(0);

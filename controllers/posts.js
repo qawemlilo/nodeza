@@ -5,6 +5,27 @@ var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
+var Tags = require('../models/tag');
+
+
+
+
+
+function processTags(tags) {
+  if (!tags) {
+    return false;
+  }
+
+  tags = tags.split(',');
+
+  tags = tags.map(function (tag) {
+    return {name: tag.trim()};
+  });
+
+  return tags;
+}
+
+
 
 
 module.exports = {
@@ -89,7 +110,7 @@ module.exports = {
     .then(function (collection) {
       res.render('posts_posts', {
         title: 'Blog',
-        pagination: collection.paginated,
+        pagination: posts.paginated,
         posts: collection.toJSON(),
         description: 'Node.js tutorials, articles and news',
         page: 'blog',
@@ -104,7 +125,7 @@ module.exports = {
 
 
   /**
-   * GET /blog
+   * GET /blog/category/:slug
    */
   getPostsByCategory: function (req, res) {
     var posts = new Posts();
@@ -127,7 +148,7 @@ module.exports = {
       .then(function (collection) {
         res.render('posts_posts', {
           title: 'Blog',
-          pagination: collection.paginated,
+          pagination: posts.paginated,
           posts: collection.toJSON(),
           description: 'Node.js tutorials, articles and news',
           page: 'blog',
@@ -146,6 +167,38 @@ module.exports = {
   },
 
 
+  /**
+   * GET /blog/tags/:slug
+   */
+  getPostsByTag: function (req, res) {
+    var slug = req.params.slug;
+
+    Tags.forge({slug: slug})
+    .fetch()
+    .then(function (tag) {
+      tag.posts()
+      .fetch()
+      .then(function (collection) {
+
+        res.render('posts_posts', {
+          title: 'Blog',
+          pagination: collection.paginated,
+          posts: collection.toJSON(),
+          description: 'Node.js tutorials, articles and news',
+          page: 'blog',
+          query: {}
+        });
+      })
+      .otherwise(function () {
+        res.redirect('back');
+      });
+    })
+    .otherwise(function () {
+      res.redirect('back');
+    });
+  },
+
+
 
   /**
    * GET /events
@@ -155,16 +208,16 @@ module.exports = {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
   
-    posts.limit = 5;
+    posts.limit = 10;
     posts.currentpage = page || 1;
-    posts.base = '/admin/blog';
+    posts.base = '/account/blog';
     posts.whereQuery = ['user_id', '=', req.user.get('id')];
   
     posts.fetchItems()
     .then(function (collection) {
       res.render('posts_admin', {
         title: 'Blog',
-        pagination: collection.paginated,
+        pagination: posts.paginated,
         posts: collection.toJSON(),
         description: 'Node.js tutorials, articles and news',
         page: 'adminblog',
@@ -180,7 +233,7 @@ module.exports = {
 
 
   /*
-   * GET /admin/blog/new
+   * GET /account/blog/new
    * load new post page
    */
   newPost: function (req, res) {
@@ -197,23 +250,22 @@ module.exports = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/admin/blog');       
+      res.redirect('/account/blog');       
     });
   },
 
 
 
   /**
-   * POST /admin/blog/new
+   * POST /account/blog/new
    * Edit user account.
   */
   postPost: function(req, res, next) {
     var post = new Post();
 
     req.assert('title', 'Title must be at least 6 characters long').len(6);
+    req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
-
-    post.tags = req.body.tags;
 
     var opts = {
       user_id: req.user.get('id'),
@@ -226,18 +278,17 @@ module.exports = {
       featured: !!req.body.featured
     };
 
-    post.save(opts, {updateTags: true})
+    post.save(opts, {updateTags: processTags(req.body.tags)})
     .then(function() {
       req.flash('success', { msg: 'Post successfully created.' });
-      res.redirect('/admin/blog');
+      res.redirect('/account/blog');
     })
     .otherwise(function (error) {
       console.log(error);
       req.flash('error', {msg: 'Post could not be created.'});
-      res.redirect('/admin/blog');
+      res.redirect('/account/blog');
     });
   },
-
 
 
   /**
@@ -246,6 +297,7 @@ module.exports = {
   */
   postEdit: function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
+    req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
     var opts = {
@@ -263,32 +315,30 @@ module.exports = {
     Post.forge({id: opts.id, user_id: opts.user_id})
     .fetch()
     .then(function (post) {
-
-      post.tags = req.body.tags;
       
       // specify explicitly if you want to update tags
-      post.save(opts, {updateTags: true})
+      post.save(opts, {updateTags: processTags(req.body.tags)})
       .then(function() {
         req.flash('success', { msg: 'Post successfully updated.' });
-        res.redirect('/admin/blog');
+        res.redirect('/account/blog');
       })
       .otherwise(function (error) {
         req.flash('error', {msg: 'Post could not be updated.'});
         console.log(error);
-        res.redirect('/admin/blog');
+        res.redirect('/account/blog');
       });
     })
     .otherwise(function (error) {
       req.flash('error', {msg: 'You do not have access to that post.'});
       console.log(error);
-      res.redirect('/admin/blog');
+      res.redirect('/account/blog');
     });
   },
 
 
 
   /**
-   * POST /blog/edit
+   * POST /blog/delete
    * Edit user account.
   */
   getDelete: function(req, res, next) {
@@ -323,8 +373,6 @@ module.exports = {
     .then(function (post) {
       var published = post.get('published') ? false : true;
       var msg = published ? 'published' : 'unpublished';
-
-      //post.tags = _.pluck(post.related('tags').toJSON(), 'name').join(',');
       var opts = {};
 
       opts.published = published;

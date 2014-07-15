@@ -64,36 +64,10 @@ var Post = Base.Model.extend({
     var tagsToCheck = [];
     var tags = self.tags || 'uncategorised';
 
-    // only update views field
+    // only updating views field
     if (self.hasChanged('views') && !self.isNew()) {
-      return Base.Model.prototype.saving.call(self);
+      return;
     }
-
-    if (tags && typeof tags === 'string') {
-      tags = tags.split(',');
-    }
-
-    if (tags.length > 0) {
-      tagsToCheck = tags.map(function (tag) {
-        return {name: tag.trim()};
-      });
-    }
-
-
-    self.myTags = [];
-
-    _.each(tagsToCheck, function (item) {
-      
-      if (self.myTags && self.myTags.length > 0) {
-        for (i = 0; i < self.myTags.length; i = i + 1) {
-          if (self.myTags[i].name.toLocaleLowerCase() === item.name.toLocaleLowerCase()) {
-              return;
-          }
-        }
-      }
-
-      self.myTags.push(item);
-    });
 
     self.set('html', markdown.toHTML(self.get('markdown')));
 
@@ -125,9 +99,8 @@ var Post = Base.Model.extend({
 
     options = options || {};
 
-    if (!self.myTags) {
-      return;
-    }
+    self.myTags = options.updateTags || [];
+
 
     return Post.forge({id: newPost.id})
     .fetch({withRelated: ['tags'], transacting: options.transacting})

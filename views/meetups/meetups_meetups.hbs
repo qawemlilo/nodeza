@@ -1,72 +1,28 @@
 
-  <div class="container-fluid">
-    <div class="row" style="margin-bottom: 15px; border-radius: 4px">
-
-     <form>
-      <ul class="list-unstyled list-inline">
-        <!--
-        <li>
-          <strong>Province:</strong> 
-          <select name="province">
-            <option>All</option>
-            <option value="Eastern Cape">Eastern Cape</option>
-            <option valuve="Free State">Free State</option>
-            <option value="Gauteng">Gauteng</option>
-            <option value="KwaZulu Natal">KwaZulu Natal</option>
-            <option value="Limpopo">Limpopo</option>
-            <option value="Mpumalanga">Mpumalanga</option>
-            <option value="Northern Cape">Northern Cape</option>
-            <option value="North West">North West</option>
-            <option value="Western Province">Western Province</option>
-          </select>
-        </li>-->
-      
-        <li class="pull-right">
-          <a href="/admin/meetups/new" class="btn btn-danger">
-            <span class="glyphicon glyphicon-calendar"></span>  Create a meetup
-          </a>
-        </li>
-      </ul>
-     <form>
-    </div>
-
+  <div class="container-fluid">  
+    <div class="row">
     {{#each meetups}}
-  <div class="row" style="margin-top: 10px;">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="col-md-8">
-          <h2 class="blog-post-title">
-            <a href="/meetups/{{slug}}">{{name}}</a>
-          </h2>
-          <p>
-            <strong>Organiser:</strong> {{organiser}}
-            <br>
-            <strong>When?</strong> {{meetings}}
-            <br>
-            <strong>Venue:</strong> <a href="{{url}}" target="_blank">{{address}}</a>
-          </p>
-          <!-- <p><%= meetup.get('desc').replace(/\n/g, "<br>") %></p> -->
-        </div>
-        <div class="col-md-4">
+      <div class="col-sm-6 col-md-6">
+        <div class="thumbnail">
+          <a href="/meetups/{{slug}}">
+            <img data-src="holder.js/300x200" alt="...">
+          </a>
+          <div class="caption">
+            <h3><a href="/meetups/{{slug}}">{{name}}</a></h3>
             <p>
-              <span class="glyphicon glyphicon-tag"></span> 
-              {{city}}
+              <strong>Organiser:</strong> {{organiser}}
             </p>
             <p>
-              <span class="glyphicon glyphicon-earphone"></span>
-              {{number}}
+              <strong>When?</strong> {{meetings}}
             </p>
             <p>
-              <span class="glyphicon glyphicon-envelope"></span>
-              <a href="mailto:{{email}}"> 
-                 Contact
-              </a>
+              <strong>Venue:</strong> <a href="{{url}}" target="_blank">{{address}}</a>
             </p>
+          </div>
         </div>
       </div>
+    {{/each}}
     </div>
-  </div>
-  {{/each}}
   
   {{> pagination }}
 </div>

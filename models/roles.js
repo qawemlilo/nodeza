@@ -3,13 +3,13 @@
  */
 
 
-var MySql  = require('bookshelf').PG;
+var Base  = require('./base');
 
 
-var Role = MySql.Model.extend({
+var Role = Base.Model.extend({
 	
   tableName: 'roles'
 
 });
 
-module.exports = MySql.model('Role', Role);
+module.exports = Base.model('Role', Role);

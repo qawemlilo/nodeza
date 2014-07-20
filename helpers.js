@@ -303,4 +303,23 @@ module.exports.setup = function (hbs) {
 
     return summary;
   });
+
+
+  hbs.registerHelper('selectedCat', function(cats, catid, context) {
+    var html = '';
+
+    cats.forEach(function (cat) {
+      html += '<option value="';
+      html += cat.id + '" ';
+      if (cat.id === catid) {
+        html += 'selected'
+      }
+
+      html += '>';
+      html += cat.name;
+      html += '</option>';
+    });
+
+    return html;
+  });
 };

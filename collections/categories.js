@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
 **/
-var MySql  = require('bookshelf').PG;
+var MySql  = require('../config/db').Bookshelf;
 var Category = require('../models/category');
 
 var Categories = MySql.Collection.extend({

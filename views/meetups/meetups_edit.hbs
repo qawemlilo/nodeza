@@ -11,11 +11,11 @@
   <div class="panel-body">
   <form class="form-horizontal" id="meetup-form" action="/account/meetups/edit" method="POST">
     <input type="hidden" name="_csrf" autocomplete="off" value="{{_csrf}}" />
-    <input type="hidden" name="id" autocomplete="off" value="{{meetup.id}}" />
+    <input type="hidden" name="meetup_id" autocomplete="off" value="{{meetup.id}}" />
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="title">
-        Meetup Name *
+        Meetup Name <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -24,14 +24,18 @@
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">Short Description *</label>
+      <label class="col-sm-3 control-label" for="desc">
+        Short Description <span class="text-danger">*</span>
+      </label>
       <div class="col-sm-7">
         <textarea class="form-control" autocomplete="off" size="124" rows="2" name="short_desc" id="short_desc" required="">{{meetup.short_desc}}</textarea>
       </div>
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">Full Description *</label>
+      <label class="col-sm-3 control-label" for="desc">
+        Full Description <span class="text-danger">*</span>
+      </label>
       <div class="col-sm-7">
         <textarea class="form-control" autocomplete="off" rows="4" name="desc" id="desc" required="">{{#htmlToMarkdown meetup.desc}}{{/htmlToMarkdown}}</textarea>
       </div>
@@ -40,7 +44,7 @@
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="organiser">
-        Organiser *
+        Organiser <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -51,7 +55,7 @@
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="organiser">
-        When do you meet? *
+        When do you meet? <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -62,7 +66,7 @@
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="email">
-        Contact Email *
+        Contact Email <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -93,31 +97,80 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="geocomplete">Meetup Venue</label>
+      <label class="col-sm-3 control-label" for="geocomplete">
+        Meetup Venue <span class="text-danger">*</span>
+      </label>
       <div class="col-sm-7">
         <input class="form-control" type="text" autocomplete="off" name="geocomplete" id="geocomplete" value="{{meetup.address}}">
-        
-        <div id="googlemap" style="height:255px; width: 100%">
-        </div>
       </div>
     </div>
 
-    <input type="hidden" autocomplete="off" name="administrative_area_level_1" />
-    <input type="hidden" autocomplete="off" name="url" />
-    <input type="hidden" autocomplete="off" name="lat" />
-    <input type="hidden" autocomplete="off" name="lng" />
-    <input type="hidden" autocomplete="off" name="locality" />
-    <input type="hidden" autocomplete="off" name="sublocality" />
-    <input type="hidden" autocomplete="off" name="formatted_address" />
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="administrative_area_level_1">
+        Province
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="administrative_area_level_1" id="administrative_area_level_1" value="{{meetup.province}}" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="locality">
+        City
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="locality" id="locality" value="{{meetup.city}}" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="sublocality">
+        Town
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="sublocality" id="sublocality" value="{{meetup.town}}" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="lat">
+        Latitude
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="lat" id="lat" value="{{meetup.lat}}" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="lng">
+        Longitude
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="lng" id="lng" value="{{meetup.lng}}" />
+      </div>
+    </div>
+
+    <input type="hidden" name="url" value="{{meetup.url}}" />
+    <input type="hidden" name="formatted_address" value="{{meetup.address}}" />
 
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-7">
         <button class="btn btn-success" type="submit">
-          <i class="fa fa-check"></i> Create Meetup
+          <i class="fa fa-check"></i> Update Meetup
         </button>
 
         <a href="/account/meetups" class="btn btn-default">
-            <span class="glyphicon glyphicon-remove"></span> Cancel
+            <span class="glyphicon glyphicon-remove"></span> Close
         </a>
       </div>
     </div>

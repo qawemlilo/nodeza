@@ -3,14 +3,14 @@
  */
 
 
-var Bookshelf  = require('bookshelf');
 var secrets = require('./config/secrets');
+var db = require('./config/db');
 
 
 /*
   Bookshelf initialization
 */
-Bookshelf.PG = Bookshelf.initialize({
+var knex = require('knex')({
   client: 'mysql',
   connection: {
     host: secrets.host,
@@ -21,12 +21,17 @@ Bookshelf.PG = Bookshelf.initialize({
   }
 });
 
+
+var Bookshelf = require('bookshelf')(knex);
+
 /*
  * This solves the circular dependency problem created by Bookshelf models
  * in a previous commit #38d98bb4c33e91b636a3538bd546ebe7f5077328
  *
 **/
-Bookshelf.PG.plugin('registry');
+Bookshelf.plugin('registry');
+
+db.Bookshelf = Bookshelf;
 
 
 
@@ -77,6 +82,9 @@ var week = day * 7;
 var csrfWhitelist = [
   '/this-url-will-bypass-csrf'
 ];
+
+
+//app.set('Bookshelf', Bookshelf);
 
 // port
 app.set('port', process.env.PORT || 3000);

@@ -3,3 +3,11 @@
 
 
 {{> account_profile}}
+
+{{#extend "scripts"}}
+<script>
+  $('.profile-pic').on('error', function () {
+    $(this).attr('data-src', 'holder.js/300x200');
+  });
+</script>
+{{/extend}}

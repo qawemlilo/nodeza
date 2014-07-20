@@ -8,7 +8,7 @@
 <div class="col-sm-12 blog-main">
   {{> flash}}
 
-  {{> events_new}}
+  {{> events_edit}}
 </div>
 
 {{#extend "scripts"}}
@@ -20,16 +20,7 @@
   $(function(){
     $("#geocomplete").geocomplete({
       details: "#event-form",
-      map: "#googlemap",
-      mapOptions: {
-        zoom: 10
-      },
       componentRestrictions: {country: 'za'}
-    });
-
-
-    $('#googlemap').on("focus", function() {
-      $('#googlemap').slideDown('slow');
     });
 
     $('#dateDiv').datetimepicker({

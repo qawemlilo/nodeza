@@ -148,7 +148,6 @@ module.exports = {
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
-    req.assert('administrative_area_level_1', 'Please make sure location is showing in map').notEmpty();
   
     var errors = req.validationErrors();
     var meetupData = {};
@@ -161,10 +160,10 @@ module.exports = {
       return res.redirect('/account/meetups');
     }
 
-    if (req.body.id) {
+    if (req.body.meetup_id) {
       errMsg = 'Database error. Meetup not updated.';
       successMsg = 'Meetup successfully updated!';
-      meetupData.id = req.body.id;
+      meetupData.id = req.body.meetup_id;
     }
 
     meetupData.user_id = user.get('id');
@@ -172,33 +171,91 @@ module.exports = {
     meetupData.short_desc = req.body.short_desc;
     meetupData.organiser = req.body.organiser;
     meetupData.desc = req.body.desc;
-    meetupData.province = req.body.administrative_area_level_1;
-    meetupData.lat = req.body.lat;
-    meetupData.lng = req.body.lng;
-    meetupData.city = req.body.locality;
-    meetupData.town = req.body.sublocality;
-    meetupData.address = req.body.formatted_address;
+    meetupData.province = req.body.administrative_area_level_1 || '';
+    meetupData.lat = req.body.lat || '';
+    meetupData.lng = req.body.lng || '';
+    meetupData.city = req.body.locality || '';
+    meetupData.town = req.body.sublocality || '';
+    meetupData.address = req.body.formatted_address || req.body.geocomplete;
     meetupData.website = req.body.website;
-    meetupData.url = req.body.url;
+    meetupData.url = req.body.url || '';
     meetupData.email = req.body.email;
     meetupData.number = req.body.number;
     meetupData.meetings = req.body.meetings;
 
 
     Meetup.forge(meetupData)
-    .save()
+    .save({}, {user: user.get('id')})
     .then(function (model) {
-      if (!model) {
-        req.flash('errors', {'msg': errMsg});
-      }
-      else {
-      	req.flash('success', { msg: successMsg});
-      }
-
-      res.redirect('/account/meetups');
+      req.flash('success', { msg: successMsg});
+      res.redirect('back');
     })
     .otherwise(function (error) {
+      console.log(error);
       req.flash('errors', {'msg': errMsg});
+      res.redirect('/account/meetups');
+    });
+  },
+
+
+
+
+
+  /*
+   * POST /meetups/edit
+   * create an meetup
+   */
+  postMeetupEdit: function (req, res) {
+    req.assert('title', 'Name must be at least 4 characters long').len(4);
+    req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
+    req.assert('desc', 'Details must be at least 12 characters long').len(12);
+    req.assert('email', 'Starting cannot be blank').isEmail();
+  
+    var errors = req.validationErrors();
+    var meetupData = {};
+    var user = req.user;
+  
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('/account/meetups');
+    }
+
+    meetupData.id = req.body.meetup_id;
+    meetupData.user_id = user.get('id');
+    meetupData.name = req.body.title;
+    meetupData.short_desc = req.body.short_desc;
+    meetupData.organiser = req.body.organiser;
+    meetupData.desc = req.body.desc;
+    meetupData.province = req.body.administrative_area_level_1 || '';
+    meetupData.lat = req.body.lat || '';
+    meetupData.lng = req.body.lng || '';
+    meetupData.city = req.body.locality || '';
+    meetupData.town = req.body.sublocality || '';
+    meetupData.address = req.body.formatted_address || req.body.geocomplete;
+    meetupData.website = req.body.website;
+    meetupData.url = req.body.url || '';
+    meetupData.email = req.body.email;
+    meetupData.number = req.body.number;
+    meetupData.meetings = req.body.meetings;
+
+
+    Meetup.forge({id: meetupData.id, user_id: meetupData.user_id})
+    .fetch()
+    .then(function (model) {
+      model.save(meetupData)
+      .then(function () {
+        req.flash('success', { msg: 'Meetup successfully updated!'});
+        res.redirect('back');
+      })
+      .otherwise(function (error) {
+        console.log(error);
+        req.flash('errors', {'msg': 'Database error. Meetup not updated.'});
+        res.redirect('/account/meetups');
+      });
+    })
+    .otherwise(function (error) {
+      console.log(error);
+      req.flash('errors', {'msg': 'Database error. Meetup not updated.'});
       res.redirect('/account/meetups');
     });
   }

@@ -66,6 +66,31 @@ module.exports = {
 
 
 
+  /*
+   * GET /events/edit/:id
+   */
+  getEventEdit: function (req, res) {
+    var id = req.params.id;
+    var user_id = req.user.get('id');
+
+    Event.forge({id: id, user_id: user_id})
+    .fetch()
+    .then(function (model) {
+      res.render('events_edit', {
+        page: 'eventedit',
+        title: 'Event edit',
+        description: 'MeeEvent edit',
+        event: model.toJSON()
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'You do not have permission to edit that meetup'});
+      res.redirect('back');      
+    });
+  },
+
+
+
   /**
    * GET /events
    * get upcoming events
@@ -153,7 +178,7 @@ module.exports = {
     }
   
     events.currentpage = page || 1;
-    events.limit = req.session.elimit || 5;
+    events.limit = 10;
     events.base = '/account/events';
     events.andWhereQuery = ['user_id', '=', req.user.get('id')];
   
@@ -183,7 +208,7 @@ module.exports = {
     req.session.previousOrder = events.order;
   
   
-    events.fetchMyEvents()
+    events.fetchMyEvents({columns: ['id','created_at', 'views', 'title']})
     .then(function (collection) {
       res.render('events_admin', {
         title: 'Events',
@@ -211,7 +236,6 @@ module.exports = {
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
-    req.assert('administrative_area_level_1', 'Please make sure location is showing in map').notEmpty();
   
     var errors = req.validationErrors();
     var eventData = {};
@@ -223,18 +247,26 @@ module.exports = {
       return res.redirect('/events/new');
     }
 
+    if (req.body.id) {
+      eventData.id = req.body.id;
+    }
+
+    console.log(req.body);
+
     eventData.user_id = user.get('id');
     eventData.title = req.body.title;
     eventData.desc = req.body.desc;
     eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
     eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
-    eventData.province = req.body.administrative_area_level_1;
-    eventData.city = req.body.locality;
-    eventData.town = req.body.sublocality;
-    eventData.address = req.body.formatted_address;
+    eventData.province = req.body.administrative_area_level_1 || '';
+    eventData.city = req.body.locality || '';
+    eventData.town = req.body.sublocality || '';
+    eventData.address = req.body.formatted_address || '';
     eventData.website = req.body.webpage;
     eventData.url = req.body.url;
+    //eventData.lng = req.body.lng;
+    //eventData.lat = req.body.lat;
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
@@ -242,19 +274,105 @@ module.exports = {
     Event.forge(eventData)
     .save()
     .then(function (model) {
-      if (!model) {
-        req.flash('errors', {'msg': 'Database error. Event not created.'});
-      }
-      else {
-      	req.flash('success', { msg: 'Event successfully created!' });
-      }
-
-      res.redirect('/events/new');
+      req.flash('success', { msg: 'Event successfully created!' });
+      res.redirect('back');
     })
     .otherwise(function (error) {
+      console.log(error);
+
       req.flash('errors', {'msg': 'Database error. Event not created.'});
       res.redirect('/events/new');
     });
-  }
+  },
+
+
+  /*
+   * POST /events/edit
+   * create an event
+   */
+  postEventUpdate: function (req, res) {
+    req.assert('title', 'Title must be at least 4 characters long').len(4);
+    req.assert('desc', 'Details must be at least 12 characters long').len(12);
+    req.assert('date', 'Date cannot be blank').notEmpty();
+    req.assert('start_time', 'Starting cannot be blank').notEmpty();
+    req.assert('email', 'Starting cannot be blank').isEmail();
+  
+    var errors = req.validationErrors();
+    var eventData = {};
+    var user = req.user;
+    var cleanDate = (req.body.date).split('/').join(' ');
+  
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+    
+    eventData.id = req.body.event_id;
+    eventData.user_id = user.get('id');
+    eventData.title = req.body.title;
+    eventData.desc = req.body.desc;
+    eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
+    eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
+    eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
+    eventData.province = req.body.administrative_area_level_1 || '';
+    eventData.city = req.body.locality || '';
+    eventData.town = req.body.sublocality || '';
+    eventData.address = req.body.formatted_address || '';
+    eventData.website = req.body.webpage;
+    eventData.url = req.body.url;
+    //eventData.lng = req.body.lng;
+    //eventData.lat = req.body.lat;
+    eventData.email = req.body.email;
+    eventData.number = req.body.number;
+
+    Event.forge({id: req.body.event_id, user_id: user.get('id')})
+    .fetch()
+    .then(function (model) {
+      console.log(model.toJSON());
+
+      model.save(eventData, {patch: true})
+      .then(function () {
+        req.flash('success', { msg: 'Event successfully updated!' });
+        res.redirect('back');
+      })
+      .otherwise(function (error) {
+        console.log(error);
+        req.flash('errors', {'msg': 'Database error. Event not updated.'});
+        res.redirect('back');
+      });
+    })
+    .otherwise(function (error) {
+      console.log(error);
+      req.flash('errors', {'msg': 'Database error. Event not found.'});
+      res.redirect('back');
+    });
+  },
+
+
+
+  /**
+   * GET /blog/delete
+   * Edit user account.
+  */
+  getDelete: function(req, res) {
+    Event.forge({id: req.params.id, user_id: req.user.get('id')})
+    .fetch()
+    .then(function (event) {
+      event.destroy()
+      .then(function () {
+        req.flash('success', {msg: 'Event successfully deleted.'});
+        res.redirect('back');
+      })
+      .otherwise(function () {
+        req.flash('error', {msg: 'Database error. Event not deleted.'});
+        res.redirect('back');
+      });
+    })
+    .otherwise(function () {
+      req.flash('error', {msg: 'You do not have permission to perform action.'});
+      res.redirect('back');
+    });
+  },
+
 };
 

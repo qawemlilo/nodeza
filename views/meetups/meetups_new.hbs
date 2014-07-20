@@ -4,16 +4,16 @@
   <div class="panel-heading">
     <span class="glyphicon glyphicon-user"></span> New Meetup Group
 
-    <a href="/meetups" class="close pull-right">&times;</a>
+    <a href="/account/meetups" class="close pull-right">&times;</a>
 
   </div>
 
   <div class="panel-body">
-  <form class="form-horizontal" id="event-form" action="/account/meetups/new" method="POST">
+  <form class="form-horizontal" id="meetup-form" action="/account/meetups/new" method="POST">
     <input type="hidden" name="_csrf" value="{{_csrf}}" />
     <div class="form-group">
       <label class="col-sm-3 control-label" for="title">
-        Meetup Name *
+        Meetup Name <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -22,14 +22,18 @@
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">Short Description *</label>
+      <label class="col-sm-3 control-label" for="desc">
+        Short Description <span class="text-danger">*</span>
+      </label>
       <div class="col-sm-7">
         <textarea class="form-control" size="124" rows="2" name="short_desc" id="short_desc" placeholder="" required=""></textarea>
       </div>
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">Full Description *</label>
+      <label class="col-sm-3 control-label" for="desc">
+        Full Description<span class="text-danger">*</span>
+      </label>
       <div class="col-sm-7">
         <textarea class="form-control" rows="4" name="desc" id="desc" placeholder="" required=""></textarea>
       </div>
@@ -38,7 +42,7 @@
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="organiser">
-        Organiser *
+        Organiser <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -49,18 +53,18 @@
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="organiser">
-        When do you meet? *
+        When do you meet? <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
-        <textarea class="form-control" rows="2" name="meetings" id="meetings" placeholder="" required=""></textarea>
+       <input class="form-control" type="text" name="meetings" id="meetings" required="" />
       </div> 
     </div>
 
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="email">
-        Contact Email *
+        Contact Email <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
@@ -75,7 +79,7 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="number" id="number" placeholder="" />
+        <input class="form-control" type="text" name="number" id="number" />
       </div>
     </div>
 
@@ -91,7 +95,10 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="geocomplete">Meetup Venue</label>
+      <label class="col-sm-3 control-label" for="geocomplete">
+        Meetup Venue <span class="text-danger">*</span>
+      </label>
+
       <div class="col-sm-7">
         <input class="form-control" type="text" name="geocomplete" id="geocomplete" placeholder="" required="">
         
@@ -100,12 +107,62 @@
       </div>
     </div>
 
-    <input type="hidden" name="administrative_area_level_1" />
+
+    <div class="form-group hidden">
+      <label class="col-sm-3 control-label" for="administrative_area_level_1">
+        Province <span class="text-danger">*</span>
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="administrative_area_level_1" id="administrative_area_level_1" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group hidden">
+      <label class="col-sm-3 control-label" for="locality">
+        City <span class="text-danger">*</span>
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="locality" id="locality"  required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group hidden">
+      <label class="col-sm-3 control-label" for="sublocality">
+        Town <span class="text-danger">*</span>
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="sublocality" id="sublocality"  required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group hidden">
+      <label class="col-sm-3 control-label" for="lat">
+        Latitude
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="lat" id="lat" />
+      </div>
+    </div>
+
+
+    <div class="form-group hidden">
+      <label class="col-sm-3 control-label" for="lng">
+        Longitude
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="lng" id="lng" />
+      </div>
+    </div>
+
     <input type="hidden" name="url" />
-    <input type="hidden" name="lat" />
-    <input type="hidden" name="lng" />
-    <input type="hidden" name="locality" />
-    <input type="hidden" name="sublocality" />
     <input type="hidden" name="formatted_address" />
 
     <div class="form-group">
@@ -114,8 +171,8 @@
           <i class="fa fa-check"></i> Create Meetup
         </button>
 
-        <a href="/meetups" class="btn btn-default">
-            <span class="glyphicon glyphicon-remove"></span> Cancel
+        <a href="/account/meetups" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove"></span> Close
         </a>
       </div>
     </div>

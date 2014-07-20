@@ -1,26 +1,20 @@
 /**
  * Module dependencies.
  */
-var Base  = require('bookshelf').PG;
+var Bookshelf  = require('../config/db').Bookshelf;
 var unidecode  = require('unidecode');
 var when  = require('when');
 var Databases = require('../sql/schema');
 var _ = require('lodash');
 
 
-Base.Model = Base.Model.extend({
+Bookshelf.Model = Bookshelf.Model.extend({
 
   initialize: function () {
     var self = this;
-    var options = arguments[1] || {};
-    
-    // make options include available for toJSON()
-    if (options.include) {
-      self.include = _.clone(options.include);
-    }
 
     self.on('saving', function (model, attributes, options) {
-      return self.saving();
+      return self.saving(model, attributes, options);
     });
   },
 
@@ -37,9 +31,14 @@ Base.Model = Base.Model.extend({
   },
 
 
-  saving: function () {
+  saving: function (newObj, attr, options) {
     var self = this;
     var table = self.getTableName();
+
+    if (Databases[table].updated_by && options && options.user) {
+      //this.set('updated_by', user);
+      //console.log('updated_by %s', options.user);
+    }
 
     if (self.hasChanged('slug') || !self.get('slug') && Databases[table].slug) {
 
@@ -132,4 +131,4 @@ Base.Model = Base.Model.extend({
   }
 });
 
-module.exports = Base;
+module.exports = Bookshelf;

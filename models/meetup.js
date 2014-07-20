@@ -12,7 +12,7 @@ var Meetup =  Base.Model.extend({
   hasTimestamps: true,
 
 
-  saving: function () {
+  saving: function (model, attr, options) {
     /*jshint unused:false*/
     var self = this;
     var desc = self.get('desc');
@@ -24,7 +24,7 @@ var Meetup =  Base.Model.extend({
       self.set({desc: desc});
     }
     
-    return Base.Model.prototype.saving.call(self);
+    return Base.Model.prototype.saving.apply(self, arguments);
   }
 });
 

@@ -10,6 +10,7 @@
   <form id="edit-form" action="/blog/edit" method="POST">
     <input type="hidden" name="_csrf" value="{{_csrf}}" />
     <input type="hidden" name="id" value="{{post.id}}" />
+    <input type="hidden" name="catid" value="{{post.category_id}}" />
 
     <div class="row">
       <div class="col-sm-5 col-md-5">
@@ -27,9 +28,7 @@
           </label>
 
           <select name="category" class="form-control" id="category">
-            {{#each categories}}
-              <option value="{{id}}" {{#ifCond id '==' post.category_id}}selected{{/ifCond}}>{{name}}</option>
-            {{/each}}
+            {{#selectedCat categories post.category_id}}{{/selectedCat}}
           </select>
         </div>
 
@@ -80,7 +79,7 @@
         <div class="form-group">
           <div class="pull-right">
             <a href="/account/blog" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove"></span> Cancel
+                <span class="glyphicon glyphicon-remove"></span> Close
             </a>
             <button class="btn btn-success" type="submit">
               <span class="glyphicon glyphicon-ok"></span> Update Post

@@ -11,9 +11,9 @@ module.exports.exec = function (req, res, collections) {
 	  return when(cache);
 	}
 
-    var categories = new collections.Categories();
+    var tags = new collections.Tags();
 
-    return categories.fetch()
+    return tags.fetchTags(20)
     .then(function (collection) {
       config.collection = collection;
 

@@ -57,14 +57,12 @@ var Post = Base.Model.extend({
   },
 
 
-  saving: function () {
-    /*jshint unused:false*/
-
+  saving: function (model, attr, options) {
     var self = this;
     var tagsToCheck = [];
     var tags = self.tags || 'uncategorised';
 
-    // only updating views field
+    // if only updating views field
     if (self.hasChanged('views') && !self.isNew()) {
       return;
     }
@@ -80,7 +78,7 @@ var Post = Base.Model.extend({
       }
     }
 
-    return Base.Model.prototype.saving.call(self);
+    return Base.Model.prototype.saving.call(self, arguments);
   },
 
 

@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var Base  = require('./base');
-var Posts =  require('../collections/posts');
+var Posts =  require('../models/post');
 
 
 var Tag =  Base.Model.extend({
@@ -14,7 +14,7 @@ var Tag =  Base.Model.extend({
 
 
   posts: function () {
-    return this.belongsToMany('Posts');
+    return this.belongsToMany('Post');
   }
 });
 

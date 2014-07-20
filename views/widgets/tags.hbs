@@ -1,0 +1,21 @@
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Tags
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled list-inline">
+      {{#if collection}}
+        {{#each collection}}
+          <li>
+            <a href="/blog/tags/{{slug}}">
+              {{name}}
+            </a>
+          </li>
+        {{/each}}
+      {{/if}}
+    </ul>
+  </div>
+</div>

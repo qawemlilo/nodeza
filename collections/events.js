@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
 **/
-var MySql  = require('bookshelf').PG;
+var MySql  = require('../config/db').Bookshelf;
 var Event = require('../models/event');
 var when = require('when');
 
@@ -195,7 +195,7 @@ var Events = MySql.Collection.extend({
    * @param: success {Function} - accepts models and pagination data
    * @param: error {Function} - error callback
   */
-  fetchMyEvents: function () {
+  fetchMyEvents: function (opts) {
     var self = this;
     var deferred = when.defer();
 

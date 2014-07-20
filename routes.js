@@ -82,8 +82,11 @@ module.exports.setup = function (app) {
   app.get('/account/events', passportConf.isAuthenticated, EventsController.getEventsAdmin);
   app.get('/account/events/new', passportConf.isAuthenticated, EventsController.newEvent);
   app.post('/account/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
+  app.post('/events/edit', passportConf.isAuthenticated, EventsController.postEventUpdate);
   app.get('/events', EventsController.getEvents);
   app.get('/events/:slug', EventsController.getEvent);
+  app.get('/events/edit/:id', passportConf.isAuthenticated, EventsController.getEventEdit);
+  app.get('/events/delete/:id', passportConf.isAuthenticated, EventsController.getDelete);
 
 
   /*
@@ -98,7 +101,7 @@ module.exports.setup = function (app) {
   app.get('/account/meetups', passportConf.isAuthenticated, MeetupsController.getMeetupsAdmin);
   app.get('/account/meetups/new', passportConf.isAuthenticated, MeetupsController.newMeetup);
   app.post('/account/meetups/new', passportConf.isAuthenticated, MeetupsController.postMeetup);
-  app.post('/account/meetups/edit', passportConf.isAuthenticated, MeetupsController.postMeetup);
+  app.post('/account/meetups/edit', passportConf.isAuthenticated, MeetupsController.postMeetupEdit);
   app.get('/meetups', MeetupsController.getMeetups);
   app.get('/meetups/edit/:id', passportConf.isAuthenticated, MeetupsController.getMeetupEdit);
   app.get('/meetups/:slug', MeetupsController.getMeetup);
@@ -114,7 +117,7 @@ module.exports.setup = function (app) {
   app.get('/blog/tags/:slug', PostsController.getPostsByTag);
   app.get('/account/blog', passportConf.isAuthenticated, PostsController.newPostsAdmin);
   app.get('/account/blog/new', passportConf.isAuthenticated, PostsController.newPost);
-  app.post('/account/blog/new', passportConf.isAuthenticated, PostsController.postPost);
+  app.post('/blog/new', passportConf.isAuthenticated, PostsController.postPost);
   app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
   app.get('/blog/edit/:id', passportConf.isAuthenticated, PostsController.getEdit);
   app.get('/blog/delete/:id', passportConf.isAuthenticated, PostsController.getDelete);

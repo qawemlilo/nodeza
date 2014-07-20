@@ -2,22 +2,24 @@
 <div class="panel panel-default">
 
   <div class="panel-heading">
-    <span class="glyphicon glyphicon-calendar"></span> New Event
+    <span class="glyphicon glyphicon-calendar"></span> Edit Event
 
     <a href="/account/events" class="close pull-right">&times;</a>
 
   </div>
 
   <div class="panel-body">
-  <form class="form-horizontal" id="event-form" action="/account/events/new" method="POST">
+  <form class="form-horizontal" id="event-form" action="/events/edit" method="POST">
     <input type="hidden" name="_csrf" value="{{_csrf}}" />
+    <input type="hidden" name="event_id" value="{{event.id}}" />
+
     <div class="form-group">
       <label class="col-sm-3 control-label" for="title">
         Title <span class="text-danger">*</span>
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="title" id="title" placeholder="Event Title" required="" autofocus />
+        <input class="form-control" type="text" name="title" id="title" placeholder="Event Title" required="" value="{{event.title}}" autofocus />
       </div>
     </div>
     
@@ -27,7 +29,7 @@
       </label>
 
       <div class="col-sm-7">
-        <textarea class="form-control" rows="4" name="desc" id="desc" placeholder="" required=""></textarea>
+        <textarea class="form-control" rows="4" name="desc" id="desc" placeholder="" required="">{{event.desc}}</textarea>
       </div>
     </div>
 
@@ -38,7 +40,7 @@
 
       <div class="col-sm-7">
           <div class='input-group date' id='dateDiv'>
-            <input class="form-control" type="text" name="date" id="date" required="">
+            <input class="form-control" type="text" name="date" value="{{#parseDate event.dt 'MM/DD/YYYY'}}{{/parseDate}}" id="date" required="">
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>
@@ -57,7 +59,7 @@
               </label>
 
               <div class='input-group date' id='startTimeDiv'>
-                <input class="form-control" type="text" name="start_time" id="start_time" required="">
+                <input class="form-control" type="text" name="start_time" id="start_time" value="{{event.start_time}}" required="">
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
                 </span>
@@ -73,7 +75,7 @@
               </label>
 
               <div class='input-group date' id='finishTimeDiv'>
-                <input class="form-control" type="text" name="finish_time" id="finish_time" >
+                <input class="form-control" type="text" name="finish_time" id="finish_time" value="{{event.finish_time}}" >
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
                 </span>
@@ -90,7 +92,7 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="email" id="email" placeholder="Email Address" value="" required="" />
+        <input class="form-control" type="text" name="email" id="email" value="{{event.email}}" required="" />
       </div>
     </div>
 
@@ -101,7 +103,7 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="number" id="number" placeholder="Contact Number" />
+        <input class="form-control" type="text" name="number" id="number" placeholder="Contact Number" value="{{event.number}}" />
       </div>
     </div>
 
@@ -112,7 +114,7 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="webpage" id="webpage" placeholder="Url" />
+        <input class="form-control" type="text" name="webpage" id="webpage" placeholder="Url" value="{{event.website}}" />
       </div>
     </div>
 
@@ -121,20 +123,67 @@
         Location <span class="text-danger">*</span>
       </label>
       <div class="col-sm-7">
-        <input class="form-control" type="text" name="geocomplete" id="geocomplete" placeholder="" required="">
-        
-        <div id="googlemap" style="height:255px; width: 100%">
-        </div>
+        <input class="form-control" type="text" name="geocomplete" id="geocomplete" placeholder="" value="{{event.address}}" required="">
       </div>
     </div>
 
-    <input type="hidden" name="administrative_area_level_1" />
-    <input type="hidden" name="url" />
-    <input type="hidden" name="lat" />
-    <input type="hidden" name="lng" />
-    <input type="hidden" name="locality" />
-    <input type="hidden" name="sublocality" />
-    <input type="hidden" name="formatted_address" />
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="administrative_area_level_1">
+        Province
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="administrative_area_level_1" id="administrative_area_level_1" value="{{event.province}}" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="locality">
+        City
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="locality" id="locality" value="{{event.city}}" required="" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="sublocality">
+        Town
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="sublocality" id="sublocality" value="{{event.town}}" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="lat">
+        Latitude
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="lat" id="lat" value="{{event.lat}}" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="lng">
+        Longitude
+      </label>
+
+      <div class="col-sm-7">
+        <input class="form-control" type="text" name="lng" id="lng" value="{{event.lng}}" />
+      </div>
+    </div>
+
+    <input type="hidden" name="url" value="{{event.url}}" />
+    <input type="hidden" name="formatted_address" value="{{event.address}}" />
 
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-7">

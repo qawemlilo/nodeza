@@ -13,13 +13,17 @@
 <script>
   $(function(){
     $("#geocomplete").geocomplete({
-      details: "#event-form",
+      details: "#meetup-form",
       map: "#googlemap",
       mapOptions: {
         zoom: 10
       },
       componentRestrictions: {country: 'za'}
     });
+  });
+
+  $('#geocomplete').on('blur', function() {
+    $('.form-group.hidden').removeClass('hidden');
   });
 </script>
 {{/extend}}

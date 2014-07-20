@@ -2,7 +2,7 @@
 module.exports = {
   roles: {
     id: {type: 'increments', nullable: false, primary: true},
-    role: {type: 'string', nullable: false, maxlength: 32}
+    name: {type: 'string', nullable: false, maxlength: 32}
   },
 
   users: {
@@ -27,6 +27,7 @@ module.exports = {
     image_url: {type: 'text', maxlength: 2000, nullable: false},
     views: {type: 'integer', nullable: false},
     created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'dateTime', nullable: true},
     updated_at: {type: 'dateTime', nullable: true}
   },
 
@@ -53,10 +54,13 @@ module.exports = {
     city: {type: 'string', maxlength: 254, nullable: false},
     town: {type: 'string', maxlength: 254, nullable: false},
     address: {type: 'text', maxlength: 2000, nullable: false},
+    lat: {type: 'string', nullable: false, maxlength: 32},
+    lng: {type: 'string', nullable: false, maxlength: 32},
     url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     website: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     views: {type: 'integer', nullable: false},
     created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'dateTime', nullable: true},
     updated_at: {type: 'dateTime', nullable: true}
   },
 
@@ -84,6 +88,7 @@ module.exports = {
     views: {type: 'integer', nullable: false},
     image_url: {type: 'text', maxlength: 2000, nullable: false},
     created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'dateTime', nullable: true},
     updated_at: {type: 'dateTime', nullable: true}
   },
 
@@ -96,7 +101,7 @@ module.exports = {
     slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
     markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
     html: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
-    image: {type: 'text', maxlength: 2000, nullable: true},
+    image_url: {type: 'text', maxlength: 2000, nullable: true},
     featured: {type: 'bool', nullable: false, defaultTo: false},
     published: {type: 'bool', nullable: false, defaultTo: false},
     meta_title: {type: 'string', maxlength: 150, nullable: true},
@@ -104,6 +109,7 @@ module.exports = {
     views: {type: 'integer', nullable: false},
     published_at: {type: 'dateTime', nullable: true},
     created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'dateTime', nullable: true},
     updated_at: {type: 'dateTime', nullable: true}
   },
 
@@ -116,6 +122,7 @@ module.exports = {
     meta_title: {type: 'string', maxlength: 150, nullable: true},
     meta_description: {type: 'string', maxlength: 200, nullable: true},
     created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'dateTime', nullable: true},
     updated_at: {type: 'dateTime', nullable: true}
   },
 
@@ -128,6 +135,7 @@ module.exports = {
     meta_title: {type: 'string', maxlength: 150, nullable: true},
     meta_description: {type: 'string', maxlength: 200, nullable: true},
     created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'dateTime', nullable: true},
     updated_at: {type: 'dateTime', nullable: true}
   },
 

@@ -3,7 +3,7 @@
 **/
 
 var when = require('when');
-var MySql  = require('bookshelf').PG;
+var MySql  = require('../config/db').Bookshelf;
 var Post = require('../models/post');
 
 var Posts = MySql.Collection.extend({
@@ -187,6 +187,7 @@ var Posts = MySql.Collection.extend({
    * Fetches featured front page posts
   */
   fetchFeatured: function (limit, options) {
+    
     var self = this;
     var deferred = when.defer();
     var posts = Posts.forge();

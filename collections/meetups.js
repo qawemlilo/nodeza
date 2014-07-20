@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var MySql  = require('bookshelf').PG;
+var MySql  = require('../config/db').Bookshelf;
 var Meetup = require('../models/meetup');
 var when = require('when');
 

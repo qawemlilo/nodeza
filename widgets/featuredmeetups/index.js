@@ -1,9 +1,15 @@
 
+var when = require('when');
 var config = require('./config.json');
+var cache = false;
 
 module.exports = config;
 
 module.exports.exec = function (req, res, collections) {
+	if (cache) {
+	  return when(cache);
+	}
+
     var meetups = new collections.Meetups();
 
     meetups.limit = 2;
@@ -12,6 +18,8 @@ module.exports.exec = function (req, res, collections) {
     .then(function (collection) {
 
       config.collection = collection;
+
+      cache = config;
 
       return config;
     });

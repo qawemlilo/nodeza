@@ -55,7 +55,7 @@ module.exports = {
       post.viewed();
     })
     .otherwise(function () {
-      req.flash('errors', {'msg': 'Post not found :('});
+      req.flash('errors', {'msg': 'Page not found :('});
       res.redirect('/blog');      
     });
   },
@@ -278,10 +278,12 @@ module.exports = {
       featured: !!req.body.featured
     };
 
-    post.save(opts, {updateTags: processTags(req.body.tags)})
+    var tags = processTags(req.body.tags);
+
+    post.save(opts, {updateTags: tags})
     .then(function() {
       req.flash('success', { msg: 'Post successfully created.' });
-      res.redirect('/account/blog');
+      res.redirect('back');
     })
     .otherwise(function (error) {
       console.log(error);
@@ -312,15 +314,17 @@ module.exports = {
       featured: !!req.body.featured
     };
 
+    var tags = processTags(req.body.tags);
+
     Post.forge({id: opts.id, user_id: opts.user_id})
     .fetch()
     .then(function (post) {
-      
+
       // specify explicitly if you want to update tags
-      post.save(opts, {updateTags: processTags(req.body.tags)})
+      post.save(opts, {updateTags: tags})
       .then(function() {
         req.flash('success', { msg: 'Post successfully updated.' });
-        res.redirect('/account/blog');
+        res.redirect('back');
       })
       .otherwise(function (error) {
         req.flash('error', {msg: 'Post could not be updated.'});
@@ -338,7 +342,7 @@ module.exports = {
 
 
   /**
-   * POST /blog/delete
+   * GET /blog/delete
    * Edit user account.
   */
   getDelete: function(req, res, next) {

@@ -13,15 +13,9 @@
 <script>
   $(function(){
     $("#geocomplete").geocomplete({
-      details: "#event-form",
-      map: "#googlemap",
-      mapOptions: {
-        zoom: 10
-      },
+      details: "#meetup-form",
       componentRestrictions: {country: 'za'}
     });
-
-    //$("#geocomplete").trigger("geocode");
   });
 </script>
 {{/extend}}

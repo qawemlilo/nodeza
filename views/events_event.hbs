@@ -1,7 +1,7 @@
 
 
 {{#extend "jumbotron"}}
-<div id="jumbotron" class="jumbotron events">
+<div id="jumbotron" class="jumbotron">
   <div class="container">
     <h1>Events</h1>
   </div>
@@ -23,11 +23,12 @@
 <script>
   var map = new GMaps({
     div: '#eventVenue',
-    address: "{{event.address}}"
+    lat: "{{myEvent.lat}}",
+    lng: "{{myEvent.lng}}"
   });
     
   GMaps.geocode({
-    address: "{{event.address}}",
+    address: "{{myEvent.address}}",
 
     callback: function(results, status){
      if (status=='OK'){

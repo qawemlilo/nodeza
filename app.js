@@ -39,6 +39,7 @@ var mongoose = require('mongoose');
 var express = require('express');
 var flash = require('express-flash');
 var logger = require('morgan');
+var multer = require('multer');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -127,6 +128,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// handle image uploads
+app.use(multer({
+  dest: './public/img/blog/',
+  rename: function (fieldname, filename) {
+    return 'image_' + Date.now();
+  }
+}));
+
 // for forms
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -139,6 +148,7 @@ app.use(flash());
 
 // serve static files
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
+
 
 // logging
 app.use(logger('dev'));

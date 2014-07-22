@@ -5,7 +5,6 @@ var Bookshelf  = require('../config/db').Bookshelf;
 var unidecode  = require('unidecode');
 var when  = require('when');
 var Databases = require('../sql/schema');
-var _ = require('lodash');
 
 
 Bookshelf.Model = Bookshelf.Model.extend({
@@ -31,13 +30,24 @@ Bookshelf.Model = Bookshelf.Model.extend({
   },
 
 
+  getJSON: function (props) {
+    var self = this;
+    var json = {};
+    
+    props.forEach(function (prop) {
+      json[prop] = self.get(prop);
+    });
+
+    return json;
+  },
+
+
   saving: function (newObj, attr, options) {
     var self = this;
     var table = self.getTableName();
 
     if (Databases[table].updated_by && options && options.user) {
-      //this.set('updated_by', user);
-      //console.log('updated_by %s', options.user);
+      this.set('updated_by', user);
     }
 
     if (self.hasChanged('slug') || !self.get('slug') && Databases[table].slug) {
@@ -70,7 +80,7 @@ Bookshelf.Model = Bookshelf.Model.extend({
 
     // Look for a post with a matching slug, append an incrementing number if so
     var checkIfSlugExists;
-    
+
     checkIfSlugExists = function (slugToFind) {
       var args = {slug: slugToFind};
 

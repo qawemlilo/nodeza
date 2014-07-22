@@ -6,6 +6,11 @@ var moment = require('moment');
 
 
 
+function datetime(ts) {
+  return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
+}
+
+
 module.exports = {
 
   /*
@@ -26,8 +31,8 @@ module.exports = {
    * sets the limit for the number of events per page
    */
   setLimit: function (req, res) {
-    req.session.elimit = req.body.limit;
-    res.redirect('/events');
+    req.session.elimit = parseInt(req.body.limit, 10);
+    res.redirect('back');
   },
 
 
@@ -99,59 +104,34 @@ module.exports = {
     var events = new Events();
   
     var page = parseInt(req.query.p, 10);
-    var sortby = req.query.sortby;
-    var order = req.query.order;
     var query = {};
+    var currentpage = page || 1;
+    var limit = req.session.elimit || 2;
 
-    var previousSortby = req.session.previousSortby;
-    var previousOrder = req.session.previousOrder;
+    query.limit = limit;
   
-    if (page && page < 1) {
+    if (currentpage < 1) {
       res.redirect('/events');
     }
-  
-    events.currentpage = page || 1;
-    events.limit = req.session.elimit || 5;
-  
-    if(sortby) {
-      events.sortby = sortby;
-      
-      // if a sort link is clicked several times
-      if (previousSortby == sortby && !page) {
-        events.order = (previousOrder === 'asc' ? 'desc' : 'asc');
-      }
-      // if checking pages of sorted results
-      else if (page){
-        events.order = previousOrder;
-      }
-      // if clicking a different sort link
-      else {
-        events.order = 'asc';
-      }
 
-      query.sort = events.sortby;
-      query.order = events.order;
-    }
-
-    query.limit = events.limit;
-      
-    req.session.previousSortby = events.sortby;
-    req.session.previousOrder = events.order;
-  
-  
-    events.fetchItems()
+    events.fetchBy('dt', {
+      limit: limit,
+      order: 'asc',
+      page: currentpage,
+      where: ['dt', '>', datetime()]
+    })
     .then(function (collection) {
-      
       res.render('events_events', {
         title: 'Events',
-        pagination: collection.paginated,
+        pagination: events.pages,
         myEvents: collection.toJSON(),
         query: query,
         description: 'Find all upcoming Node.js events in South Africa',
         page: 'events'
       });
     })
-    .otherwise(function () {
+    .otherwise(function (error) {
+      console.log(error);
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
       res.redirect('/');      
     });
@@ -166,53 +146,27 @@ module.exports = {
     var events = new Events();
   
     var page = parseInt(req.query.p, 10);
-    var sortby = req.query.sortby;
-    var order = req.query.order;
     var query = {};
-
-    var previousSortby = req.session.previousSortby;
-    var previousOrder = req.session.previousOrder;
+    var currentpage = page || 1;
+    var limit = 10;
   
-    if (page && page < 1) {
-      res.redirect('/events');
+    if (currentpage < 1) {
+      res.redirect('/account/events');
     }
   
-    events.currentpage = page || 1;
-    events.limit = 10;
     events.base = '/account/events';
-    events.andWhereQuery = ['user_id', '=', req.user.get('id')];
-  
-    if(sortby) {
-      events.sortby = sortby;
-      
-      // if a sort link is clicked several times
-      if (previousSortby == sortby && !page) {
-        events.order = (previousOrder === 'asc' ? 'desc' : 'asc');
-      }
-      // if checking pages of sorted results
-      else if (page){
-        events.order = previousOrder;
-      }
-      // if clicking a different sort link
-      else {
-        events.order = 'asc';
-      }
 
-      query.sort = events.sortby;
-      query.order = events.order;
-    }
-
-    query.limit = events.limit;
-      
-    req.session.previousSortby = events.sortby;
-    req.session.previousOrder = events.order;
-  
-  
-    events.fetchMyEvents({columns: ['id','created_at', 'views', 'title']})
+    events.fetchBy('id', {
+      limit: limit,
+      order: 'desc',
+      page: currentpage,
+      where: ['user_id', '=', req.user.get('id')],
+      andWhere: []
+    })
     .then(function (collection) {
       res.render('events_admin', {
         title: 'Events',
-        pagination: collection.paginated,
+        pagination: events.pages,
         myEvents: collection.toJSON(),
         query: query,
         description: 'Find all upcoming Node.js events in South Africa',
@@ -265,8 +219,8 @@ module.exports = {
     eventData.address = req.body.formatted_address || '';
     eventData.website = req.body.webpage;
     eventData.url = req.body.url;
-    //eventData.lng = req.body.lng;
-    //eventData.lat = req.body.lat;
+    eventData.lng = req.body.lng;
+    eventData.lat = req.body.lat;
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
@@ -320,8 +274,8 @@ module.exports = {
     eventData.address = req.body.formatted_address || '';
     eventData.website = req.body.webpage;
     eventData.url = req.body.url;
-    //eventData.lng = req.body.lng;
-    //eventData.lat = req.body.lat;
+    eventData.lng = req.body.lng;
+    eventData.lat = req.body.lat;
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 

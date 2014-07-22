@@ -3,14 +3,15 @@
 
   <div class="panel-heading">
     <span class="glyphicon glyphicon-list-alt"></span> Edit Post
-    <a href="/account/blog" class="close pull-right">&times;</a>
+    <a href="/account/blog" class="close pull-right text-danger">&times;</a>
   </div>
 
   <div class="panel-body">
-  <form id="edit-form" action="/blog/edit" method="POST">
+  <form id="edit-form" action="/blog/edit" method="post" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="{{_csrf}}" />
     <input type="hidden" name="id" value="{{post.id}}" />
     <input type="hidden" name="catid" value="{{post.category_id}}" />
+    <input class="form-control" type="hidden" name="meta_title" id="meta_title" value="{{post.meta_title}}" required=""  />
 
     <div class="row">
       <div class="col-sm-5 col-md-5">
@@ -38,17 +39,21 @@
         </div>
 
         <div class="form-group">
-          <label class="control-label" for="meta_title">
-            Meta Title
-          </label>
-          <input class="form-control" type="text" name="meta_title" id="meta_title" value="{{post.meta_title}}" required=""  />
-        </div>
-
-        <div class="form-group">
           <label class="control-label" for="meta_description">
             Meta Description
           </label>
           <input class="form-control" type="text" name="meta_description" id="meta_description" value="{{post.meta_description}}" required="" />
+        </div>
+
+        <div class="form-group">
+          <input type='file' id="image_url" name="image_url" />
+
+          {{#if post.image_url}}
+            <img id="imagepreview" src="{{post.image_url}}" style="width: 120px; height: 120px" />
+          {{else}}
+            <p class="help-block">Upload an image to be used with your post</p>
+            <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
+          {{/if}}
         </div>
 
         <div class="form-group">
@@ -69,7 +74,7 @@
         <div class="form-group">
           <label class="control-label" for="markdown">Post *</label>
 
-          <div id="epiceditor" style="height: 400px; padding: 0px;" class="form-control">
+          <div id="epiceditor" style="height: 500px; padding: 0px;" class="form-control">
             <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
           </div>
         </div>

@@ -243,11 +243,22 @@ label {
   font-size: 16px;
 }
 
-.meetups-tile .thumbnail {
+.thumbnail {
   border-radius: 0px;
-  border-top: 0px;
 }
 
+.meetup.panel.panel-default {
+  border-radius: 0px;
+}
+
+.event.panel.panel-default {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.meetups-tile .thumbnail {
+  border-top: 0px;
+}
 /*
  * Footer
  */

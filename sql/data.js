@@ -27,6 +27,8 @@ function fakeEvent() {
   eventData.city = Faker.Address.city();
   eventData.town = Faker.Address.city();
   eventData.address = Faker.Address.streetAddress().split(',').join(' ');
+  eventData.lat = Faker.Address.latitude();
+  eventData.lng = Faker.Address.longitude();
   eventData.website = 'http://www.' + Faker.Internet.domainName();
   eventData.url = 'http://www.' + Faker.Internet.domainName();
   eventData.email = Faker.Internet.email();
@@ -83,15 +85,15 @@ intoPost += 'NodeZA is a portal for Node.js developers in South Africa. It was c
 
 module.exports.populate  = function () {
   var rolesData = [
-    {role: 'Registered'}, 
-    {role: 'Publisher'}, 
-    {role: 'Super Administrator'}
+    {name: 'Registered'}, 
+    {name: 'Publisher'}, 
+    {name: 'Super Administrator'}
   ];
   var catsData = [
     {name: 'Articles'}, 
     {name: 'Interviews'},
     {name: 'Tutorials'}, 
-    {name: 'Company Profiles'}
+    {name: 'News'}
   ];
   var fakeMeetups = [];
   var fakeEvents = createFakeEvents();

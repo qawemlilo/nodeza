@@ -39,6 +39,7 @@ console.log();
 var dbSetup = new Prompt(questions);
 
 dbSetup.create().then(function (err, answers) {
+
   secrets.mysql.host = answers.Host;
   secrets.mysql.user = answers.DatabaseUser;
   secrets.mysql.password = answers.Password;

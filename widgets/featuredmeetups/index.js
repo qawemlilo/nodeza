@@ -1,26 +1,25 @@
 
 var when = require('when');
 var config = require('./config.json');
-var cache = false;
+var Cache = null;
 
 module.exports = config;
 
 module.exports.exec = function (req, res, collections) {
-	if (cache) {
-	  return when(cache);
+	if (Cache) {
+	  return when(Cache);
 	}
 
-    var meetups = new collections.Meetups();
+  var meetups = new collections.Meetups();
 
-    meetups.limit = 2;
+  return meetups.fetchBy('id', {
+    limit: 2,
+    where: ['created_at', '<', new Date()]
+  })
+  .then(function (collection) {
+    config.collection = collection;
+    Cache = config;
 
-    return meetups.fetchItems()
-    .then(function (collection) {
-
-      config.collection = collection;
-
-      cache = config;
-
-      return config;
-    });
+    return config;
+  });
 };

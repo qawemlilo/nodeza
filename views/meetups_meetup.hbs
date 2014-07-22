@@ -2,7 +2,7 @@
 
 
 {{#extend "jumbotron"}}
-<div id="jumbotron" class="jumbotron events {{meetup.slug}}">
+<div id="jumbotron" class="jumbotron {{meetup.slug}}">
   <div class="container">
     <h1>{{meetup.name}}</h1>
   </div>
@@ -24,11 +24,12 @@
 <script>
   var map = new GMaps({
     div: '#meetupVenue',
-    address: "{{event.address}}"
+    lng: "{{meetup.lng}}",
+    lat: "{{meetup.lat}}"
   });
     
   GMaps.geocode({
-    address: "{{event.address}}",
+    address: "{{meetup.address}}",
 
     callback: function(results, status){
      if (status=='OK'){

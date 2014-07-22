@@ -8,9 +8,6 @@ var Category = require('../models/category');
 var Tags = require('../models/tag');
 
 
-
-
-
 function processTags(tags) {
   if (!tags) {
     return false;
@@ -26,10 +23,7 @@ function processTags(tags) {
 }
 
 
-
-
 module.exports = {
-
 
   /*
    * GET /blog/:slug
@@ -39,19 +33,19 @@ module.exports = {
     var slug = req.params.slug;
 
     return Post.forge({slug: slug, published: 1})
-    .fetch({withRelated: ['created_by', 'tags']})
+    .fetch({withRelated: ['created_by', 'tags', 'category']})
     .then(function (post) {
       res.render('posts_post', {
         page: 'post',
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('meta_title'),
         description: post.get('meta_description'),
-        tags: post.related('tags').toJSON(),
-        author: post.related('created_by').toJSON(),
+        author: post.related('created_by').getJSON(['slug', 'name', 'about']),
+        category: post.related('category').toJSON(),
         post: post.toJSON()
       });
 
-      // disabled until model events are sorted
+      // post has been viewed
       post.viewed();
     })
     .otherwise(function () {
@@ -100,20 +94,25 @@ module.exports = {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
   
-    posts.limit = 5;
-    posts.currentpage = page || 1;
-    posts.base = '/blog';
-    posts.whereQuery = ['published_at', '<', new Date()];
-    posts.andWhereQuery = ['published', '=', 1];
-  
-    posts.fetchItems()
+    var currentpage = page || 1;
+
+    if (currentpage < 1) {
+      res.redirect('/blog');
+    }
+
+    posts.fetchBy('published_at', {
+      page: currentpage,
+      limit: 5
+    }, {withRelated: ['category']})
     .then(function (collection) {
       res.render('posts_posts', {
         title: 'Blog',
-        pagination: posts.paginated,
+        pagination: posts.pages,
         posts: collection.toJSON(),
         description: 'Node.js tutorials, articles and news',
         page: 'blog',
+        tag: '',
+        category: '',
         query: {}
       });
     })
@@ -131,27 +130,33 @@ module.exports = {
     var posts = new Posts();
     var slug = req.params.slug;
     var page = parseInt(req.query.p, 10);
-  
-    posts.limit = 5;
-    posts.currentpage = page || 1;
+    var currentpage = page || 1;
+
+    if (currentpage < 1) {
+      res.redirect('/blog/category/' + slug);
+    }
+
     posts.base = '/blog/category/' + slug;
-    
     
     Category.forge({slug: slug})
     .fetch()
     .then(function (model) {
-      
-      posts.whereQuery = ['published_at', '<', new Date()];
-      posts.andWhereQuery = ['category_id', '=', model.get('id')];
+      var categoryName  = model.get('name');
 
-      posts.fetchItems()
+      posts.fetchBy('created_at', {
+        limit: 5,
+        page: currentpage,
+        andWhere: ['category_id', '=', model.get('id')]
+      }, {withRelated: ['category']})
       .then(function (collection) {
         res.render('posts_posts', {
           title: 'Blog',
-          pagination: posts.paginated,
+          pagination: posts.pages,
           posts: collection.toJSON(),
           description: 'Node.js tutorials, articles and news',
           page: 'blog',
+          tag: '',
+          category: categoryName,
           query: {}
         });
       })
@@ -177,15 +182,16 @@ module.exports = {
     .fetch()
     .then(function (tag) {
       tag.posts()
-      .fetch()
+      .fetch({withRelated: ['category']})
       .then(function (collection) {
-
         res.render('posts_posts', {
           title: 'Blog',
-          pagination: collection.paginated,
+          pagination: collection.pages,
           posts: collection.toJSON(),
           description: 'Node.js tutorials, articles and news',
           page: 'blog',
+          tag: tag.get('name'),
+          category: '',
           query: {}
         });
       })
@@ -207,17 +213,19 @@ module.exports = {
   newPostsAdmin: function (req, res) {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
-  
-    posts.limit = 10;
-    posts.currentpage = page || 1;
+    var currentpage = page || 1;
+
     posts.base = '/account/blog';
-    posts.whereQuery = ['user_id', '=', req.user.get('id')];
   
-    posts.fetchItems()
+    posts.fetchBy('id', {
+      limit: 5,
+      page: currentpage, 
+      where: ['user_id', '=', req.user.get('id')]
+    })
     .then(function (collection) {
       res.render('posts_admin', {
         title: 'Blog',
-        pagination: posts.paginated,
+        pagination: posts.pages,
         posts: collection.toJSON(),
         description: 'Node.js tutorials, articles and news',
         page: 'adminblog',
@@ -260,14 +268,14 @@ module.exports = {
    * POST /account/blog/new
    * Edit user account.
   */
-  postPost: function(req, res, next) {
+  postPost: function(req, res) {
     var post = new Post();
 
     req.assert('title', 'Title must be at least 6 characters long').len(6);
     req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
-    var opts = {
+    var postData = {
       user_id: req.user.get('id'),
       title: req.body.title,
       category_id: req.body.category,
@@ -278,12 +286,16 @@ module.exports = {
       featured: !!req.body.featured
     };
 
-    var tags = processTags(req.body.tags);
+    if (req.files.image_url) {
+      postData.image_url = '/img/blog/' + req.files.image_url.name;
+    }
 
-    post.save(opts, {updateTags: tags})
-    .then(function() {
+    var tags = processTags(req.body.tags) || ['uncategorised'];
+
+    post.save(postData, {updateTags: tags})
+    .then(function(model) {
       req.flash('success', { msg: 'Post successfully created.' });
-      res.redirect('back');
+      res.redirect('/blog/edit/' + model.get('id'));
     })
     .otherwise(function (error) {
       console.log(error);
@@ -302,7 +314,7 @@ module.exports = {
     req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
-    var opts = {
+    var postData = {
       id: req.body.id,
       user_id: req.user.get('id'),
       title: req.body.title,
@@ -313,22 +325,29 @@ module.exports = {
       published: !!req.body.published,
       featured: !!req.body.featured
     };
+    var options = {method: 'update', user: postData.id};
 
-    var tags = processTags(req.body.tags);
+    if (req.files.image_url) {
+      postData.image_url = '/img/blog/' + req.files.image_url.name;
+    }
 
-    Post.forge({id: opts.id, user_id: opts.user_id})
+    if (req.body.tags) {
+      options.tags = processTags(req.body.tags);
+    }
+
+    Post.forge({id: postData.id, user_id: postData.user_id})
     .fetch()
     .then(function (post) {
 
       // specify explicitly if you want to update tags
-      post.save(opts, {updateTags: tags})
+      post.save(postData, options)
       .then(function() {
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('error', {msg: 'Post could not be updated.'});
         console.log(error);
+        req.flash('error', {msg: 'Post could not be updated.'});
         res.redirect('/account/blog');
       });
     })
@@ -345,7 +364,7 @@ module.exports = {
    * GET /blog/delete
    * Edit user account.
   */
-  getDelete: function(req, res, next) {
+  getDelete: function(req, res) {
     Post.forge({id: req.params.id, user_id: req.user.get('id')})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
@@ -371,7 +390,7 @@ module.exports = {
    * Get /blog/edit
    * Edit user account.
   */
-  getPublish: function(req, res, next) {
+  getPublish: function(req, res) {
     Post.forge({id: req.params.id, user_id: req.user.get('id')})
     .fetch({withRelated: ['tags']})
     .then(function (post) {

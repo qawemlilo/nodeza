@@ -1,7 +1,7 @@
 
 var when = require('when');
 var config = require('./config.json');
-var cache = false;
+var Cache = null;
 
 module.exports = config;
 
@@ -11,23 +11,20 @@ function datetime(ts) {
 
 module.exports.exec = function (req, res, collections) {
 
-    if (cache) {
-      return when(cache);
-    }
-    var events = new collections.Events();
+  if (Cache) {
+    return when(Cache);
+  }
 
-    events.limit = 3;
-    events.whereQuery = ['dt', '<', datetime()];
-    events.sort = 'dt';
-    events.order = 'desc';
+  var events = new collections.Events();
 
-    return events.fetchItems()
-    .then(function (collection) {
+  return events.fetchBy('dt', {
+    limit: 3,
+    where: ['dt', '<', datetime()]
+  })
+  .then(function (collection) {
+    config.collection = collection;
+    Cache = config;
 
-      config.collection = collection;
-
-      cache = config;
-
-      return config;
-    });
+    return config;
+  });
 };

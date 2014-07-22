@@ -369,7 +369,7 @@ exports.isAuthorized = function (req, res, next) {
 
 exports.isUserAdmin = function (req, res, next) {
 
-  if (req.user && req.user.related('role').get('role') === 'Super Administrator') {
+  if (req.user && req.user.related('role').get('name') === 'Super Administrator') {
     next();
   } else {
     req.flash('errors', { msg: 'You are not authorized to perform that action' });

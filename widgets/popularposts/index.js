@@ -1,31 +1,26 @@
 
 var when = require('when');
 var config = require('./config.json');
-var cache = false;
+var Cache = null;
 
 module.exports = config;
 
 module.exports.exec = function (req, res, collections) {
    
-    if (cache) {
-        return when(cache);
-    }
+  if (Cache) {
+    return when(Cache);
+  }
 
-    var posts = new collections.Posts();
-
-    posts.limit = 5;
-    posts.whereQuery = ['published_at', '<', new Date()];
-    posts.andWhereQuery = ['published', '=', 1];
-    posts.order = 'desc';
-    posts.sortby = 'views';
+  var posts = new collections.Posts();
     
 
-    return posts.fetchItems()
-    .then(function (collection) {
-      config.collection = collection;
-
-      cache = config;
-
-      return config;
-    });
+  return posts.fetchBy('views', {
+    limit: 5
+  })
+  .then(function (collection) {
+    config.collection = collection;
+    Cache = config;
+    
+    return config;
+  });
 };

@@ -1,32 +1,23 @@
 
 var when = require('when');
 var config = require('./config.json');
-var cache = false;
+var Cache = null;
 
 module.exports = config;
 
 module.exports.exec = function (req, res, collections) {
 
-	if (cache) {
-		return when(cache);
+	if (Cache) {
+		return when(Cache);
 	}
 
-    var posts = new collections.Posts();
+  var posts = new collections.Posts();
 
-    posts.on('add', function () {
-      cache = false;
-      console.log('new post added');
-    });
+  return posts.featured(2)
+  .then(function (collection) {
+    config.collection = collection;
+    Cache = config;
 
-    posts.whereQuery = ['published_at', '<', new Date()];
-
-    return posts.fetchFeatured(2)
-    .then(function (collection) {
-
-      config.collection = collection;
-
-      cache = config;
-
-      return config;
-    });
+    return config;
+  });
 };

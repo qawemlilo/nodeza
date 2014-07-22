@@ -3,205 +3,38 @@
 **/
 
 var when = require('when');
-var MySql  = require('../config/db').Bookshelf;
+var Base  = require('./base');
 var Post = require('../models/post');
 
-var Posts = MySql.Collection.extend({
+var Posts = Base.Collection.extend({
 
   model: Post,
 
 
-  limit: 10,
-  
-
-  total: 0,
-
-
-  currentpage: 1,
-
-
-  paginated: {},
-
-
   base: '/blog',
 
+
+  whereQuery: ['published', '=', 1],
   
-  paginationLimit: 10,
 
-
-  whereQuery: ['published_at', '<', new Date()],
-
-
-  andWhereQuery: [],
-
-
-  sortby: 'published_at',
-
-
-  order: 'desc',
-
- 
-  /**
-   * Creates pagination data
-   *
-   * @returns: {Promise} - resolves with pagination
-  */ 
-  paginate: function () {
-    var self = this;
-    var deferred = when.defer();
-    var query = self.model.forge().query();
-
-    if (self.whereQuery.length) {
-      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
-    }  
-
-    if (self.andWhereQuery.length) {
-      query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
-    }
-    
-    query.count('id AS total')
-    .then(function (results) {
-
-      var total = results[0].total;
-      var pages = Math.ceil(total / self.limit);
-      var groups = Math.ceil(pages / self.paginationLimit);
-      var currentpage = self.currentpage; 
-      var items = [];
-      var prev = currentpage - 1;
-      var next = currentpage + 1;
-      var isFirstPage = currentpage === 1;
-      var lastpage = pages;
-      var isLastPage = currentpage === lastpage;
-      var highestF = currentpage + 2;
-      var lowestF = currentpage - 2;
-      var counterLimit = pages - 2; 
-
-
-      if (groups > 1) {
-        items.push(1);
-        items.push(2);
-        
-        // if our current page is higher than 3
-        if (lowestF > 3) {
-          items.push('...');
-
-          //lets check if we our current page is towards the end
-          if (lastpage - currentpage < 2) {
-             lowestF -=  3; // add more previous links       
-          }
-        }
-        else {
-          lowestF = 3; // lowest num to start looping from
-        }
-
-        for (var counter = lowestF; counter < lowestF + 5; counter++) {
-          if (counter > counterLimit) break;
-
-          items.push(counter);
-        }
-        
-        // if current page not towards the end
-        if (highestF < pages - 2) {
-          items.push('...');
-        }
-
-        items.push(lastpage - 1);
-        items.push(lastpage);
-      }
-      else {
-        // no complex pagination required
-        for (var counter2 = 1; counter2 <= lastpage; counter2++) {
-          items.push(counter2);
-        }
-      }
-      
-      
-      var paginated = {
-        items: items,
-        currentpage: currentpage,
-        base: self.base,
-        isFirstPage: isFirstPage,
-        isLastPage: isLastPage,
-        next: next,
-        prev: prev,
-        total: total,
-        limit: self.limit
-      };
-      
-      self.paginated = paginated;
-      deferred.resolve(paginated);
-
-    })
-    .otherwise(function () {
-      deferred.reject();
-    });
-
-    return deferred.promise;
-  },
-
-
-  
-  /**
-   * Fetches posts plus pagination
-   *
-   * @returns: {Promise} - a promise that resolves with {Object.models[] Object.pagination{}}
-  */
-  fetchItems: function (options) {
-    var self = this;
-    var deferred = when.defer();
-
-    self.paginate()
-    .then(function(pagination) {
-      var posts = Posts.forge();
-
-      posts.query(function (query) {
-        query.limit(self.limit);
-        if (self.whereQuery.length) {
-          query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
-        }  
-        if (self.andWhereQuery.length) {
-          query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
-        }
-
-        query.offset((self.currentpage - 1) * self.limit);
-        query.orderBy(self.sortby, self.order);
-      })
-      .fetch(options)
-      .then(function (collection) {
-        deferred.resolve(collection);
-      })
-      .otherwise(function () {
-        deferred.reject();
-      });
-    })
-    .otherwise(function () {
-      deferred.reject();
-    });
-
-    return deferred.promise;
-  },
-
-
-  
   /**
    * Fetches featured front page posts
   */
-  fetchFeatured: function (limit, options) {
+  featured: function (limit, options) {
+
+    options = options || {};
     
     var self = this;
     var deferred = when.defer();
     var posts = Posts.forge();
     
     posts.query(function (query) {
-      query.limit(limit || 2);
-      query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
-      query.andWhere('featured', '=', 1);
+      query.limit(limit || self.limit);
+      query.where('featured', '=', 1);
       query.andWhere('published', '=', 1);
-      query.offset((self.currentpage - 1) * self.limit);
-      query.orderBy(self.sortby, self.order);
-      query.join('users', 'users.id', '=', 'posts.user_id');
+      query.orderBy('published_at', 'desc');
     })
-    .fetch()
+    .fetch(options)
     .then(function (collection) {
       deferred.resolve(collection);
     })
@@ -213,4 +46,5 @@ var Posts = MySql.Collection.extend({
   }
 });
 
-module.exports = MySql.collection('Posts', Posts);
+
+module.exports = Base.collection('Posts', Posts);

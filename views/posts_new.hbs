@@ -10,15 +10,30 @@
 {{#extend "scripts"}}
 <script src="/js/epiceditor/js/epiceditor.min.js"></script>
 <script>
-var editor = new EpicEditor({
-  textarea: 'markdown',
-  basePath: '/js/epiceditor',
-  clientSideStorage: false,
-  theme: {
-    base: '/themes/base/epiceditor.css',
-    preview: '/themes/preview/github.css',
-    editor: '/themes/editor/epic-light.css'
+(function () {
+  
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+  
+      reader.onload = function (e) {
+          $('#imagepreview').attr('src', e.target.result).fadeIn();
+      }
+  
+      reader.readAsDataURL(input.files[0]);
+    }
   }
-}).load();
+  
+  var editor = new EpicEditor({
+    textarea: 'markdown',
+    basePath: '/js/epiceditor',
+    clientSideStorage: false,
+    theme: {
+      base: '/themes/base/epiceditor.css',
+      preview: '/themes/preview/github.css',
+      editor: '/themes/editor/epic-light.css'
+    }
+  }).load();
+}());
 </script>
 {{/extend}}

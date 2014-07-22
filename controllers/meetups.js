@@ -91,11 +91,14 @@ module.exports = {
   getMeetups: function (req, res, next) {
     var meetups = new Meetups();
   
-    meetups.fetchItems()
+    meetups.fetchBy('id', {
+      where: ['created_at', '<', new Date()],
+      andWhere: []
+    })
     .then(function (collection) {
       res.render('meetups_meetups', {
         title: 'Find Meetups',
-        pagination: collection.paginated,
+        pagination: collection.pages,
         meetups: collection.toJSON(),
         query: {},
         description: 'Find a meetup group in South Africa',
@@ -117,15 +120,16 @@ module.exports = {
   getMeetupsAdmin: function (req, res, next) {
     var meetups = new Meetups();
 
-
     meetups.base = '/account/events';
-    meetups.whereQuery = ['user_id', '=', req.user.get('id')];
   
-    meetups.fetchItems()
+    meetups.fetchBy('id', {
+      where: ['user_id', '=', req.user.get('id')],
+      andWhere: []
+    })
     .then(function (collection) {
       res.render('meetups_admin', {
         title: 'Find Meetups',
-        pagination: collection.paginated,
+        pagination: collection.pages,
         meetups: collection.toJSON(),
         query: {},
         description: 'Find a meetup group in South Africa',

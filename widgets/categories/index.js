@@ -1,24 +1,23 @@
 
 var when = require('when');
 var config = require('./config.json');
-var cache = false;
+var Cache = null;
 
 module.exports = config;
 
 module.exports.exec = function (req, res, collections) {
 
-	if (cache) {
-	  return when(cache);
+	if (Cache) {
+	  return when(Cache);
 	}
 
-    var categories = new collections.Categories();
+  var categories = new collections.Categories();
 
-    return categories.fetch()
-    .then(function (collection) {
-      config.collection = collection;
-
-      cache = config;
-      
-      return config;
-    });
+  return categories.fetch()
+  .then(function (collection) {
+    config.collection = collection;
+    Cache = config;
+    
+    return config;
+  });
 };

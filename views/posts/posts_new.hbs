@@ -3,11 +3,11 @@
 
   <div class="panel-heading">
     <span class="glyphicon glyphicon-list-alt"></span> New Post
-    <a href="/account/blog" class="close pull-right">&times;</a>
+    <a href="/account/blog" class="close pull-right text-danger">&times;</a>
   </div>
 
   <div class="panel-body">
-  <form id="event-form" action="/blog/new" method="POST">
+  <form id="event-form" action="/blog/new" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="{{_csrf}}" />
     
     <div class="row">
@@ -47,6 +47,11 @@
             Meta Description
           </label>
           <input class="form-control" type="text" name="meta_description" id="meta_description" placeholder="meta data for page description" />
+        </div>
+
+        <div class="form-group">
+          <input type='file' id="image_url" name="image_url" />
+          <p class="help-block">Please upload an image to be used with your post</p>
         </div>
 
         <div class="form-group">

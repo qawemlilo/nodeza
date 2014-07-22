@@ -14,7 +14,7 @@ describe('Roles', function(){
         var role = user.related('role');
 
         role.get('id').should.equal(3);
-        role.get('role').should.equal('Super Administrator');
+        role.get('name').should.equal('Super Administrator');
         done();
       })
       .otherwise(function (error) {

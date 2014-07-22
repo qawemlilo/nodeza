@@ -59,9 +59,7 @@ var Post = Base.Model.extend({
 
   saving: function (model, attr, options) {
     var self = this;
-    var tagsToCheck = [];
-    var tags = self.tags || 'uncategorised';
-
+    
     // if only updating views field
     if (self.hasChanged('views') && !self.isNew()) {
       return;

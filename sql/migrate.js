@@ -1,11 +1,11 @@
 
-var Bookshelf  = require('bookshelf');
 var secrets = require('../config/secrets.json');
+var db = require('../config/db');
 
 /*
   Bookshelf initialization
 */
-Bookshelf.PG = Bookshelf.initialize({
+var knex = require('knex')({
   client: 'mysql',
   connection: {
     host: secrets.mysql.host,
@@ -17,12 +17,17 @@ Bookshelf.PG = Bookshelf.initialize({
 });
 
 
+var Bookshelf = require('bookshelf')(knex);
+
 /*
  * This solves the circular dependency problem created by Bookshelf models
  * in a previous commit #38d98bb4c33e91b636a3538bd546ebe7f5077328
  *
 **/
-Bookshelf.PG.plugin('registry');
+Bookshelf.plugin('registry');
+
+// hack to access the Bookshelf from anywhere
+db.Bookshelf = Bookshelf;
 
 
 var _ = require('lodash');
@@ -57,8 +62,6 @@ var questions = [
     }
   }
 ];
-
-var knex = Bookshelf.PG.knex;
 
 
 function createTable(tableName) {

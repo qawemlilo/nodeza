@@ -17,24 +17,6 @@
             </select>
         </form>
       </li>
-      <li><strong>Sort by:</strong></li>
-      <li>
-        <a href="/events?sortby=dt">
-          Date {{#caret query.sort query.order 'dt'}}{{/caret}}
-        </a> 
-      </li>
-      <li>&middot;</li>
-      <li>
-        <a href="/events?sortby=province">
-          Province {{#caret query.sort query.order 'province'}}{{/caret}}
-        </a> 
-      </li>
-      <li>&middot;</li>
-      <li>
-        <a href="/events?sortby=city">
-        City {{#caret query.sort query.order 'city'}}{{/caret}}
-        </a>
-      </li>
       <li class="pull-right">
         <a href="/account/events/new" class="btn btn-danger">
           <span class="glyphicon glyphicon-calendar"></span> Create An Event

@@ -2,14 +2,14 @@
  {{#if collection}}
 <div class="col-sm-6 col-md-5">
   <h3>
-    <span class="glyphicon glyphicon-user text-danger"></span> 
-    <a href="/events">Featured Meetups</a>
+    <span class="glyphicon glyphicon-map-marker text-danger"></span> 
+    <a href="/meetups">Featured Meetups</a>
   </h3>
 
   {{#each collection}}
     <div class="media">
       <a class="pull-left" href="/meetups/{{slug}}">
-        <img class="media-object" data-src="holder.js/48x48" alt="...">
+        <img class="media-object" src="{{image_url}}" style="width:48px; height:48px" alt="{{name}}">
       </a>
       <div class="media-body">
         <h4 class="media-heading">

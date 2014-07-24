@@ -5,7 +5,7 @@ var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
-var Tags = require('../models/tag');
+var Tag = require('../models/tag');
 
 
 function processTags(tags) {
@@ -33,15 +33,18 @@ module.exports = {
     var slug = req.params.slug;
 
     return Post.forge({slug: slug, published: 1})
-    .fetch({withRelated: ['created_by', 'tags', 'category']})
+    .fetch({
+      withRelated: ['created_by', 'tags', 'category']
+    })
     .then(function (post) {
       res.render('posts_post', {
         page: 'post',
         gravatar: post.related('created_by').gravatar(48),
-        title: post.get('meta_title'),
+        title: post.get('title'),
         description: post.get('meta_description'),
         author: post.related('created_by').getJSON(['slug', 'name', 'about']),
         category: post.related('category').toJSON(),
+        url: 'http://' + req.headers.host + '/blog/' + slug,
         post: post.toJSON()
       });
 
@@ -103,7 +106,10 @@ module.exports = {
     posts.fetchBy('published_at', {
       page: currentpage,
       limit: 5
-    }, {withRelated: ['category']})
+    }, {
+      columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
+      withRelated: ['category']
+    })
     .then(function (collection) {
       res.render('posts_posts', {
         title: 'Blog',
@@ -139,15 +145,18 @@ module.exports = {
     posts.base = '/blog/category/' + slug;
     
     Category.forge({slug: slug})
-    .fetch()
+    .fetch({columns: ['id', 'name']})
     .then(function (model) {
       var categoryName  = model.get('name');
 
       posts.fetchBy('created_at', {
-        limit: 5,
+        limit: 2,
         page: currentpage,
         andWhere: ['category_id', '=', model.get('id')]
-      }, {withRelated: ['category']})
+      }, {
+        columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
+        withRelated: ['category']
+      })
       .then(function (collection) {
         res.render('posts_posts', {
           title: 'Blog',
@@ -177,29 +186,56 @@ module.exports = {
    */
   getPostsByTag: function (req, res) {
     var slug = req.params.slug;
+    var tag = new Tag({slug: slug});
+    var page = parseInt(req.query.p, 10);
+    
+    // hack for pagination of /blog/tags/:slug
+    tag.currentpage = page || 1;
+    tag.limit = 5;
+    tag.base = '/blog/tags/' + slug;
 
-    Tags.forge({slug: slug})
-    .fetch()
+    tag.fetch()
     .then(function (tag) {
-      tag.posts()
-      .fetch({withRelated: ['category']})
-      .then(function (collection) {
-        res.render('posts_posts', {
-          title: 'Blog',
-          pagination: collection.pages,
-          posts: collection.toJSON(),
-          description: 'Node.js tutorials, articles and news',
-          page: 'blog',
-          tag: tag.get('name'),
-          category: '',
-          query: {}
+
+      // first we want to know the total numner of posts
+      // with this tag
+      tag.total(tag.get('id'))
+      .then(function (result) {
+        
+        // hack for pagination of /blog/tags/:slug
+        var pagination = Posts.prototype.makePages.call(tag, result[0].total);
+        var tagname = tag.get('name');
+
+        tag.posts()
+        .fetch({
+          columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
+          withRelated: ['category'],
+          limit: 2
+        })
+        .then(function (collection) {
+          res.render('posts_posts', {
+            title: 'Blog',
+            pagination: pagination,
+            posts: collection.toJSON(),
+            description: 'Node.js tutorials, articles and news',
+            page: 'blog',
+            tag: tagname,
+            category: '',
+            query: {}
+          });
+        })
+        .otherwise(function (error) {
+          console.log(error);
+          res.redirect('back');
         });
       })
-      .otherwise(function () {
+      .otherwise(function (error) {
+        console.log(error);
         res.redirect('back');
       });
     })
-    .otherwise(function () {
+    .otherwise(function (error) {
+      console.log(error);
       res.redirect('back');
     });
   },
@@ -325,7 +361,7 @@ module.exports = {
       published: !!req.body.published,
       featured: !!req.body.featured
     };
-    var options = {method: 'update', user: postData.id};
+    var options = {method: 'update'};
 
     if (req.files.image_url) {
       postData.image_url = '/img/blog/' + req.files.image_url.name;

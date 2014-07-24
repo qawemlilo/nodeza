@@ -4,6 +4,7 @@
 var Bookshelf  = require('../config/db').Bookshelf;
 var unidecode  = require('unidecode');
 var when  = require('when');
+var sanitize   = require('validator').sanitize;
 var Databases = require('../sql/schema');
 
 
@@ -46,8 +47,8 @@ Bookshelf.Model = Bookshelf.Model.extend({
     var self = this;
     var table = self.getTableName();
 
-    if (Databases[table].updated_by && options && options.user) {
-      this.set('updated_by', user);
+    if (Databases[table].updated_by && attr.user_id) {
+      this.set('updated_by', attr.user_id);
     }
 
     if (self.hasChanged('slug') || !self.get('slug') && Databases[table].slug) {
@@ -58,6 +59,12 @@ Bookshelf.Model = Bookshelf.Model.extend({
           self.set({slug: slug});
         });
     }
+  },
+
+
+
+  sanitize: function (attr) {
+    return sanitize(this.get(attr)).xss();
   },
 
 

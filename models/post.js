@@ -76,7 +76,7 @@ var Post = Base.Model.extend({
       }
     }
 
-    return Base.Model.prototype.saving.call(self, arguments);
+    return Base.Model.prototype.saving.apply(self, arguments);
   },
 
 

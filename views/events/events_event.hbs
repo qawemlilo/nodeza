@@ -4,7 +4,7 @@
 
   <div class="container-fluid"> 
 
-  <div class="row" id="eventVenue" style="height: 250px;">  
+  <div class="row" id="eventVenue" style="height: 250px;background-color:#F5F5F5">  
   </div>
     <div class="row">  
       <div class="event panel panel-default">
@@ -29,21 +29,17 @@
         </div>
         <div class="panel-footer">
           <div class="row">
-            <div class="col-md-3">
-              <span class="glyphicon glyphicon-calendar"></span> {{parseDate}}
-            </div>
-            <div class="col-md-3">
-              <span class="glyphicon glyphicon-time"></span> {{parseTime}}
+            <div class="col-md-4" style="text-align: left">
+              <span class="glyphicon glyphicon-calendar text-danger"></span> {{#parseDate myEvent.dt ''}}{{/parseDate}}
             </div>
 
-            <div class="col-md-3">
-              <span class="glyphicon glyphicon-map-marker"></span> 
-              <a href="{{myEvent.url}}" target="_blank">Map</a>
+            <div class="col-md-4" style="text-align: center">
+              <span class="glyphicon glyphicon-time text-danger"></span> {{parseTime}}
             </div>
 
             {{#if isUpComing}}
-            <div class="col-md-3">
-              <span class="glyphicon glyphicon-envelope"></span> 
+            <div class="col-md-4" style="text-align: right">
+              <span class="glyphicon glyphicon-envelope text-danger"></span> 
               <a href="mailto:{{myEvent.email}}"> 
                 Contact</>
               </a>

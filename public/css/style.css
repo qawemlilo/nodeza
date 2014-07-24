@@ -193,6 +193,11 @@ label {
 .blog-main-body .blog-post-title {
   font-size: 40px;
 }
+/*
+.blog-main a:visited {
+  color: #999;
+}*/
+
 .blog-main-body h3 {
   margin-top: 40px;
 }
@@ -274,6 +279,11 @@ label {
   margin-bottom: 0;
 }
 
+.meetups-tile .col-sm-6 img {
+  width: 320px;
+  height: 200px;
+}
+
 /* Desktop */
 @media (min-width: 768px) {
   /* Sidebar modules for boxing content */
@@ -295,6 +305,15 @@ label {
 /* Mobile */
 @media (max-width: 768px) {
   /* Sidebar modules for boxing content */
+
+  .meetups-tile .col-sm-6 img {
+    width: 100%!important;
+    height: auto!important;
+  }
+
+  .btn.btn-lg {
+    margin-bottom: 5px;
+  }
 
   .sidebar-module {
     margin-top: 15px;

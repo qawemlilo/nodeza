@@ -20,12 +20,32 @@
         <li class="{{#activeMenu 'events' page}}{{/activeMenu}}">
           <a href="/events"><span class="glyphicon glyphicon-calendar"></span> Events</a>
         </li>
+
         <li class="{{#activeMenu 'meetups' page}}{{/activeMenu}}">
           <a href="/meetups"><span class="glyphicon glyphicon-map-marker"></span> MeetUps</a>
         </li>
         <li class="{{#activeMenu 'blog' page}}{{/activeMenu}}">
           <a href="/blog"><span class="glyphicon glyphicon-list-alt"></span> Blog</a>
         </li>
+        <!--
+        <li>
+          <a href="/blog" class="dropdown-toggle" data-toggle="dropdown">
+            Categories 
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/blog/category/news">News</a>
+            </li>
+            <li>
+              <a href="/blog/category/tutorials">Tutorials</a>
+            </li>
+            <li>
+              <a href="/blog/category/articles">Articles</a>
+            </li>
+            <li><a href="/blog/category/interviews">Interviews</a></li>
+          </ul>
+        </li>-->
       </ul>
       <ul class="nav navbar-nav navbar-right">
       {{#if user}}

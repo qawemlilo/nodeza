@@ -108,7 +108,7 @@ var User = Base.Model.extend({
     if (self.isNew() || self.hasChanged('password')) {
       return self.generatePasswordHash(password)
       .then(function (hash) {
-        if (data && data.password) {
+        if (data.password) {
           data.password = hash;
         }
         else {

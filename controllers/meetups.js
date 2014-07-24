@@ -42,7 +42,7 @@ module.exports = {
       if(!meetup) return res.redirect('/meetups');
 
       res.render('meetups_meetup', {
-        title: 'Meetup',
+        title: meetup.get('name'),
         description: meetup.get('short_desc'),
         page: 'meetup', 
         meetup: meetup.toJSON()
@@ -94,6 +94,8 @@ module.exports = {
     meetups.fetchBy('id', {
       where: ['created_at', '<', new Date()],
       andWhere: []
+    }, {
+      columns: ['name', 'short_desc', 'city', 'slug', 'image_url']
     })
     .then(function (collection) {
       res.render('meetups_meetups', {
@@ -170,6 +172,10 @@ module.exports = {
       meetupData.id = req.body.meetup_id;
     }
 
+    if (req.files.image_url) {
+      meetupData.image_url = '/img/blog/' + req.files.image_url.name;
+    }
+
     meetupData.user_id = user.get('id');
     meetupData.name = req.body.title;
     meetupData.short_desc = req.body.short_desc;
@@ -242,11 +248,15 @@ module.exports = {
     meetupData.number = req.body.number;
     meetupData.meetings = req.body.meetings;
 
+    if (req.files.image_url) {
+      meetupData.image_url = '/img/blog/' + req.files.image_url.name;
+    }
+
 
     Meetup.forge({id: meetupData.id, user_id: meetupData.user_id})
     .fetch()
     .then(function (model) {
-      model.save(meetupData)
+      model.save(meetupData, {method: 'update'})
       .then(function () {
         req.flash('success', { msg: 'Meetup successfully updated!'});
         res.redirect('back');

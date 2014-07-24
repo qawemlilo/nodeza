@@ -165,7 +165,7 @@ app.use(function(req, res, next) {
     req.session.user = res.locals.user;
   }
 
-  res.locals.base = 'http://localhost:' + app.get('port');
+  res.locals.base = 'http://' + req.headers.host;
 
   next();
 });

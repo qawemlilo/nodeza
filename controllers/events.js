@@ -52,12 +52,12 @@ module.exports = {
       }
 
       res.render('events_event', {
-        title: 'Event',
+        title: event.get('title'),
         parseDate: event.parseDate(),
         parseTime: event.parseTime(),
         isUpComing: event.isUpComing(),
         myEvent: event.toJSON(),
-        description: 'Node.js event in ' + event.get('city'),
+        description: event.get('title'),
         page: 'event'
       });
 
@@ -107,18 +107,32 @@ module.exports = {
     var query = {};
     var currentpage = page || 1;
     var limit = req.session.elimit || 2;
+    var month = req.query.month || '';
+    var monthObj;
 
     query.limit = limit;
+    query.month = month;
   
     if (currentpage < 1) {
       res.redirect('/events');
     }
 
-    events.fetchBy('dt', {
+    var fetchQuery = {
       limit: limit,
       order: 'asc',
       page: currentpage,
       where: ['dt', '>', datetime()]
+    };
+
+    if (month) {
+      monthObj = events.parseMonth(month.trim());
+
+      fetchQuery.where = ['dt', '>', monthObj.firstday];
+      fetchQuery.andWhere = ['dt', '<', monthObj.lastday];
+    }
+
+    events.fetchBy('dt', fetchQuery, {
+      columns: ['slug', 'title', 'url', 'city', 'desc', 'dt', 'start_time', 'address']
     })
     .then(function (collection) {
       res.render('events_events', {
@@ -137,6 +151,69 @@ module.exports = {
     });
   },
 
+
+
+  /**
+   * GET /events/city/:city
+   * get upcoming events
+   */
+  getEventsByCity: function (req, res, next) {
+    var events = new Events();
+  
+    var page = parseInt(req.query.p, 10);
+    var query = {};
+    var currentpage = page || 1;
+    var limit = req.session.elimit || 2;
+    var city = req.params.city || '';
+    var month = req.query.month || '';
+
+    query.limit = limit;
+    query.month = month;
+  
+    if (currentpage < 1) {
+      res.redirect('/events');
+    }
+
+    var fetchQuery = {
+      limit: limit,
+      order: 'asc',
+      page: currentpage,
+      where: ['city', '=', city]
+    };
+
+    if(month) {
+      month = month.trim();
+
+      var dtObj = parseMonth(month);
+      var firstday = dtObj.year + '-' + dtObj.month + '-' + dtObj.firstday;
+      var lastday = dtObj.year + '-' + dtObj.month + '-' + dtObj.lastday;
+
+      //fetchQuery.where = ['dt', '>', firstday];
+      fetchQuery.andWhere = ['dt', '<', lastday];
+    }
+
+    
+    events.base = '/events/city/' + city;
+
+    events.fetchBy('dt', fetchQuery, {
+      columns: ['slug', 'title', 'url', 'city', 'desc', 'dt', 'start_time', 'address']
+    })
+    .then(function (collection) {
+      res.render('events_events', {
+        title: 'Events',
+        pagination: events.pages,
+        myEvents: collection.toJSON(),
+        query: query,
+        description: 'Find all upcoming Node.js events in ' + city,
+        page: 'events'
+      });
+    })
+    .otherwise(function (error) {
+      console.log(error);
+      req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
+      res.redirect('/');      
+    });
+  },
 
   /**
    * GET /events
@@ -279,12 +356,12 @@ module.exports = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    Event.forge({id: req.body.event_id, user_id: user.get('id')})
+    Event.forge({id: eventData.id, user_id: eventData.user_id})
     .fetch()
     .then(function (model) {
       console.log(model.toJSON());
 
-      model.save(eventData, {patch: true})
+      model.save(eventData, {method: 'update'})
       .then(function () {
         req.flash('success', { msg: 'Event successfully updated!' });
         res.redirect('back');

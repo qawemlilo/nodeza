@@ -15,6 +15,8 @@ module.exports.exec = function (req, res, collections) {
   return meetups.fetchBy('id', {
     limit: 2,
     where: ['created_at', '<', new Date()]
+  },{
+    columns: ['name', 'short_desc', 'slug', 'image_url']
   })
   .then(function (collection) {
     config.collection = collection;

@@ -445,29 +445,40 @@ module.exports = {
    * Edit user account.
   */
   postAccount: function(req, res, next) {
-    var user = req.user, name;
-
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('name', 'Name must be at least 3 characters long').len(3);
 
-    user.set({
+    var details = {
       last_name: req.body.last_name,
       name: req.body.name,
       email: req.body.email,
       gender: req.body.gender,
       location:req.body.location,
       website: req.body.website,
-      about: req.body.about
-    });
+      about: req.body.about,
+      updated_by: req.user.get('id')
+    };
 
-    user.save()
-    .then(function() {
-      req.flash('success', { msg: 'Account information updated.' });
-      res.redirect('/account');
+    User.forge({id: req.body.id})
+    .fetch()
+    .then(function (user) {
+      if (user.get('id') !== req.user.get('id') && req.user.related('role').get('name') !== 'Super Administrator') {
+        throw 'You are not authorised to access that account.';
+      }
+
+      user.save(details, {method: 'update'})
+      .then(function() {
+        req.flash('success', { msg: 'Account information updated.' });
+        res.redirect('/account');
+      })
+      .otherwise(function () {
+        req.flash('error', { msg: 'Account information not updated.' });
+        res.redirect('/account');
+      });
     })
     .otherwise(function () {
-      req.flash('error', { msg: 'Account information not updated.' });
-      res.redirect('/account');
+      req.flash('error', { msg: 'Account not found.' });
+      res.redirect('/');
     });
   },
 

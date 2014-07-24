@@ -9,7 +9,7 @@
   </div>
 
   <div class="panel-body">
-  <form class="form-horizontal" id="meetup-form" action="/account/meetups/edit" method="POST">
+  <form class="form-horizontal" id="meetup-form" action="/account/meetups/edit" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" autocomplete="off" value="{{_csrf}}" />
     <input type="hidden" name="meetup_id" autocomplete="off" value="{{meetup.id}}" />
 
@@ -157,6 +157,21 @@
 
       <div class="col-sm-7">
         <input class="form-control" type="text" name="lng" id="lng" value="{{meetup.lng}}" />
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="geocomplete">
+        Image
+      </label>
+      <div class="col-sm-7">
+      <input type='file' id="image_url" name="image_url" />
+      {{#if meetup.image_url}}
+        <img id="imagepreview" src="{{meetup.image_url}}" style="width: 120px; height: 120px" />
+      {{else}}
+        <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
+      {{/if}}
       </div>
     </div>
 

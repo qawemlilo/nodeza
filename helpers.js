@@ -244,13 +244,15 @@ module.exports.setup = function (hbs) {
     else {
       lists += '<li>';
       lists += '<a href="' + pagination.base;
-      lists += '?p=' + pagination.prev;
 
-      if (query.sort) {
-        lists += '&sortby=' + query.sort;
+      if (query.month) {
+        lists += '?month=' + query.month + '&';
+      }
+      else {
+        lists += '?';
       }
 
-      lists += '">' + '&laquo; Prev</a></li>';
+      lists += 'p=' + pagination.prev + '">' + '&laquo; Prev</a></li>';
     }
 
 
@@ -264,13 +266,16 @@ module.exports.setup = function (hbs) {
           lists += 'class="active"';
         }
         lists += '>';
-        lists += '<a href="' + pagination.base + '?p=' + page;
+        lists += '<a href="' + pagination.base;
 
-        if (query.sort) {
-          lists += '&sortby=' + query.sort;
+        if (query.month) {
+          lists += '?month=' + query.month + '&';
+        }
+        else {
+          lists += '?';
         }
 
-        lists += '">' + page + '</a></li>';
+        lists +=  'p=' + page +'">' + page + '</a></li>';
       }
     });
 
@@ -281,13 +286,15 @@ module.exports.setup = function (hbs) {
     else {
       lists += '<li>';
       lists += '<a href="' + pagination.base;
-      lists += '?p=' + pagination.next;
 
-      if (query.sort) {
-        lists += '&sortby=' + query.sort;
+      if (query.month) {
+        lists += '?month=' + query.month + '&';
+      }
+      else {
+        lists += '?';
       }
 
-      lists += '">' + 'Next &raquo;</a></li>';
+      lists += 'p=' + pagination.next + '">' + 'Next &raquo;</a></li>';
     }
 
     return lists;

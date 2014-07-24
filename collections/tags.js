@@ -1,13 +1,13 @@
 /**
  * Module dependencies.
 **/
-var Bookshelf  = require('../config/db').Bookshelf;
+var Base  = require('./base');
 var Tag = require('../models/tag');
 var when = require('when');
 
 
 
-var Tags = Bookshelf.Collection.extend({
+var Tags = Base.Collection.extend({
 
   model: Tag,
 
@@ -41,4 +41,4 @@ var Tags = Bookshelf.Collection.extend({
 });
 
 
-module.exports = Bookshelf.collection('Tags', Tags);
+module.exports = Base.collection('Tags', Tags);

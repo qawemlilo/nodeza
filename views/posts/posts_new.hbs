@@ -52,6 +52,7 @@
         <div class="form-group">
           <input type='file' id="image_url" name="image_url" />
           <p class="help-block">Please upload an image to be used with your post</p>
+          <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
         </div>
 
         <div class="form-group">
@@ -74,7 +75,7 @@
     
         <div class="form-group">
           <label class="control-label" for="markdown">Post <span class="text-danger">*</span></label>
-          <div id="epiceditor" style="height: 400px; padding: 0px;" class="form-control">
+          <div id="epiceditor" style="height: 550px; padding: 0px;" class="form-control">
             <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required=""></textarea>
           </div>
         </div>

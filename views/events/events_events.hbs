@@ -17,9 +17,53 @@
             </select>
         </form>
       </li>
+      <li>
+        <form action="/events" name="eventsmonth" method="get">
+          <strong>Month </strong> 
+          <select name="month" onchange="document.forms.eventsmonth.submit()">
+            <option value="">Select</option>
+            <option value="jan" {{#ifCond query.month '==' 'jan'}}selected{{/ifCond}}>
+              January
+            </option>
+            <option value="feb" {{#ifCond query.month '==' 'feb'}}selected{{/ifCond}}>
+              February
+            </option>
+            <option value="mar" {{#ifCond query.month '==' 'mar'}}selected{{/ifCond}}>
+              March
+            </option>
+            <option value="apr" {{#ifCond query.month '==' 'apr'}}selected{{/ifCond}}>
+              April
+            </option>
+            <option value="may" {{#ifCond query.month '==' 'may'}}selected{{/ifCond}}>
+              May
+            </option>
+            <option value="jun" {{#ifCond query.month '==' 'jun'}}selected{{/ifCond}}>
+              June
+            </option>
+            <option value="jul" {{#ifCond query.month '==' 'jul'}}selected{{/ifCond}}>
+              July
+            </option>
+            <option value="aug" {{#ifCond query.month '==' 'aug'}}selected{{/ifCond}}>
+              August
+            </option>
+            <option value="sep" {{#ifCond query.month '==' 'sep'}}selected{{/ifCond}}>
+              September
+            </option>
+            <option value="oct" {{#ifCond query.month '==' 'oct'}}selected{{/ifCond}}>
+              October
+            </option>
+            <option value="nov" {{#ifCond query.month '==' 'nov'}}selected{{/ifCond}}>
+              November
+            </option>
+            <option value="dec" {{#ifCond query.month '==' 'dec'}}selected{{/ifCond}}>
+              December
+            </option>
+          </select>
+        </form>
+      </li>
       <li class="pull-right">
         <a href="/account/events/new" class="btn btn-danger">
-          <span class="glyphicon glyphicon-calendar"></span> Create An Event
+          <span class="glyphicon glyphicon-calendar"></span> Add An Event
         </a>
       </li>
     </ul>
@@ -38,30 +82,19 @@
               {{address}}
             </a> | 
             <span class="glyphicon glyphicon-tag"></span> 
-            <a href="/events/{{city}}">{{city}}</a>
+            {{city}}
           </p>
         <p>{{desc}}</p>
       </div>
       <div class="panel-footer">
         <div class="row">
-          <div class="col-md-4">
-            <span class="glyphicon glyphicon-calendar"></span> 
+          <div class="col-md-6" style="text-align: left">
+            <span class="glyphicon glyphicon-calendar text-danger"></span> 
             {{#parseDate dt ''}}{{/parseDate}}
           </div>
-          <div class="col-md-3">
-            <span class="glyphicon glyphicon-time"></span>
+          <div class="col-md-6" style="text-align: right">
+            <span class="glyphicon glyphicon-time text-danger"></span>
             {{#myTime start_time}}{{/myTime}} 
-          </div>
-          <div class="col-md-2">
-            <span class="glyphicon glyphicon-map-marker"></span> 
-            <a href="{{url}}" target="_blank">Map</a>
-          </div>
-          
-          <div class="col-md-3">
-            <span class="glyphicon glyphicon-envelope"></span> 
-            <a href="mailto:{{email}}"> 
-              Contact
-            </a>
           </div>
           
         </div>

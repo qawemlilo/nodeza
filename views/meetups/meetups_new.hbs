@@ -9,7 +9,7 @@
   </div>
 
   <div class="panel-body">
-  <form class="form-horizontal" id="meetup-form" action="/account/meetups/new" method="POST">
+  <form class="form-horizontal" id="meetup-form" action="/account/meetups/new" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="{{_csrf}}" />
     <div class="form-group">
       <label class="col-sm-3 control-label" for="title">
@@ -104,6 +104,17 @@
         
         <div id="googlemap" style="height:255px; width: 100%">
         </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="geocomplete">
+        Image
+      </label>
+      <div class="col-sm-7">
+      <input type='file' id="image_url" name="image_url" />
+      <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
       </div>
     </div>
 

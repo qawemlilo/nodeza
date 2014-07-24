@@ -34,6 +34,10 @@
       editor: '/themes/editor/epic-light.css'
     }
   }).load();
+
+  $("#image_url").change(function(){
+    readURL(this);
+  });
 }());
 </script>
 {{/extend}}

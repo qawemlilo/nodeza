@@ -84,6 +84,7 @@ module.exports.setup = function (app) {
   app.post('/account/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
   app.post('/events/edit', passportConf.isAuthenticated, EventsController.postEventUpdate);
   app.get('/events', EventsController.getEvents);
+  app.get('/events/city/:city', EventsController.getEventsByCity); 
   app.get('/events/:slug', EventsController.getEvent);
   app.get('/events/edit/:id', passportConf.isAuthenticated, EventsController.getEventEdit);
   app.get('/events/delete/:id', passportConf.isAuthenticated, EventsController.getDelete);

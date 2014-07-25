@@ -9,7 +9,7 @@ function datetime(ts) {
   return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
 }
 
-module.exports.exec = function (req, res, collections) {
+config.exec = function (req, res, collections) {
 
   if (Cache) {
     return when(Cache);

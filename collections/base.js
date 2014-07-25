@@ -34,20 +34,20 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
    *
    * @returns: {Promiscollectione} - resolves with pagination
   */ 
-  makePages: function (total) {
+  makePages: function (totalRecords) {
     var self = this;
-    var pages = Math.ceil(total / self.limit);
-    var groups = Math.ceil(pages / self.paginationLimit);
+    var totalpages = Math.ceil(totalRecords / self.limit);
+    var groups = Math.ceil(totalpages / self.paginationLimit);
     var currentpage = self.currentpage; 
     var items = [];
     var prev = currentpage - 1;
     var next = currentpage + 1;
     var isFirstPage = currentpage === 1;
-    var lastpage = pages;
+    var lastpage = totalpages;
     var isLastPage = currentpage === lastpage;
     var highestF = currentpage + 2;
     var lowestF = currentpage - 2;
-    var counterLimit = pages - 2; 
+    var counterLimit = totalpages - 2; 
 
 
     if (groups > 1) {
@@ -74,7 +74,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
       }
         
       // if current page not towards the end
-      if (highestF < pages - 2) {
+      if (highestF < totalpages - 2) {
         items.push('...');
       }
 
@@ -89,7 +89,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     }
       
       
-    var pagination = {
+    var pages = {
       items: items,
       currentpage: currentpage,
       base: self.base,
@@ -97,13 +97,13 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
       isLastPage: isLastPage,
       next: next,
       prev: prev,
-      total: total,
+      total: totalRecords,
       limit: self.limit
     };
     
-    self.pages = pagination;
+    self.pages = pages;
 
-    return pagination;
+    return pages;
   },
 
  
@@ -157,9 +157,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     var order = options.order || self.order; 
     var whereQuery = options.where || self.whereQuery;
     var andWhereQuery = options.andWhere || self.andWhereQuery;
-
     var deferred = when.defer();
-    var posts = self.constructor.forge();
 
     /*
      *  Let's make sure the filters are available
@@ -170,6 +168,9 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     self.andWhereQuery = andWhereQuery;
     self.limit = limit;
     self.order = order;
+    self.base = options.base || self.base;
+
+    var posts = self.constructor.forge();
     
     self.paginate()
     .then(function () {

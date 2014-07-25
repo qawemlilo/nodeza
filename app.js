@@ -101,7 +101,6 @@ app.set('view engine', 'hbs');
 app.engine('hbs', hbs.__express);
 
 hbs.localsAsTemplateData(app);
-hbs.registerPartials(path.join(__dirname,'views', 'widgets'));
 hbs.registerPartials(path.join(__dirname,'views', 'partials'));
 hbs.registerPartials(path.join(__dirname,'views', 'account'));
 hbs.registerPartials(path.join(__dirname,'views', 'events'));
@@ -184,7 +183,7 @@ app.use(function(req, res, next) {
 app.use(errorHandler());
 
 // Load widgets
-app.use(widget());
+app.use(widget({root: '../'}));
 
 // pass the app object to routes
 routes.setup(app);

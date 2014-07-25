@@ -5,7 +5,7 @@ var Cache = null;
 
 module.exports = config;
 
-module.exports.exec = function (req, res, collections) {
+config.exec = function (req, res, collections) {
 
 	if (Cache) {
 	  return when(Cache);
@@ -13,7 +13,7 @@ module.exports.exec = function (req, res, collections) {
 
   var tags = new collections.Tags();
 
-  return tags.fetchTags(20)
+  return tags.fetchTags(50)
   .then(function (collection) {
     config.collection = collection;
     Cache = config;

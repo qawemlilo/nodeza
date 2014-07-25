@@ -353,8 +353,12 @@ exports.isNotAuthenticated = function (req, res, next) {
   res.redirect('/');
 };
 
-// Authorization Required middleware.
 
+
+/*
+ * Authorization Required middleware.
+ *
+**/ 
 exports.isAuthorized = function (req, res, next) {
   var provider = req.path.split('/').slice(-1)[0];
   var tokens = req.user.related('tokens').toJSON();

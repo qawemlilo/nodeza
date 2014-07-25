@@ -18,14 +18,16 @@
 <script src="/js/bootstrap-datetimepicker.min.js"></script>
 <script>
   $(function(){
-    $("#geocomplete").geocomplete({
-      details: "#event-form",
-      map: "#googlemap",
-      mapOptions: {
-        zoom: 10
-      },
-      componentRestrictions: {country: 'za'}
-    });
+    if (typeof google !== 'undefined') {
+      $("#geocomplete").geocomplete({
+        details: "#event-form",
+        map: "#googlemap",
+        mapOptions: {
+          zoom: 10
+        },
+        componentRestrictions: {country: 'za'}
+      });
+    }
 
 
     $('#googlemap').on("focus", function() {

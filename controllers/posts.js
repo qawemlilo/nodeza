@@ -141,8 +141,6 @@ module.exports = {
     if (currentpage < 1) {
       res.redirect('/blog/category/' + slug);
     }
-
-    posts.base = '/blog/category/' + slug;
     
     Category.forge({slug: slug})
     .fetch({columns: ['id', 'name']})
@@ -152,7 +150,8 @@ module.exports = {
       posts.fetchBy('created_at', {
         limit: 2,
         page: currentpage,
-        andWhere: ['category_id', '=', model.get('id')]
+        andWhere: ['category_id', '=', model.get('id')],
+        base:'/blog/category/' + slug
       }, {
         columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
         withRelated: ['category']

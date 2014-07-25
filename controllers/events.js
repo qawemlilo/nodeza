@@ -182,14 +182,10 @@ module.exports = {
     };
 
     if(month) {
-      month = month.trim();
+      monthObj = events.parseMonth(month.trim());
 
-      var dtObj = parseMonth(month);
-      var firstday = dtObj.year + '-' + dtObj.month + '-' + dtObj.firstday;
-      var lastday = dtObj.year + '-' + dtObj.month + '-' + dtObj.lastday;
-
-      //fetchQuery.where = ['dt', '>', firstday];
-      fetchQuery.andWhere = ['dt', '<', lastday];
+      fetchQuery.where = ['dt', '>', monthObj.firstday];
+      fetchQuery.andWhere = ['dt', '<', monthObj.lastday];
     }
 
     

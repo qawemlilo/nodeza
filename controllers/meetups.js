@@ -122,11 +122,9 @@ module.exports = {
   getMeetupsAdmin: function (req, res, next) {
     var meetups = new Meetups();
 
-    meetups.base = '/account/events';
-  
     meetups.fetchBy('id', {
       where: ['user_id', '=', req.user.get('id')],
-      andWhere: []
+      base: '/account/events'
     })
     .then(function (collection) {
       res.render('meetups_admin', {

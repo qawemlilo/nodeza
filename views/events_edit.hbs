@@ -17,11 +17,14 @@
 <script src="/js/moment.min.js"></script>
 <script src="/js/bootstrap-datetimepicker.min.js"></script>
 <script>
+
   $(function(){
-    $("#geocomplete").geocomplete({
-      details: "#event-form",
-      componentRestrictions: {country: 'za'}
-    });
+    if (typeof google !== 'undefined') {
+      $("#geocomplete").geocomplete({
+        details: "#event-form",
+        componentRestrictions: {country: 'za'}
+      });
+    }
 
     $('#dateDiv').datetimepicker({
       pickTime: false,

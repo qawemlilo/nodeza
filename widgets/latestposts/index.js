@@ -5,7 +5,7 @@ var Cache = null;
 
 module.exports = config;
 
-module.exports.exec = function (req, res, collections) {
+config.exec = function (req, res, collections) {
 
   if(Cache) {
     return when(Cache);

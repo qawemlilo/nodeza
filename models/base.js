@@ -135,7 +135,7 @@ Bookshelf.Model = Bookshelf.Model.extend({
     slug = slug.charAt(slug.length - 1) === '-' ? slug.substr(0, slug.length - 1) : slug;
 
     // Check the filtered slug doesn't match any of the reserved keywords
-    slug = /^(events|meetups|devs|admin|blog|companies|jobs|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|public|user|users|rss|feed)$/g
+    slug = /^(events|edit|new|devs|meetups|devs|account|admin|blog|companies|jobs|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|user|users|rss|feed)$/g
             .test(slug) ? slug + '-' + baseName : slug;
 
     //if slug is empty after trimming use "post"

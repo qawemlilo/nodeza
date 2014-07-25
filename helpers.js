@@ -11,7 +11,7 @@ module.exports.setup = function (hbs) {
     * parses date
   **/
   function parseDate(dt, fmt) {
-    return moment(dt).format(fmt || 'ddd MMM D YYYY');
+    return moment(dt).format(fmt || 'ddd D MMM YYYY');
   }
 
 
@@ -203,14 +203,8 @@ module.exports.setup = function (hbs) {
     var model;
     var context = {};
 
-    for(i=0; i<items.length; i++) {
-      template = partials[items[i].name];
-
-      if (!template) {
-        console.error("%s - Partial not loaded", items[i].name);    
-      }
-      else {
-        template = hbs.compile(template);
+    for (i=0; i<items.length; i++) {
+        template = hbs.compile(items[i].template);
 
         collection = items[i].collection;
         model = items[i].model;
@@ -227,7 +221,6 @@ module.exports.setup = function (hbs) {
         }
 
         templates += template(context);
-      }
     }
 
     return templates;
@@ -235,23 +228,13 @@ module.exports.setup = function (hbs) {
 
 
   hbs.registerHelper('paginate', function(pagination, query, context) {
-
     var lists = '';
 
     if (pagination.isFirstPage) {
       lists += '<li class="disabled"><a href="#">&laquo; Prev</a></li>';
-    }
-    else {
-      lists += '<li>';
-      lists += '<a href="' + pagination.base;
-
-      if (query.month) {
-        lists += '?month=' + query.month + '&';
-      }
-      else {
-        lists += '?';
-      }
-
+    } else {
+      lists += '<li><a href="' + pagination.base;
+      query.month ? lists += '?month=' + query.month + '&' : lists += '?';
       lists += 'p=' + pagination.prev + '">' + '&laquo; Prev</a></li>';
     }
 
@@ -259,41 +242,22 @@ module.exports.setup = function (hbs) {
     pagination.items.forEach(function (page) {
       if (page === '...') {
         lists += '<li class="disabled"><a href="#">...</a></li>';
-      }
-      else {
+      } else {
         lists += '<li ';
-        if (page === pagination.currentpage) {
-          lists += 'class="active"';
-        }
-        lists += '>';
-        lists += '<a href="' + pagination.base;
 
-        if (query.month) {
-          lists += '?month=' + query.month + '&';
-        }
-        else {
-          lists += '?';
-        }
+        if (page === pagination.currentpage) lists += 'class="active"';
 
-        lists +=  'p=' + page +'">' + page + '</a></li>';
+        lists += '><a href="' + pagination.base;
+        query.month ? lists += '?month=' + query.month + '&' : lists += '?';
+        lists += 'p=' + page +'">' + page + '</a></li>';
       }
     });
 
-
     if (pagination.isLastPage) {
       lists += '<li class="disabled"><a href="#">Next &raquo;</a></li>';
-    }
-    else {
-      lists += '<li>';
-      lists += '<a href="' + pagination.base;
-
-      if (query.month) {
-        lists += '?month=' + query.month + '&';
-      }
-      else {
-        lists += '?';
-      }
-
+    } else {
+      lists += '<li><a href="' + pagination.base;
+      query.month ? lists += '?month=' + query.month + '&' : lists += '?';
       lists += 'p=' + pagination.next + '">' + 'Next &raquo;</a></li>';
     }
 

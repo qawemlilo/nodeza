@@ -13,8 +13,8 @@ Table of Contents
 
 - [System Requirements](#system-requirements)
 - [Dependencies](#dependencies)
-- [Features](#features)
 - [Getting Started](#getting-started)
+- [Features](#features)
 - [Architecture](#architecture)
 - [Testing](#testing)
 - [To-Do](#to-do)
@@ -115,7 +115,7 @@ Features
 
 Architecture
 ------------
-NodeZA is build on a MVC-like architecture. The main building blocks are models, collections, views, controllers, widgets, and routes.
+NodeZA is build on a MVC-like architecture. The main building blocks are `models`, `collections`, `views`, `controllers`, `widgets`, and `routes`.
 
       /
        collections/
@@ -149,7 +149,7 @@ All `models` are located in the `models` folder and `collections` in the `collec
 
 
 ### Widgets
-A `widget` is a special kind of module. It is self contained and is completely decoupled from other parts of the system.
+A `widget` is a special kind of module. It is self contained and is completely decoupled from other parts of the application.
 
 A widget comprises of 3 files, `config.json`, `template.hbs`, and `index.js`
 

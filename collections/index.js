@@ -1,3 +1,6 @@
+/**
+ * Exports all collections in one module
+**/
 
 var Categories = require('./categories');
 var Events = require('./events');

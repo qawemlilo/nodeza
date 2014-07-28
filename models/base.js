@@ -1,7 +1,8 @@
 /**
  * Module dependencies.
  */
-var Bookshelf  = require('../config/db').Bookshelf;
+var App  = require('../app');
+var Bookshelf  = App.bookshelf;
 var unidecode  = require('unidecode');
 var when  = require('when');
 var sanitize   = require('validator').sanitize;
@@ -46,6 +47,10 @@ Bookshelf.Model = Bookshelf.Model.extend({
   saving: function (newObj, attr, options) {
     var self = this;
     var table = self.getTableName();
+
+    if(this.isNew()) {
+      App.emit('newentry', table);
+    }
 
     if (Databases[table].updated_by && attr.user_id) {
       this.set('updated_by', attr.user_id);

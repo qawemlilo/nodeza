@@ -2,10 +2,12 @@
 var when = require('when');
 var config = require('./config.json');
 var Cache = null;
+var listenerSet = false;
 
 module.exports = config;
 
-config.exec = function (req, res, collections) {
+config.exec = function (App, collections) {
+
 
 	if (Cache) {
 	  return when(Cache);

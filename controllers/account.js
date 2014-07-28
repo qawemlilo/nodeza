@@ -54,7 +54,7 @@ module.exports = {
         gravatar: profile.gravatar(198),
         myevents: profile.related('events').toJSON(),
         description: 'NodeZA profile of ' + profile.get('name'),
-        profile: profile.toJSON(),
+        profile: profile.getJSON(['slug', 'name', 'location', 'about', 'email']),
         page: 'profile'
       });
 
@@ -152,8 +152,7 @@ module.exports = {
     userData.password = req.body.password;
     userData.role_id = 1;
 
-    user.set(userData)
-    .save()
+    user.save(userData)
     .then(function (model) {
       req.flash('success', { msg: 'Account successfully created! You are now logged in.' });
 

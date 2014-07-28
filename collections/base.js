@@ -1,9 +1,9 @@
 /**
- * Module dependencies.
+ * Base Class for collections
 **/
 
 var when = require('when');
-var Bookshelf  = require('../config/db').Bookshelf;
+var Bookshelf  = require('../app').bookshelf;
 
 
 Bookshelf.Collection = Bookshelf.Collection.extend({

@@ -15,6 +15,7 @@ var HomeController = require('./controllers/home');
 var CompaniesController = require('./controllers/companies');
 var MeetupsController = require('./controllers/meetups');
 var PostsController = require('./controllers/posts');
+var TagsController = require('./controllers/tags');
 
 
 /**
@@ -78,16 +79,19 @@ module.exports.setup = function (app) {
   /*
    * Events
   **/
-  app.post('/events/limit', EventsController.setLimit);
-  app.get('/account/events', passportConf.isAuthenticated, EventsController.getEventsAdmin);
-  app.get('/account/events/new', passportConf.isAuthenticated, EventsController.newEvent);
-  app.post('/account/events/new', passportConf.isAuthenticated, EventsController.postNewEvent);
-  app.post('/events/edit', passportConf.isAuthenticated, EventsController.postEventUpdate);
+  
+  app.get('/account/events', passportConf.isAuthenticated, EventsController.getAdmin);
+  app.get('/events/new', passportConf.isAuthenticated, EventsController.getNew);
+  app.post('/events/new', passportConf.isAuthenticated, EventsController.postNew);
+  app.get('/events/edit/:id', passportConf.isAuthenticated, EventsController.getEdit);
+  app.get('/events/delete/:id', passportConf.isAuthenticated, EventsController.getDelete);
+  app.post('/events/edit', passportConf.isAuthenticated, EventsController.postEdit);
+
+  // public
   app.get('/events', EventsController.getEvents);
   app.get('/events/city/:city', EventsController.getEventsByCity); 
   app.get('/events/:slug', EventsController.getEvent);
-  app.get('/events/edit/:id', passportConf.isAuthenticated, EventsController.getEventEdit);
-  app.get('/events/delete/:id', passportConf.isAuthenticated, EventsController.getDelete);
+  app.post('/events/limit', EventsController.setLimit);
 
 
   /*
@@ -99,12 +103,13 @@ module.exports.setup = function (app) {
   /*
    *Meetups
   **/
-  app.get('/account/meetups', passportConf.isAuthenticated, MeetupsController.getMeetupsAdmin);
-  app.get('/account/meetups/new', passportConf.isAuthenticated, MeetupsController.newMeetup);
-  app.post('/account/meetups/new', passportConf.isAuthenticated, MeetupsController.postMeetup);
-  app.post('/account/meetups/edit', passportConf.isAuthenticated, MeetupsController.postMeetupEdit);
-  app.get('/meetups', MeetupsController.getMeetups);
-  app.get('/meetups/edit/:id', passportConf.isAuthenticated, MeetupsController.getMeetupEdit);
+  app.get('/account/meetups', passportConf.isAuthenticated, MeetupsController.getAdmin);
+  app.get('/meetups/new', passportConf.isAuthenticated, MeetupsController.getNew);
+  app.get('/meetups/edit/:id', passportConf.isAuthenticated, MeetupsController.getEdit);
+  app.post('/meetups/new', passportConf.isAuthenticated, MeetupsController.postNew);
+  app.post('/meetups/edit', passportConf.isAuthenticated, MeetupsController.postEdit);
+
+  // public
   app.get('/meetups/:slug', MeetupsController.getMeetup);
   app.get('/meetups', MeetupsController.getMeetups);
 
@@ -112,15 +117,19 @@ module.exports.setup = function (app) {
   /*
    * Blog
   **/
-  app.get('/blog', PostsController.getPosts);
-  app.get('/blog/:slug', PostsController.getPost);
-  app.get('/blog/category/:slug', PostsController.getPostsByCategory);
-  app.get('/blog/tags/:slug', PostsController.getPostsByTag);
-  app.get('/account/blog', passportConf.isAuthenticated, PostsController.newPostsAdmin);
-  app.get('/account/blog/new', passportConf.isAuthenticated, PostsController.newPost);
-  app.post('/blog/new', passportConf.isAuthenticated, PostsController.postPost);
-  app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
+  //private
+  app.get('/blog/new', passportConf.isAuthenticated, PostsController.getNew);
   app.get('/blog/edit/:id', passportConf.isAuthenticated, PostsController.getEdit);
-  app.get('/blog/delete/:id', passportConf.isAuthenticated, PostsController.getDelete);
   app.get('/blog/publish/:id', passportConf.isAuthenticated, PostsController.getPublish);
+  app.get('/blog/delete/:id', passportConf.isAuthenticated, PostsController.getDelete);
+  app.get('/account/blog', passportConf.isAuthenticated, PostsController.getAdmin);
+  
+  app.post('/blog/new', passportConf.isAuthenticated, PostsController.postNew);
+  app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
+  
+  // public
+  app.get('/blog', PostsController.getBlog);
+  app.get('/blog/:slug', PostsController.getPost);
+  app.get('/blog/category/:slug', PostsController.getBlogCategory);
+  app.get('/blog/tags/:slug', TagsController.getPosts);  
 };

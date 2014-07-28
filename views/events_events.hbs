@@ -17,3 +17,16 @@
 </div>
 
 {{> sidebar}}
+
+{{#extend "scripts"}}
+<script>
+(function ($) {
+  $(function () {
+    // submit form when month and limit filters are changed
+    $('select.ddown').on('change', function () {
+      $(this).parent().submit();
+    });
+  })
+}(jQuery));
+</script>
+{{/extend}}

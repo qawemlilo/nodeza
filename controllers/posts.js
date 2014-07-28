@@ -1,11 +1,9 @@
 
 
-var _ = require('lodash');
 var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
-var Tag = require('../models/tag');
 
 
 function processTags(tags) {
@@ -61,7 +59,7 @@ module.exports = {
 
   /*
    * GET /blog/edit/:id
-   * loads a blog post by slug
+   * edit post form
    */
   getEdit: function (req, res) {
     var id = req.params.id;
@@ -93,7 +91,7 @@ module.exports = {
   /**
    * GET /blog
    */
-  getPosts: function (req, res) {
+  getBlog: function (req, res) {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
   
@@ -131,8 +129,9 @@ module.exports = {
 
   /**
    * GET /blog/category/:slug
-   */
-  getPostsByCategory: function (req, res) {
+   * loads posts by category 
+  **/
+  getBlogCategory: function (req, res) {
     var posts = new Posts();
     var slug = req.params.slug;
     var page = parseInt(req.query.p, 10);
@@ -180,72 +179,12 @@ module.exports = {
   },
 
 
-  /**
-   * GET /blog/tags/:slug
-   */
-  getPostsByTag: function (req, res) {
-    var slug = req.params.slug;
-    var tag = new Tag({slug: slug});
-    var page = parseInt(req.query.p, 10);
-    
-    // hack for pagination of /blog/tags/:slug
-    tag.currentpage = page || 1;
-    tag.limit = 5;
-    tag.base = '/blog/tags/' + slug;
-
-    tag.fetch()
-    .then(function (tag) {
-
-      // first we want to know the total numner of posts
-      // with this tag
-      tag.total(tag.get('id'))
-      .then(function (result) {
-        
-        // hack for pagination of /blog/tags/:slug
-        var pagination = Posts.prototype.makePages.call(tag, result[0].total);
-        var tagname = tag.get('name');
-
-        tag.posts()
-        .fetch({
-          columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
-          withRelated: ['category'],
-          limit: 2
-        })
-        .then(function (collection) {
-          res.render('posts_posts', {
-            title: 'Blog',
-            pagination: pagination,
-            posts: collection.toJSON(),
-            description: 'Node.js tutorials, articles and news',
-            page: 'blog',
-            tag: tagname,
-            category: '',
-            query: {}
-          });
-        })
-        .otherwise(function (error) {
-          console.log(error);
-          res.redirect('back');
-        });
-      })
-      .otherwise(function (error) {
-        console.log(error);
-        res.redirect('back');
-      });
-    })
-    .otherwise(function (error) {
-      console.log(error);
-      res.redirect('back');
-    });
-  },
-
-
 
   /**
-   * GET /events
-   * get upcoming events
+   * GET /account/blog
+   * get blog posts for current account
    */
-  newPostsAdmin: function (req, res) {
+  getAdmin: function (req, res) {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
@@ -276,10 +215,10 @@ module.exports = {
 
 
   /*
-   * GET /account/blog/new
-   * load new post page
+   * GET /blog/new
+   * load new blog post form
    */
-  newPost: function (req, res) {
+  getNew: function (req, res) {
     var categories = new Categories();
 
     categories.fetch()
@@ -300,10 +239,10 @@ module.exports = {
 
 
   /**
-   * POST /account/blog/new
-   * Edit user account.
+   * POST /blog/new
+   * save blog post
   */
-  postPost: function(req, res) {
+  postNew: function(req, res) {
     var post = new Post();
 
     req.assert('title', 'Title must be at least 6 characters long').len(6);
@@ -325,7 +264,7 @@ module.exports = {
       postData.image_url = '/img/blog/' + req.files.image_url.name;
     }
 
-    var tags = processTags(req.body.tags) || ['uncategorised'];
+    var tags = processTags(req.body.tags);
 
     post.save(postData, {updateTags: tags})
     .then(function(model) {
@@ -342,7 +281,7 @@ module.exports = {
 
   /**
    * POST /blog/edit
-   * Edit user account.
+   * save blog update
   */
   postEdit: function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
@@ -367,7 +306,7 @@ module.exports = {
     }
 
     if (req.body.tags) {
-      options.tags = processTags(req.body.tags);
+      options.updateTags = processTags(req.body.tags);
     }
 
     Post.forge({id: postData.id, user_id: postData.user_id})
@@ -396,8 +335,8 @@ module.exports = {
 
 
   /**
-   * GET /blog/delete
-   * Edit user account.
+   * GET /blog/delete/:id
+   * delete post
   */
   getDelete: function(req, res) {
     Post.forge({id: req.params.id, user_id: req.user.get('id')})
@@ -422,8 +361,8 @@ module.exports = {
 
 
   /**
-   * Get /blog/edit
-   * Edit user account.
+   * Get /blog/publish/:id
+   * publish post
   */
   getPublish: function(req, res) {
     Post.forge({id: req.params.id, user_id: req.user.get('id')})

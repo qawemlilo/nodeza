@@ -24,15 +24,6 @@ var Event = Base.Model.extend({
   },
 
 
-  viewed: function () {
-    var views = this.get('views');
-
-    this.set('views', views + 1);
-
-    return this.save();
-  },
-
-
   /**
    * Checks if its future event
    */

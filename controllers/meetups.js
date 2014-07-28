@@ -10,7 +10,7 @@ module.exports = {
    * GET /meetups/new
    * load new meetup page
    */
-  newMeetup: function (req, res) {
+  getNew: function (req, res) {
     res.render('meetups_new', {
       title: 'New Meetup',
       description: 'Create a meetup group',
@@ -31,7 +31,7 @@ module.exports = {
 
   /*
    * GET /meetups/:slug
-   * loads an meetup by slug
+   * loads a meetup by slug
    */
   getMeetup: function (req, res) {
     var slug = req.params.slug;
@@ -39,8 +39,6 @@ module.exports = {
     Meetup.forge({slug: slug})
     .fetch()
     .then(function (meetup) {
-      if(!meetup) return res.redirect('/meetups');
-
       res.render('meetups_meetup', {
         title: meetup.get('name'),
         description: meetup.get('short_desc'),
@@ -61,7 +59,7 @@ module.exports = {
   /*
    * GET /meetups/edit/:id
    */
-  getMeetupEdit: function (req, res) {
+  getEdit: function (req, res) {
     var id = req.params.id;
     var user_id = req.user.get('id');
 
@@ -116,10 +114,10 @@ module.exports = {
 
 
   /**
-   * GET /meetups
+   * GET /account/meetups
    * get upcoming meetups
    */
-  getMeetupsAdmin: function (req, res, next) {
+  getAdmin: function (req, res, next) {
     var meetups = new Meetups();
 
     meetups.fetchBy('id', {
@@ -147,7 +145,7 @@ module.exports = {
    * POST /meetups/new
    * create an meetup
    */
-  postMeetup: function (req, res) {
+  postNew: function (req, res) {
     req.assert('title', 'Name must be at least 4 characters long').len(4);
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);
@@ -213,7 +211,7 @@ module.exports = {
    * POST /meetups/edit
    * create an meetup
    */
-  postMeetupEdit: function (req, res) {
+  postEdit: function (req, res) {
     req.assert('title', 'Name must be at least 4 characters long').len(4);
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);

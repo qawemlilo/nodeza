@@ -1,7 +1,8 @@
 /**
- * Module dependencies.
+ * Blog categories collection
 **/
-var Bookshelf  = require('../config/db').Bookshelf;
+
+var Bookshelf  = require('../app').bookshelf;
 var Category = require('../models/category');
 
 var Categories = Bookshelf.Collection.extend({

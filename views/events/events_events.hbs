@@ -7,7 +7,7 @@
       <li>
         <form action="/events/limit" name="eventslimit" method="post">
           <input type="hidden" name="_csrf" value="{{_csrf}}" />
-          <strong>Limit #</strong> <select name="limit" onchange="document.forms.eventslimit.submit()">
+          <strong>Limit #</strong> <select name="limit" class="ddown limit">
               <option value="2" {{#ifCond query.limit '==' 2}}selected{{/ifCond}}>2</option>
               <option value="5" {{#ifCond query.limit '==' 5}}selected{{/ifCond}}>5</option>
               <option value="10" {{#ifCond query.limit '==' 10}}selected{{/ifCond}}>10</option>
@@ -20,7 +20,7 @@
       <li>
         <form action="/events" name="eventsmonth" method="get">
           <strong>Month </strong> 
-          <select name="month" onchange="document.forms.eventsmonth.submit()">
+          <select name="month" class="ddown bymonth">
             <option value="">Select</option>
             <option value="jan" {{#ifCond query.month '==' 'jan'}}selected{{/ifCond}}>
               January
@@ -62,7 +62,7 @@
         </form>
       </li>
       <li class="pull-right">
-        <a href="/account/events/new" class="btn btn-danger">
+        <a href="/events/new" class="btn btn-danger">
           <span class="glyphicon glyphicon-calendar"></span> Add An Event
         </a>
       </li>

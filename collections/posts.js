@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Blog posts collection
 **/
 
 var when = require('when');

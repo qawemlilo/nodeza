@@ -70,10 +70,17 @@ describe('Post', function(){
 
 
   describe('#destroy', function() {
+    var posts;
+
+    beforeEach(function () {
+      posts = Post.forge({id: postID})
+      .fetch({withRelated: ['tags']});
+
+      return posts;
+    });
+    
     it('should destroy post with related tags', function(done){
-      Post.forge({id: postID})
-      .fetch({withRelated: ['tags']})
-      .then(function(post) {
+      posts.then(function(post) {
 
         post.related('tags').length.should.be.equal(2);
         

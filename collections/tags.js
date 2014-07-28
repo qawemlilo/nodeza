@@ -1,6 +1,7 @@
 /**
- * Module dependencies.
+ * Blog tags collection
 **/
+
 var Base  = require('./base');
 var Tag = require('../models/tag');
 var when = require('when');

@@ -17,7 +17,7 @@ module.exports = {
    * GET /events/new
    * load new event page
   **/
-  newEvent: function (req, res) {
+  getNew: function (req, res) {
     res.render('events_new', {
       title: 'New Event',
       description: 'Create a new Node.js event',
@@ -46,11 +46,6 @@ module.exports = {
     Event.forge({slug: slug})
     .fetch()
     .then(function (event) {
-      if(!event) {
-        req.flash('errors', {'msg': 'Database error. Could not fetch event.'});
-        return res.redirect('/events');
-      }
-
       res.render('events_event', {
         title: event.get('title'),
         parseDate: event.parseDate(),
@@ -74,7 +69,7 @@ module.exports = {
   /*
    * GET /events/edit/:id
    */
-  getEventEdit: function (req, res) {
+  getEdit: function (req, res) {
     var id = req.params.id;
     var user_id = req.user.get('id');
 
@@ -211,11 +206,12 @@ module.exports = {
     });
   },
 
+
   /**
    * GET /events
-   * get upcoming events
+   * get events admin
    */
-  getEventsAdmin: function (req, res, next) {
+  getAdmin: function (req, res, next) {
     var events = new Events();
   
     var page = parseInt(req.query.p, 10);
@@ -255,9 +251,9 @@ module.exports = {
 
   /*
    * POST /events/new
-   * create an event
+   * save a new event
    */
-  postNewEvent: function (req, res) {
+  postNew: function (req, res) {
     req.assert('title', 'Title must be at least 4 characters long').len(4);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);
     req.assert('date', 'Date cannot be blank').notEmpty();
@@ -315,9 +311,9 @@ module.exports = {
 
   /*
    * POST /events/edit
-   * create an event
+   * save update
    */
-  postEventUpdate: function (req, res) {
+  postEdit: function (req, res) {
     req.assert('title', 'Title must be at least 4 characters long').len(4);
     req.assert('desc', 'Details must be at least 12 characters long').len(12);
     req.assert('date', 'Date cannot be blank').notEmpty();
@@ -379,7 +375,7 @@ module.exports = {
 
   /**
    * GET /blog/delete
-   * Edit user account.
+   * delete event
   */
   getDelete: function(req, res) {
     Event.forge({id: req.params.id, user_id: req.user.get('id')})

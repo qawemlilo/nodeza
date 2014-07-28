@@ -15,14 +15,17 @@ passport.serializeUser(function(user, done) {
 
 
 passport.deserializeUser(function(id, done) {
-  User.forge({id: id}).fetch({withRelated: ['role', 'tokens']}).then(function(user) {
+  User.forge({id: id})
+  .fetch({withRelated: ['role', 'tokens']})
+  .then(function(user) {
     done(false, user);
   });
 });
 
 
 // Sign in using Email and Password.
-passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
+passport.use(new LocalStrategy({ usernameField: 'email' }, 
+  function(email, password, done) {
   User.forge({email: email})
   .fetch()
   .then(function(user) {
@@ -49,7 +52,8 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 
 
 // Sign in with GitHub.
-passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refreshToken, profile, done) {
+passport.use(new GitHubStrategy(secrets.github, 
+  function (req, accessToken, refreshToken, profile, done) {
 
   // if the user is already logged in
   if (req.user) {
@@ -182,7 +186,8 @@ passport.use(new GitHubStrategy(secrets.github, function (req, accessToken, refr
 
 
 // Sign in with Twitter
-passport.use(new TwitterStrategy(secrets.twitter, function (req, accessToken, tokenSecret, profile, done) {
+passport.use(new TwitterStrategy(secrets.twitter, 
+  function (req, accessToken, tokenSecret, profile, done) {
   if (req.user) {
     User.forge({twitter: profile.id})
     .fetch()

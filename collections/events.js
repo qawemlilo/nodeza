@@ -1,6 +1,7 @@
 /**
- * Module dependencies.
+ * Events collection
 **/
+
 var Base  = require('./base');
 var Event = require('../models/event');
 var when = require('when');
@@ -46,6 +47,19 @@ var Events = Base.Collection.extend({
       firstday: firstday,
       lastday: lastday
     };
+  },
+
+
+  fetchMonth: function (month, options, fetchOptions) {
+    var self = this;
+    var monthObj = self.parseMonth(month);
+
+    options = options || {};
+
+    options.where = ['dt', '>', monthObj.firstday];
+    options.andWhere = ['dt', '<', monthObj.lastday];
+
+    return self.fetchBy('dt', options, fetchOptions);
   }
 });
 

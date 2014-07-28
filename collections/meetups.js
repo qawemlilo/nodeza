@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Meetups collection
  */
 
 var Base  = require('./base');

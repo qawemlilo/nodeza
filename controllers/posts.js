@@ -1,9 +1,11 @@
 
 
+var App = require('../app');
 var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
+var gulpfile = require('../gulpfile');
 
 
 function processTags(tags) {
@@ -192,7 +194,7 @@ module.exports = {
     posts.base = '/account/blog';
   
     posts.fetchBy('id', {
-      limit: 5,
+      limit: 10,
       page: currentpage, 
       where: ['user_id', '=', req.user.get('id')]
     })
@@ -261,7 +263,11 @@ module.exports = {
     };
 
     if (req.files.image_url) {
-      postData.image_url = '/img/blog/' + req.files.image_url.name;
+      postData.image_url = req.files.image_url.name;
+      
+      setTimeout(function () {
+        gulpfile('public/temp/' + postData.image_url);
+      }, 100);
     }
 
     var tags = processTags(req.body.tags);
@@ -272,7 +278,6 @@ module.exports = {
       res.redirect('/blog/edit/' + model.get('id'));
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('error', {msg: 'Post could not be created.'});
       res.redirect('/account/blog');
     });
@@ -302,7 +307,11 @@ module.exports = {
     var options = {method: 'update'};
 
     if (req.files.image_url) {
-      postData.image_url = '/img/blog/' + req.files.image_url.name;
+      postData.image_url = req.files.image_url.name;
+      
+      setTimeout(function () {
+        gulpfile('public/temp/' + postData.image_url);
+      }, 100);
     }
 
     if (req.body.tags) {
@@ -320,14 +329,12 @@ module.exports = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        console.log(error);
         req.flash('error', {msg: 'Post could not be updated.'});
         res.redirect('/account/blog');
       });
     })
     .otherwise(function (error) {
       req.flash('error', {msg: 'You do not have access to that post.'});
-      console.log(error);
       res.redirect('/account/blog');
     });
   },

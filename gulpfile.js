@@ -1,19 +1,34 @@
 var gulp = require('gulp');
-var gulpUtil = require('gulp-util');
 var imagemin = require('gulp-imagemin');
+var imageResize = require('gulp-image-resize');
 
 
-var paths = {
-    images: 'public/img/*'
+module.exports = function (filename) {
+ return gulp.src(filename)
+  .pipe(imagemin({optimizationLevel: 5}))
+  .pipe(gulp.dest('public/img')) 
+  .pipe(imageResize({ 
+    width : 320,
+    height : 320,
+    crop : true,
+    upscale : false
+  }))
+  .pipe(gulp.dest('public/img/320')) 
+
+  .pipe(imageResize({ 
+    width : 120,
+    height : 120,
+    crop : true,
+    upscale : false
+  }))
+  .pipe(gulp.dest('public/img/120'))
+    
+  .pipe(imageResize({ 
+    width : 48,
+    height : 48,
+    crop : true,
+    upscale : false
+  }))
+  .pipe(gulp.dest('public/img/48'));
 };
-
-
-gulp.task('images', function () {
- return gulp.src(paths.images)
-    .pipe(imagemin({optimizationLevel: 5}))
-    .pipe(gulp.dest('./production/img'));
-});
-
-
-gulp.task('default', ['images']);
 

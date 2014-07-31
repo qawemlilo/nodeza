@@ -3,7 +3,8 @@
 **/
 
 var when = require('when');
-var Bookshelf  = require('../app').bookshelf;
+var App  = require('../app');
+var Bookshelf  = App.bookshelf;
 
 
 Bookshelf.Collection = Bookshelf.Collection.extend({
@@ -172,9 +173,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
 
     var posts = self.constructor.forge();
     
-    self.paginate()
-    .then(function () {
-
+    function fetch() {
       posts.query(function (query) {
         query.limit(limit);
         query.where(whereQuery[0], whereQuery[1], whereQuery[2]);
@@ -193,10 +192,18 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
       .otherwise(function (err) {
         deferred.reject(err);
       });
-    })
-    .otherwise(function (err) {
-      deferred.reject(err);
-    });
+    }
+
+    if (options.noPagination) {
+      fetch();
+    }
+    else {
+      self.paginate()
+      .then(fetch)
+      .otherwise(function (err) {
+        deferred.reject(err);
+      });
+    }
 
     return deferred.promise;
   }

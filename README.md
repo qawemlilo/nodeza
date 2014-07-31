@@ -1,9 +1,7 @@
 # NodeZA
 > A Node.js portal for developers in South Africa.
 
-Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.
-
-NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa.
+Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa. NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
 
 The information below is aimed at developers who would like to contribute to this platform.
 
@@ -129,7 +127,7 @@ NodeZA is build on a MVC-like architecture. The main building blocks are `models
 The descriptions below are guidelines that have been used in the NodeZA project and should be followed as closely as possible.
 
 ### Routes
-Routes are responsible for routing, they determine which `controller` and method to call for each route. The NodeZA project has only one routing file(`routes.js`) which is found in the root directory.
+Routes are the entry point to the application, they are responsible for routing and determine which `controller` and method to call for each `route`. This project has only one routing file(`routes.js`) which is found in the root directory.
 
 
 ### Controllers

@@ -5,13 +5,13 @@ var Cache = null;
 
 module.exports = config;
 
-config.exec = function (App, collections) {
+config.exec = function (App) {
 
 	if (Cache) {
 		return when(Cache);
 	}
 
-  var posts = new collections.Posts();
+  var posts = App.getCollection('Posts');
 
   return posts.featured(2)
   .then(function (collection) {

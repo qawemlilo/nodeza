@@ -80,7 +80,7 @@ module.exports = function (config, App) {
   
   // handle image uploads
   server.use(multer({
-    dest: './public/img/blog/',
+    dest: './public/temp/',
     rename: function (fieldname, filename) {
       return 'image_' + Date.now();
     }
@@ -123,10 +123,18 @@ module.exports = function (config, App) {
   server.use(function(req, res, next) {
     // Keep track of previous URL to redirect back to
     // original destination after a successful login.
-    if (req.method !== 'GET') return next();
+    if (req.method !== 'GET') {
+      return next();
+    }
+
     var path = req.path.split('/')[1];
-    if (/(auth|login|logout|signup)$/i.test(path)) return next();
+
+    if (/(auth|login|logout|signup)$/i.test(path)) {
+      return next();
+    }
+
     req.session.returnTo = req.path;
+    
     next();
   });
   

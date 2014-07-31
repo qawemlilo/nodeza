@@ -9,7 +9,7 @@
       {{#each meetups}}
         <div class="col-sm-6 col-xs-6 col-md-6">
           <a href="/meetups/{{slug}}">
-            <img {{#if image_url}}src="{{image_url}}"{{else}}data-src="holder.js/320x200"{{/if}} alt="{{name}}">
+            <img {{#if image_url}}src="/img/320/{{image_url}}"{{else}}data-src="holder.js/320x200"{{/if}} alt="{{name}}">
           </a>
           <div class="thumbnail">
             <div class="caption">

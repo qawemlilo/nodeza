@@ -32,8 +32,8 @@ var Tags = Base.Collection.extend({
     .then(function (collection) {
       deferred.resolve(collection);
     })
-    .otherwise(function () {
-      deferred.reject();
+    .otherwise(function (err) {
+      deferred.reject(err);
     });
 
     return deferred.promise;

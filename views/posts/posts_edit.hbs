@@ -49,7 +49,7 @@
           <input type='file' id="image_url" name="image_url" />
 
           {{#if post.image_url}}
-            <img id="imagepreview" src="{{post.image_url}}" style="width: 120px; height: 120px" />
+            <img id="imagepreview" src="/img/120/{{post.image_url}}" style="width: 120px; height: 120px" />
           {{else}}
             <p class="help-block">Upload an image to be used with your post</p>
             <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />

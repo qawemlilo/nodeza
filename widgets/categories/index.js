@@ -5,13 +5,13 @@ var Cache = null;
 
 module.exports = config;
 
-config.exec = function (App, collections) {
+config.exec = function (App) {
 
 	if (Cache) {
 	  return when(Cache);
 	}
 
-  var categories = new collections.Categories();
+  var categories = App.getCollection('Categories');
 
   return categories.fetch()
   .then(function (collection) {

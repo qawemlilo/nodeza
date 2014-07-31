@@ -45,7 +45,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
       done(null, false, { message: 'Invalid password.' });
     });
   })
-  .otherwise(function () {
+  .otherwise(function (err) {
     done(null, false, {message: 'Database error'});
   });
 }));
@@ -95,7 +95,6 @@ passport.use(new GitHubStrategy(secrets.github,
             done(false, model);
           })
           .otherwise(function (error) {
-            console.log('94: %s', error);
             req.flash('errors', { msg: 'Database error. Failed to save token'});
             done(false, model);
           });
@@ -168,15 +167,16 @@ passport.use(new GitHubStrategy(secrets.github,
             done(false, model);
           })
           .otherwise(function (error) {
-            console.log('167: %s', error);
             req.flash('errors', { msg: 'Database error. Failed to save token'});
             done(false, model);
           });
         })
-        .otherwise(function(err) {done(err);});
+        .otherwise(function(err) {
+          done(err);
+        });
       });
     })
-    .otherwise(function () {
+    .otherwise(function (err) {
       req.flash('errors', { msg: 'Database error. Failed to access'});
       done({'errors': {msg: 'Database error. Failed to access'}}, user);
     });

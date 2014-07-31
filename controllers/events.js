@@ -1,7 +1,6 @@
 
 
-var Events = require('../collections/events');
-var Event = require('../models/event');
+var App = require('../app');
 var moment = require('moment');
 
 
@@ -42,9 +41,9 @@ module.exports = {
    */
   getEvent: function (req, res, next) {
     var slug = req.params.slug;
+    var event = App.getModel('Event', {slug: slug});
 
-    Event.forge({slug: slug})
-    .fetch()
+    event.fetch()
     .then(function (event) {
       res.render('events_event', {
         title: event.get('title'),
@@ -72,9 +71,9 @@ module.exports = {
   getEdit: function (req, res) {
     var id = req.params.id;
     var user_id = req.user.get('id');
+    var event = App.getModel('Event', {id: id, user_id: user_id});
 
-    Event.forge({id: id, user_id: user_id})
-    .fetch()
+    event.fetch()
     .then(function (model) {
       res.render('events_edit', {
         page: 'eventedit',
@@ -96,7 +95,7 @@ module.exports = {
    * get upcoming events
    */
   getEvents: function (req, res, next) {
-    var events = new Events();
+    var events = App.getCollection('Events');
   
     var page = parseInt(req.query.p, 10);
     var query = {};
@@ -131,7 +130,7 @@ module.exports = {
     })
     .then(function (collection) {
       res.render('events_events', {
-        title: 'Events',
+        title: 'Node.js events in South Africa',
         pagination: events.pages,
         myEvents: collection.toJSON(),
         query: query,
@@ -140,7 +139,6 @@ module.exports = {
       });
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
       res.redirect('/');      
     });
@@ -153,7 +151,7 @@ module.exports = {
    * get upcoming events
    */
   getEventsByCity: function (req, res, next) {
-    var events = new Events();
+    var events = App.getCollection('Events');
   
     var page = parseInt(req.query.p, 10);
     var query = {};
@@ -200,7 +198,6 @@ module.exports = {
       });
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
       res.redirect('/');      
     });
@@ -212,7 +209,7 @@ module.exports = {
    * get events admin
    */
   getAdmin: function (req, res, next) {
-    var events = new Events();
+    var events = App.getCollection('Events');
   
     var page = parseInt(req.query.p, 10);
     var query = {};
@@ -274,8 +271,6 @@ module.exports = {
       eventData.id = req.body.id;
     }
 
-    console.log(req.body);
-
     eventData.user_id = user.get('id');
     eventData.title = req.body.title;
     eventData.desc = req.body.desc;
@@ -294,15 +289,14 @@ module.exports = {
     eventData.number = req.body.number;
 
 
-    Event.forge(eventData)
-    .save()
+    var event = App.getModel('Event', eventData);
+    
+    event.save()
     .then(function (model) {
       req.flash('success', { msg: 'Event successfully created!' });
       res.redirect('back');
     })
     .otherwise(function (error) {
-      console.log(error);
-
       req.flash('errors', {'msg': 'Database error. Event not created.'});
       res.redirect('/events/new');
     });
@@ -348,24 +342,21 @@ module.exports = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    Event.forge({id: eventData.id, user_id: eventData.user_id})
-    .fetch()
+    var event = App.getModel('Event', {id: eventData.id, user_id: eventData.user_id});
+    
+    event.fetch()
     .then(function (model) {
-      console.log(model.toJSON());
-
       model.save(eventData, {method: 'update'})
       .then(function () {
         req.flash('success', { msg: 'Event successfully updated!' });
         res.redirect('back');
       })
       .otherwise(function (error) {
-        console.log(error);
         req.flash('errors', {'msg': 'Database error. Event not updated.'});
         res.redirect('back');
       });
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('errors', {'msg': 'Database error. Event not found.'});
       res.redirect('back');
     });
@@ -378,8 +369,9 @@ module.exports = {
    * delete event
   */
   getDelete: function(req, res) {
-    Event.forge({id: req.params.id, user_id: req.user.get('id')})
-    .fetch()
+    var event = App.getModel('Event', {id: req.params.id, user_id: req.user.get('id')});
+    
+    event.fetch()
     .then(function (event) {
       event.destroy()
       .then(function () {

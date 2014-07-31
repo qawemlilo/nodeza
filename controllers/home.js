@@ -10,8 +10,8 @@ module.exports = {
   index: function (req, res, next) {
 
     var opts = {
-      title: 'Welcome to NodeZA, a portal of Node.js developers in South Africa',
-      description: 'NodeZA is a community of Node.js developers in South Africa',
+      title: 'Welcome to NodeZA, a Node.js portal for developers in South Africa',
+      description: 'NodeZA is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa',
       page: 'home'
     };
 

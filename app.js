@@ -28,6 +28,20 @@ module.exports.emit = function () {
 };
 
 
+module.exports.getModel = function (name, options) {
+  if (Bookshelf._models[name]) {
+    return new Bookshelf._models[name](options);
+  }
+};
+
+
+module.exports.getCollection = function (name, options) {
+  if (Bookshelf._collections[name]) {
+  	return new Bookshelf._collections[name](options);
+  }
+};
+
+
 module.exports.init = function (port) {
   var server = express(config, module.exports);
 

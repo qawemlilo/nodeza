@@ -1,6 +1,7 @@
 
 var Meetup = require('../models/meetup');
 var Meetups = require('../collections/meetups');
+var gulpfile = require('../gulpfile');
 
 
 
@@ -169,7 +170,11 @@ module.exports = {
     }
 
     if (req.files.image_url) {
-      meetupData.image_url = '/img/blog/' + req.files.image_url.name;
+      meetupData.image_url = req.files.image_url.name;
+      
+      setTimeout(function () {
+        gulpfile('public/temp/' + meetupData.image_url);
+      }, 100);
     }
 
     meetupData.user_id = user.get('id');
@@ -197,7 +202,6 @@ module.exports = {
       res.redirect('back');
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('errors', {'msg': errMsg});
       res.redirect('/account/meetups');
     });
@@ -245,7 +249,11 @@ module.exports = {
     meetupData.meetings = req.body.meetings;
 
     if (req.files.image_url) {
-      meetupData.image_url = '/img/blog/' + req.files.image_url.name;
+      meetupData.image_url = req.files.image_url.name;
+      
+      setTimeout(function () {
+        gulpfile('public/temp/' + meetupData.image_url);
+      }, 100);
     }
 
 
@@ -258,13 +266,11 @@ module.exports = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        console.log(error);
         req.flash('errors', {'msg': 'Database error. Meetup not updated.'});
         res.redirect('/account/meetups');
       });
     })
     .otherwise(function (error) {
-      console.log(error);
       req.flash('errors', {'msg': 'Database error. Meetup not updated.'});
       res.redirect('/account/meetups');
     });

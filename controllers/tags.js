@@ -51,17 +51,17 @@ module.exports = {
           });
         })
         .otherwise(function (error) {
-          console.log(error);
+          req.flash('errors', {'msg': 'Database error.'});
           res.redirect('back');
         });
       })
       .otherwise(function (error) {
-        console.log(error);
+        req.flash('errors', {'msg': 'Database error.'});
         res.redirect('back');
       });
     })
     .otherwise(function (error) {
-      console.log(error);
+      req.flash('errors', {'msg': 'Database error.'});
       res.redirect('back');
     });
   }

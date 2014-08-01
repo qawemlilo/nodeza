@@ -48,8 +48,9 @@ Bookshelf.Model = Bookshelf.Model.extend({
     var self = this;
     var table = self.getTableName();
 
-    if(this.isNew()) {
-      App.emit('newentry', table);
+    // if new entry or updating, clear cache
+    if (self.isNew() || !self.hasChanged('views')) {
+      App.clearCache();
     }
 
     if (Databases[table].updated_by && attr.user_id) {

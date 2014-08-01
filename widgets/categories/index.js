@@ -1,22 +1,22 @@
 
 var when = require('when');
 var config = require('./config.json');
-var Cache = null;
 
 module.exports = config;
 
 config.exec = function (App) {
 
-	if (Cache) {
-	  return when(Cache);
-	}
+  if (App.cacheExists('categories')) {
+    return when(App.getCache('categories'));
+  }
 
   var categories = App.getCollection('Categories');
 
-  return categories.fetch()
+  return categories.fetch({columns: ['slug', 'name']})
   .then(function (collection) {
     config.collection = collection;
-    Cache = config;
+
+    App.setCache('categories', config);
     
     return config;
   });

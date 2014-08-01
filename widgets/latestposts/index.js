@@ -1,14 +1,13 @@
 
 var when = require('when');
 var config = require('./config.json');
-var Cache = null;
 
 module.exports = config;
 
 config.exec = function (App) {
 
-  if(Cache) {
-    return when(Cache);
+  if (App.cacheExists('latestposts')) {
+    return when(App.getCache('latestposts'));
   }
 
   App.on('newentry', function (table) {
@@ -21,7 +20,8 @@ config.exec = function (App) {
   return posts.fetchBy('published_at', {limit: 5, noPagination: true})
   .then(function (collection) {
     config.collection = collection;
-    Cache = config;
+
+    App.setCache('latestposts', config);
     
     return config;
   });

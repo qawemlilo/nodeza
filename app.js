@@ -7,49 +7,76 @@ var pkg = require('./package.json');
 var config = require('./config/secrets');
 var Bookshelf = require('./dbconnect')(config);
 var express = require('./server');
+var Cache = {};
 
 
 var emitter = new EventEmitter();
+var App = {};
 
 
-module.exports.bookshelf = Bookshelf;
+App.version = pkg.version;
 
 
-module.exports.version = pkg.version;
+App.bookshelf = Bookshelf;
 
 
-module.exports.on = function () {
+App.on = function () {
   emitter.on.apply(this, _.toArray(arguments));
 };
 
 
-module.exports.emit = function () {
+App.emit = function () {
   emitter.emit.apply(this, _.toArray(arguments));
 };
 
 
-module.exports.getModel = function (name, options) {
+App.getModel = function (name, options) {
   if (Bookshelf._models[name]) {
     return new Bookshelf._models[name](options);
   }
 };
 
 
-module.exports.getCollection = function (name, options) {
+App.getCollection = function (name, options) {
   if (Bookshelf._collections[name]) {
   	return new Bookshelf._collections[name](options);
   }
 };
 
 
-module.exports.init = function (port) {
-  var server = express(config, module.exports);
+App.getCache = function (name) {
+  return Cache[name];
+};
 
-  module.exports.server = server;
+
+App.setCache = function (name, val) {
+  Cache[name] = val;
+};
+
+
+App.cacheExists = function (name, val) {
+  return !!Cache[name];
+};
+
+
+App.clearCache = function () {
+  _.each(Cache, function (value, key) {
+    Cache[key] = null;
+  });
+};
+
+
+App.init = function (port) {
+  var server = express(config, this);
+
+  this.server = server;
 
   server.listen(port || server.get('port'), function() {
     console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
   });
 };
+
+
+module.exports = App;
 
 

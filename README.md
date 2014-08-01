@@ -73,7 +73,6 @@ Dependencies
 | jshint                          | JavaScript linting |
 | gulp                            | build tool |
 | simple-prompt                   | commandline prompts |
-| gulp-changed                    | gulp dependency |
 | gulp-image-resize               | gulp dependency |
 | gulp-imagemin                   | gulp dependency |
 
@@ -113,7 +112,7 @@ Features
 
 Architecture
 ------------
-NodeZA is build on a MVC-like architecture. The main building blocks are `models`, `collections`, `views`, `controllers`, `widgets`, and `routes`.
+NodeZA is built on a MVC-like architecture. The main building blocks are `models`, `collections`, `views`, `controllers`, `widgets`, and `routes`.
 
       /
        collections/
@@ -121,6 +120,7 @@ NodeZA is build on a MVC-like architecture. The main building blocks are `models
        controllers/
        views/
        widgets/
+       routes.js
 
 
 

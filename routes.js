@@ -22,41 +22,45 @@ var TagsController = require('./controllers/tags');
  * Routes
  */
 module.exports.setup = function (app) {
-	/* 
-	 * Home Route
-	 * passing 'passportConf.isNotAuthenticated' middle to avoid logged in users from viewing some pages
-	**/
-	app.get('/', HomeController.index);
-	
-	app.get('/login', passportConf.isNotAuthenticated, AccountController.getLogin);
-	app.post('/login', passportConf.isNotAuthenticated, AccountController.postLogin);
-	app.get('/signup', passportConf.isNotAuthenticated, AccountController.getSignup);
-	app.post('/signup', passportConf.isNotAuthenticated, AccountController.postSignup);
-	app.get('/forgot', passportConf.isNotAuthenticated, AccountController.getForgot);
+  /* 
+   * Home Route
+  **/
+  app.get('/', HomeController.index);
+  
+
+  /* 
+   * Account Route
+   * passing 'passportConf.isNotAuthenticated' middle to avoid logged in users from viewing some pages
+  **/
+  app.get('/login', passportConf.isNotAuthenticated, AccountController.getLogin);
+  app.post('/login', passportConf.isNotAuthenticated, AccountController.postLogin);
+  app.get('/signup', passportConf.isNotAuthenticated, AccountController.getSignup);
+  app.post('/signup', passportConf.isNotAuthenticated, AccountController.postSignup);
+  app.get('/forgot', passportConf.isNotAuthenticated, AccountController.getForgot);
   app.post('/forgot', passportConf.isNotAuthenticated, AccountController.postForgot);
   app.get('/reset/:token', passportConf.isNotAuthenticated, AccountController.getReset);
   app.post('/reset/:token', passportConf.isNotAuthenticated, AccountController.postReset);
 
 
-	/* 
-	 * Registered Users Routes
-	 * passing 'passportConf.isAuthenticated' middle to avoid public viewing of pages
-	**/
-	app.get('/logout', passportConf.isAuthenticated, AccountController.logout);
-	app.get('/account', passportConf.isAuthenticated, AccountController.getAccount);
-	app.post('/account', passportConf.isAuthenticated, AccountController.postAccount);
-	app.get('/account/password', passportConf.isAuthenticated, AccountController.getPasswordForm);
-	app.get('/account/linked', passportConf.isAuthenticated, AccountController.getLinkedAccounts);
-	app.post('/account/password', passportConf.isAuthenticated, AccountController.postPassword);
-	app.post('/account/delete', passportConf.isAuthenticated, AccountController.postDeleteAccount);
-	app.get('/account/unlink/:provider', passportConf.isAuthenticated, AccountController.getOauthUnlink);
+  /* 
+   * Registered Users Routes
+   * passing 'passportConf.isAuthenticated' middle to avoid public viewing of pages
+  **/
+  app.get('/logout', passportConf.isAuthenticated, AccountController.logout);
+  app.get('/account', passportConf.isAuthenticated, AccountController.getAccount);
+  app.post('/account', passportConf.isAuthenticated, AccountController.postAccount);
+  app.get('/account/password', passportConf.isAuthenticated, AccountController.getPasswordForm);
+  app.get('/account/linked', passportConf.isAuthenticated, AccountController.getLinkedAccounts);
+  app.post('/account/password', passportConf.isAuthenticated, AccountController.postPassword);
+  app.post('/account/delete', passportConf.isAuthenticated, AccountController.postDeleteAccount);
+  app.get('/account/unlink/:provider', passportConf.isAuthenticated, AccountController.getOauthUnlink);
 
   app.get('/devs/:slug', AccountController.getUser);
 
 
-	/* 
-	 * API Routes
-	**/
+  /* 
+   * External API Routes
+  **/
   app.get('/auth/github', passport.authenticate('github'), function(req, res, next) {
     if (req.isNewAccount) return res.redirect('/account/password');
     next();
@@ -79,7 +83,7 @@ module.exports.setup = function (app) {
   /*
    * Events
   **/
-  
+  // private
   app.get('/account/events', passportConf.isAuthenticated, EventsController.getAdmin);
   app.get('/events/new', passportConf.isAuthenticated, EventsController.getNew);
   app.post('/events/new', passportConf.isAuthenticated, EventsController.postNew);
@@ -101,8 +105,9 @@ module.exports.setup = function (app) {
 
 
   /*
-   *Meetups
+   * Meetups
   **/
+  // private
   app.get('/account/meetups', passportConf.isAuthenticated, MeetupsController.getAdmin);
   app.get('/meetups/new', passportConf.isAuthenticated, MeetupsController.getNew);
   app.get('/meetups/edit/:id', passportConf.isAuthenticated, MeetupsController.getEdit);
@@ -123,7 +128,6 @@ module.exports.setup = function (app) {
   app.get('/blog/publish/:id', passportConf.isAuthenticated, PostsController.getPublish);
   app.get('/blog/delete/:id', passportConf.isAuthenticated, PostsController.getDelete);
   app.get('/account/blog', passportConf.isAuthenticated, PostsController.getAdmin);
-  
   app.post('/blog/new', passportConf.isAuthenticated, PostsController.postNew);
   app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
   

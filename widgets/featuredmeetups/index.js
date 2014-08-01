@@ -1,14 +1,15 @@
 
 var when = require('when');
 var config = require('./config.json');
-var Cache = null;
 
 module.exports = config;
 
 config.exec = function (App) {
-	if (Cache) {
-	  return when(Cache);
-	}
+
+  if (App.cacheExists('featuredmeetups')) {
+    return when(App.getCache('featuredmeetups'));
+  }
+
 
   var meetups = App.getCollection('Meetups');
 
@@ -21,7 +22,8 @@ config.exec = function (App) {
   })
   .then(function (collection) {
     config.collection = collection;
-    Cache = config;
+
+    App.setCache('featuredmeetups', config);
 
     return config;
   });

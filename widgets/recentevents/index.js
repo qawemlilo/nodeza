@@ -1,7 +1,6 @@
 
 var when = require('when');
 var config = require('./config.json');
-var Cache = null;
 
 module.exports = config;
 
@@ -11,8 +10,8 @@ function datetime(ts) {
 
 config.exec = function (App) {
 
-  if (Cache) {
-    return when(Cache);
+  if (App.cacheExists('recentevents')) {
+    return when(App.getCache('recentevents'));
   }
 
   var events = App.getCollection('Events');
@@ -21,10 +20,13 @@ config.exec = function (App) {
     limit: 3,
     noPagination: true,
     where: ['dt', '<', datetime()]
+  }, 
+    {columns: ['slug', 'title']
   })
   .then(function (collection) {
     config.collection = collection;
-    Cache = config;
+
+    App.setCache('recentevents', config);
 
     return config;
   });

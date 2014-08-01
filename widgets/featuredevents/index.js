@@ -1,15 +1,14 @@
 
 var when = require('when');
 var config = require('./config.json');
-var Cache = null;
 
 module.exports = config;
 
 config.exec = function (App) {
 
-	if (Cache) {
-	  return when(Cache);
-	}
+  if (App.cacheExists('featuredevents')) {
+    return when(App.getCache('featuredevents'));
+  }
 
   var events = new App.getCollection('Events');
 
@@ -20,10 +19,14 @@ config.exec = function (App) {
     where: ['dt', '>', new Date()],
     order: 'asc',
     noPagination: true
+  }, {
+    columns: ['slug', 'dt', 'title']
   })
   .then(function (collection) {
     config.collection = collection;
-    Cache = config;
+
+    App.setCache('featuredevents', config);
+
     return config;
   });
 };

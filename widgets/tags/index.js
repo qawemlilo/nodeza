@@ -1,16 +1,15 @@
 
 var when = require('when');
 var config = require('./config.json');
-var Cache = null;
 
 module.exports = config;
 
 config.exec = function (App) {
 
 
-	if (Cache) {
-	  return when(Cache);
-	}
+  if (App.cacheExists('tags')) {
+    return when(App.getCache('tags'));
+  }
 
   App.on('newentry', function (table) {
     if (table == 'posts') Cache = null;
@@ -18,10 +17,11 @@ config.exec = function (App) {
 
   var tags = App.getCollection('Tags');
 
-  return tags.fetchTags(50)
+  return tags.fetchTags(50, {columns: ['slug', 'name']})
   .then(function (collection) {
     config.collection = collection;
-    Cache = config;
+
+    App.setCache('tags', config);
     
     return config;
   });

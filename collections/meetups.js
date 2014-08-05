@@ -4,13 +4,14 @@
 
 var Base  = require('./base');
 var Meetup = require('../models/meetup');
-var when = require('when');
 
 
 
 var Meetups = Base.Collection.extend({
 
-  model: Meetup
+  model: Meetup,
+
+  base: '/meetups'
 
 });
 

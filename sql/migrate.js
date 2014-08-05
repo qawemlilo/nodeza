@@ -141,14 +141,7 @@ function createDB () {
 
 
 
-/**
- * GET /blog
- * load blog page
- */
-
-
-
-module.exports = {
+var migrate = {
   /*
    * create database
   **/
@@ -218,3 +211,16 @@ module.exports = {
     return sequence(tables);
   }
 };
+
+
+migrate.reset()
+.then(function () {
+  migrate.init()
+  .then(function () {
+    process.exit(0);
+  })
+  .otherwise(function (err) {
+    console.log(err);
+    process.exit(1);
+  });
+});

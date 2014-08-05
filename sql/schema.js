@@ -7,7 +7,7 @@ module.exports = {
 
   users: {
     id: {type: 'increments', nullable: false, primary: true},
-    role_id: {type: 'integer', nullable: false},
+    role_id: {type: 'integer', nullable: false, references: 'id', inTable: 'roles'},
     name: {type: 'string', maxlength: 150, nullable: false},
     last_name: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
@@ -33,7 +33,7 @@ module.exports = {
 
   tokens: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
     kind: {type: 'string', nullable: false, maxlength: 32},
     accessToken: {type: 'string', maxlength: 254, nullable: false},
     tokenSecret: {type: 'string', maxlength: 254, nullable: true}
@@ -41,7 +41,7 @@ module.exports = {
 
   events: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
     email: {type: 'string', maxlength: 254, nullable: false, unique: true, validations: {'isEmail': true}},
@@ -66,7 +66,7 @@ module.exports = {
 
   meetups: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
     organiser: {type: 'string', maxlength: 254, nullable: false},
     name: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
@@ -93,8 +93,8 @@ module.exports = {
 
   posts: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
-    category_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
+    category_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'categories'},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
     markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
@@ -141,7 +141,7 @@ module.exports = {
 
   posts_tags: {
     id: {type: 'increments', nullable: false, primary: true},
-    post_id: {type: 'integer', nullable: false, unsigned: true},
-    tag_id: {type: 'integer', nullable: false, unsigned: true}
+    post_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'posts'},
+    tag_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'tags'}
   }
 };

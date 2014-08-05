@@ -1,0 +1,20 @@
+{
+  "name": "adminmenu",
+  "title": "Admin Menu",
+  "version": "0.0.1",
+  "pages": [
+    "/account",
+    "/account/events",
+    "/account/meetups",
+    "/account/blog",
+    "/account/password",
+    "/account/linked"
+  ],
+  "description": "Admin Menu",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "leftsidebar",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/qawemlilo/adminmenu.git"
+}

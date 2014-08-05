@@ -6,7 +6,7 @@
       {{post.title}}
     </h2>
     <p class="blog-post-meta">
-      {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}} by 
+      {{#parseDate post.published_at 'MMMM D, YYYY'}}{{/parseDate}} by 
       <a href="/devs/{{author.slug}}">{{author.name}}</a>
       | 
       <span class="glyphicon glyphicon-tag"></span>

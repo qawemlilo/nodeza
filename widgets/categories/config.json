@@ -12,6 +12,6 @@
   "authorEmail": "qawemlilo@gmail.com",
   "position": "sidebar",
   "order": 4,
-  "active": true,
+  "active": false,
   "repo": "git://github.com/qawemlilo/nodeza-categories.git"
 }

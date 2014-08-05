@@ -1,0 +1,20 @@
+{
+  "name": "superadminmenu",
+  "title": "Super Administrator",
+  "version": "0.0.1",
+  "pages": [
+    "/account",
+    "/account/events",
+    "/account/meetups",
+    "/account/blog",
+    "/account/password",
+    "/account/linked"
+  ],
+  "description": "Super Administrator",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "leftsidebar",
+  "order": 2,
+  "active": true,
+  "repo": "git://github.com/qawemlilo/superadminmenu.git"
+}

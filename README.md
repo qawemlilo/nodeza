@@ -1,9 +1,15 @@
 # NodeZA
 > A Node.js portal for developers in South Africa.
 
-Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa. NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
+Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa. 
+NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa. 
+The long term goal is to become an information repository for all Node.js related content in South Africa.
 
 The information below is aimed at developers who would like to contribute to this platform.
+
+Brief description
+-----------------
+This is an express application that uses handlebars templating engine, MySQL as the application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets. The plugins are called `widgets`.  
 
 
 Table of Contents
@@ -135,11 +141,11 @@ Controllers contain the logical parts that work as a glue between `views` and `m
 
 Each path base should have its own `controller`, e.g, the route `/events` should have a `controller` named `events.js`.
 
-All controller are located in the `controllers` directory.
+All controllers are located in the `controllers` directory.
 
 
 
-### Model & Collections
+### Models & Collections
 A `model` is associated with a database table and its properties represent the table columns. The whole table is represented by the associated `collection` - which is basically a group of the same `model`. A `model` name should be a singular and a
 `collection` name should be the plural version.
 
@@ -149,13 +155,15 @@ All `models` are located in the `models` folder and `collections` in the `collec
 ### Widgets
 A `widget` is a special kind of module. It is self contained and is completely decoupled from other parts of the application.
 
-A widget comprises of 3 files, `config.json`, `template.hbs`, and `index.js`
+A widget comprises of 3 files, `config.json`, `template.hbs`, and `index.js`.
 
 `config.json` contains the configuration.
 
 `template.hbs` contains the handlebars template.
 
 `index.js` is the main program file.
+
+[Read more](widgets.md)
 
 
 

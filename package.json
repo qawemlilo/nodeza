@@ -1,14 +1,14 @@
 {
   "name": "nodeza",
   "version": "0.1.0",
-  "description": "Node.js portal in South Africa",
+  "description": "Node.js portal for developers in South Africa",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "cleanup": "rm -f *~",
-    "jshint": "jshint models collections tools controllers lib sql/data.js test app.js config/passport.js routes.js",
+    "jshint": "jshint models collections controllers lib sql widgets test app.js config/passport.js routes.js",
     "test": "npm run jshint && ./node_modules/mocha/bin/mocha test",
-    "setup": "node tools/dbsetup.js && node tools/migrate.js"
+    "setup": "node sql/dbsetup.js && node sql/migrate.js"
   },
   "repository": {
     "type": "git",

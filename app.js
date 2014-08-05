@@ -7,10 +7,9 @@ var pkg = require('./package.json');
 var config = require('./config/secrets');
 var Bookshelf = require('./dbconnect')(config);
 var express = require('./server');
-var Cache = {};
-
 
 var emitter = new EventEmitter();
+var Cache = {};
 var App = {};
 
 
@@ -69,11 +68,11 @@ App.clearCache = function () {
 App.init = function (port) {
   var server = express(config, this);
 
-  this.server = server;
-
   server.listen(port || server.get('port'), function() {
     console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
   });
+
+  this.server = server;
 };
 
 

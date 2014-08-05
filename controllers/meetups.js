@@ -1,7 +1,7 @@
 
 var Meetup = require('../models/meetup');
 var Meetups = require('../collections/meetups');
-var gulpfile = require('../gulpfile');
+var gulpfile = require('../gulp-images');
 
 
 
@@ -120,11 +120,14 @@ module.exports = {
    */
   getAdmin: function (req, res, next) {
     var meetups = new Meetups();
+    var role = req.user.related('role').toJSON(); 
+    var opts = {where: ['user_id', '=', req.user.get('id')]};
 
-    meetups.fetchBy('id', {
-      where: ['user_id', '=', req.user.get('id')],
-      base: '/account/events'
-    })
+    if (role.name === 'Super Administrator') {
+      opts.where = ['created_at', '<', new Date()];
+    }
+
+    meetups.fetchBy('id', opts)
     .then(function (collection) {
       res.render('meetups_admin', {
         title: 'Find Meetups',

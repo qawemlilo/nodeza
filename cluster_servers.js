@@ -2,7 +2,7 @@ var os = require('os');
 var cluster = require('cluster');
 
 cluster.setupMaster({
-  exec: 'app.js'
+  exec: 'index.js'
 });
 
 cluster.on('exit', function(worker) {

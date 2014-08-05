@@ -4,13 +4,13 @@
 
 var Base  = require('./base');
 var Event = require('../models/event');
-var when = require('when');
 var moment = require('moment');
 
 
 var Events = Base.Collection.extend({
 
   model: Event,
+
 
   base: '/events',
 

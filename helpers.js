@@ -18,8 +18,8 @@ module.exports.setup = function (hbs) {
   /**
    * parses time
   **/
-  function parseTime(ts) {
-    return moment(ts, 'HH:mm:ss').format('HH:mm');
+  function parseTime(ts, fmt) {
+    return moment(ts, 'HH:mm:ss').format(fmt || 'HH:mm');
   }
 
 
@@ -91,8 +91,17 @@ module.exports.setup = function (hbs) {
 
 
 
-  hbs.registerHelper('myTime', function(time, fmtcontext) {
-    return parseTime(time);
+  hbs.registerHelper('myTime', function(time, fmt, context) {
+    var formatedTime;
+
+    if (typeof fmt === 'string') {
+      formatedTime = parseTime(time, fmt);
+    }
+    else {
+      formatedTime = parseTime(time);
+    }
+
+    return formatedTime;
   });
 
 
@@ -202,6 +211,9 @@ module.exports.setup = function (hbs) {
     var collection;
     var model;
     var context = {};
+
+    context.user = options.data.user; 
+    context.page = options.data.page;
 
     for (i=0; i<items.length; i++) {
         template = hbs.compile(items[i].template);

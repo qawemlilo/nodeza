@@ -1,0 +1,21 @@
+
+
+
+{{#ifCond user.role.name '==' 'Super Administrator'}}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Super Administrator
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="glyphicon glyphicon-user"></span> <a href="/account/users">Users</a>
+      </li>
+      <li class="list-group-item">
+        <span class="glyphicon glyphicon-picture"></span> <a href="/account/media">Media</a>
+      </li>
+      <li class="list-group-item">
+        <span class="glyphicon glyphicon-folder-close"></span> <a href="/account/widgets">Widgets</a>
+      </li>
+    </ul>
+  </div>
+{{/ifCond}}

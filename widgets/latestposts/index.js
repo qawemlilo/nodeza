@@ -10,11 +10,6 @@ config.exec = function (App) {
     return when(App.getCache('latestposts'));
   }
 
-  App.on('newentry', function (table) {
-    // clear the cache if a new post is added
-    if (table == 'posts') Cache = null;
-  });
-
   var posts = App.getCollection('Posts');
 
   return posts.fetchBy('published_at', {limit: 5, noPagination: true})

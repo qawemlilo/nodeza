@@ -19,6 +19,10 @@ h6, .h6 {
   color: #333;
 }
 
+.blog-main-body p {
+  margin-top: 1.3em;
+}
+
 h1, .h1 {
   font-size: 32px;
   margin-left: 0px;

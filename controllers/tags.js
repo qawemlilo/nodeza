@@ -34,7 +34,7 @@ module.exports = {
 
         tag.posts()
         .fetch({
-          columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
+          columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
           withRelated: ['category'],
           limit: 2
         })

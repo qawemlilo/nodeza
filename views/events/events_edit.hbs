@@ -59,7 +59,7 @@
               </label>
 
               <div class='input-group date' id='startTimeDiv'>
-                <input class="form-control" type="text" name="start_time" id="start_time" value="{{event.start_time}}" required="">
+                <input class="form-control" type="text" name="start_time" id="start_time" value="{{#myTime event.start_time 'h:mm A'}}{{/myTime}}" required="">
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
                 </span>
@@ -75,7 +75,7 @@
               </label>
 
               <div class='input-group date' id='finishTimeDiv'>
-                <input class="form-control" type="text" name="finish_time" id="finish_time" value="{{event.finish_time}}" >
+                <input class="form-control" type="text" name="finish_time" id="finish_time" value="{{#myTime event.finish_time 'h:mm A'}}{{/myTime}}" >
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
                 </span>

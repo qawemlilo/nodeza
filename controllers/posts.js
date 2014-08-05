@@ -5,7 +5,7 @@ var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
-var gulpfile = require('../gulpfile');
+var gulpfile = require('../gulp-images');
 
 
 function processTags(tags) {
@@ -107,7 +107,7 @@ module.exports = {
       page: currentpage,
       limit: 5
     }, {
-      columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
+      columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
       withRelated: ['category']
     })
     .then(function (collection) {
@@ -154,7 +154,7 @@ module.exports = {
         andWhere: ['category_id', '=', model.get('id')],
         base:'/blog/category/' + slug
       }, {
-        columns: ['slug', 'html', 'image_url', 'title', 'category_id'],
+        columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
         withRelated: ['category']
       })
       .then(function (collection) {
@@ -190,14 +190,18 @@ module.exports = {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
-
-    posts.base = '/account/blog';
-  
-    posts.fetchBy('id', {
+    var role = req.user.related('role').toJSON(); 
+    var opts = {
       limit: 10,
-      page: currentpage, 
-      where: ['user_id', '=', req.user.get('id')]
-    })
+      page: currentpage,
+      base: '/account/blog'
+    };
+
+    if (role.name !== 'Super Administrator') {
+      opts.where = ['user_id', '=', req.user.get('id')];
+    }
+
+    posts.fetchBy('id', opts)
     .then(function (collection) {
       res.render('posts_admin', {
         title: 'Blog',
@@ -355,12 +359,13 @@ module.exports = {
         post.destroy()
         .then(function () {
           req.flash('success', {msg: 'Post successfully deleted.'});
+          App.clearCache();
           res.redirect('back');
         });
       });
     })
     .otherwise(function () {
-      req.flash('error', {msg: 'You do not have access to that post.'});
+      req.flash('info', {msg: 'You do not have access to that post.'});
       res.redirect('back');
     });
   },
@@ -392,7 +397,7 @@ module.exports = {
       });
     })
     .otherwise(function () {
-      req.flash('error', {msg: 'You do not have access to that post.'});
+      req.flash('info', {msg: 'You do not have access to that post.'});
       res.redirect('back');
     });
   }

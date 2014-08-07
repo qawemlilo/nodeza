@@ -1,0 +1,228 @@
+
+<div class="col-sm-12 blog-main">
+  {{> flash}}
+
+  <div class="panel panel-default">
+  
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-user"></span> Edit Meetup Group
+  
+      <a href="/account/meetups" class="close pull-right">&times;</a>
+  
+    </div>
+  
+    <div class="panel-body">
+    <form class="form-horizontal" id="meetup-form" action="/meetups/edit" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" autocomplete="off" value="{{_csrf}}" />
+      <input type="hidden" name="meetup_id" autocomplete="off" value="{{meetup.id}}" />
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="title">
+          Meetup Name <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" autocomplete="off" type="text" name="title" id="title" value="{{meetup.title}}" required="" />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="short_desc">
+          Short Description <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-7">
+          <textarea class="form-control" autocomplete="off" size="124" rows="2" name="short_desc" id="short_desc" required="">{{meetup.short_desc}}</textarea>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="markdown">
+          Full Description <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-7">
+          <textarea class="form-control" autocomplete="off" rows="4" name="markdown" id="markdown" required="">{{meetup.markdown}}</textarea>
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="organiser">
+          Organiser <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" autocomplete="off" name="organiser" id="organiser" value="{{meetup.organiser}}" required="" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="organiser">
+          When do you meet? <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <textarea class="form-control" rows="2"  autocomplete="off" name="meetings" id="meetings" required="">{{meetup.meetings}}</textarea>
+        </div> 
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="email">
+          Contact Email <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control"  autocomplete="off" type="text" name="email" id="email" value="{{meetup.email}}" required="" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="number">
+          Contact Number
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" autocomplete="off" type="text" name="number" id="number" value="{{meetup.number}}" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="website">
+          Website
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" autocomplete="off" name="website" id="website" value="{{meetup.website}}" />
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="geocomplete">
+          Meetup Venue <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" autocomplete="off" name="geocomplete" id="geocomplete" value="{{meetup.address}}">
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="administrative_area_level_1">
+          Province
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="administrative_area_level_1" id="administrative_area_level_1" value="{{meetup.province}}" required="" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="locality">
+          City
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="locality" id="locality" value="{{meetup.city}}" required="" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="sublocality">
+          Town
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="sublocality" id="sublocality" value="{{meetup.town}}" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="lat">
+          Latitude
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="lat" id="lat" value="{{meetup.lat}}" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="lng">
+          Longitude
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="lng" id="lng" value="{{meetup.lng}}" />
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="geocomplete">
+          Image
+        </label>
+        <div class="col-sm-7">
+        <input type='file' id="image_url" name="image_url" />
+        {{#if meetup.image_url}}
+          <img id="imagepreview" src="/img/120/{{meetup.image_url}}" style="width: 120px; height: 120px" />
+        {{else}}
+          <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
+        {{/if}}
+        </div>
+      </div>
+  
+      <input type="hidden" name="url" value="{{meetup.url}}" />
+      <input type="hidden" name="formatted_address" value="{{meetup.address}}" />
+  
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-7">
+          <button class="btn btn-success" type="submit">
+            <i class="fa fa-check"></i> Update Meetup
+          </button>
+          
+          <a href="/account/meetups" class="btn btn-default">
+              <span class="glyphicon glyphicon-remove"></span> Close
+          </a>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+{{#extend "scripts"}}
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="/js/jquery.geocomplete.min.js"></script>
+<script>
+(function($){
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+  
+      reader.onload = function (e) {
+          $('#imagepreview').attr('src', e.target.result).fadeIn();
+      }
+  
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#geocomplete").geocomplete({
+    details: "#meetup-form",
+    componentRestrictions: {country: 'za'}
+  });
+
+  $("#image_url").change(function(){
+    readURL(this);
+  });
+}(jQuery));
+</script>
+{{/extend}}

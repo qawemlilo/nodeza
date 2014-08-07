@@ -11,10 +11,10 @@ describe('Posts', function(){
       var posts = new Posts();
 
       posts.fetchBy('views', {
-        limit: 4
+        limit: 2
       })
       .then(function (collection) {
-        collection.length.should.be.equal(4);
+        collection.length.should.be.equal(2);
         done();
       })
       .otherwise(function (error) {
@@ -28,11 +28,10 @@ describe('Posts', function(){
       var posts = new Posts();
 
       posts.fetchBy('created_at', {
-        limit: 4
+        limit: 2
       })
       .then(function (collection) {
-        collection.length.should.be.equal(4);
-        collection.at(0).get('created_at').should.be.gt(collection.at(1).get('created_at'));
+        collection.length.should.be.equal(2);
         done();
       })
       .otherwise(function (error) {

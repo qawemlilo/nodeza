@@ -1,0 +1,58 @@
+
+{{#extend "jumbotron"}}
+<div id="jumbotron" class="jumbotron">
+  <div class="container">
+    <h1>Blog</h1>
+    <p>
+      Node.js news, articles, tutorials, and more...
+    </p>
+  </div>
+</div>
+{{/extend}} 
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <div class="container-fluid">
+    {{#if category}}
+      <div class="well well-sm bg-info row filter-tags">
+        <span class="glyphicon glyphicon-tag text-danger"></span> {{category}}
+      </div>
+    {{/if}}
+    {{#if tag}}
+      <div class="well well-sm bg-info row filter-tags">
+        <span class="glyphicon glyphicon-tags text-danger"></span>  {{tag}}
+      </div>
+    {{/if}}
+  
+    {{#each posts}}
+    <div class="row" style="margin-bottom: 20px">
+      <div class="media">
+        <a href="/blog/{{slug}}" class="pull-left">
+          <img class="media-object" title="Post" {{#if image_url}}src="/img/120/{{image_url}}"{{else}}data-src="holder.js/120x120"{{/if}} alt="..." style="width:120px;height:120px">
+        </a>
+        <div class="media-body">
+          <h3 class="media-heading">
+            <a href="/blog/{{slug}}">
+              {{title}}
+            </a>
+          </h3>
+          <p class="blog-post-meta">
+            {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}} | 
+            <span class="glyphicon glyphicon-tag text-danger"></span> 
+            <a href="/blog/category/{{category.slug}}" class="text-primary">{{category.name}}</a>
+          </p>
+  
+          {{#htmlSummary html}}{{/htmlSummary}}
+          <a href="/blog/{{slug}}" class="text-danger">read more &raquo;</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  
+    {{> pagination}}
+  </div>
+</div>
+
+{{> sidebar}}

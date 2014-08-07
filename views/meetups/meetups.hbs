@@ -1,0 +1,43 @@
+{{#extend "jumbotron"}}
+<div id="jumbotron" class="jumbotron events">
+  <div class="container">
+    <h1>Meetups</h1>
+    <p>Find a Node.js meetup group near you<p>
+  </div>
+</div>
+{{/extend}} 
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <div class="container-fluid meetups-tile">  
+    <div class="row">
+      <!--
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="active">Meetups</li>
+      </ol>-->
+      {{#each meetups}}
+        <div class="col-sm-6 col-xs-6 col-md-6">
+          <a href="/meetups/{{slug}}">
+            <img {{#if image_url}}src="/img/320/{{image_url}}"{{else}}data-src="holder.js/320x200"{{/if}} alt="{{name}}">
+          </a>
+          <div class="thumbnail">
+            <div class="caption">
+              <h3><a href="/meetups/{{slug}}">{{name}}</a></h3>
+              <p class="blog-post-meta">
+                <span class="glyphicon glyphicon-tag"></span> {{city}}
+              </p>
+              <p>{{short_desc}}</p>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  
+    {{> pagination}}
+  </div>
+</div>
+
+{{> sidebar}}

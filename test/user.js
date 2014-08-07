@@ -1,15 +1,14 @@
 
 var should = require('chai').should();
 var User = require('../models/user');
-var Faker = require('Faker');
 
 
 
 function createFakeUser() {
   var user = {};
 
-  user.name = Faker.Name.firstName();
-  user.email = Faker.Internet.email();
+  user.name = 'John Doe';
+  user.email = 'john@none.com';
   user.password = 'juliet';
 
   return user;

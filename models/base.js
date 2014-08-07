@@ -27,6 +27,12 @@ Bookshelf.Model = Bookshelf.Model.extend({
   },
 
 
+  canEdit: function () {
+    // Only owner and super admin can edit this content
+    return this.get('user_id') === App.user.get('id') || App.user.related('role').get('name') === 'Super Administrator';
+  },
+
+
   getTableName: function () {
     return this.tableName;
   },
@@ -48,13 +54,19 @@ Bookshelf.Model = Bookshelf.Model.extend({
     var self = this;
     var table = self.getTableName();
 
+    // if user has no access to content
+    if (this.get('user_id') && !this.canEdit()) {
+      throw new Error('Access restricted');
+    }
+
     // if new entry or updating, clear cache
     if (self.isNew() || !self.hasChanged('views')) {
       App.clearCache();
     }
-
-    if (Databases[table].updated_by && attr.user_id) {
-      this.set('updated_by', attr.user_id);
+    
+    if (Databases[table].updated_by) {
+       // updated_by current user
+      this.set('updated_by', App.user.get('id'));
     }
 
     if (self.hasChanged('slug') || !self.get('slug') && Databases[table].slug) {

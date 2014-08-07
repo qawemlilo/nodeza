@@ -69,7 +69,7 @@ var User = Base.Model.extend({
 
     bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
       if (err) {
-      	deferred.reject(err);
+        deferred.reject(err);
       }
 
       deferred.resolve(isMatch);
@@ -81,11 +81,11 @@ var User = Base.Model.extend({
 
   gravatar: function(size, defaults) {
     if (!size) {
-    	size = 32;
+      size = 32;
     }
 
     if (!defaults) {
-    	defaults = 'retro';
+      defaults = 'retro';
     }
   
     if (!this.get('email')) {
@@ -125,7 +125,43 @@ var User = Base.Model.extend({
       return Base.Model.prototype.save.apply(self, args);      
     }
 
-  }
+  },
+
+
+
+  /*
+   * delete post
+  **/
+  deleteAccount: function(userId) {
+    var deferred = when.defer();
+
+    User.forge({id: userId})
+    .fetch({withRelated: ['tokens']})
+    .then(function (user) {
+      var tokens = user.related('tokens');
+
+      if (tokens.length > 0) {
+        tokens.detach()
+        .then(function () {
+          user.destroy()
+          .then(function () {
+            deferred.resolve();
+          });
+        })
+        .otherwise(function () {
+          deferred.reject('Failed to detach tokens');
+        });
+      }
+      else {
+        user.destroy()
+        .then(function () {
+          deferred.resolve();
+        });        
+      }
+    });
+
+    return deferred.promise;
+  },
 });
 
 

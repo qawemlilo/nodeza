@@ -1,0 +1,95 @@
+
+
+{{#extend "jumbotron"}}
+<div id="jumbotron" class="jumbotron {{meetup.slug}}">
+  <div class="container">
+    <h1>{{meetup.name}}</h1>
+  </div>
+</div>
+{{/extend}} 
+
+<div class="col-sm-9 blog-main">
+  {{> flash}}
+
+  <div class="container-fluid">
+    <div class="row" id="meetupVenue" style="height: 250px;background-color:#F5F5F5">  
+    </div>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="meetup panel panel-default">
+        <div class="panel-body">
+          <div class="col-md-8">
+           <h3>{{{meetup.name}}}</h3>
+          </div>
+          <div class="col-md-8">
+            <p>
+            {{#if meetup.website}}
+              <strong>Website:</strong> 
+              <a href="{{meetup.website}}" target="_blank">
+                {{meetup.website}}
+              </a><br>
+            {{/if}}
+  
+            <strong>Organiser:</strong> {{meetup.organiser}}
+            <br>
+            <strong>When?</strong> {{meetup.meetings}}
+            <br>
+            <strong>Venue:</strong> <a href="{{meetup.url}}" target="_blank">{{meetup.address}}</a>
+          </p>
+  
+          </div>
+  
+          <div class="col-md-4">
+            <p>
+              <span class="glyphicon glyphicon-tag"></span> 
+              {{meetup.city}}
+            </p>
+            <p>
+              <span class="glyphicon glyphicon-earphone"></span> {{meetup.number}}
+            </p>
+            <!--
+            <p>
+              <span class="glyphicon glyphicon-envelope"></span>
+              <a href="mailto:{{meetup.email}}"> 
+                Contact
+              </a>
+            </p>-->
+          </div>
+  
+          <div class="col-md-12">
+            <p>{{{meetup.html}}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{> sidebar}}
+
+{{#extend "scripts"}}
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="/js/jquery.geocomplete.min.js"></script>
+<script src="/js/maps.js"></script>
+<script>
+  var map = new GMaps({
+    div: '#meetupVenue',
+    lng: "{{meetup.lng}}",
+    lat: "{{meetup.lat}}"
+  });
+    
+  GMaps.geocode({
+    address: "{{meetup.address}}",
+
+    callback: function(results, status){
+     if (status=='OK'){
+       var latlng = results[0].geometry.location;
+       map.setCenter(latlng.lat(), latlng.lng());
+       map.addMarker({
+         lat: latlng.lat(),
+         lng: latlng.lng()
+       });
+     }
+    }
+  });
+</script>
+{{/extend}}

@@ -70,25 +70,25 @@ describe('Post', function(){
 
 
   describe('#destroy', function() {
-    var posts;
+    var post;
 
-    beforeEach(function () {
-      posts = Post.forge({id: postID})
-      .fetch({withRelated: ['tags']});
+    beforeEach(function (done) {
+      var posts = new Post({id: postID});
 
-      return posts;
+      posts.fetch({withRelated: ['tags']})
+      .then(function (model) {
+        post = model;
+        done();
+      });
     });
     
     it('should destroy post with related tags', function(done){
-      posts.then(function(post) {
-
-        post.related('tags').length.should.be.equal(2);
+      post.related('tags').length.should.be.equal(2);
         
-        return post.related('tags')
-          .detach()
-          .then(function () {
-            return post.destroy();
-          });
+      post.related('tags')
+      .detach()
+      .then(function () {
+        return post.destroy();
       })
       .then(function() {
         done();

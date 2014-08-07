@@ -488,42 +488,16 @@ module.exports = {
   */
   postDeleteAccount: function(req, res, next) {
     var user = req.user;
-    var tokens = user.related('tokens');
-
-    if (tokens) {
-      
-      // first remove tokens associated with user 
-      tokens.mapThen(function(model) {
-        return model.destroy().then(function() {
-          return 'TokenId ' + model.get('id') + ' - Deleted';
-        });
-      })
-      .then(function(resp) {
-        user.destroy()
-        .then(function () {
-          req.logout();
-          res.redirect('/');
-        })
-        .otherwise(function () {
-          req.flash('error', { msg: 'Database errror. Failed to delete account.' });
-          res.redirect('/account');        
-        });
-      })
-      .otherwise(function () {
-        req.flash('error', { msg: 'Database errror. Failed to delete account.' });
-        res.redirect('/account');
-      });
-    }
-    else {
-      user.destroy().then(function () {
-        req.logout();
-        res.redirect('/');
-      })
-      .otherwise(function () {
-        req.flash('error', { msg: 'Database errror. Failed to delete account.' });
-        res.redirect('/account');        
-      });      
-    }
+    
+    user.deleteAccount(user.get('id'))
+    .then(function () {
+      req.logout();
+      res.redirect('/');
+    })
+    .otherwise(function (msg) {
+      req.flash('error', { msg: msg });
+      res.redirect('/account');        
+    });
   },
 
 
@@ -543,19 +517,16 @@ module.exports = {
 
       req.user.save()
       .then(function () {
-        Tokens.forge({id: token.id}).fetch().then(function(model) {
-          model.destroy().then(function () {
-            req.flash('info', { msg: provider + ' account has been unlinked.' }); 
-            res.redirect('/account/linked');
-          })
-          .otherwise(function () {
-            req.flash('error', {msg: 'Database error. ' + provider + ' account has been unlinked.' }); 
-            next({'errors': {msg: 'Failed to unlinked ' + provider + ' account.'}});
-          }); 
+        var tokens  = new Tokens();
+        
+        tokens.remove(token.id)
+        .then(function(msg) {
+          req.flash('info', { msg: msg}); 
+          res.redirect('/account/linked');
         })
-        .otherwise(function () {
-          req.flash('error', {msg: 'Database error. Failed to fetch ' + provider + ' token.' }); 
-          next({'errors': {msg: 'Database error. Failed to fetch ' + provider + ' token.'}});
+        .otherwise(function (msg) {
+          req.flash('error', {msg: msg}); 
+          next({'errors': {msg: msg}});
         });
       })
       .otherwise(function () {

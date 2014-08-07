@@ -150,7 +150,73 @@ var Post = Base.Model.extend({
         return when.all(tagOps);
       });
     });
+  },
+
+
+
+  /*
+   * delete post
+  **/
+  remove: function(id, userId) {
+    var deferred = when.defer();
+
+    Post.forge({id: id, user_id: userId})
+    .fetch({withRelated: ['tags']})
+    .then(function (post) {
+      post.related('tags')
+      .detach()
+      .then(function () {
+        post.destroy()
+        .then(function () {
+          deferred.resolve();
+        });
+      })
+      .otherwise(function () {
+        deferred.reject('Failed to detach tags');
+      });
+    })
+    .otherwise(function () {
+      deferred.reject('You do not have access to that post.');
+    });
+
+    return deferred.promise;
+  },
+
+
+
+  /**
+   * (un)publish post
+  */
+  publish: function(id, userId) {
+    var deferred = when.defer();
+
+    Post.forge({id: id, user_id: userId})
+    .fetch({withRelated: ['tags']})
+    .then(function (post) {
+      var published = post.get('published') ? false : true;
+      var opts = {};
+
+      opts.published = published;
+
+      if(published && !post.get('published_at')) {
+        opts.published_at = new Date();
+      }
+
+      post.save(opts, {patch: true})
+      .then(function () {
+        deferred.resolve(post);
+      })
+      .otherwise(function () {
+        deferred.reject('Database error. Failed to save update.');
+      });
+    })
+    .otherwise(function () {
+      deferred.reject('You do not have access to that post.');
+    });
+
+    return deferred.promise;
   }
+
 });
 
 module.exports = Base.model('Post', Post);

@@ -51,6 +51,7 @@ module.exports = {
       meetup.viewed();
     })
     .otherwise(function () {
+      req.flash('errors', {'msg': 'Page not found :('});
       res.redirect('/meetups');
     });
   },
@@ -62,12 +63,10 @@ module.exports = {
    */
   getEdit: function (req, res) {
     var id = req.params.id;
-    var user_id = req.user.get('id');
+    var meetup = new Meetup({id: id});
 
-    Meetup.forge({id: id, user_id: user_id})
-    .fetch()
+    meetup.fetch()
     .then(function (model) {
-
       res.render('meetups/edit', {
         page: 'meetupedit',
         title: 'Meetup edit',
@@ -76,8 +75,8 @@ module.exports = {
       });
     })
     .otherwise(function () {
-      req.flash('errors', {'msg': 'You do not have permission to edit that meetup'});
-      res.redirect('back');      
+      req.flash('errors', {'msg': 'Meetup not found :('});
+      res.redirect('/account/meetups');
     });
   },
 
@@ -227,14 +226,13 @@ module.exports = {
     var errors = req.validationErrors();
     var meetupData = {};
     var user = req.user;
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/account/meetups');
     }
 
     meetupData.id = req.body.meetup_id;
-    meetupData.user_id = user.get('id');
     meetupData.title = req.body.title;
     meetupData.short_desc = req.body.short_desc;
     meetupData.organiser = req.body.organiser;
@@ -259,9 +257,10 @@ module.exports = {
       }, 100);
     }
 
+    var meetup = new Meetup({id:meetupData.id});
 
-    Meetup.forge({id: meetupData.id, user_id: meetupData.user_id})
-    .fetch()
+
+    meetup.fetch()
     .then(function (model) {
       model.save(meetupData, {method: 'update'})
       .then(function () {
@@ -269,12 +268,12 @@ module.exports = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('errors', {'msg': 'Database error. Meetup not updated.'});
+        req.flash('errors', {'msg': 'Error. Meetup not updated.'});
         res.redirect('/account/meetups');
       });
     })
     .otherwise(function (error) {
-      req.flash('errors', {'msg': 'Database error. Meetup not updated.'});
+      req.flash('errors', {'msg': 'Meetup not found.'});
       res.redirect('/account/meetups');
     });
   }

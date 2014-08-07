@@ -65,12 +65,11 @@ module.exports = {
    */
   getEdit: function (req, res) {
     var id = req.params.id;
-    var user_id = req.user.get('id');
-    var categories = new Categories();
+    var categories = new Categories({id: id});
 
     categories.fetch()
     .then(function (cats) {
-      Post.forge({id: id, user_id: user_id})
+      Post.forge({id: id})
       .fetch({withRelated: ['tags']})
       .then(function (post) {
         res.render('posts/edit', {
@@ -83,9 +82,13 @@ module.exports = {
         });
       })
       .otherwise(function () {
-        req.flash('errors', {'msg': 'You do not have permission to edit that post'});
+        req.flash('errors', {'msg': 'Post not found.'});
         res.redirect('back');      
       });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Categories not found.'});
+      res.redirect('back');      
     });
   },
 
@@ -200,6 +203,9 @@ module.exports = {
     if (role.name !== 'Super Administrator') {
       opts.where = ['user_id', '=', req.user.get('id')];
     }
+    else {
+      opts.where = ['created_at', '<', new Date()];
+    }
 
     posts.fetchBy('id', opts)
     .then(function (collection) {
@@ -299,7 +305,6 @@ module.exports = {
 
     var postData = {
       id: req.body.id,
-      user_id: req.user.get('id'),
       title: req.body.title,
       category_id: req.body.category,
       meta_title: req.body.meta_title || req.body.title,
@@ -309,6 +314,7 @@ module.exports = {
       featured: !!req.body.featured
     };
     var options = {method: 'update'};
+    var post = new Post({id: postData.id});   
 
     if (req.files.image_url) {
       postData.image_url = req.files.image_url.name;
@@ -319,26 +325,24 @@ module.exports = {
     }
 
     if (req.body.tags) {
+      // specify explicitly if you want to update tags
       options.updateTags = processTags(req.body.tags);
     }
 
-    Post.forge({id: postData.id, user_id: postData.user_id})
-    .fetch()
-    .then(function (post) {
-
-      // specify explicitly if you want to update tags
-      post.save(postData, options)
+    post.fetch()
+    .then(function (model) {
+      model.save(postData, options)
       .then(function() {
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('error', {msg: 'Post could not be updated.'});
+        req.flash('info', {msg: 'Access not granted'});
         res.redirect('/account/blog');
       });
     })
-    .otherwise(function (error) {
-      req.flash('error', {msg: 'You do not have access to that post.'});
+    .otherwise(function (msg) {
+      req.flash('error', {msg: 'Post not found.'});
       res.redirect('/account/blog');
     });
   },
@@ -350,22 +354,16 @@ module.exports = {
    * delete post
   */
   getDelete: function(req, res) {
-    Post.forge({id: req.params.id, user_id: req.user.get('id')})
-    .fetch({withRelated: ['tags']})
-    .then(function (post) {
-      post.related('tags')
-      .detach()
-      .then(function () {
-        post.destroy()
-        .then(function () {
-          req.flash('success', {msg: 'Post successfully deleted.'});
-          App.clearCache();
-          res.redirect('back');
-        });
-      });
+    var post = new Post();
+
+    post.remove(req.params.id, req.user.get('id'))
+    .then(function () {
+      req.flash('success', {msg: 'Post successfully deleted.'});
+      App.clearCache();
+      res.redirect('back');
     })
-    .otherwise(function () {
-      req.flash('info', {msg: 'You do not have access to that post.'});
+    .otherwise(function (msg) {
+      req.flash('info', {msg: msg});
       res.redirect('back');
     });
   },
@@ -377,27 +375,18 @@ module.exports = {
    * publish post
   */
   getPublish: function(req, res) {
-    Post.forge({id: req.params.id, user_id: req.user.get('id')})
-    .fetch({withRelated: ['tags']})
+    var post = new Post();
+
+    post.publish(req.params.id, req.user.get('id'))
     .then(function (post) {
       var published = post.get('published') ? false : true;
       var msg = published ? 'published' : 'unpublished';
-      var opts = {};
 
-      opts.published = published;
-
-      if(published && !post.get('published_at')) {
-        opts.published_at = new Date();
-      }
-
-      post.save(opts, {patch: true})
-      .then(function () {
-        req.flash('success', {msg: 'Post successfully ' + msg});
-        res.redirect('back');
-      });
+      req.flash('success', {msg: 'Post successfully ' + msg});
+      res.redirect('back');
     })
-    .otherwise(function () {
-      req.flash('info', {msg: 'You do not have access to that post.'});
+    .otherwise(function (msg) {
+      req.flash('info', {msg: msg});
       res.redirect('back');
     });
   }

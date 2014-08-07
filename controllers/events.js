@@ -62,9 +62,8 @@ module.exports = {
    * GET /events/edit/:id
    */
   getEdit: function (req, res) {
-    var id = req.params.id;
-    var user_id = req.user.get('id');
-    var event = App.getModel('Event', {id: id, user_id: user_id});
+
+    var event = App.getModel('Event', {id: req.params.id});
 
     event.fetch()
     .then(function (model) {
@@ -76,8 +75,8 @@ module.exports = {
       });
     })
     .otherwise(function () {
-      req.flash('errors', {'msg': 'You do not have permission to edit that meetup'});
-      res.redirect('back');      
+      req.flash('errors', {'msg': 'Event not found.'});
+      res.redirect('/account/events');       
     });
   },
 
@@ -208,20 +207,24 @@ module.exports = {
     var query = {};
     var currentpage = page || 1;
     var limit = 10;
-  
-    if (currentpage < 1) {
-      res.redirect('/account/events');
-    }
-  
-    events.base = '/account/events';
-
-    events.fetchBy('id', {
+    var opts = {
       limit: limit,
       order: 'desc',
       page: currentpage,
       where: ['user_id', '=', req.user.get('id')],
-      andWhere: []
-    })
+      andWhere: [],
+      base: '/account/events'
+    };
+  
+    if (currentpage < 1) {
+      res.redirect('/account/events');
+    }
+
+    if (req.user.related('role').get('name') === 'Super Administrator') {
+      opts.where = ['created_at', '<', new Date()];
+    }
+
+    events.fetchBy('id', opts)
     .then(function (collection) {
       res.render('events/admin', {
         title: 'Events',
@@ -252,7 +255,6 @@ module.exports = {
   
     var errors = req.validationErrors();
     var eventData = {};
-    var user = req.user;
     var cleanDate = (req.body.date).split('/').join(' ');
   
     if (errors) {
@@ -260,11 +262,7 @@ module.exports = {
       return res.redirect('/events/new');
     }
 
-    if (req.body.id) {
-      eventData.id = req.body.id;
-    }
-
-    eventData.user_id = user.get('id');
+    eventData.user_id = req.user.get('id');
     eventData.title = req.body.title;
     eventData.short_desc = req.body.short_desc;
     eventData.markdown = req.body.markdown;
@@ -319,7 +317,6 @@ module.exports = {
     }
     
     eventData.id = req.body.event_id;
-    eventData.user_id = user.get('id');
     eventData.title = req.body.title;
     eventData.short_desc = req.body.short_desc;
     eventData.markdown = req.body.markdown;
@@ -329,7 +326,7 @@ module.exports = {
     eventData.province = req.body.administrative_area_level_1 || '';
     eventData.city = req.body.locality || '';
     eventData.town = req.body.sublocality || '';
-    eventData.address = req.body.formatted_address || '';
+    eventData.address = req.body.formatted_address || req.body.geocomplete || '';
     eventData.website = req.body.webpage;
     eventData.url = req.body.url;
     eventData.lng = req.body.lng;
@@ -337,7 +334,7 @@ module.exports = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = App.getModel('Event', {id: eventData.id, user_id: eventData.user_id});
+    var event = App.getModel('Event', {id: eventData.id});
     
     event.fetch()
     .then(function (model) {
@@ -350,10 +347,6 @@ module.exports = {
         req.flash('errors', {'msg': 'Database error. Event not updated.'});
         res.redirect('back');
       });
-    })
-    .otherwise(function (error) {
-      req.flash('errors', {'msg': 'Database error. Event not found.'});
-      res.redirect('back');
     });
   },
 

@@ -104,11 +104,15 @@ module.exports = function (config, App) {
     csrf(req, res, next);
   });
   
-  // make user object available in templates
+
   server.use(function(req, res, next) {
     if (req.user) {
+      // make user object available in templates
       res.locals.user = req.user.toJSON();
       req.session.user = res.locals.user;
+
+      // make current user accessible from App object
+      App.user = req.user;
     }
   
     res.locals.base = 'http://' + req.headers.host;

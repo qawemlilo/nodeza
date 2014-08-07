@@ -14,4 +14,5 @@ secrets.json
 *.secret
 node_modules/
 build/
+temp/
 

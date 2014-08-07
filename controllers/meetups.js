@@ -1,7 +1,7 @@
 
 var Meetup = require('../models/meetup');
 var Meetups = require('../collections/meetups');
-var gulpfile = require('../gulp-images');
+var gulpfile = require('../lib/process-images');
 
 
 
@@ -12,7 +12,7 @@ module.exports = {
    * load new meetup page
    */
   getNew: function (req, res) {
-    res.render('meetups_new', {
+    res.render('meetups/new', {
       title: 'New Meetup',
       description: 'Create a meetup group',
       page: 'newmeetup'
@@ -40,7 +40,7 @@ module.exports = {
     Meetup.forge({slug: slug})
     .fetch()
     .then(function (meetup) {
-      res.render('meetups_meetup', {
+      res.render('meetups/meetup', {
         title: meetup.get('title'),
         description: meetup.get('short_desc'),
         page: 'meetup', 
@@ -68,7 +68,7 @@ module.exports = {
     .fetch()
     .then(function (model) {
 
-      res.render('meetups_edit', {
+      res.render('meetups/edit', {
         page: 'meetupedit',
         title: 'Meetup edit',
         description: 'Meetup edit',
@@ -97,7 +97,7 @@ module.exports = {
       columns: ['title', 'short_desc', 'city', 'slug', 'image_url']
     })
     .then(function (collection) {
-      res.render('meetups_meetups', {
+      res.render('meetups/meetups', {
         title: 'Find Meetups',
         pagination: collection.pages,
         meetups: collection.toJSON(),
@@ -129,7 +129,7 @@ module.exports = {
 
     meetups.fetchBy('id', opts)
     .then(function (collection) {
-      res.render('meetups_admin', {
+      res.render('meetups/admin', {
         title: 'Find Meetups',
         pagination: collection.pages,
         meetups: collection.toJSON(),

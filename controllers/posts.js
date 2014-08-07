@@ -5,7 +5,7 @@ var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
-var gulpfile = require('../gulp-images');
+var gulpfile = require('../lib/process-images');
 
 
 function processTags(tags) {
@@ -37,7 +37,7 @@ module.exports = {
       withRelated: ['created_by', 'tags', 'category']
     })
     .then(function (post) {
-      res.render('posts_post', {
+      res.render('posts/post', {
         page: 'post',
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('title'),
@@ -73,7 +73,7 @@ module.exports = {
       Post.forge({id: id, user_id: user_id})
       .fetch({withRelated: ['tags']})
       .then(function (post) {
-        res.render('posts_edit', {
+        res.render('posts/edit', {
           page: 'postedit',
           title: 'Post edit',
           description: 'Post edit',
@@ -111,7 +111,7 @@ module.exports = {
       withRelated: ['category']
     })
     .then(function (collection) {
-      res.render('posts_posts', {
+      res.render('posts/posts', {
         title: 'Blog',
         pagination: posts.pages,
         posts: collection.toJSON(),
@@ -158,7 +158,7 @@ module.exports = {
         withRelated: ['category']
       })
       .then(function (collection) {
-        res.render('posts_posts', {
+        res.render('posts/posts', {
           title: 'Blog',
           pagination: posts.pages,
           posts: collection.toJSON(),
@@ -203,7 +203,7 @@ module.exports = {
 
     posts.fetchBy('id', opts)
     .then(function (collection) {
-      res.render('posts_admin', {
+      res.render('posts/admin', {
         title: 'Blog',
         pagination: posts.pages,
         posts: collection.toJSON(),
@@ -229,7 +229,7 @@ module.exports = {
 
     categories.fetch()
     .then(function (collection) {
-      res.render('posts_new', {
+      res.render('posts/new', {
         title: 'New Post',
         description: 'Create a new post',
         page: 'newpost',

@@ -25,7 +25,7 @@ module.exports = {
    * View login page
    */
   getLogin: function (req, res) {
-    res.render('account_login', {
+    res.render('account/login', {
       title: 'Log In',
       description: 'NodeZA log in page',
       page: 'login'
@@ -48,7 +48,7 @@ module.exports = {
         return res.redirect('back');
       }
 
-      res.render('account_profile', {
+      res.render('account/profile', {
         title: 'NodeZA profile of ' + profile.get('name'),
         myposts: profile.related('posts').toJSON(),
         gravatar: profile.gravatar(198),
@@ -119,7 +119,7 @@ module.exports = {
    * Get signup form.
    */
   getSignup: function (req, res) {
-    res.render('account_signup', {
+    res.render('account/signup', {
       title: 'Sign Up',
       description: 'Sign up and become part of the Node.js community in South Africa',
       page: 'signup'
@@ -189,7 +189,7 @@ module.exports = {
         req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/forgot');
       }
-      res.render('password', {
+      res.render('account/password', {
         title: 'Password Reset',
         token: req.params.token,
         description: 'Reset your password',
@@ -282,7 +282,7 @@ module.exports = {
    * Loads forgot password page.
    */
   getForgot: function (req, res) {
-    res.render('account_forgot', {
+    res.render('account/forgot', {
       title: 'Forgot Password',
       description: 'Forgotten password',
       page: 'forgot'
@@ -365,7 +365,7 @@ module.exports = {
    * logged in user account details form.
    */
   getAccount: function (req, res) {
-    res.render('account_account', {
+    res.render('account/account', {
       title: 'My Account',
       description: 'My account details',
       page: 'account',
@@ -380,7 +380,7 @@ module.exports = {
    * logged in user password form
    */
   getPasswordForm: function (req, res) {
-    res.render('account_password', {
+    res.render('account/password', {
       title: 'Change Password',
       description: 'Change your password',
       page: 'changepassword'
@@ -398,7 +398,7 @@ module.exports = {
     var google = _.findWhere(tokens, { kind: 'google' });
     var twitter = _.findWhere(tokens, { kind: 'twitter' });
 
-    res.render('account_linked', {
+    res.render('account/linked', {
       title: 'Linked Accounts',
       github: github,
       twitter: twitter,

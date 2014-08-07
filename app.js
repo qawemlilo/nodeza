@@ -51,7 +51,7 @@ var App = {
   },
 
 
-  cacheExists: function (name, val) {
+  cacheExists: function (name) {
     return !!Cache[name];
   },
 

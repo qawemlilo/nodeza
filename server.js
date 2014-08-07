@@ -53,10 +53,6 @@ module.exports = function (config, App) {
   
   hbs.localsAsTemplateData(server);
   hbs.registerPartials(path.join(__dirname,'views', 'partials'));
-  hbs.registerPartials(path.join(__dirname,'views', 'account'));
-  hbs.registerPartials(path.join(__dirname,'views', 'events'));
-  hbs.registerPartials(path.join(__dirname,'views', 'meetups'));
-  hbs.registerPartials(path.join(__dirname,'views', 'posts'));
   
   // setup and register handlebars helpers
   hbsHelpers.setup(hbs);

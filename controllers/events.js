@@ -11,7 +11,7 @@ module.exports = {
    * load new event page
   **/
   getNew: function (req, res) {
-    res.render('events_new', {
+    res.render('events/new', {
       title: 'New Event',
       description: 'Create a new Node.js event',
       page: 'newevent'
@@ -39,7 +39,7 @@ module.exports = {
 
     event.fetch()
     .then(function (event) {
-      res.render('events_event', {
+      res.render('events/event', {
         title: event.get('title'),
         parseDate: event.parseDate(),
         parseTime: event.parseTime(),
@@ -68,7 +68,7 @@ module.exports = {
 
     event.fetch()
     .then(function (model) {
-      res.render('events_edit', {
+      res.render('events/edit', {
         page: 'eventedit',
         title: 'Event edit',
         description: 'MeeEvent edit',
@@ -122,7 +122,7 @@ module.exports = {
       columns: ['slug', 'title', 'url', 'city', 'short_desc', 'dt', 'start_time', 'address']
     })
     .then(function (collection) {
-      res.render('events_events', {
+      res.render('events/events', {
         title: 'Node.js events in South Africa',
         pagination: events.pages,
         myEvents: collection.toJSON(),
@@ -181,7 +181,7 @@ module.exports = {
       columns: ['slug', 'title', 'url', 'city', 'desc', 'dt', 'start_time', 'address']
     })
     .then(function (collection) {
-      res.render('events_events', {
+      res.render('events/events', {
         title: 'Events',
         pagination: events.pages,
         myEvents: collection.toJSON(),
@@ -223,7 +223,7 @@ module.exports = {
       andWhere: []
     })
     .then(function (collection) {
-      res.render('events_admin', {
+      res.render('events/admin', {
         title: 'Events',
         pagination: events.pages,
         myEvents: collection.toJSON(),

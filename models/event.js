@@ -35,19 +35,6 @@ var Event = Base.Model.extend({
 
 
   /**
-   * Checks if its future event
-   */
-  isUpComing: function () {
-    var dt = this.get('dt');
-    var ts = this.get('start_time');
-
-    var cleandate = moment(dt).format('YYYY-MM-DD') + ' ' + ts;
-
-    return moment(cleandate).unix() > moment().unix();
-  },
-
-
-  /**
    * parses time
    */
   parseTime: function (fmt) {

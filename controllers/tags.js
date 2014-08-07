@@ -39,7 +39,7 @@ module.exports = {
           limit: 2
         })
         .then(function (collection) {
-          res.render('posts_posts', {
+          res.render('posts/posts', {
             title: 'Blog',
             pagination: pagination,
             posts: collection.toJSON(),

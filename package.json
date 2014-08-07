@@ -64,7 +64,6 @@
     "when": "^3.2.1"
   },
   "devDependencies": {
-    "Faker": "^0.7.2",
     "chai": "^1.9.1",
     "chalk": "^0.4.0",
     "gulp": "^3.8.6",

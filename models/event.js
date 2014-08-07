@@ -4,6 +4,7 @@
 
 var Base  = require('./base');
 var moment = require('moment');
+var markdown = require('markdown').markdown;
 
 
 var Event = Base.Model.extend({
@@ -12,6 +13,15 @@ var Event = Base.Model.extend({
 
 
   hasTimestamps: true,
+
+
+  saving: function (model, attr, options) {
+
+    this.set('html', markdown.toHTML(this.get('markdown')));
+    this.set('title', this.get('title').trim());
+    
+    return Base.Model.prototype.saving.apply(this, arguments);
+  },
 
 
   /**

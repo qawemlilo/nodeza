@@ -3,8 +3,7 @@
 **/
 
 var when = require('when');
-var App  = require('../app');
-var Bookshelf  = App.bookshelf;
+var Bookshelf  = require('../app').bookshelf;
 
 
 Bookshelf.Collection = Bookshelf.Collection.extend({

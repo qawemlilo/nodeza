@@ -23,6 +23,8 @@ module.exports.setup = function (hbs) {
   }
 
 
+
+
   var blocks = {};
   var partials = hbs.handlebars.partials;
 
@@ -44,6 +46,23 @@ module.exports.setup = function (hbs) {
     blocks[name] = [];
     
     return val;
+  });
+
+
+
+  hbs.registerHelper('eventLabel', function(dt, context) {
+    var label = '<span class="label ';
+    var cleandate = moment(dt).format('YYYY-MM-DD');
+    var isUpcoming = moment(cleandate).unix() > moment().unix();
+
+    if (isUpcoming) {
+      label += 'label-primary">upcoming</span>';
+    }
+    else {
+      label += 'label-danger">archived</span>';
+    }
+
+    return label;
   });
 
 

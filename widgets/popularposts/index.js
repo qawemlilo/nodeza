@@ -2,7 +2,6 @@
 var when = require('when');
 var config = require('./config.json');
 
-module.exports = config;
 
 config.exec = function (App) {
    
@@ -22,3 +21,6 @@ config.exec = function (App) {
     return config;
   });
 };
+
+
+module.exports = config;

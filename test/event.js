@@ -1,38 +1,13 @@
 
 var should = require('chai').should();
 var Event = require('../models/event');
-var Faker = require('Faker');
+var eventsData = require('../sql/events');
 var moment = require('moment');
-
-
-
-function createFakeEvent() {
-  var eventData = {};
-  var dateTime = Faker.Date.future(10);
-
-  var start_time = dateTime.substring(11, 19);
-  var date = new Date(Date.now() + (1000 * 60 * 60 * 24 * 30));
-
-  eventData.user_id = 16;
-  eventData.title = Faker.Lorem.sentence().split(',').join(' ');
-  eventData.desc = Faker.Lorem.sentence().split(',').join(' ');
-  eventData.dt = date;
-  eventData.start_time = start_time;
-  eventData.province = Faker.Address.usState();
-  eventData.city = Faker.Address.city();
-  eventData.town = Faker.Address.city();
-  eventData.address = Faker.Address.streetAddress().split(',').join(' ');
-  eventData.url = Faker.Internet.domainName();
-  eventData.email = Faker.Internet.email();
-  eventData.number = 0743853765;
-
-  return eventData;
-}
 
 
 describe('Event', function(){
 
-  var eventData = createFakeEvent();
+  var eventData = eventsData[0];
   var event = new Event();
 
 
@@ -50,13 +25,6 @@ describe('Event', function(){
       .otherwise(function (error) {
         done(error);
       });
-    });
-  });
-
-
-  describe('#isUpComing', function() {
-    it('should be true', function(){
-      event.isUpComing().should.be.equal(true);
     });
   });
 

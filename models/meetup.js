@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 var Base  = require('./base');
+var markdown = require('markdown').markdown;
 
 
 var Meetup =  Base.Model.extend({
@@ -13,18 +14,11 @@ var Meetup =  Base.Model.extend({
 
 
   saving: function (model, attr, options) {
-    /*jshint unused:false*/
-    var self = this;
-    var desc = self.get('desc');
 
-    if (self.hasChanged('desc') || self.isNew()) {
-      desc = desc.replace(/\n\n\n/g, '<br>');
-      desc = desc.replace(/\n\n/g, '<br>');
-      desc = desc.replace(/\n/g, '<br>');
-      self.set({desc: desc});
-    }
+    this.set('html', markdown.toHTML(this.get('markdown')));
+    this.set('title', this.get('title').trim());
     
-    return Base.Model.prototype.saving.apply(self, arguments);
+    return Base.Model.prototype.saving.apply(this, arguments);
   }
 });
 

@@ -2,10 +2,8 @@
 var when = require('when');
 var config = require('./config.json');
 
-module.exports = config;
 
 config.exec = function (App) {
-
 
   if (App.cacheExists('tags')) {
     return when(App.getCache('tags'));
@@ -26,3 +24,6 @@ config.exec = function (App) {
     return config;
   });
 };
+
+
+module.exports = config;

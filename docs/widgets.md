@@ -40,8 +40,6 @@ This is the main program file. It loads the config file data, adds a methed name
 
     var config = require('./config.json');
     
-    module.exports = config;
-    
     /*
      * fetches a collection of data
      * 
@@ -59,6 +57,8 @@ This is the main program file. It loads the config file data, adds a methed name
         return config;
       });
     };
+
+    module.exports = config;
 
 
 template.hbs

@@ -1,33 +1,7 @@
 
-var secrets = require('../config/secrets.json');
-var db = require('../config/db');
-
-/*
-  Bookshelf initialization
-*/
-var knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host: secrets.mysql.host,
-    user: secrets.mysql.user,
-    password: secrets.mysql.password,
-    database: secrets.mysql.db,
-    charset: secrets.mysql.charset
-  }
-});
-
-
-var Bookshelf = require('bookshelf')(knex);
-
-/*
- * This solves the circular dependency problem created by Bookshelf models
- * in a previous commit #38d98bb4c33e91b636a3538bd546ebe7f5077328
- *
-**/
-Bookshelf.plugin('registry');
-
-// hack to access the Bookshelf from anywhere
-db.Bookshelf = Bookshelf;
+var secrets = require('../config/secrets');
+var Bookshelf = require('../dbconnect')(secrets);
+var knex = Bookshelf.knex;
 
 
 var _ = require('lodash');
@@ -169,26 +143,23 @@ var migrate = {
           console.log('');
           console.log(chalk.green(' > ') + 'Super Admin accout created!');
           console.log('');
+          console.log(chalk.red('WARNING!! Running the `node setup` command again will delete and reset your databases.\n        Remove the setup.js file in the root directory to avoid this.'));
+          console.log('');
+          console.log(chalk.yellow('--------------------------------------------------------'));
+          console.log(chalk.yellow('\tCongratulations! Setup is complete!!!\n\tRun the command `node app` to start your app'));
+          console.log(chalk.yellow('--------------------------------------------------------'));
+          console.log();
 
-          data.addPost(model.get('id'))
-          .then(function (d) {
-            console.log(chalk.red('WARNING!! Running the `node setup` command again will delete and reset your databases.\n        Remove the setup.js file in the root directory to avoid this.'));
-            console.log('');
-            console.log(chalk.yellow('--------------------------------------------------------'));
-            console.log(chalk.yellow('\tCongratulations! Setup is complete!!!\n\tRun the command `node app` to start your app'));
-            console.log(chalk.yellow('--------------------------------------------------------'));
-            console.log();
-            deferred.resolve();
-          });
+          deferred.resolve();
         })
-        .otherwise(function () {
+        .otherwise(function (error) {
           console.log(chalk.red(' > ') + 'Sorry ' + details.name + ', your Super Admin accout could not be created. Please open an issues on our github page.');
-          deferred.reject();
+          deferred.reject(error);
         });
       });
     })
     .otherwise (function (err) {
-      throw err;
+      deferred.reject(err);
     });
 
     return deferred.promise;

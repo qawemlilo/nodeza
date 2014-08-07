@@ -2,7 +2,6 @@
 var when = require('when');
 var config = require('./config.json');
 
-module.exports = config;
 
 function datetime(ts) {
   return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
@@ -31,3 +30,6 @@ config.exec = function (App) {
     return config;
   });
 };
+
+
+module.exports = config;

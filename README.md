@@ -2,6 +2,7 @@
 > A Node.js portal for developers in South Africa.
 
 Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa. 
+
 NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa. 
 The long term goal is to become an information repository for all Node.js related content in South Africa.
 
@@ -9,7 +10,7 @@ The information below is aimed at developers who would like to contribute to thi
 
 Brief description
 -----------------
-This is an express application that uses handlebars templating engine, MySQL as the application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets. The plugins are called `widgets`.  
+This is an express application that uses handlebars for templating, MySQL as the main application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets, the plugins are called `widgets`.  
 
 
 Table of Contents
@@ -36,52 +37,7 @@ System Requirements
 
 Dependencies
 ------------
-
-| Package                         | Description   |
-| ------------------------------- |:-------------:|
-| async                           | Utility library that provides asynchronous control flow. |
-| bcrypt-nodejs                   | Library for hashing and salting user passwords. |
-| connect-mongo                   | MongoDB session store for Express. |
-| express                         | Node.js web framework. |
-| body-parser                     | Express 4.0 middleware. |
-| cookie-parser                   | Express 4.0 middleware. |
-| express-session                 | Express 4.0 middleware. |
-| morgan                          | Express 4.0 middleware. |
-| compression                     | Express 4.0 middleware. |
-| errorhandler                    | Express 4.0 middleware. |
-| method-override                 | Express 4.0 middleware. |
-| express-flash                   | Provides flash messages for Express. |
-| express-validator               | Easy form validation for Express. |
-| github-api                      | GitHub API library. |
-| handlebars                      | Template engine for Express. |
-| lusca                           | CSRF middleware.        |
-| mongoose                        | MongoDB ODM. |
-| nodemailer                      | Node.js library for sending emails. |
-| passport                        | Simple and elegant authentication library for node.js |
-| passport-github                 | Sign-in with GitHub plugin. |
-| passport-google-oauth           | Sign-in with Google plugin. |
-| passport-twitter                | Sign-in with Twitter plugin. |
-| passport-local                  | Sign-in with Username and Password plugin. |
-| passport-oauth                  | Allows you to set up your own OAuth 1.0a and OAuth 2.0 strategies. |
-| lodash                          | Handy JavaScript utlities library. |
-| uglify-js                       | Dependency for connect-assets library to minify JS. |
-| validator                       | Used in conjunction with express-validator in **controllers/api.js**. |
-| markdown                        | Converting Markdown to HTML |
-| multer                          | For handling image uploads. |
-| bookshelf                       | SQL ORM |
-| knex                       | SQL Query builder (bookshelf dependency) |
-| mysql                           | mysql node.js api (bookshelf dependency) |
-| unidecode                       | for cleaning up slug variables |
-| when                            | promises library |
-| mocha                           | Test framework. |
-| chai                            | BDD/TDD assertion library. |
-| supertest                       | HTTP assertion library. |
-| jshint                          | JavaScript linting |
-| gulp                            | build tool |
-| simple-prompt                   | commandline prompts |
-| gulp-image-resize               | gulp dependency |
-| gulp-imagemin                   | gulp dependency |
-
+Some of the major dependencies are `express`, `mysql`, `knex`, `bookshelf`, and `mongoose`. Please checkout [the dependencies page](https://github.com/qawemlilo/nodeza/blob/master/dependencies.md) for a complete list.
 
 Getting started
 ---------------
@@ -163,7 +119,7 @@ A widget comprises of 3 files, `config.json`, `template.hbs`, and `index.js`.
 
 `index.js` is the main program file.
 
-[Read more](widgets.md)
+[Read more](https://github.com/qawemlilo/nodeza/blob/master/widgets.md)
 
 
 

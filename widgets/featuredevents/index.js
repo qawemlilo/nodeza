@@ -2,7 +2,6 @@
 var when = require('when');
 var config = require('./config.json');
 
-module.exports = config;
 
 config.exec = function (App) {
 
@@ -16,7 +15,7 @@ config.exec = function (App) {
 
   return events.fetchBy('dt', {
     limit: 3,
-    where: ['dt', '>', new Date()],
+    where: ['dt', '>', events.today()],
     order: 'asc',
     noPagination: true
   }, {
@@ -30,3 +29,6 @@ config.exec = function (App) {
     return config;
   });
 };
+
+
+module.exports = config;

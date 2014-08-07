@@ -4,12 +4,6 @@ var App = require('../app');
 var moment = require('moment');
 
 
-
-function datetime(ts) {
-  return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
-}
-
-
 module.exports = {
 
   /*
@@ -49,7 +43,6 @@ module.exports = {
         title: event.get('title'),
         parseDate: event.parseDate(),
         parseTime: event.parseTime(),
-        isUpComing: event.isUpComing(),
         myEvent: event.toJSON(),
         description: event.get('title'),
         page: 'event'
@@ -115,7 +108,7 @@ module.exports = {
       limit: limit,
       order: 'asc',
       page: currentpage,
-      where: ['dt', '>', datetime()]
+      where: ['dt', '>', events.today()]
     };
 
     if (month) {
@@ -126,7 +119,7 @@ module.exports = {
     }
 
     events.fetchBy('dt', fetchQuery, {
-      columns: ['slug', 'title', 'url', 'city', 'desc', 'dt', 'start_time', 'address']
+      columns: ['slug', 'title', 'url', 'city', 'short_desc', 'dt', 'start_time', 'address']
     })
     .then(function (collection) {
       res.render('events_events', {
@@ -252,7 +245,7 @@ module.exports = {
    */
   postNew: function (req, res) {
     req.assert('title', 'Title must be at least 4 characters long').len(4);
-    req.assert('desc', 'Details must be at least 12 characters long').len(12);
+    req.assert('markdown', 'Full description must be at least 12 characters long').len(12);
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
@@ -273,7 +266,8 @@ module.exports = {
 
     eventData.user_id = user.get('id');
     eventData.title = req.body.title;
-    eventData.desc = req.body.desc;
+    eventData.short_desc = req.body.short_desc;
+    eventData.markdown = req.body.markdown;
     eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
     eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
@@ -309,7 +303,7 @@ module.exports = {
    */
   postEdit: function (req, res) {
     req.assert('title', 'Title must be at least 4 characters long').len(4);
-    req.assert('desc', 'Details must be at least 12 characters long').len(12);
+    req.assert('markdown', 'Full description must be at least 12 characters long').len(12);
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
@@ -327,7 +321,8 @@ module.exports = {
     eventData.id = req.body.event_id;
     eventData.user_id = user.get('id');
     eventData.title = req.body.title;
-    eventData.desc = req.body.desc;
+    eventData.short_desc = req.body.short_desc;
+    eventData.markdown = req.body.markdown;
     eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
     eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');

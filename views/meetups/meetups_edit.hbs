@@ -19,12 +19,12 @@
       </label>
 
       <div class="col-sm-7">
-        <input class="form-control" autocomplete="off" type="text" name="title" id="title" value="{{meetup.name}}" required="" />
+        <input class="form-control" autocomplete="off" type="text" name="title" id="title" value="{{meetup.title}}" required="" />
       </div>
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">
+      <label class="col-sm-3 control-label" for="short_desc">
         Short Description <span class="text-danger">*</span>
       </label>
       <div class="col-sm-7">
@@ -33,11 +33,11 @@
     </div>
     
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="desc">
+      <label class="col-sm-3 control-label" for="markdown">
         Full Description <span class="text-danger">*</span>
       </label>
       <div class="col-sm-7">
-        <textarea class="form-control" autocomplete="off" rows="4" name="desc" id="desc" required="">{{#htmlToMarkdown meetup.desc}}{{/htmlToMarkdown}}</textarea>
+        <textarea class="form-control" autocomplete="off" rows="4" name="markdown" id="markdown" required="">{{meetup.markdown}}</textarea>
       </div>
     </div>
 
@@ -183,7 +183,7 @@
         <button class="btn btn-success" type="submit">
           <i class="fa fa-check"></i> Update Meetup
         </button>
-
+        
         <a href="/account/meetups" class="btn btn-default">
             <span class="glyphicon glyphicon-remove"></span> Close
         </a>

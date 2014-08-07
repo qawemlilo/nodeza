@@ -7,7 +7,7 @@ module.exports = {
 
   users: {
     id: {type: 'increments', nullable: false, primary: true},
-    role_id: {type: 'integer', nullable: false, references: 'id', inTable: 'roles'},
+    role_id: {type: 'integer', nullable: false, unsigned: true},
     name: {type: 'string', maxlength: 150, nullable: false},
     last_name: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
@@ -25,7 +25,7 @@ module.exports = {
     github_url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     twitter_url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     image_url: {type: 'text', maxlength: 2000, nullable: false},
-    views: {type: 'integer', nullable: false},
+    views: {type: 'integer', nullable: false, defaultTo: 0},
     created_at: {type: 'dateTime', nullable: false},
     updated_by: {type: 'integer', nullable: false, unsigned: true},
     updated_at: {type: 'dateTime', nullable: true}
@@ -33,7 +33,7 @@ module.exports = {
 
   tokens: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
     kind: {type: 'string', nullable: false, maxlength: 32},
     accessToken: {type: 'string', maxlength: 254, nullable: false},
     tokenSecret: {type: 'string', maxlength: 254, nullable: true}
@@ -41,12 +41,14 @@ module.exports = {
 
   events: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
-    email: {type: 'string', maxlength: 254, nullable: false, unique: true, validations: {'isEmail': true}},
+    email: {type: 'string', maxlength: 254, nullable: false, validations: {'isEmail': true}},
     number: {type: 'string', maxlength: 24, nullable: false},
-    desc: {type: 'string', maxlength: 254, nullable: false},
+    short_desc: {type: 'string', maxlength: 128, nullable: false},
+    markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
+    html: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
     dt: {type: 'date', nullable: false},
     start_time: {type: 'time', nullable: false},
     finish_time: {type: 'time', nullable: true},
@@ -58,7 +60,7 @@ module.exports = {
     lng: {type: 'string', nullable: false, maxlength: 32},
     url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     website: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
-    views: {type: 'integer', nullable: false},
+    views: {type: 'integer', nullable: false, defaultTo: 0},
     created_at: {type: 'dateTime', nullable: false},
     updated_by: {type: 'integer', nullable: false, unsigned: true},
     updated_at: {type: 'dateTime', nullable: true}
@@ -66,14 +68,15 @@ module.exports = {
 
   meetups: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
     organiser: {type: 'string', maxlength: 254, nullable: false},
-    name: {type: 'string', maxlength: 150, nullable: false},
+    title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
-    email: {type: 'string', maxlength: 254, nullable: false, unique: true, validations: {'isEmail': true}},
+    email: {type: 'string', maxlength: 254, nullable: false, validations: {'isEmail': true}},
     number: {type: 'string', maxlength: 24, nullable: false},
     short_desc: {type: 'string', maxlength: 128, nullable: false},
-    desc: {type: 'string', maxlength: 254, nullable: false},
+    markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
+    html: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
     meetings: {type: 'string', maxlength: 150, nullable: false},
     province: {type: 'string', maxlength: 64, nullable: false},
     city: {type: 'string', maxlength: 254, nullable: false},
@@ -83,7 +86,7 @@ module.exports = {
     lng: {type: 'string', nullable: false, maxlength: 32},
     url: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
     website: {type: 'text', maxlength: 2000, nullable: true, validations: {'isURL': true}},
-    views: {type: 'integer', nullable: false},
+    views: {type: 'integer', nullable: false, defaultTo: 0},
     image_url: {type: 'text', maxlength: 2000, nullable: false},
     created_at: {type: 'dateTime', nullable: false},
     updated_by: {type: 'integer', nullable: false, unsigned: true},
@@ -93,8 +96,8 @@ module.exports = {
 
   posts: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'users'},
-    category_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'categories'},
+    user_id: {type: 'integer', nullable: false, unsigned: true},
+    category_id: {type: 'integer', nullable: false, unsigned: true},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
     markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
@@ -105,7 +108,7 @@ module.exports = {
     curated: {type: 'bool', nullable: false, defaultTo: false},
     meta_title: {type: 'string', maxlength: 150, nullable: true},
     meta_description: {type: 'string', maxlength: 200, nullable: true},
-    views: {type: 'integer', nullable: false},
+    views: {type: 'integer', nullable: false, defaultTo: 0},
     published_at: {type: 'dateTime', nullable: true},
     created_at: {type: 'dateTime', nullable: false},
     updated_by:{type: 'integer', nullable: false, unsigned: true},
@@ -141,7 +144,7 @@ module.exports = {
 
   posts_tags: {
     id: {type: 'increments', nullable: false, primary: true},
-    post_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'posts'},
-    tag_id: {type: 'integer', nullable: false, unsigned: true, references: 'id', inTable: 'tags'}
+    post_id: {type: 'integer', nullable: false, unsigned: true},
+    tag_id: {type: 'integer', nullable: false, unsigned: true}
   }
 };

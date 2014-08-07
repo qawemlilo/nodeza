@@ -48,13 +48,9 @@ dbSetup.create().then(function (err, answers) {
   var filepath = path.resolve(__dirname, '../config/secrets.json');
   var data = JSON.stringify(secrets, null, 4);
 
-  fs.writeFile(filepath, data, function (err) {
-  	if (err) {
-  	 throw err;
-  	}
+  fs.writeFileSync(filepath, data, 'utf8');
     
-    console.log();
-  	console.log(chalk.green(' > ') + ' Database setup complete!');
-  	console.log();
-  });
+  console.log();
+  console.log(chalk.green(' > ') + ' Database setup complete!');
+  console.log();
 });

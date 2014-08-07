@@ -41,7 +41,7 @@ module.exports = {
     .fetch()
     .then(function (meetup) {
       res.render('meetups_meetup', {
-        title: meetup.get('name'),
+        title: meetup.get('title'),
         description: meetup.get('short_desc'),
         page: 'meetup', 
         meetup: meetup.toJSON()
@@ -94,7 +94,7 @@ module.exports = {
       where: ['created_at', '<', new Date()],
       andWhere: []
     }, {
-      columns: ['name', 'short_desc', 'city', 'slug', 'image_url']
+      columns: ['title', 'short_desc', 'city', 'slug', 'image_url']
     })
     .then(function (collection) {
       res.render('meetups_meetups', {
@@ -152,7 +152,7 @@ module.exports = {
   postNew: function (req, res) {
     req.assert('title', 'Name must be at least 4 characters long').len(4);
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
-    req.assert('desc', 'Details must be at least 12 characters long').len(12);
+    req.assert('markdown', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
   
     var errors = req.validationErrors();
@@ -181,10 +181,10 @@ module.exports = {
     }
 
     meetupData.user_id = user.get('id');
-    meetupData.name = req.body.title;
+    meetupData.title = req.body.title;
     meetupData.short_desc = req.body.short_desc;
     meetupData.organiser = req.body.organiser;
-    meetupData.desc = req.body.desc;
+    meetupData.markdown = req.body.markdown;
     meetupData.province = req.body.administrative_area_level_1 || '';
     meetupData.lat = req.body.lat || '';
     meetupData.lng = req.body.lng || '';
@@ -221,7 +221,7 @@ module.exports = {
   postEdit: function (req, res) {
     req.assert('title', 'Name must be at least 4 characters long').len(4);
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
-    req.assert('desc', 'Details must be at least 12 characters long').len(12);
+    req.assert('markdown', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
   
     var errors = req.validationErrors();
@@ -235,10 +235,10 @@ module.exports = {
 
     meetupData.id = req.body.meetup_id;
     meetupData.user_id = user.get('id');
-    meetupData.name = req.body.title;
+    meetupData.title = req.body.title;
     meetupData.short_desc = req.body.short_desc;
     meetupData.organiser = req.body.organiser;
-    meetupData.desc = req.body.desc;
+    meetupData.markdown = req.body.markdown;
     meetupData.province = req.body.administrative_area_level_1 || '';
     meetupData.lat = req.body.lat || '';
     meetupData.lng = req.body.lng || '';

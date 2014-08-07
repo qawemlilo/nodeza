@@ -29,7 +29,7 @@ var Events = Base.Collection.extend({
       jun: {firstday: '01', month: '06', lastday: '30'},
       jul: {firstday: '01', month: '07', lastday: '31'},
       aug: {firstday: '01', month: '08', lastday: '31'},
-      sep: {firstday: '01', month: '08', lastday: '30'},
+      sep: {firstday: '01', month: '09', lastday: '30'},
       oct: {firstday: '01', month: '10', lastday: '31'},
       nov: {firstday: '01', month: '11', lastday: '30'},
       dec: {firstday: '01', month: '12', lastday: '31'}
@@ -60,6 +60,11 @@ var Events = Base.Collection.extend({
     options.andWhere = ['dt', '<', monthObj.lastday];
 
     return self.fetchBy('dt', options, fetchOptions);
+  },
+
+
+  today: function () {
+    return new Date(Date.now()).toISOString().slice(0, 19).replace('T', ' ');
   }
 });
 

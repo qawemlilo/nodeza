@@ -2,7 +2,6 @@
 var when = require('when');
 var config = require('./config.json');
 
-module.exports = config;
 
 config.exec = function (App) {
 
@@ -18,7 +17,7 @@ config.exec = function (App) {
     noPagination: true,
     where: ['created_at', '<', new Date()]
   },{
-    columns: ['name', 'short_desc', 'slug', 'image_url']
+    columns: ['title', 'short_desc', 'slug', 'image_url']
   })
   .then(function (collection) {
     config.collection = collection;
@@ -28,3 +27,6 @@ config.exec = function (App) {
     return config;
   });
 };
+
+
+module.exports = config;

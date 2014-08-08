@@ -157,10 +157,10 @@ var Post = Base.Model.extend({
   /*
    * delete post
   **/
-  remove: function(id, userId) {
+  remove: function(id) {
     var deferred = when.defer();
 
-    Post.forge({id: id, user_id: userId})
+    Post.forge({id: id})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
       post.related('tags')
@@ -176,7 +176,7 @@ var Post = Base.Model.extend({
       });
     })
     .otherwise(function () {
-      deferred.reject('You do not have access to that post.');
+      deferred.reject('Post not found');
     });
 
     return deferred.promise;
@@ -187,10 +187,10 @@ var Post = Base.Model.extend({
   /**
    * (un)publish post
   */
-  publish: function(id, userId) {
+  togglePublisher: function(id) {
     var deferred = when.defer();
 
-    Post.forge({id: id, user_id: userId})
+    Post.forge({id: id})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
       var published = post.get('published') ? false : true;
@@ -207,11 +207,11 @@ var Post = Base.Model.extend({
         deferred.resolve(post);
       })
       .otherwise(function () {
-        deferred.reject('Database error. Failed to save update.');
+        deferred.reject('Restricted access.');
       });
     })
     .otherwise(function () {
-      deferred.reject('You do not have access to that post.');
+      deferred.reject('Post not found');
     });
 
     return deferred.promise;

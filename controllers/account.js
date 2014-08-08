@@ -138,21 +138,19 @@ module.exports = {
   
     var errors = req.validationErrors();
     var userData = {};
-    var user;
   
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/signup');
     }
 
-    user = new User();
-
     userData.name = req.body.name;
     userData.email = req.body.email;
     userData.password = req.body.password;
     userData.role_id = 1;
 
-    user.save(userData)
+    User.forge()
+    .save(userData)
     .then(function (model) {
       req.flash('success', { msg: 'Account successfully created! You are now logged in.' });
 
@@ -424,9 +422,7 @@ module.exports = {
       return res.redirect('/account');
     }
 
-    user = req.user;
-
-    user.set({password: req.body.password})
+    req.user.set({password: req.body.password})
     .save()
     .then(function () {
       req.flash('success', { msg: 'Password has been changed.' });
@@ -517,9 +513,8 @@ module.exports = {
 
       req.user.save()
       .then(function () {
-        var tokens  = new Tokens();
-        
-        tokens.remove(token.id)
+        Tokens.forge()
+        .remove(token.id)
         .then(function(msg) {
           req.flash('info', { msg: msg}); 
           res.redirect('/account/linked');

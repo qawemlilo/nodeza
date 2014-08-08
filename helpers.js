@@ -180,7 +180,7 @@ module.exports.setup = function (hbs) {
 
 
 
-  hbs.registerHelper('activeAdminMenu', function(page, val, fmtcontext) {
+  hbs.registerHelper('activeAdminMenu', function(page, val, context) {
     page = page.toLowerCase();
 
     var menus = {

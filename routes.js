@@ -1,7 +1,5 @@
 
-/*
- *Dependency modules
-**/
+
 var passportConf = require('./config/passport');
 var passport = require('passport');
 

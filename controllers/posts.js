@@ -356,7 +356,7 @@ module.exports = {
   getDelete: function(req, res) {
     var post = new Post();
 
-    post.remove(req.params.id, req.user.get('id'))
+    post.remove(req.params.id)
     .then(function () {
       req.flash('success', {msg: 'Post successfully deleted.'});
       App.clearCache();
@@ -372,15 +372,14 @@ module.exports = {
 
   /**
    * Get /blog/publish/:id
-   * publish post
+   * (un)publish post
   */
   getPublish: function(req, res) {
     var post = new Post();
 
-    post.publish(req.params.id, req.user.get('id'))
+    post.togglePublisher(req.params.id)
     .then(function (post) {
-      var published = post.get('published') ? false : true;
-      var msg = published ? 'published' : 'unpublished';
+      var msg = post.get('published') ? 'published' : 'unpublished';
 
       req.flash('success', {msg: 'Post successfully ' + msg});
       res.redirect('back');

@@ -79,19 +79,23 @@ describe('Post', function(){
       .then(function (model) {
         post = model;
         done();
+      })
+      .otherwise(function (error) {
+        done(error);
       });
     });
     
     it('should destroy post with related tags', function(done){
-      post.related('tags').length.should.be.equal(2);
-        
       post.related('tags')
       .detach()
       .then(function () {
-        return post.destroy();
-      })
-      .then(function() {
-        done();
+        post.destroy()
+        .then(function() {
+          done();
+        })
+        .otherwise(function (error) {
+          done(error);
+        });
       })
       .otherwise(function (error) {
         done(error);

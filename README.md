@@ -1,9 +1,9 @@
 # NodeZA
-> A Node.js portal for developers in South Africa.
+> A Node.js information portal for developers in South Africa.
 
-Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa. 
+Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.
 
-NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa. 
+NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
 The long term goal is to become an information repository for all Node.js related content in South Africa.
 
 The information below is aimed at developers who would like to contribute to this platform.
@@ -23,7 +23,7 @@ Table of Contents
 - [Architecture](#architecture)
 - [Testing](#testing)
 - [To-Do](#to-do)
-- [Contributing](#contributing) 
+- [Contributing](#contributing)
 - [License](#license)
 
 
@@ -37,7 +37,7 @@ System Requirements
 
 Dependencies
 ------------
-Some of the major dependencies are `express`, `mysql`, `knex`, `bookshelf`, and `mongoose`. Please checkout [the dependencies page](https://github.com/qawemlilo/nodeza/blob/master/dependencies.md) for a complete list.
+Some of the major dependencies are `express`, `mysql`, `knex`, `bookshelf`, and `mongoose`. Please checkout [the dependencies page](https://github.com/qawemlilo/nodeza/blob/master/docs/dependencies.md) for a complete list.
 
 Getting started
 ---------------
@@ -119,7 +119,7 @@ A widget comprises of 3 files, `config.json`, `template.hbs`, and `index.js`.
 
 `index.js` is the main program file.
 
-[Read more](https://github.com/qawemlilo/nodeza/blob/master/widgets.md)
+[Read more >>](https://github.com/qawemlilo/nodeza/blob/master/docs/widgets.md)
 
 
 
@@ -142,7 +142,7 @@ To-Do
 7. Create content
 8. Add news letter functionality
 9. Add rss feed
-10. Add site map and other google SEO files
+10. Add site map and other Google SEO files
 9. Port application to WidGet CMS
 
 
@@ -156,11 +156,8 @@ First open an issue on Github and then create a new branch on your local repo. T
  - wrap the body of `if` conditionals with curly braces
  - all variables should be defined with their own `var` keyword
  - all variable should be defined at the top of a scope
- - use comments
- - use camelCases
- - in controllers, each method name should start with the http method it is handling, e.g, postEvent or getEvent
- - use underscores to seperate words in filenames
- - Last but not least run `npm test` before commiting any changes
+ - use camelCases for methods and variable names
+ - Run `npm test` before committing any changes
 
 
 

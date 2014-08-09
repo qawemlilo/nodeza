@@ -128,6 +128,8 @@ module.exports.setup = function (app) {
   app.get('/account/blog', passportConf.isAuthenticated, PostsController.getAdmin);
   app.post('/blog/new', passportConf.isAuthenticated, PostsController.postNew);
   app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
+
+  app.get('/account/blog/categories', passportConf.isUserAdmin, PostsController.getCategories);
   
   // public
   app.get('/blog', PostsController.getBlog);

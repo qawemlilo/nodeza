@@ -6,20 +6,19 @@
   {{> flash}}
 
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-    <li class="active">
+    <li>
       <a href="/account/blog">
         <span class="glyphicon glyphicon-list-alt"></span> Posts
       </a>
     </li>
-    {{#ifCond user.role.name '==' 'Super Administrator'}}
-    <li>
+
+    <li class="active">
       <a href="/account/blog/categories">
         <span class="glyphicon glyphicon-list"></span> Categories
       </a>
     </li>
-    {{/ifCond}}
-    <a role="button" href="/blog/new" class="btn btn-danger pull-right">
-      <span class="glyphicon glyphicon-list-alt"></span> New Post
+    <a role="button" href="/category/new" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-list"></span> New Category
     </a>
   </ul>
 

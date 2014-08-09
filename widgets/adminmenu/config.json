@@ -2,13 +2,14 @@
   "name": "adminmenu",
   "title": "Admin Menu",
   "version": "0.0.1",
-  "pages": [
+  "routes": [
     "/account",
     "/account/events",
     "/account/meetups",
     "/account/blog",
     "/account/password",
-    "/account/linked"
+    "/account/linked",
+    "/account/blog/categories"
   ],
   "description": "Admin Menu",
   "author": "Qawelesizwe Mlilo",

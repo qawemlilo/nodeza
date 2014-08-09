@@ -17,7 +17,7 @@ module.exports = function (config, App) {
   var path = require('path');
   var passport = require('passport');
   var _ = require('lodash');
-  var hbsHelpers = require('./helpers');
+  var hbsHelpers = require('./lib/helpers');
   var MongoStore = require('connect-mongo')({ session: session });
   
   

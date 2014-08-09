@@ -2,7 +2,7 @@
   "name": "contactform",
   "title": "Contact Me",
   "version": "0.0.1",
-  "pages": ["/events/:any","/meetups/:any"],
+  "routes": ["/events/:any","/meetups/:any"],
   "description": "Contact Me",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",

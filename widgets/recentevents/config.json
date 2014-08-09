@@ -2,7 +2,7 @@
   "name": "recentevents",
   "title": "Recent events",
   "version": "0.0.1",
-  "pages": [
+  "routes": [
     "/events", 
     "/events/:any",
     "/meetups", 

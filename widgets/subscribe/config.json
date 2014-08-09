@@ -2,7 +2,7 @@
   "name": "subscribe",
   "title": "Subscribe",
   "version": "0.0.1",
-  "pages": ["/", "/blog", "/blog/:any"],
+  "routes": ["/", "/blog", "/blog/:any"],
   "description": "Subscribe",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",

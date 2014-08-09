@@ -11,7 +11,7 @@ A widget comprises of 3 files, `config.json`, `index.js`, and `template.hbs`.
 
 config.json
 -----------
-Config.json contains basic configuration and metadata for the widget. You can turn the object on and off through the `active` property. 
+Config.json contains basic configuration and meta-data for the widget. You can turn the object on and off through the `active` property.
 The `pages` property is an array of paths telling the widget which pages it should be displayed on.
 
     {
@@ -19,7 +19,7 @@ The `pages` property is an array of paths telling the widget which pages it shou
       "title": "ui-title",
       "version": "0.0.1",
       "pages": [
-        "/view", 
+        "/view",
         "/view/:any",
         "/view/subview/:any"
       ],
@@ -35,16 +35,16 @@ The `pages` property is an array of paths telling the widget which pages it shou
 
 index.js
 --------
-This is the main program file. It loads the config file data, adds a methed named `exec` and then exports it. The `exec` method accepts the main Application object and returns a promise that resolves with the config and collection data as a single object. Use the Application `getCollection` method to retrieve any particular collection found in the `collections` directory.
+This is the main program file. It loads the config file data, adds a method named `exec` and then exports it. The `exec` method accepts the main Application object and returns a promise that resolves with the config and collection data as a single object. Use the Application `getCollection` method to retrieve any particular collection found in the `collections` directory.
 
 
     var config = require('./config.json');
     
     /*
      * fetches a collection of data
-     * 
+     *
      * @param: {Object}App - main application object
-     * @return: {Promise} - a promise that resolves with an object 
+     * @return: {Promise} - a promise that resolves with an object
     **/
     config.exec = function (App) {
     

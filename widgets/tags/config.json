@@ -2,7 +2,7 @@
   "name": "tags",
   "title": "Tags",
   "version": "0.0.1",
-  "pages": [
+  "routes": [
     "/blog", 
     "/blog/:any", 
     "/blog/category/:any", 

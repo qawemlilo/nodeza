@@ -138,12 +138,13 @@ passport.use(new GitHubStrategy(secrets.github,
         }
 
         user.set({
-          email: profile._json.email,
+          email: user.get('email') || profile._json.email,
           github: profile.id,
-          name: profile.displayName,
-          image_url: profile._json.avatar_url,
-          location: profile._json.location,
-          website: profile._json.blog,
+          name: user.get('name') || profile.displayName,
+          image_url: user.get('image_url') || profile._json.avatar_url,
+          location: user.get('location') || profile._json.location,
+          website: user.get('website') || profile._json.blog,
+          about: user.get('about') || profile._json.bio,
           role_id: roleid
         });
 
@@ -382,6 +383,6 @@ exports.isUserAdmin = function (req, res, next) {
     next();
   } else {
     req.flash('errors', { msg: 'You are not authorized to perform that action' });
-    res.redirect('/');
+    res.redirect('back');
   }
 };

@@ -2,7 +2,7 @@
   "name": "featuredmeetups",
   "title": "Featured Meetups",
   "version": "0.0.1",
-  "pages": ["/"],
+  "routes": ["/"],
   "description": "Meetup groups",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",

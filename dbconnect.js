@@ -1,6 +1,6 @@
 
 
-var Bookshelf = false;
+var Bookshelf = null;
 
 module.exports = function (config) {
 

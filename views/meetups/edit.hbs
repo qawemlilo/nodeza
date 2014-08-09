@@ -13,8 +13,8 @@
   
     <div class="panel-body">
     <form class="form-horizontal" id="meetup-form" action="/meetups/edit" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_csrf" autocomplete="off" value="{{_csrf}}" />
-      <input type="hidden" name="meetup_id" autocomplete="off" value="{{meetup.id}}" />
+      <input type="hidden" name="_csrf" value="{{_csrf}}" />
+      <input type="hidden" name="meetup_id" value="{{meetup.id}}" />
   
       <div class="form-group">
         <label class="col-sm-3 control-label" for="title">
@@ -22,7 +22,7 @@
         </label>
   
         <div class="col-sm-7">
-          <input class="form-control" autocomplete="off" type="text" name="title" id="title" value="{{meetup.title}}" required="" />
+          <input class="form-control" type="text" name="title" id="title" value="{{meetup.title}}" required="" />
         </div>
       </div>
       
@@ -31,7 +31,7 @@
           Short Description <span class="text-danger">*</span>
         </label>
         <div class="col-sm-7">
-          <textarea class="form-control" autocomplete="off" size="124" rows="2" name="short_desc" id="short_desc" required="">{{meetup.short_desc}}</textarea>
+          <textarea class="form-control" size="124" rows="2" name="short_desc" id="short_desc" required="">{{meetup.short_desc}}</textarea>
         </div>
       </div>
       
@@ -40,7 +40,7 @@
           Full Description <span class="text-danger">*</span>
         </label>
         <div class="col-sm-7">
-          <textarea class="form-control" autocomplete="off" rows="4" name="markdown" id="markdown" required="">{{meetup.markdown}}</textarea>
+          <textarea class="form-control" rows="4" name="markdown" id="markdown" required="">{{meetup.markdown}}</textarea>
         </div>
       </div>
   
@@ -51,7 +51,7 @@
         </label>
   
         <div class="col-sm-7">
-          <input class="form-control" type="text" autocomplete="off" name="organiser" id="organiser" value="{{meetup.organiser}}" required="" />
+          <input class="form-control" type="text" name="organiser" id="organiser" value="{{meetup.organiser}}" required="" />
         </div>
       </div>
   
@@ -62,7 +62,7 @@
         </label>
   
         <div class="col-sm-7">
-          <textarea class="form-control" rows="2"  autocomplete="off" name="meetings" id="meetings" required="">{{meetup.meetings}}</textarea>
+          <textarea class="form-control" rows="2"  name="meetings" id="meetings" required="">{{meetup.meetings}}</textarea>
         </div> 
       </div>
   
@@ -73,7 +73,7 @@
         </label>
   
         <div class="col-sm-7">
-          <input class="form-control"  autocomplete="off" type="text" name="email" id="email" value="{{meetup.email}}" required="" />
+          <input class="form-control" type="text" name="email" id="email" value="{{meetup.email}}" required="" />
         </div>
       </div>
   
@@ -84,7 +84,7 @@
         </label>
   
         <div class="col-sm-7">
-          <input class="form-control" autocomplete="off" type="text" name="number" id="number" value="{{meetup.number}}" />
+          <input class="form-control" type="text" name="number" id="number" value="{{meetup.number}}" />
         </div>
       </div>
   
@@ -95,7 +95,7 @@
         </label>
   
         <div class="col-sm-7">
-          <input class="form-control" type="text" autocomplete="off" name="website" id="website" value="{{meetup.website}}" />
+          <input class="form-control" type="text" name="website" id="website" value="{{meetup.website}}" />
         </div>
       </div>
   

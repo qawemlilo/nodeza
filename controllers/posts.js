@@ -226,6 +226,47 @@ module.exports = {
 
 
 
+  /**
+   * GET /account/blog
+   * get blog posts for current account
+   */
+  getCategories: function (req, res) {
+    var posts = new Posts();
+    var page = parseInt(req.query.p, 10);
+    var currentpage = page || 1;
+    var role = req.user.related('role').toJSON(); 
+    var opts = {
+      limit: 10,
+      page: currentpage,
+      base: '/account/blog/categories'
+    };
+
+    if (role.name !== 'Super Administrator') {
+      opts.where = ['user_id', '=', req.user.get('id')];
+    }
+    else {
+      opts.where = ['created_at', '<', new Date()];
+    }
+
+    posts.fetchBy('id', opts)
+    .then(function (collection) {
+      res.render('posts/categories', {
+        title: 'Blog',
+        pagination: posts.pages,
+        posts: collection.toJSON(),
+        description: 'Node.js tutorials, articles and news',
+        page: 'adminblog',
+        query: {}
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Database error.'});
+      res.redirect('/');      
+    });
+  },
+
+
+
   /*
    * GET /blog/new
    * load new blog post form

@@ -47,7 +47,7 @@
   {{> flash}}
 
   {{#if @WidgetCollection.abovecontent}}
-    {{#list @WidgetCollection.abovecontent}}{{/list}}
+    {{#list @WidgetCollection.abovecontent 'home'}}{{/list}}
   {{/if}}
 {{/extend}} 
 
@@ -55,7 +55,7 @@
 
 <div class="col-sm-9 blog-main">
   {{#if @WidgetCollection.content}}
-    {{#list @WidgetCollection.content}}{{/list}}
+    {{#list @WidgetCollection.content 'home'}}{{/list}}
   {{/if}}
 </div>
 

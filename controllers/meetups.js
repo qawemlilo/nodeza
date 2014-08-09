@@ -210,9 +210,6 @@ module.exports = {
   },
 
 
-
-
-
   /*
    * POST /meetups/edit
    * create an meetup
@@ -225,7 +222,6 @@ module.exports = {
   
     var errors = req.validationErrors();
     var meetupData = {};
-    var user = req.user;
 
     if (errors) {
       req.flash('errors', errors);
@@ -257,8 +253,7 @@ module.exports = {
       }, 100);
     }
 
-    var meetup = new Meetup({id:meetupData.id});
-
+    var meetup = new Meetup({id: meetupData.id});
 
     meetup.fetch()
     .then(function (model) {

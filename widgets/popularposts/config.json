@@ -2,7 +2,7 @@
   "name": "popularposts",
   "title": "Popular posts",
   "version": "0.0.1",
-  "pages": [
+  "routes": [
     "/blog", 
     "/blog/:any",
     "/blog/category/:any",

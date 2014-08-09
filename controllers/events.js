@@ -163,7 +163,8 @@ module.exports = {
       limit: limit,
       order: 'asc',
       page: currentpage,
-      where: ['city', '=', city]
+      where: ['city', '=', city],
+      base: '/events/city/' + city
     };
 
     if(month) {
@@ -172,9 +173,6 @@ module.exports = {
       fetchQuery.where = ['dt', '>', monthObj.firstday];
       fetchQuery.andWhere = ['dt', '<', monthObj.lastday];
     }
-
-    
-    events.base = '/events/city/' + city;
 
     events.fetchBy('dt', fetchQuery, {
       columns: ['slug', 'title', 'url', 'city', 'desc', 'dt', 'start_time', 'address']
@@ -344,7 +342,7 @@ module.exports = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('errors', {'msg': 'Database error. Event not updated.'});
+        req.flash('errors', {'msg': 'Restricted access, event not updated.'});
         res.redirect('back');
       });
     });
@@ -355,9 +353,9 @@ module.exports = {
   /**
    * GET /blog/delete
    * delete event
-  */
+  **/
   getDelete: function(req, res) {
-    var event = App.getModel('Event', {id: req.params.id, user_id: req.user.get('id')});
+    var event = App.getModel('Event', {id: req.params.id});
     
     event.fetch()
     .then(function (event) {
@@ -367,15 +365,14 @@ module.exports = {
         res.redirect('back');
       })
       .otherwise(function () {
-        req.flash('error', {msg: 'Database error. Event not deleted.'});
+        req.flash('error', {msg: 'Restricted access, event not deleted.'});
         res.redirect('back');
       });
     })
     .otherwise(function () {
-      req.flash('error', {msg: 'You do not have permission to perform action.'});
+      req.flash('error', {msg: 'Event not found'});
       res.redirect('back');
     });
-  },
-
+  }
 };
 

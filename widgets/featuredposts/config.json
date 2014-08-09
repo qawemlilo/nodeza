@@ -2,7 +2,7 @@
   "name": "featuredposts",
   "title": "Featured Posts",
   "version": "0.0.1",
-  "pages": ["/"],
+  "routes": ["/"],
   "description": "Front page featured posts",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",

@@ -1,6 +1,6 @@
 
-<div class="col-sm-3 {{page}}">
+<div class="col-sm-3">
   {{#if @WidgetCollection.leftsidebar}}
-    {{#list @WidgetCollection.leftsidebar}}{{/list}}
+    {{#list @WidgetCollection.leftsidebar page}}{{/list}}
   {{/if}}
 </div>

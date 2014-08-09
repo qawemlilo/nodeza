@@ -2,13 +2,14 @@
   "name": "superadminmenu",
   "title": "Super Administrator",
   "version": "0.0.1",
-  "pages": [
+  "routes": [
     "/account",
     "/account/events",
     "/account/meetups",
     "/account/blog",
     "/account/password",
-    "/account/linked"
+    "/account/linked",
+    "/account/blog/categories"
   ],
   "description": "Super Administrator",
   "author": "Qawelesizwe Mlilo",

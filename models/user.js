@@ -1,7 +1,7 @@
+
 /**
  * Module dependencies.
- */
-
+**/
 var Base  = require('./base');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
@@ -11,8 +11,6 @@ var Posts = require('../collections/posts');
 var Events = require('../collections/events');
 var when = require('when');
 var _ = require('lodash');
-
-
 
 
 var User = Base.Model.extend({

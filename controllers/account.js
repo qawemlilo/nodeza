@@ -184,7 +184,7 @@ module.exports = {
     .fetch()
     .then(function(user) {
       if (!user) {
-        req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
+        req.flash('errors', {msg: 'Password reset token is invalid or has expired.'});
         return res.redirect('/forgot');
       }
       res.render('account/password', {
@@ -231,13 +231,11 @@ module.exports = {
             return res.redirect('back');
           }
 
-          user.set({
+          user.save({
             password: req.body.password,
             resetPasswordToken: null,
             resetPasswordExpires: null
-          });
-
-          user.save()
+          })
           .then(function (user) {
             if (!user) {
               return next({errors: {msg: 'Failed to save new password.'}});
@@ -422,8 +420,9 @@ module.exports = {
       return res.redirect('/account');
     }
 
-    req.user.set({password: req.body.password})
-    .save()
+    req.user.set({password: req.body.password});
+
+    req.user.save()
     .then(function () {
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account/password');
@@ -457,22 +456,19 @@ module.exports = {
     User.forge({id: req.body.id})
     .fetch()
     .then(function (user) {
-      if (user.get('id') !== req.user.get('id') && req.user.related('role').get('name') !== 'Super Administrator') {
-        throw 'You are not authorised to access that account.';
-      }
-
-      user.save(details, {method: 'update'})
+      user.set(details);
+      user.save(null, {method: 'update'})
       .then(function() {
-        req.flash('success', { msg: 'Account information updated.' });
+        req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/account');
       })
-      .otherwise(function () {
-        req.flash('error', { msg: 'Account information not updated.' });
+      .otherwise(function (error) {
+        req.flash('error', {msg: 'Account information not updated.'});
         res.redirect('/account');
       });
     })
     .otherwise(function () {
-      req.flash('error', { msg: 'Account not found.' });
+      req.flash('error', {msg: 'Account not found.'});
       res.redirect('/');
     });
   },

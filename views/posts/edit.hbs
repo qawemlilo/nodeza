@@ -15,13 +15,13 @@
       <input type="hidden" name="_csrf" value="{{_csrf}}" />
       <input type="hidden" name="id" value="{{post.id}}" />
       <input type="hidden" name="catid" value="{{post.category_id}}" />
-      <input class="form-control" type="hidden" name="meta_title" id="meta_title" value="{{post.meta_title}}" required=""  />
+      <input type="hidden" name="meta_title" value="{{post.meta_title}}" />
   
       <div class="row">
         <div class="col-sm-5 col-md-5">
           <div class="form-group">
             <label class="control-label" for="title">
-              Title *
+              Title <span class="text-danger">*</span>
             </label>
   
             <input class="form-control" type="text" name="title" id="title" value="{{post.title}}" />
@@ -29,7 +29,7 @@
   
           <div class="form-group">
             <label class="control-label" for="category">
-              Category
+              Category <span class="text-danger">*</span>
             </label>
   
             <select name="category" class="form-control" id="category">
@@ -76,9 +76,11 @@
   
         <div class="col-sm-7 col-md-7">
           <div class="form-group">
-            <label class="control-label" for="markdown">Post *</label>
+            <label class="control-label" for="markdown">
+              Post <span class="text-danger">*</span>
+            </label>
   
-            <div id="epiceditor" style="height: 550px; padding: 0px;" class="form-control">
+            <div id="epiceditor" style="height: 520px; padding: 0px;" class="form-control">
               <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
             </div>
           </div>

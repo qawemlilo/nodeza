@@ -53,6 +53,11 @@ module.exports.setup = function (app) {
   app.post('/account/delete', passportConf.isAuthenticated, AccountController.postDeleteAccount);
   app.get('/account/unlink/:provider', passportConf.isAuthenticated, AccountController.getOauthUnlink);
 
+  app.get('/account/users', passportConf.isUserAdmin, AccountController.getUsers);
+  app.get('/users/new', passportConf.isUserAdmin, AccountController.getNewUser);
+  app.get('/users/edit/:id', passportConf.isUserAdmin, AccountController.getEditUser);
+  app.get('/account/users/roles', passportConf.isUserAdmin, AccountController.getRoles);
+
   app.get('/devs/:slug', AccountController.getUser);
 
 
@@ -129,7 +134,13 @@ module.exports.setup = function (app) {
   app.post('/blog/new', passportConf.isAuthenticated, PostsController.postNew);
   app.post('/blog/edit', passportConf.isAuthenticated, PostsController.postEdit);
 
+  // Super Admin
   app.get('/account/blog/categories', passportConf.isUserAdmin, PostsController.getCategories);
+  app.get('/category/edit/:id', passportConf.isUserAdmin, PostsController.getCategoryEdit);
+  app.get('/category/new', passportConf.isUserAdmin, PostsController.getNewCategory);
+  app.post('/category/edit', passportConf.isUserAdmin, PostsController.postEditCategory);
+  app.post('/category/new', passportConf.isUserAdmin, PostsController.postNewCategory);
+  
   
   // public
   app.get('/blog', PostsController.getBlog);

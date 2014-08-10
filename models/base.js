@@ -17,6 +17,10 @@ Bookshelf.Model = Bookshelf.Model.extend({
     self.on('saving', function (model, attributes, options) {
       return self.saving(model, attributes, options);
     });
+
+    self.on('destroying', function (model, attributes, options) {
+      self.destroying(model, attributes, options);
+    });
   },
 
 
@@ -84,6 +88,19 @@ Bookshelf.Model = Bookshelf.Model.extend({
         .then(function (slug) {
           self.set({slug: slug});
         });
+    }
+  },
+
+
+  destroying: function () {
+    var ownerId = this.get('id');
+    var currentUserId = App.user.get('id');
+    var role = App.user.related('role').get('name');
+
+
+    // Super user cannot destroy own account
+    if (!this.canEdit() || (this.tableName === 'users' && ownerId === currentUserId && role === 'Super Administrator')) {
+      throw new Error('Action permission denied');
     }
   },
 

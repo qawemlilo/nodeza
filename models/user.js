@@ -96,33 +96,19 @@ var User = Base.Model.extend({
   },
 
 
-  save: function (data, options) {
+  saving: function (newObj, attr, options) {
     var self = this;
-    
-    data = data || {};
-
-    var password = self.get('password') || data.password;
 
     if (self.isNew() || self.hasChanged('password')) {
-      return self.generatePasswordHash(password)
+      return self.generatePasswordHash(self.get('password'))
       .then(function (hash) {
-        if (data.password) {
-          data.password = hash;
-        }
-        else {
-          self.set({password: hash});
-        }
-  
-        // Save the user with the hashed password
-        return Base.Model.prototype.save.call(self, data, options);
+        self.set({password: hash});
+
+        return Base.Model.prototype.saving.apply(self, _.toArray(arguments));
       });
     }
-    else {
-      var args = [].slice.call(arguments, 0);
 
-      return Base.Model.prototype.save.apply(self, args);      
-    }
-
+    return Base.Model.prototype.saving.apply(self, _.toArray(arguments));      
   },
 
 
@@ -144,22 +130,65 @@ var User = Base.Model.extend({
           user.destroy()
           .then(function () {
             deferred.resolve();
+          })
+          .otherwise(function (error) {
+            deferred.reject('Action not permitted');
           });
         })
-        .otherwise(function () {
-          deferred.reject('Failed to detach tokens');
+        .otherwise(function (error) {
+          deferred.reject('Action failed');
         });
       }
       else {
         user.destroy()
         .then(function () {
           deferred.resolve();
-        });        
+        })
+        .otherwise(function (error) {
+          deferred.reject('Action not permitted');
+        });       
       }
     });
 
     return deferred.promise;
   },
+
+
+  /**
+   * GET /account/unlink/:provider
+   * Unlink an auth account
+   */
+  unlink: function(provider) {
+    var deferred = when.defer();
+    var tokens = this.related('tokens').toJSON();
+    var token = _.findWhere(tokens, {kind: provider});
+    
+    if (token) {
+      if (token.kind === 'github') this.set({'github': null});
+      if (token.kind === 'twitter') this.set({'twitter': null});
+      if (token.kind === 'google') this.set({'google': null});
+
+      this.save()
+      .then(function (user) {
+        Tokens.forge()
+        .remove(token.id)
+        .then(function(msg) {
+          deferred.resolve(msg); 
+        })
+        .otherwise(function (msg) {
+          deferred.reject(msg);
+        });
+      })
+      .otherwise(function () {
+        deferred.reject('Database error. Failed to update user ' + provider + ' id.');
+      });
+    }
+    else {
+      deferred.reject('Could not find ' + provider + ' token.'); 
+    }
+
+    return deferred.promise;
+  }
 });
 
 

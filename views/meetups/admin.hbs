@@ -15,14 +15,14 @@
       <table class="table table-bordered table-striped table-condensed">
         <thead>
           <tr>
-            <th style="text-align:center">
-              <input type="checkbox" id="selectall">
+            <th style="text-align:center" class="active">
+              ID
             </th>
             <th>
               Title
             </th>
             <th>
-              Created At
+              City
             </th>
             <th>
             </th>
@@ -38,14 +38,14 @@
           {{#ifCond meetups.length '>' 0}}
             {{#each meetups}}
             <tr>
-              <td style="text-align:center">
-                <input type="checkbox" id="id" value="{{id}}">
+              <td style="text-align:center" class="active">
+                {{id}}
               </td>
               <td>
                 <a href="/meetups/edit/{{id}}">{{title}}</a>
               </td>
               <td>
-                {{#parseDate created_at 'DD-MM-YYYY HH:MM:ss'}}{{/parseDate}}
+                {{city}}
               </td>
               <td style="text-align:center">
                 <a href="/meetups/edit/{{id}}" title="Edit">

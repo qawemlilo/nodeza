@@ -12,7 +12,7 @@ describe('Routes', function(){
     server = app.server;
 
     user.forge({id: 1})
-    .fetch()
+    .fetch({withRelated: ['role', 'tokens']})
     .then(function (model) {
       app.user = model;
       done();

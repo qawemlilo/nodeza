@@ -7,18 +7,17 @@
 
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
     <li>
-      <a href="/account/blog">
-        <span class="glyphicon glyphicon-list-alt"></span> Posts
+      <a href="/account/users">
+        <span class="glyphicon glyphicon-user"></span> Users
       </a>
     </li>
-
     <li class="active">
-      <a href="/account/blog/categories">
-        <span class="glyphicon glyphicon-align-justify"></span> Categories
+      <a href="/account/users/roles">
+        <span class="glyphicon glyphicon-lock"></span> Roles
       </a>
     </li>
-    <a role="button" href="/category/new" class="btn btn-danger pull-right">
-      <span class="glyphicon glyphicon-align-justify"></span> New Category
+    <a role="button" href="/users/roles/new" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-lock"></span> New Role
     </a>
   </ul>
 
@@ -34,9 +33,6 @@
               Name
             </th>
             <th>
-              Description
-            </th>
-            <th>
             </th>
             <th>
             </th>
@@ -44,27 +40,21 @@
         </thead>
   
         <tbody>
-          {{#each categories}}
+          {{#each roles}}
             <tr>
               <td style="text-align:center" class="active">
                 {{id}}
               </td>
               <td>
-                <a href="/category/edit/{{id}}">{{name}}</a>
-                <a href="/blog/category/{{slug}}" target="_blank" title="View Post" class="text-danger">
-                  <small><span class="glyphicon glyphicon-new-window"></span></small>
-                </a>
-              </td>
-              <td>
-                {{description}}
+                <a href="/roles/edit/{{id}}">{{name}}</a>
               </td>
               <td style="text-align:center">
-                <a href="/category/edit/{{id}}" title="Edit">
+                <a href="/roles/edit/{{id}}" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
                 </a> 
               </td>
               <td style="text-align:center">
-                <a href="/category/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
+                <a href="/roles/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
                   <span class="glyphicon glyphicon-trash"></span> 
                 </a> 
               </td>

@@ -62,7 +62,6 @@ module.exports = {
    * GET /events/edit/:id
    */
   getEdit: function (req, res) {
-
     var event = App.getModel('Event', {id: req.params.id});
 
     event.fetch()
@@ -222,7 +221,7 @@ module.exports = {
       opts.where = ['created_at', '<', new Date()];
     }
 
-    events.fetchBy('id', opts)
+    events.fetchBy('dt', opts)
     .then(function (collection) {
       res.render('events/admin', {
         title: 'Events',
@@ -277,7 +276,6 @@ module.exports = {
     eventData.lat = req.body.lat;
     eventData.email = req.body.email;
     eventData.number = req.body.number;
-
 
     var event = App.getModel('Event', eventData);
     

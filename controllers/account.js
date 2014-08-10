@@ -1,5 +1,7 @@
 
 var User = require('../models/user');
+var Users = require('../collections/users');
+var Roles = require('../collections/roles');
 var Tokens = require('../models/token');
 var Mailer = require('../lib/mailer');
 var async = require('async');
@@ -38,16 +40,9 @@ module.exports = {
    * loads an event by id
    */
   getUser: function (req, res, next) {
-    var slug = req.params.slug;
-
-    User.forge({slug: slug})
+    User.forge({slug: req.params.slug})
     .fetch({withRelated: ['posts', 'events']})
     .then(function (profile) {
-      if(!profile) {
-        req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
-        return res.redirect('back');
-      }
-
       res.render('account/profile', {
         title: 'NodeZA profile of ' + profile.get('name'),
         myposts: profile.related('posts').toJSON(),
@@ -61,8 +56,76 @@ module.exports = {
       profile.viewed();
     })
     .otherwise(function () {
-      req.flash('errors', {'msg': 'Database error. Could not fetch user.'});
+      req.flash('errors', {'msg': 'Could not find user.'});
       res.redirect('back');
+    });
+  },
+
+
+  /*
+   * GET /users/new
+   * Load new user form
+  **/
+  getNewUser: function (req, res, next) {
+    res.render('account/new_user', {
+      title: 'New User',
+      description: 'New User',
+      page: 'newuser'
+    });
+  },
+
+
+  /*
+   * GET /users/edit/:id
+   * Load user edit form
+  **/
+  getEditUser: function (req, res, next) {
+    var roles = new Roles();
+
+    roles.fetch()
+    .then(function (roles) {
+      User.forge({id: req.params.id})
+      .fetch({withRelated: ['role']})
+      .then(function (user) {
+        res.render('account/edit_user', {
+          title: 'Edit User',
+          description: 'Edit User',
+          usr: user.toJSON(),
+          roles: roles.toJSON(),
+          page: 'edituser'
+        });
+      })
+      .otherwise(function () {
+        req.flash('errors', {'msg': 'Could not find user.'});
+        res.redirect('/account/users');
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Could not find user roles.'});
+      res.redirect('/account/users');
+    });
+  },
+
+
+  /*
+   * GET /account/users/roles
+   * Load user roles
+  **/
+  getRoles: function (req, res, next) {
+    var roles = new Roles();
+
+    roles.fetch()
+    .then(function (roles) {
+      res.render('account/roles', {
+        title: 'User Roles',
+        description: 'User Roles',
+        roles: roles.toJSON(),
+        page: 'userroles'
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Could not find user roles.'});
+      res.redirect('/account/users');
     });
   },
 
@@ -79,7 +142,6 @@ module.exports = {
   
     if (errors) {
       req.flash('errors',  { msg: errors});
-
       return res.redirect('/login');
     }
   
@@ -149,8 +211,8 @@ module.exports = {
     userData.password = req.body.password;
     userData.role_id = 1;
 
-    User.forge()
-    .save(userData)
+    User.forge(userData)
+    .save()
     .then(function (model) {
       req.flash('success', { msg: 'Account successfully created! You are now logged in.' });
 
@@ -174,7 +236,6 @@ module.exports = {
    * Loads password reset form.
    */
   getReset: function(req, res) {
-
     var user =  new User();
 
     user.query(function (qb) {
@@ -197,6 +258,40 @@ module.exports = {
     .otherwise(function () {
       req.flash('errors', { msg: 'Database error. Could not process query.' });
       return res.redirect('/forgot');
+    });
+  },
+
+
+
+  /**
+   * GET /account/users
+   * get all users
+   */
+  getUsers: function (req, res) {
+    var users = new Users();
+    var page = parseInt(req.query.p, 10);
+    var currentpage = page || 1; 
+    var opts = {
+      limit: 10,
+      page: currentpage,
+      order: "asc",
+      where: ['created_at', '<', new Date()]
+    };
+
+    users.fetchBy('id', opts, {withRelated: ['role']})
+    .then(function (collection) {
+      res.render('account/users', {
+        title: 'Registered Users',
+        pagination: users.pages,
+        users: collection.toJSON(),
+        description: 'Registered Users',
+        page: 'users',
+        query: {}
+      });
+    })
+    .otherwise(function (error) {
+      req.flash('errors', {'msg': 'Database error.'});
+      res.redirect('/');      
     });
   },
   
@@ -222,7 +317,7 @@ module.exports = {
 
         user.query(function (qb) {
           qb.where('resetPasswordToken', '=', req.params.token)
-          .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
+          .andWhere('resetPasswordExpires', '>', new Date());
         })
         .fetch()
         .then(function(model) {
@@ -316,12 +411,10 @@ module.exports = {
             return res.redirect('/forgot');
           }
   
-          user.set({
+          user.save({
             resetPasswordToken: token,
             resetPasswordExpires: datetime(Date.now() + 3600000)
-          });
-  
-          user.save()
+          })
           .then(function(model) {
             done(false, token, model);
           })
@@ -331,7 +424,6 @@ module.exports = {
         });
       },
       function(token, user, done) {
-        
         var mailOptions = {
           to: user.get('email'),
           from: 'NodeZA <info@nodeza.co.za>',
@@ -365,8 +457,7 @@ module.exports = {
       title: 'My Account',
       description: 'My account details',
       page: 'account',
-      gravatar: req.user.gravatar(),
-      user: req.user.toJSON()
+      gravatar: req.user.gravatar()
     });
   },
 
@@ -420,14 +511,13 @@ module.exports = {
       return res.redirect('/account');
     }
 
-    req.user.set({password: req.body.password});
-
-    req.user.save()
+    req.user.save({password: req.body.password})
     .then(function () {
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account/password');
     })
-    .otherwise(function () {
+    .otherwise(function (error) {
+      console.log(error);
       req.flash('error', { msg: 'Failed to change password.' });
       res.redirect('/account/password');
     });
@@ -456,8 +546,7 @@ module.exports = {
     User.forge({id: req.body.id})
     .fetch()
     .then(function (user) {
-      user.set(details);
-      user.save(null, {method: 'update'})
+      user.save(details, {method: 'update'})
       .then(function() {
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/account');
@@ -499,35 +588,15 @@ module.exports = {
    */
   getOauthUnlink: function(req, res, next) {
     var provider = req.params.provider;
-    var tokens = req.user.related('tokens').toJSON();
-    var token = _.findWhere(tokens, {kind: provider});
     
-    if (token) {
-      if (token.kind === 'github') req.user.set({'github': null});
-      if (token.kind === 'twitter') req.user.set({'twitter': null});
-      if (token.kind === 'google') req.user.set({'google': null});
-
-      req.user.save()
-      .then(function () {
-        Tokens.forge()
-        .remove(token.id)
-        .then(function(msg) {
-          req.flash('info', { msg: msg}); 
-          res.redirect('/account/linked');
-        })
-        .otherwise(function (msg) {
-          req.flash('error', {msg: msg}); 
-          next({'errors': {msg: msg}});
-        });
-      })
-      .otherwise(function () {
-        req.flash('error', {msg: 'Database error. Failed to update user ' + provider + ' id.' }); 
-        next({'errors': {msg: 'Database error. Failed to update user ' + provider + ' id.'}});
-      });
-    }
-    else {
-      req.flash('error', {msg: 'Could not find ' + provider + ' token.'}); 
-      next({'errors': {msg: 'Could not find ' + provider + ' token.'}});
-    }
+    req.user.unlink(provider)
+    .then(function (msg) {
+      req.flash('info', {msg: msg}); 
+      res.redirect('/account/linked');
+    })
+    .otherwise(function (msg) {
+      req.flash('error', {msg: msg}); 
+      next({'errors': {msg: msg}});
+    });
   }
 };

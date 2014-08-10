@@ -9,6 +9,8 @@
     "/account/blog",
     "/account/password",
     "/account/linked",
+    "/account/users",
+    "/account/users/roles",
     "/account/blog/categories"
   ],
   "description": "Super Administrator",

@@ -65,7 +65,7 @@ module.exports = {
    */
   getEdit: function (req, res) {
     var id = req.params.id;
-    var categories = new Categories({id: id});
+    var categories = new Categories();
 
     categories.fetch()
     .then(function (cats) {
@@ -83,12 +83,37 @@ module.exports = {
       })
       .otherwise(function () {
         req.flash('errors', {'msg': 'Post not found.'});
-        res.redirect('back');      
+        res.redirect('/account/blog');      
       });
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Categories not found.'});
-      res.redirect('back');      
+      res.redirect('/account/blog');      
+    });
+  },
+
+
+
+  /*
+   * GET /category/edit/:id
+   * edit Category form
+   */
+  getCategoryEdit: function (req, res) {
+    var id = req.params.id;
+
+    Category.forge({id: id})
+    .fetch()
+    .then(function (category) {
+      res.render('posts/edit_category', {
+        page: 'categoryedit',
+        title: 'category edit',
+        description: 'category edit',
+        category: category.toJSON()
+      });
+    })
+    .otherwise(function () {
+      req.flash('errors', {'msg': 'Category not found.'});
+      res.redirect('/account/blog/categories');      
     });
   },
 
@@ -99,7 +124,6 @@ module.exports = {
   getBlog: function (req, res) {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
-  
     var currentpage = page || 1;
 
     if (currentpage < 1) {
@@ -207,7 +231,7 @@ module.exports = {
       opts.where = ['created_at', '<', new Date()];
     }
 
-    posts.fetchBy('id', opts)
+    posts.fetchBy('id', opts, {withRelated: ['category']})
     .then(function (collection) {
       res.render('posts/admin', {
         title: 'Blog',
@@ -227,41 +251,35 @@ module.exports = {
 
 
   /**
-   * GET /account/blog
+   * GET /account/blog/categories
    * get blog posts for current account
    */
   getCategories: function (req, res) {
-    var posts = new Posts();
+    var categories = new Categories();
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
-    var role = req.user.related('role').toJSON(); 
     var opts = {
       limit: 10,
       page: currentpage,
-      base: '/account/blog/categories'
+      base: '/account/blog/categories',
+      where: ['created_at', '<', new Date()],
+      order: "asc"
     };
 
-    if (role.name !== 'Super Administrator') {
-      opts.where = ['user_id', '=', req.user.get('id')];
-    }
-    else {
-      opts.where = ['created_at', '<', new Date()];
-    }
-
-    posts.fetchBy('id', opts)
+    categories.fetchBy('name', opts)
     .then(function (collection) {
       res.render('posts/categories', {
-        title: 'Blog',
-        pagination: posts.pages,
-        posts: collection.toJSON(),
-        description: 'Node.js tutorials, articles and news',
+        title: 'Blog Categories',
+        pagination: categories.pages,
+        categories: collection.toJSON(),
+        description: 'Blog Categories',
         page: 'adminblog',
         query: {}
       });
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/');      
+      res.redirect('/account/blog');      
     });
   },
 
@@ -291,22 +309,42 @@ module.exports = {
 
 
 
+  /*
+   * GET /category/new
+   * load new blog post form
+   */
+  getNewCategory: function (req, res) {
+    res.render('posts/new_category', {
+      title: 'New category',
+      description: 'Create a new category',
+      page: 'newcategory'
+    });
+  },
+
+
+
   /**
    * POST /blog/new
    * save blog post
   */
   postNew: function(req, res) {
-    var post = new Post();
-
     req.assert('title', 'Title must be at least 6 characters long').len(6);
     req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
+    var errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+
+    var post = new Post();
     var postData = {
       user_id: req.user.get('id'),
       title: req.body.title,
       category_id: req.body.category,
-      meta_title: req.body.meta_title || req.body.title,
+      meta_title: req.body.title,
       meta_description: req.body.meta_description || req.body.title,
       markdown: req.body.markdown,
       published: !!req.body.published,
@@ -344,11 +382,18 @@ module.exports = {
     req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
+    var errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+    
     var postData = {
       id: req.body.id,
       title: req.body.title,
       category_id: req.body.category,
-      meta_title: req.body.meta_title || req.body.title,
+      meta_title: req.body.title,
       meta_description: req.body.meta_description || req.body.title,
       markdown: req.body.markdown,
       published: !!req.body.published,
@@ -385,6 +430,70 @@ module.exports = {
     .otherwise(function (msg) {
       req.flash('error', {msg: 'Post not found.'});
       res.redirect('/account/blog');
+    });
+  },
+
+
+
+  /**
+   * POST /category/new
+   * save New Category
+  */
+  postNewCategory: function(req, res) {
+    req.assert('name', 'Name must be at least 3 characters long').len(3);
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+
+    Category.forge({
+      name: req.body.name,
+      description: req.body.description || ''
+    })
+    .save()
+    .then(function(model) {
+      req.flash('success', { msg: 'Category successfully created.' });
+      res.redirect('/category/edit/' + model.get('id'));
+    })
+    .otherwise(function (error) {
+      req.flash('error', {msg: 'Category could not be created.'});
+      res.redirect('back');
+    });
+  },
+
+
+
+  /**
+   * POST /category/edit
+   * save Edit Category
+  */
+  postEditCategory: function(req, res) {
+    req.assert('name', 'Name must be at least 3 characters long').len(3);
+    req.assert('id', 'Missing feilds').isInt();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+
+    Category.forge({
+      id: req.body.id,
+      name: req.body.name,
+      description: req.body.description || ''
+    })
+    .save()
+    .then(function(model) {
+      req.flash('success', { msg: 'Category successfully updated.' });
+      res.redirect('/category/edit/' + model.get('id'));
+    })
+    .otherwise(function (error) {
+      req.flash('error', {msg: 'Category could not be updated.'});
+      res.redirect('back');
     });
   },
 

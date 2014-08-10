@@ -1,14 +1,27 @@
+
 {{> leftsidebar}}
 
 <div class="col-sm-9 blog-main">
+
   {{> flash}}
 
-  <div class="container-fluid">
-    <div class="row" style="text-align:right">
-      <a role="button" href="/events/new" class="btn btn-danger">
-        <span class="glyphicon glyphicon-calendar"></span> Add An Event
+  <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li class="active">
+      <a href="/account/users">
+        <span class="glyphicon glyphicon-user"></span> Users
       </a>
-    </div>
+    </li>
+    <li>
+      <a href="/account/users/roles">
+        <span class="glyphicon glyphicon-lock"></span> Roles
+      </a>
+    </li>
+    <a role="button" href="/users/new" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-user"></span> New User
+    </a>
+  </ul>
+
+  <div class="container-fluid">
     <div class="row" style="margin-top:5px;">
       <table class="table table-bordered table-striped table-condensed">
         <thead>
@@ -17,10 +30,13 @@
               ID
             </th>
             <th>
-              Title
+              Name
             </th>
             <th>
-              Date
+              Email
+            </th>
+            <th>
+              Role
             </th>
             <th>
             </th>
@@ -33,30 +49,30 @@
         </thead>
   
         <tbody>
-          {{#ifCond myEvents.length '>' 0}}
-            {{#each myEvents}}
+          {{#each users}}
             <tr>
               <td style="text-align:center" class="active">
                 {{id}}
               </td>
               <td>
-                <a href="/events/edit/{{id}}">{{title}}</a> 
-                <a href="/events/{{slug}}" target="_blank">
-                  <small>
-                    <span class="glyphicon glyphicon-new-window text-danger"></span>
-                  </small>
+                <a href="/users/edit/{{id}}">{{name}}</a>
+                <a href="/devs/{{slug}}" target="_blank" title="View Profile" class="text-danger">
+                  <small><span class="glyphicon glyphicon-new-window"></span></small>
                 </a>
               </td>
               <td>
-                {{#parseDate dt 'MMM D, YYYY'}}{{/parseDate}}
+                {{email}}
+              </td>
+              <td>
+                {{role.name}}
               </td>
               <td style="text-align:center">
-                <a href="/events/edit/{{id}}" title="Edit">
+                <a href="/users/edit/{{id}}" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
                 </a> 
               </td>
               <td style="text-align:center">
-                <a href="/events/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger" title="Delete">
+                <a href="/users/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
                   <span class="glyphicon glyphicon-trash"></span> 
                 </a> 
               </td>
@@ -64,8 +80,7 @@
                 {{views}}
               </td>
             </tr>
-            {{/each}}
-          {{/ifCond}}
+          {{/each}}
         </tbody>
       </table>
     </div>

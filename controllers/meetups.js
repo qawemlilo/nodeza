@@ -162,7 +162,7 @@ module.exports = {
   
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/account/meetups');
+      return res.redirect('back');
     }
 
     if (req.body.meetup_id) {
@@ -196,7 +196,6 @@ module.exports = {
     meetupData.number = req.body.number;
     meetupData.meetings = req.body.meetings;
 
-
     Meetup.forge(meetupData)
     .save({}, {user: user.get('id')})
     .then(function (model) {
@@ -225,7 +224,7 @@ module.exports = {
 
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/account/meetups');
+      return res.redirect('back');
     }
 
     meetupData.id = req.body.meetup_id;

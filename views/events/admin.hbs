@@ -51,12 +51,12 @@
                 {{#parseDate dt 'MMM D, YYYY'}}{{/parseDate}}
               </td>
               <td style="text-align:center">
-                <a href="/events/edit/{{id}}" title="Edit">
+                <a href="/events/edit/{{id}}" data-toggle="tooltip" data-placement="top" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
                 </a> 
               </td>
               <td style="text-align:center">
-                <a href="/events/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger" title="Delete">
+                <a href="/events/delete/{{id}}" data-toggle="tooltip" data-placement="top" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger" title="Delete">
                   <span class="glyphicon glyphicon-trash"></span> 
                 </a> 
               </td>

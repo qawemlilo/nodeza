@@ -137,19 +137,17 @@ To-Do
 2. Create company profiles section
 3. Create Jobs section
 4. Remove tests against database and use stubs
-5. UI - colour scheme, logo, images and typography
-6. Optimise and resize uploaded images with gulp using a separate process
-7. Create content
-8. Add news letter functionality
-9. Add rss feed
-10. Add site map and other Google SEO files
-9. Port application to WidGet CMS
+5. Fix UI and graphics
+6. Create content
+7. Add newsletter functionality
+8. Add rss feed
+9. Add Google SEO configs
 
 
 Contributing
 ------------
 
-First open an issue on Github and then create a new branch on your local repo. The branch name should be the issue number prefixed with `fix-`. Commit your changes and push the branch.
+Create a new branch, make changes, commit and push branch.
 
 ### Style Guide
  - All indents should use 2 spaces, no tabs

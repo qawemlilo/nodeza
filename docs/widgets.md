@@ -18,7 +18,7 @@ The `pages` property is an array of paths telling the widget which pages it shou
       "name": "name-of-widget",
       "title": "ui-title",
       "version": "0.0.1",
-      "pages": [
+      "routes": [
         "/view",
         "/view/:any",
         "/view/subview/:any"

@@ -27,12 +27,12 @@ var Token = Base.Model.extend({
       .then(function () {
         deferred.resolve(kind + ' account has been unlinked.'); 
       })
-      .otherwise(function () {
-        deferred.reject('Failed to unlinked ' + kind + ' account.'); 
+      .otherwise(function (error) {
+        deferred.reject(error); 
       });
     })
-    .otherwise(function () {
-      deferred.reject('Token not found.');
+    .otherwise(function (error) {
+      deferred.reject(error);
     }); 
 
     return deferred.promise;

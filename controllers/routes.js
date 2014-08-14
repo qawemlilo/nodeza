@@ -88,7 +88,7 @@ var RoutesController = {
         pagination: routes.pages,
         routes: collection.toJSON(),
         description: 'Blog Routes',
-        page: 'adminblog',
+        page: 'routes',
         query: {}
       });
     })
@@ -104,7 +104,7 @@ var RoutesController = {
    * save New Route
   */
   postNewRoute: function(req, res) {
-    req.assert('path', 'Path must be at least 2 characters long').len(2);
+    req.assert('path', 'Path must be at least 1 characters long').len(1);
     req.assert('controller_name', 'controller name must not be empty').notEmpty();
     req.assert('controller_method', 'controller method must not be empty').notEmpty();
     req.assert('http_method', 'http method must not be empty').notEmpty();

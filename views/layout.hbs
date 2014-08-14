@@ -28,13 +28,14 @@
   <body>
     
     <!-- navigation menu -->
-    {{> navigation}}
+    {{{block "navigation"}}}
+
     
     <!-- For fancy headers -->
     {{{block "jumbotron"}}}
 
+
     <div class="container">
-      
       <!-- just above main page content -->
       <div class="row">
         {{{block "abovecontent"}}}
@@ -43,8 +44,8 @@
       <div class="row">
         {{{body}}}   
       </div>
-      
     </div>
+
 
     <div class="blog-footer">
       <div class="container">

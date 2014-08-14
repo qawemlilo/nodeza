@@ -6,6 +6,7 @@ var pkg = require('./package.json');
 var config = require('./config/secrets');
 var Bookshelf = require('./dbconnect')(config);
 var express = require('./server');
+var when = require('when');
 
 var emitter = new EventEmitter();
 var Cache = {};
@@ -31,30 +32,9 @@ var App = {
 
 
   loadAppModules: function () {
-    var models = path.join(__dirname, 'models');
-    var collections = path.join(__dirname, 'collections');
-
-    // loops through the widgets directory
-    fs.readdir(models, function(err, files) {
-      files.forEach(function (filename) {
-        fs.lstat(path.join(models, filename), function(err, stat) {
-          if (stat.isFile()) {
-            require('./models/' + filename);
-          }
-        });
-      });
-    });
-  
-    // loops through the widgets directory
-    fs.readdir(collections, function(err, files) {
-      files.forEach(function (filename) {
-        fs.lstat(path.join(collections, filename), function(err, stat) {
-          if (stat.isFile()) {
-            require('./collections/' + filename);
-          }
-        });
-      });
-    });
+    require('./models');
+    require('./collections');
+    require('./controllers');
   },
 
 
@@ -71,28 +51,6 @@ var App = {
   },
 
 
-  buildRoutes: function () {
-    var self = this;
-    var routes = self.getCollection('Routes');
-    var app = self.server;
-
-    routes.fetch({withRelated: ['role']})
-    .then(function (collection) {
-      collection.forEach(function (route) {
-        var role = route.related('role');
-        var name = route.get('controller_name');
-        var method = route.get('controller_method');
-        var url = route.get('path');
-
-        app.use(url, self.hasPermission(role), Controllers[name][method]);
-      });
-    })
-    .otherwise(function (error) {
-      throw error;     
-    });
-  },
-
-
   getModel: function (name, options) {
     if (Bookshelf._models[name]) {
       return new Bookshelf._models[name](options);
@@ -104,6 +62,15 @@ var App = {
     if (Bookshelf._collections[name]) {
       return new Bookshelf._collections[name](options);
     }
+  },
+
+
+  getController: function (name, method) {
+    if (Controllers[name] && _.isFunction(Controllers[name][method])) {
+      return Controllers[name][method];
+    }
+
+    return function(){};
   },
 
 
@@ -153,15 +120,13 @@ var App = {
 
   init: function (port) {
     var self = this;
+    var server;
 
     self.loadAppModules();
-    self.server = express(config, self);
-
-    require('./routes').setup(self.server);
-    self.buildRoutes();
+    server = express(config, self);
   
-    self.server.listen(port || self.server.get('port'), function() {
-      console.log("✔ Express server listening on port %d in %s mode", port || self.server.get('port'), self.server.get('env'));
+    server.listen(port || server.get('port'), function() {
+      console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
     });
   }
 };

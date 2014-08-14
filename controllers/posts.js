@@ -349,12 +349,12 @@ var PostsController = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('info', {msg: 'Access not granted'});
+        req.flash('info', {msg: error.message});
         res.redirect('/account/blog');
       });
     })
-    .otherwise(function (msg) {
-      req.flash('error', {msg: 'Post not found.'});
+    .otherwise(function (error) {
+      req.flash('error', {msg: error.message});
       res.redirect('/account/blog');
     });
   },
@@ -374,8 +374,8 @@ var PostsController = {
       App.clearCache();
       res.redirect('back');
     })
-    .otherwise(function (msg) {
-      req.flash('info', {msg: msg});
+    .otherwise(function (error) {
+      req.flash('info', {msg: error.message});
       res.redirect('back');
     });
   },
@@ -396,8 +396,8 @@ var PostsController = {
       req.flash('success', {msg: 'Post successfully ' + msg});
       res.redirect('back');
     })
-    .otherwise(function (msg) {
-      req.flash('info', {msg: msg});
+    .otherwise(function (error) {
+      req.flash('info', {msg: error.message});
       res.redirect('back');
     });
   }

@@ -1,4 +1,9 @@
 
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+
 {{> leftsidebar}}
 
 <div class="col-sm-9 blog-main">
@@ -6,14 +11,14 @@
   {{> flash}}
 
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-    <li>
-      <a href="/account/links">
-        <span class="glyphicon glyphicon-link"></span> Links
-      </a>
-    </li>
     <li class="active">
       <a href="/account/menus">
         <span class="glyphicon glyphicon-folder-open"></span> Menus
+      </a>
+    </li>
+    <li>
+      <a href="/account/links">
+        <span class="glyphicon glyphicon-link"></span> Links
       </a>
     </li>
     <li>

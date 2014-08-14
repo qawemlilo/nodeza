@@ -170,12 +170,12 @@ var Post = Base.Model.extend({
           deferred.resolve();
         });
       })
-      .otherwise(function () {
-        deferred.reject('Failed to detach tags');
+      .otherwise(function (error) {
+        deferred.reject(error);
       });
     })
-    .otherwise(function () {
-      deferred.reject('Post not found');
+    .otherwise(function (error) {
+      deferred.reject(error);
     });
 
     return deferred.promise;
@@ -205,12 +205,12 @@ var Post = Base.Model.extend({
       .then(function () {
         deferred.resolve(post);
       })
-      .otherwise(function () {
-        deferred.reject('Restricted access.');
+      .otherwise(function (error) {
+        deferred.reject(error);
       });
     })
-    .otherwise(function () {
-      deferred.reject('Post not found');
+    .otherwise(function (error) {
+      deferred.reject(error);
     });
 
     return deferred.promise;

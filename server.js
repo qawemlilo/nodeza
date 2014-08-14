@@ -2,6 +2,7 @@
 module.exports = function (config, App) {
   
   var express = require('express');
+  var routes = require('./routes');
   var flash = require('express-flash');
   var logger = require('morgan');
   var multer = require('multer');
@@ -24,6 +25,8 @@ module.exports = function (config, App) {
    * Create Express server.
    */
   var server = express();
+
+  App.server = server;
   
   
   /**
@@ -145,6 +148,8 @@ module.exports = function (config, App) {
   
   // Load widgets
   server.use(widget({app: App}));
+
+  routes.setup(server);
 
   return server;
 };

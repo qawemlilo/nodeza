@@ -1,15 +1,13 @@
 {
   "name": "mainmenu",
-  "title": "Admin Menu",
+  "title": "Main Menu",
   "version": "0.0.1",
-  "routes": [
-    "/"
-  ],
+  "routes": [],
   "description": "Main Menu",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",
-  "position": "footer",
+  "position": "navigation",
   "order": 2,
-  "active": false,
+  "active": true,
   "repo": "git://github.com/qawemlilo/mainmenu.git"
 }

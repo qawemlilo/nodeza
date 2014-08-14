@@ -118,7 +118,7 @@ var LinksController = {
         pagination: links.pages,
         links: collection.toJSON(),
         description: 'Links',
-        page: 'adminmenus',
+        page: 'links',
         query: {}
       });
     })

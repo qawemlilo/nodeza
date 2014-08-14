@@ -128,7 +128,7 @@ var AccountController = {
       });         
     })
     .otherwise(function (error) {
-      req.flash('errors', {'msg': 'Database error. Account not created.'});
+      req.flash('errors', {'msg': error.message});
       res.redirect('/signup');
     });
   },
@@ -158,8 +158,8 @@ var AccountController = {
         page: 'resetpassword'
       });
     })
-    .otherwise(function () {
-      req.flash('errors', { msg: 'Database error. Could not process query.' });
+    .otherwise(function (error) {
+      req.flash('errors', { msg: error.message });
       return res.redirect('/forgot');
     });
   },
@@ -208,12 +208,12 @@ var AccountController = {
               done(err, user);
             });
           })
-          .otherwise(function () {
-            next({errors: {msg: 'Database error. Failed to save new password.'}});
+          .otherwise(function (error) {
+            next({errors: {msg: error.message}});
           });
         })              
-        .otherwise(function () {
-          next({errors: {msg: 'Database error. Failed to execute query.'}});
+        .otherwise(function (error) {
+          next({errors: {msg: error.message}});
         });
       },
       function(user, done) {
@@ -225,8 +225,8 @@ var AccountController = {
             'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.\n'
         };
         
-        Mailer(mailOptions, function (err) {
-          req.flash('success', { msg: 'Success! Your password has been changed.' });
+        Mailer(mailOptions, function (error) {
+          req.flash('success', { msg: error.message });
           done(err);
         });
       }
@@ -287,8 +287,8 @@ var AccountController = {
           .then(function(model) {
             done(false, token, model);
           })
-          .otherwise(function () {
-            done({'errors': {msg: 'Database error'}});
+          .otherwise(function (error) {
+            done({'errors': {msg: error.message}});
           });
         });
       },
@@ -386,8 +386,7 @@ var AccountController = {
       res.redirect('/account/password');
     })
     .otherwise(function (error) {
-      console.log(error);
-      req.flash('error', { msg: 'Failed to change password.' });
+      req.flash('error', { msg: error.message });
       res.redirect('/account/password');
     });
   },
@@ -428,7 +427,7 @@ var AccountController = {
         res.redirect('/account');
       })
       .otherwise(function (error) {
-        req.flash('error', {msg: 'Account information not updated.'});
+        req.flash('error', {msg: error.message});
         res.redirect('/account');
       });
     })
@@ -451,8 +450,8 @@ var AccountController = {
       req.logout();
       res.redirect('/');
     })
-    .otherwise(function (msg) {
-      req.flash('error', { msg: msg });
+    .otherwise(function (error) {
+      req.flash('error', { msg: error.message });
       res.redirect('/account');        
     });
   },
@@ -470,9 +469,9 @@ var AccountController = {
       req.flash('info', {msg: msg}); 
       res.redirect('/account/linked');
     })
-    .otherwise(function (msg) {
-      req.flash('error', {msg: msg}); 
-      next({'errors': {msg: msg}});
+    .otherwise(function (error) {
+      req.flash('error', {msg: error.message}); 
+      next({'errors': {msg: error.message}});
     });
   }
 };

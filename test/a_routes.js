@@ -60,7 +60,7 @@ describe('Routes', function(){
   describe('GET /devs/:slug', function() {
     it('should return 200 OK', function(done) {
       request(server)
-        .get('/devs/' + user.get('slug'))
+        .get('/devs/' + app.user.get('slug'))
         .expect(200, done);
     });
   });

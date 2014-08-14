@@ -149,7 +149,7 @@ module.exports = function (config, App) {
   // Load widgets
   server.use(widget({app: App}));
 
-  routes.setup(server);
+  routes.setup(App, server);
 
   return server;
 };

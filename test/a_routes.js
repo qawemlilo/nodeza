@@ -57,6 +57,15 @@ describe('Routes', function(){
   });
   
   
+  describe('GET /devs/:slug', function() {
+    it('should return 200 OK', function(done) {
+      request(server)
+        .get('/devs/' + user.get('slug'))
+        .expect(200, done);
+    });
+  });
+  
+  
   describe('GET /account', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)

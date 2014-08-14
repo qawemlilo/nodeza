@@ -1,11 +1,12 @@
 
+var App = require('../app');
 var Meetup = require('../models/meetup');
 var Meetups = require('../collections/meetups');
 var gulpfile = require('../lib/process-images');
 
 
 
-module.exports = {
+var MeetupsController = {
 
   /*
    * GET /meetups/new
@@ -273,3 +274,5 @@ module.exports = {
   }
 };
 
+
+module.exports = App.controller('Meetups', MeetupsController);

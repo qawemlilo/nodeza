@@ -3,7 +3,6 @@
  */
 var Base  = require('./base');
 var knex  = Base.knex;
-var Posts =  require('../models/post');
 
 
 var Tag =  Base.Model.extend({

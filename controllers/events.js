@@ -1,10 +1,12 @@
 
 
 var App = require('../app');
+var Events = require('../collections/events');
+var Event = require('../models/event');
 var moment = require('moment');
 
 
-module.exports = {
+var EventsController = {
 
   /*
    * GET /events/new
@@ -35,7 +37,7 @@ module.exports = {
    */
   getEvent: function (req, res, next) {
     var slug = req.params.slug;
-    var event = App.getModel('Event', {slug: slug});
+    var event = new Event({slug: slug});
 
     event.fetch()
     .then(function (event) {
@@ -62,7 +64,7 @@ module.exports = {
    * GET /events/edit/:id
    */
   getEdit: function (req, res) {
-    var event = App.getModel('Event', {id: req.params.id});
+    var event = new Event({id: req.params.id});
 
     event.fetch()
     .then(function (model) {
@@ -86,7 +88,7 @@ module.exports = {
    * get upcoming events
    */
   getEvents: function (req, res, next) {
-    var events = App.getCollection('Events');
+    var events = new Events();
   
     var page = parseInt(req.query.p, 10);
     var query = {};
@@ -142,7 +144,7 @@ module.exports = {
    * get upcoming events
    */
   getEventsByCity: function (req, res, next) {
-    var events = App.getCollection('Events');
+    var events = new Events();
   
     var page = parseInt(req.query.p, 10);
     var query = {};
@@ -198,7 +200,7 @@ module.exports = {
    * get events admin
    */
   getAdmin: function (req, res, next) {
-    var events = App.getCollection('Events');
+    var events = new Events();
   
     var page = parseInt(req.query.p, 10);
     var query = {};
@@ -277,7 +279,7 @@ module.exports = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = App.getModel('Event', eventData);
+    var event = new Event(eventData);
     
     event.save()
     .then(function (model) {
@@ -330,7 +332,7 @@ module.exports = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = App.getModel('Event', {id: eventData.id});
+    var event = new Event({id: eventData.id});
     
     event.fetch()
     .then(function (model) {
@@ -353,7 +355,7 @@ module.exports = {
    * delete event
   **/
   getDelete: function(req, res) {
-    var event = App.getModel('Event', {id: req.params.id});
+    var event = new Event({id: req.params.id});
     
     event.fetch()
     .then(function (event) {
@@ -373,4 +375,7 @@ module.exports = {
     });
   }
 };
+
+
+module.exports = App.controller('Events', EventsController);
 

@@ -10,6 +10,7 @@
       </a>
     </div>
     <div class="row" style="margin-top:5px;">
+    {{#ifCond myEvents.length '>' 0}}
       <table class="table table-bordered table-striped table-condensed">
         <thead>
           <tr>
@@ -33,8 +34,7 @@
         </thead>
   
         <tbody>
-          {{#ifCond myEvents.length '>' 0}}
-            {{#each myEvents}}
+          {{#each myEvents}}
             <tr>
               <td style="text-align:center" class="active">
                 {{id}}
@@ -64,13 +64,28 @@
                 {{views}}
               </td>
             </tr>
-            {{/each}}
-          {{/ifCond}}
+          {{/each}}
+          
         </tbody>
       </table>
+      {{/ifCond}}
+      {{#ifCond myEvents.length '==' 0}}
+        <div class="alert alert-info fade in" role="alert">
+          <h4>Welcome to your Events admin</h4>
+          <p>Hello {{user.name}}, you can share upcoming events with Node.js community here.</p>
+          <p>
+            <a class="btn btn-danger" href="/events/new">Create a new event</a>
+          </p>
+        </div>
+      {{/ifCond}}
     </div>
   
     {{> pagination}}
   
   </div>
 </div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

@@ -1,0 +1,13 @@
+{
+  "name": "copyright",
+  "title": "Copyright",
+  "version": "0.0.1",
+  "routes": [],
+  "description": "Copyright",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "footer",
+  "order": 10,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-copyright.git"
+}

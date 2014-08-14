@@ -65,6 +65,10 @@
               <a href="/account/meetups">Meetups</a>
             </li>
             <li><a href="/account/blog">Blog</a></li>
+            {{#ifCond user.role.name '==' 'Super Administrator'}}
+              <li><a href="/account/users">Users</a></li>
+            {{/ifCond}}
+
             <li class="divider"></li>
             <li><a href="/devs/{{user.slug}}">View Profile</a></li>
           </ul>

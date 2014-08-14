@@ -11,8 +11,8 @@ describe('Tags Widget', function(){
     it('should return widget props with tags collection', function(done){
 
       Tags.exec(App) 
-      .then(function (widget) {
-        widget.collection.length.should.above(0);
+      .then(function (collection) {
+        collection.length.should.above(0);
         done();
       })
       .otherwise(function (error) {

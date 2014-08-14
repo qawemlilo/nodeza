@@ -11,8 +11,8 @@ describe('Latest Posts Widget', function(){
     it('should return widget props with Latest Posts collection', function(done){
 
       LatestPosts.exec(App) 
-      .then(function (widget) {
-        widget.collection.length.should.above(0);
+      .then(function (collection) {
+        collection.length.should.above(0);
         done();
       })
       .otherwise(function (error) {

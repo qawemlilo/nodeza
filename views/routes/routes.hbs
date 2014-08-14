@@ -6,18 +6,23 @@
   {{> flash}}
 
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-    <li class="active">
-      <a href="/account/users">
-        <span class="glyphicon glyphicon-user"></span> Users
+    <li>
+      <a href="/account/menus">
+        <span class="glyphicon glyphicon-link"></span> Links
       </a>
     </li>
     <li>
-      <a href="/account/users/roles">
-        <span class="glyphicon glyphicon-lock"></span> Roles
+      <a href="/account/menus">
+        <span class="glyphicon glyphicon-folder-open"></span> Menus
       </a>
     </li>
-    <a role="button" href="/users/new" class="btn btn-danger pull-right">
-      <span class="glyphicon glyphicon-user"></span> New User
+    <li class="active">
+      <a href="/account/routes">
+        <span class="glyphicon glyphicon-road"></span> Routes
+      </a>
+    </li>
+    <a role="button" href="/routes/new" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-link"></span> New Route
     </a>
   </ul>
 
@@ -30,54 +35,58 @@
               ID
             </th>
             <th>
-              Name
+              Route
             </th>
             <th>
-              Email
+              Controller
             </th>
             <th>
-              Role
+              Method
+            </th>
+            <th>
+              Access
             </th>
             <th>
             </th>
             <th>
-            </th>
-            <th>
-              <span class="glyphicon glyphicon-eye-open"></span>
             </th>
           </tr>
         </thead>
   
         <tbody>
-          {{#each users}}
+          {{#each routes}}
             <tr>
               <td style="text-align:center" class="active">
                 {{id}}
               </td>
               <td>
-                <a href="/users/edit/{{id}}">{{name}}</a>
-                <a href="/devs/{{slug}}" target="_blank" title="View Profile" class="text-danger">
+                <a href="/routes/edit/{{id}}">{{path}}</a>
+                <a href="{{path}}" target="_blank" title="View Profile" class="text-danger">
                   <small><span class="glyphicon glyphicon-new-window"></span></small>
                 </a>
               </td>
               <td>
-                {{email}}
+                {{controller_name}}
               </td>
               <td>
-                {{role.name}}
+                {{controller_method}}
+              </td>
+              <td>
+                {{#if role.name}}
+                  {{role.name}}
+                {{else}}
+                  Public
+                {{/if}}
               </td>
               <td style="text-align:center">
-                <a href="/users/edit/{{id}}" title="Edit">
+                <a href="/routes/edit/{{id}}" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
                 </a> 
               </td>
               <td style="text-align:center">
-                <a href="/users/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
+                <a href="/routes/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
                   <span class="glyphicon glyphicon-trash"></span> 
                 </a> 
-              </td>
-              <td style="text-align:center">
-                {{views}}
               </td>
             </tr>
           {{/each}}
@@ -89,3 +98,9 @@
   
   </div>
 </div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}
+

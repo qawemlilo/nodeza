@@ -12,6 +12,7 @@
     </div>
   
     <div class="row" style="margin-top:5px;">
+    {{#ifCond meetups.length '>' 0}}
       <table class="table table-bordered table-striped table-condensed">
         <thead>
           <tr>
@@ -35,8 +36,7 @@
         </thead>
   
         <tbody>
-          {{#ifCond meetups.length '>' 0}}
-            {{#each meetups}}
+          {{#each meetups}}
             <tr>
               <td style="text-align:center" class="active">
                 {{id}}
@@ -61,12 +61,25 @@
                 {{views}}
               </td>
             </tr>
-            {{/each}}
-          {{/ifCond}}
+          {{/each}}
         </tbody>
       </table>
+      {{/ifCond}}
+      {{#ifCond meetups.length '==' 0}}
+        <div class="alert alert-info fade in" role="alert">
+          <h4>Welcome to your Meetups admin</h4>
+          <p>You can start a new meetup group here or share an existing one. Let us build vibrant Node.js communities!</p>
+          <p>
+            <a class="btn btn-danger" href="/meetups/new">Add a Meetup group</a>
+          </p>
+        </div>
+      {{/ifCond}}
     </div>
   
     {{> pagination}}
   </div>
 </div>
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

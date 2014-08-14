@@ -2,8 +2,9 @@
 var when = require('when');
 var config = require('./config.json');
 
+module.exports.config = config;
 
-config.exec = function (App) {
+module.exports.exec = function (App) {
 
 	if (App.cacheExists('featuredposts')) {
 		return when(App.getCache('featuredposts'));
@@ -13,13 +14,9 @@ config.exec = function (App) {
 
   return posts.featured(2, {columns: ['slug', 'title', 'published_at', 'html']})
   .then(function (collection) {
-    config.collection = collection;
+    
+    App.setCache('featuredposts', collection);
 
-    App.setCache('featuredposts', config);
-
-    return config;
+    return collection;
   });
 };
-
-
-module.exports = config;

@@ -5,6 +5,7 @@
 var Base  = require('./base');
 var moment = require('moment');
 var markdown = require('markdown').markdown;
+var _ = require('lodash');
 
 
 var Event = Base.Model.extend({
@@ -20,7 +21,7 @@ var Event = Base.Model.extend({
     this.set('html', markdown.toHTML(this.get('markdown')));
     this.set('title', this.get('title').trim());
     
-    return Base.Model.prototype.saving.apply(this, arguments);
+    return Base.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 

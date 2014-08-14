@@ -1,0 +1,124 @@
+<div class="col-sm-12">
+  {{> flash}}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-link"></span> Edit Route
+      <a href="/account/routes" class="close pull-right text-danger">&times;</a>
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/routes/edit" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="{{route.id}}" />
+          
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="path">
+            Route <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control" type="text" name="path" id="path" value="{{route.path}}" required="" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="http_method">
+            HTTP Method <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <select name="http_method" class="form-control" id="http_method" required="">
+              <option value="">Select method</option>
+              <option value="get" {{#ifCond route.http_method '==' 'get'}}selected{{/ifCond}}>
+                GET
+              </option>
+              <option value="post" {{#ifCond route.http_method '==' 'post'}}selected{{/ifCond}}>
+                POST
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="controller_name">
+            Controller Name <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <select name="controller_name" class="form-control" id="controller_name" required="">
+              <option value="">Select a controller</option>
+              {{#selectedController controllers route.controller_name}}
+              {{/selectedController}}
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="controller_method">
+            Controller Method <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <select name="controller_method" class="form-control" id="controller_method" required="">
+              <option value="">Select controller method</option>
+              <option value="{{route.controller_method}}" selected>{{route.controller_method}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="role_id">
+            User Permissions
+          </label>
+          <div class="col-sm-7">
+            <select name="role_id" class="form-control" id="role_id">
+              <option>Select Permission</option>
+              {{#selectedDropdown roles route.role_id}}{{/selectedDropdown}}
+            </select>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-7">
+            <button class="btn btn-success" type="submit">
+              <i class="fa fa-check"></i> Update Route
+            </button>
+            <a href="/account/routes" class="btn btn-default">
+              <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}
+
+
+{{#extend "scripts"}}
+<script>
+(function ($) {
+  var controller_method = $('#controller_method');
+
+  $('#controller_name').on('change', function (e) {
+    var methods = $('#controller_name option:selected').data('methods');
+
+    methods = methods.split(',');
+    controller_method.empty();
+    
+    controller_method.append($('<option>',{
+      value: '',
+      html: 'Select controller method'
+    }));
+
+    methods.forEach(function (val) {
+      controller_method.append($('<option>',{
+        value: val,
+        html: val
+      }));
+    });
+  });
+}(jQuery));
+</script>
+{{/extend}}

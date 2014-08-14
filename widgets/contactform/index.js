@@ -3,11 +3,8 @@ var config = require('./config.json');
 var when = require('when');
 
 
-config.exec = function (App, collections) {
-  config.collection = false;
-  
-  return when(config);
+module.exports.config = config;
+
+module.exports.exec = function (App) {
+  return when(null);
 };
-
-
-module.exports = config;

@@ -1,0 +1,68 @@
+
+<div class="col-sm-12 blog-main">
+
+  {{> flash}}
+
+  <div class="panel panel-default">
+  
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-folder-open"></span> Edit Menu
+      <a href="/account/menus" class="close pull-right text-danger">&times;</a>
+    </div>
+  
+    <div class="panel-body">
+    <form class="form-horizontal" id="category-form" action="/menus/edit" method="POST">
+      <input type="hidden" name="_csrf" value="{{_csrf}}" />
+      <input type="hidden" name="id" value="{{menu.id}}" />
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="name">
+          Name <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="name" id="name" required="" value="{{menu.name}}" />
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="description">
+          Description <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-7">
+          <textarea class="form-control" rows="2" name="description" id="description" required="">{{menu.description}}</textarea>
+        </div>
+      </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="role_id">
+            User Permissions
+          </label>
+          <div class="col-sm-7">
+            <select name="role_id" class="form-control" id="role_id">
+              <option>Select Permission</option>
+              {{#selectedDropdown roles menu.role_id}}{{/selectedDropdown}}
+            </select>
+          </div>
+        </div>
+
+  
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-7">
+          <button class="btn btn-success" type="submit">
+            <i class="fa fa-check"></i> Update Menu
+          </button>
+  
+          <a href="/account/menus" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove"></span> Close
+          </a>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

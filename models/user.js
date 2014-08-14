@@ -5,10 +5,6 @@
 var Base  = require('./base');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
-var Token = require('./token');
-var Role = require('./roles');
-var Posts = require('../collections/posts');
-var Events = require('../collections/events');
 var when = require('when');
 var _ = require('lodash');
 

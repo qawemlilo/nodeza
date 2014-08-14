@@ -4,12 +4,9 @@
 
 var when = require('when');
 var Bookshelf  = require('../app').bookshelf;
-var crypto = require('crypto');
 
 
 Bookshelf.Collection = Bookshelf.Collection.extend({
-
-  model: {},
 
   limit: 10,
 
@@ -176,7 +173,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
 
     var posts = self.constructor.forge();
     
-    function fetch(totalpages) {
+    function fetch() {
       posts.query(function (query) {
         query.limit(limit);
         query.where(whereQuery[0], whereQuery[1], whereQuery[2]);

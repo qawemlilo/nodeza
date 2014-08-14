@@ -1,0 +1,132 @@
+<div class="col-sm-12">
+  {{> flash}}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-link"></span> New Link
+      <a href="/account/links" class="close pull-right text-danger">&times;</a>
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/links/edit" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="{{link.id}}" />
+          
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="inner_text">
+            Text <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control" type="text" name="inner_text" id="inner_text" placeholder="Link inner text" required="" value="{{link.inner_text}}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="menu_id">
+            Menu <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <select name="menu_id" class="form-control" id="menu_id" required="">
+              <option value="">Select a menu</option>
+              {{#selectedDropdown menus link.menu_id}}
+              {{/selectedDropdown}}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="route_id">
+            Route <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <select name="route_id" class="form-control" id="route_id" required="">
+              <option value="">Choose a routes</option>
+              {{#selectedRoute routes link.route_id}}
+              {{/selectedRoute}}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="icon">
+            Glyphicon Icon <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <div class="input-group">
+              <span class="input-group-addon">
+                glyphicon glyphicon-
+              </span>
+              <input type="text" class="form-control" name="icon" id="icon" require="" value="{{link.icon}}">
+            </div><!-- /input-group -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="title">
+            Title Attribute 
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control" type="text" name="title" id="title" value="{{link.title}}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="id_attr">
+            ID Attribute
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control" type="text" name="id_attr" id="id_attr" value="{{link.id_attr}}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="class_attr">
+            Class Attribute 
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control" type="text" name="class_attr" id="class_attr" value="{{link.class_attr}}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="target">
+            Target Attribute
+          </label>
+          <div class="col-sm-7">
+            <select name="target" class="form-control" id="target">
+              <option value="">Select method</option>
+              <option value="_self" {{#ifCond link.target '==' '_self'}}selected{{/ifCond}}>
+                _self
+              </option>
+              <option value="_blank" {{#ifCond link.target '==' '_blank'}}selected{{/ifCond}}>
+                _blank
+              </option>
+              <option value="_parent" {{#ifCond link.target '==' '_parent'}}selected{{/ifCond}}>
+                _parent
+              </option>
+              <option value="_top" {{#ifCond link.target '==' '_top'}}selected{{/ifCond}}>
+                _top
+              </option>
+            </select>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-7">
+            <button class="btn btn-success" type="submit">
+              <i class="fa fa-check"></i> Create Link
+            </button>
+            <a href="/account/links" class="btn btn-default">
+              <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

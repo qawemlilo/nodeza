@@ -1,0 +1,13 @@
+{
+  "name": "footermenu",
+  "title": "Footer Menu",
+  "version": "0.0.1",
+  "routes": [],
+  "description": "Footer Menu",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "footer",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-footermenu.git"
+}

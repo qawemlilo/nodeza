@@ -1,0 +1,20 @@
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    {{config.title}}
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      {{#each collection}}
+        <li>
+          <span class="glyphicon glyphicon-{{icon}}"></span>
+          <a href="{{route.path}}" title="{{title}}" target="{{target}}" class="{{class_attr}}" id="{{id_attr}}"> 
+            {{inner_text}}
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

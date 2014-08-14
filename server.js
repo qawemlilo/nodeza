@@ -1,7 +1,6 @@
 
 module.exports = function (config, App) {
   
-  var routes = require('./routes');
   var express = require('express');
   var flash = require('express-flash');
   var logger = require('morgan');
@@ -67,7 +66,10 @@ module.exports = function (config, App) {
     store: new MongoStore({
       url: config.mongodb,
       auto_reconnect: true
-    })
+    }),
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
   }));
   
   // login management
@@ -143,8 +145,6 @@ module.exports = function (config, App) {
   
   // Load widgets
   server.use(widget({app: App}));
-
-  routes.setup(server);
 
   return server;
 };

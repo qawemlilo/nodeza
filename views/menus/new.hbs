@@ -1,0 +1,70 @@
+
+<div class="col-sm-12 blog-main">
+
+  {{> flash}}
+
+  <div class="panel panel-default">
+  
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-folder-open"></span> New Menu
+      <a href="/account/menus" class="close pull-right text-danger">&times;</a>
+    </div>
+  
+    <div class="panel-body">
+    <form class="form-horizontal" id="category-form" action="/menus/new" method="POST">
+      <input type="hidden" name="_csrf" value="{{_csrf}}" />
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="name">
+          Name <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="name" id="name" required="" autofocus />
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="description">
+          Description <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-7">
+          <textarea class="form-control" size="124" rows="2" name="description" id="description" required=""></textarea>
+        </div>
+      </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="role_id">
+            User Permissions
+          </label>
+          <div class="col-sm-7">
+            <select name="role_id" class="form-control" id="role_id">
+              <option>Select Permission</option>
+              {{#each roles}}
+                <option value="{{id}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+
+  
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-7">
+          <button class="btn btn-success" type="submit">
+            <i class="fa fa-check"></i> Create Menu
+          </button>
+  
+          <a href="/account/menus" class="btn btn-default">
+            <span class="glyphicon glyphicon-remove"></span> Close
+          </a>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

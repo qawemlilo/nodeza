@@ -1,0 +1,76 @@
+
+{{> leftsidebar}}
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li>
+      <a href="/account/users">
+        <span class="glyphicon glyphicon-user"></span> Users
+      </a>
+    </li>
+    <li class="active">
+      <a href="/account/users/roles">
+        <span class="glyphicon glyphicon-lock"></span> Roles
+      </a>
+    </li>
+    <a role="button" href="/roles/new" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-lock"></span> New Role
+    </a>
+  </ul>
+
+  <div class="container-fluid">
+    <div class="row" style="margin-top:5px;">
+      <table class="table table-bordered table-striped table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align:center" class="active">
+              ID
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          {{#each roles}}
+            <tr>
+              <td style="text-align:center" class="active">
+                {{id}}
+              </td>
+              <td>
+                <a href="/roles/edit/{{id}}">{{name}}</a>
+              </td>
+              <td style="text-align:center">
+                <a href="/roles/edit/{{id}}" title="Edit">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </a> 
+              </td>
+              <td style="text-align:center">
+                <a href="/roles/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
+                  <span class="glyphicon glyphicon-trash"></span> 
+                </a> 
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  
+    {{> pagination}}
+  
+  </div>
+</div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}
+

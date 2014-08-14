@@ -2,13 +2,13 @@
  * Blog categories collection
 **/
 
-var Bookshelf  = require('../app').bookshelf;
+var Base  = require('./base');
 var Category = require('../models/category');
 
-var Categories = Bookshelf.Collection.extend({
+var Categories = Base.Collection.extend({
 
   model: Category
 
 });
 
-module.exports = Bookshelf.collection('Categories', Categories);
+module.exports = Base.collection('Categories', Categories);

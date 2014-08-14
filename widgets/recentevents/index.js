@@ -7,7 +7,10 @@ function datetime(ts) {
   return new Date(ts || Date.now()).toISOString().slice(0, 19).replace('T', ' ');
 }
 
-config.exec = function (App) {
+
+module.exports.config = config;
+
+module.exports.exec = function (App) {
 
   if (App.cacheExists('recentevents')) {
     return when(App.getCache('recentevents'));
@@ -23,13 +26,9 @@ config.exec = function (App) {
     {columns: ['slug', 'title']
   })
   .then(function (collection) {
-    config.collection = collection;
+    
+    App.setCache('recentevents', collection);
 
-    App.setCache('recentevents', config);
-
-    return config;
+    return collection;
   });
 };
-
-
-module.exports = config;

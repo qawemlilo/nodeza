@@ -71,6 +71,160 @@ describe('Routes', function(){
   });
   
   
+  describe('GET /account/events', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/events')
+        .expect('Location', '/login')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/meetups', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/meetups')
+        .expect('Location', '/login')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/blog', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/blog')
+        .expect('Location', '/login')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/password', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/password')
+        .expect('Location', '/login')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/linked', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/linked')
+        .expect('Location', '/login')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/blog/categories', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/blog/categories')
+        .expect('Location', '/')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/users', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/users')
+        .expect('Location', '/')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/users/roles', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/users/roles')
+        .expect('Location', '/')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/links', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/links')
+        .expect('Location', '/')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/routes', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/routes')
+        .expect('Location', '/')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
+  describe('GET /account/menus', function() {
+    it('should redirect to login and return 302', function(done) {
+      request(server)
+        .get('/account/menus')
+        .expect('Location', '/')
+        .expect(302)
+        .end(function(err, resp) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+  
+  
   describe('GET /events', function() {
     it('should return 200 OK', function(done) {
       request(server)

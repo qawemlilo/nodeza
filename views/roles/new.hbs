@@ -1,0 +1,41 @@
+<div class="col-sm-12">
+  {{> flash}}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-user"></span> Edit Role
+      <a href="/account/users/roles" class="close pull-right text-danger">&times;</a>
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/roles/new" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+          
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="name">
+            Name <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-7">
+            <input class="form-control" type="text" name="name" id="name" required="" autofocus />
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-7">
+            <button class="btn btn-success" type="submit">
+              <i class="fa fa-check"></i> Create Role
+            </button>
+            <a href="/account/users/roles" class="btn btn-default">
+              <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

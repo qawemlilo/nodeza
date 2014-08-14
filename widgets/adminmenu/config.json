@@ -11,7 +11,10 @@
     "/account/linked",
     "/account/users",
     "/account/users/roles",
-    "/account/blog/categories"
+    "/account/blog/categories",
+    "/account/routes",
+    "/account/links",
+    "/account/menus"
   ],
   "description": "Admin Menu",
   "author": "Qawelesizwe Mlilo",

@@ -4,12 +4,11 @@
 var Base  = require('./base');
 var when  = require('when');
 var markdown = require('markdown').markdown;
-var Category  = require('./category');
-var Tag  = require('./tag');
-var User  = require('./user');
-var Tags  = require('../collections/tags');
 var _ = require('lodash');
 var moment = require('moment');
+var Tag  = require('./tag');
+var Tags  = require('../collections/tags');
+
 
 
 

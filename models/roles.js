@@ -11,8 +11,16 @@ var Role = Base.Model.extend({
   tableName: 'roles',
 
 
+  hasTimestamps: true,
+
+
   users: function() {
     return this.hasMany('Users');
+  },
+
+
+  routes: function() {
+    return this.hasMany('Route');
   }
 });
 

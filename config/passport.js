@@ -158,12 +158,13 @@ passport.use(new GitHubStrategy(secrets.github,
           .save()
           .then(function () {
             if (isNewAccount) {
-              req.isNewAccount = true;
               req.flash('info', { msg: 'Account successfully created! You can may also set your password to activate email login.' });
             }
             else {
               req.flash('info', { msg: 'GitHub account has been linked.' });
             }
+
+            res.locals.isNewAccount = isNewAccount;
               
             done(false, model);
           })

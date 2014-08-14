@@ -31,7 +31,7 @@ Bookshelf.Model = Bookshelf.Model.extend({
   },
 
 
-  canEdit: function () {
+  hasPermission: function () {
     var ownerId = this.get('user_id');
     var currentUserId = App.user.get('id');
     var role = App.user.related('role').get('name');
@@ -41,7 +41,7 @@ Bookshelf.Model = Bookshelf.Model.extend({
     }
 
     // Only owner and super admin can edit this content
-    return ownerId &&  (ownerId === currentUserId || role === 'Super Administrator');
+    return (ownerId === currentUserId || role === 'Super Administrator');
   },
 
 
@@ -67,7 +67,7 @@ Bookshelf.Model = Bookshelf.Model.extend({
     var table = self.getTableName();
 
     // if user has no access to content
-    if (!self.isNew && !self.canEdit()) {
+    if (!self.isNew() && !self.hasPermission()) {
       throw new Error('Access restricted');
     }
 
@@ -76,9 +76,9 @@ Bookshelf.Model = Bookshelf.Model.extend({
       App.clearCache();
     }
     
-    if (Databases[table].updated_by) {
+    if (!self.isNew() && Databases[table].updated_by) {
       // updated_by current user
-      this.set('updated_by', App.user.get('id'));
+      self.set('updated_by', App.user.get('id'));
     }
 
     if (self.hasChanged('slug') || !self.get('slug') && Databases[table].slug) {
@@ -99,8 +99,8 @@ Bookshelf.Model = Bookshelf.Model.extend({
 
 
     // Super user cannot destroy own account
-    if (!this.canEdit() || (this.tableName === 'users' && ownerId === currentUserId && role === 'Super Administrator')) {
-      throw new Error('Action permission denied');
+    if (!this.hasPermission() || (this.tableName === 'users' && ownerId === currentUserId && role === 'Super Administrator')) {
+      throw new Error('You do not have permission to perform that action');
     }
   },
 

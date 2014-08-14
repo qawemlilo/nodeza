@@ -2,7 +2,10 @@
 module.exports = {
   roles: {
     id: {type: 'increments', nullable: false, primary: true},
-    name: {type: 'string', nullable: false, maxlength: 32}
+    name: {type: 'string', nullable: false, maxlength: 32},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'integer', nullable: false, unsigned: true},
+    updated_at: {type: 'dateTime', nullable: true}
   },
 
   users: {
@@ -94,6 +97,17 @@ module.exports = {
   },
 
 
+  categories: {
+    id: {type: 'increments', nullable: false, primary: true},
+    name: {type: 'string', maxlength: 150, nullable: false},
+    slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
+    description: {type: 'string', maxlength: 200, nullable: true},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'integer', nullable: false, unsigned: true},
+    updated_at: {type: 'dateTime', nullable: true}
+  },
+
+
   posts: {
     id: {type: 'increments', nullable: false, primary: true},
     user_id: {type: 'integer', nullable: false, unsigned: true},
@@ -116,19 +130,6 @@ module.exports = {
   },
 
 
-  categories: {
-    id: {type: 'increments', nullable: false, primary: true},
-    name: {type: 'string', maxlength: 150, nullable: false},
-    slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
-    description: {type: 'string', maxlength: 200, nullable: false},
-    meta_title: {type: 'string', maxlength: 150, nullable: true},
-    meta_description: {type: 'string', maxlength: 200, nullable: true},
-    created_at: {type: 'dateTime', nullable: false},
-    updated_by: {type: 'integer', nullable: false, unsigned: true},
-    updated_at: {type: 'dateTime', nullable: true}
-  },
-
-
   tags: {
     id: {type: 'increments', nullable: false, primary: true},
     name: {type: 'string', maxlength: 150, nullable: false},
@@ -146,5 +147,46 @@ module.exports = {
     id: {type: 'increments', nullable: false, primary: true},
     post_id: {type: 'integer', nullable: false, unsigned: true},
     tag_id: {type: 'integer', nullable: false, unsigned: true}
+  },
+
+
+  routes: {
+    id: {type: 'increments', nullable: false, primary: true},
+    role_id: {type: 'integer', nullable: false, unsigned: true},
+    path: {type: 'string', maxlength: 150, nullable: false, unique: true},
+    http_method: {type: 'string', maxlength: 12, nullable: false},
+    controller_name: {type: 'string', maxlength: 150, nullable: false},
+    controller_method: {type: 'string', maxlength: 150, nullable: false},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'integer', nullable: false, unsigned: true},
+    updated_at: {type: 'dateTime', nullable: true}
+  },
+
+
+  menus: {
+    id: {type: 'increments', nullable: false, primary: true},
+    name: {type: 'string', maxlength: 150, nullable: false, unique: true},
+    role_id: {type: 'integer', nullable: false, unsigned: true},
+    description: {type: 'string', maxlength: 200, nullable: true},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'integer', nullable: false, unsigned: true},
+    updated_at: {type: 'dateTime', nullable: true}
+  },
+
+
+  links: {
+    id: {type: 'increments', nullable: false, primary: true},
+    route_id: {type: 'integer', nullable: true, unsigned: true},
+    menu_id: {type: 'integer', nullable: true, unsigned: true},
+    parentId: {type: 'integer', nullable: true, unsigned: true},
+    inner_text: {type: 'string', maxlength: 150, nullable: false},
+    class_attr: {type: 'string', maxlength: 150, nullable: false},
+    id_attr: {type: 'string', maxlength: 150, nullable: false},
+    title: {type: 'string', maxlength: 150, nullable: true},
+    target: {type: 'string', maxlength: 150, nullable: true},
+    icon: {type: 'string', maxlength: 150, nullable: true},
+    created_at: {type: 'dateTime', nullable: false},
+    updated_by: {type: 'integer', nullable: false, unsigned: true},
+    updated_at: {type: 'dateTime', nullable: true}
   }
 };

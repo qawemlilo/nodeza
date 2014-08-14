@@ -1,8 +1,6 @@
 
+var App = require('../app');
 var User = require('../models/user');
-var Users = require('../collections/users');
-var Roles = require('../collections/roles');
-var Tokens = require('../models/token');
 var Mailer = require('../lib/mailer');
 var async = require('async');
 var crypto = require('crypto');
@@ -20,7 +18,7 @@ function datetime(ts) {
 }
 
 
-module.exports = {
+var AccountController = {
 
   /**
    * GET /login
@@ -31,101 +29,6 @@ module.exports = {
       title: 'Log In',
       description: 'NodeZA log in page',
       page: 'login'
-    });
-  },
-
-
-  /*
-   * GET /users/:id
-   * loads an event by id
-   */
-  getUser: function (req, res, next) {
-    User.forge({slug: req.params.slug})
-    .fetch({withRelated: ['posts', 'events']})
-    .then(function (profile) {
-      res.render('account/profile', {
-        title: 'NodeZA profile of ' + profile.get('name'),
-        myposts: profile.related('posts').toJSON(),
-        gravatar: profile.gravatar(198),
-        myevents: profile.related('events').toJSON(),
-        description: 'NodeZA profile of ' + profile.get('name'),
-        profile: profile.getJSON(['slug', 'name', 'location', 'about', 'email']),
-        page: 'profile'
-      });
-
-      profile.viewed();
-    })
-    .otherwise(function () {
-      req.flash('errors', {'msg': 'Could not find user.'});
-      res.redirect('back');
-    });
-  },
-
-
-  /*
-   * GET /users/new
-   * Load new user form
-  **/
-  getNewUser: function (req, res, next) {
-    res.render('account/new_user', {
-      title: 'New User',
-      description: 'New User',
-      page: 'newuser'
-    });
-  },
-
-
-  /*
-   * GET /users/edit/:id
-   * Load user edit form
-  **/
-  getEditUser: function (req, res, next) {
-    var roles = new Roles();
-
-    roles.fetch()
-    .then(function (roles) {
-      User.forge({id: req.params.id})
-      .fetch({withRelated: ['role']})
-      .then(function (user) {
-        res.render('account/edit_user', {
-          title: 'Edit User',
-          description: 'Edit User',
-          usr: user.toJSON(),
-          roles: roles.toJSON(),
-          page: 'edituser'
-        });
-      })
-      .otherwise(function () {
-        req.flash('errors', {'msg': 'Could not find user.'});
-        res.redirect('/account/users');
-      });
-    })
-    .otherwise(function () {
-      req.flash('errors', {'msg': 'Could not find user roles.'});
-      res.redirect('/account/users');
-    });
-  },
-
-
-  /*
-   * GET /account/users/roles
-   * Load user roles
-  **/
-  getRoles: function (req, res, next) {
-    var roles = new Roles();
-
-    roles.fetch()
-    .then(function (roles) {
-      res.render('account/roles', {
-        title: 'User Roles',
-        description: 'User Roles',
-        roles: roles.toJSON(),
-        page: 'userroles'
-      });
-    })
-    .otherwise(function () {
-      req.flash('errors', {'msg': 'Could not find user roles.'});
-      res.redirect('/account/users');
     });
   },
 
@@ -192,7 +95,7 @@ module.exports = {
   /**
    * POST /signup
    * Registers user
-   */
+  **/
   postSignup: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 6 characters long').len(6);
@@ -258,40 +161,6 @@ module.exports = {
     .otherwise(function () {
       req.flash('errors', { msg: 'Database error. Could not process query.' });
       return res.redirect('/forgot');
-    });
-  },
-
-
-
-  /**
-   * GET /account/users
-   * get all users
-   */
-  getUsers: function (req, res) {
-    var users = new Users();
-    var page = parseInt(req.query.p, 10);
-    var currentpage = page || 1; 
-    var opts = {
-      limit: 10,
-      page: currentpage,
-      order: "asc",
-      where: ['created_at', '<', new Date()]
-    };
-
-    users.fetchBy('id', opts, {withRelated: ['role']})
-    .then(function (collection) {
-      res.render('account/users', {
-        title: 'Registered Users',
-        pagination: users.pages,
-        users: collection.toJSON(),
-        description: 'Registered Users',
-        page: 'users',
-        query: {}
-      });
-    })
-    .otherwise(function (error) {
-      req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/');      
     });
   },
   
@@ -532,6 +401,13 @@ module.exports = {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('name', 'Name must be at least 3 characters long').len(3);
 
+    var errors = req.validationErrors();
+  
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('/account');
+    }
+
     var details = {
       last_name: req.body.last_name,
       name: req.body.name,
@@ -546,7 +422,7 @@ module.exports = {
     User.forge({id: req.body.id})
     .fetch()
     .then(function (user) {
-      user.save(details, {method: 'update'})
+      user.save(details)
       .then(function() {
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/account');
@@ -600,3 +476,6 @@ module.exports = {
     });
   }
 };
+
+
+module.exports = App.controller('Account', AccountController);

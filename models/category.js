@@ -1,8 +1,7 @@
 /**
  * Module dependencies.
  */
-
-var Posts  = require('../collections/posts');
+ 
 var Base  = require('./base');
 
 
@@ -15,7 +14,7 @@ var Category =  Base.Model.extend({
 
 
   posts: function () {
-    return this.belongsToMany('Posts', 'category_id');
+    return this.hasMany('Posts', 'category_id');
   }
 });
 

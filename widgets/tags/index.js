@@ -3,7 +3,9 @@ var when = require('when');
 var config = require('./config.json');
 
 
-config.exec = function (App) {
+module.exports.config = config;
+
+module.exports.exec = function (App) {
 
   if (App.cacheExists('tags')) {
     return when(App.getCache('tags'));
@@ -17,13 +19,9 @@ config.exec = function (App) {
 
   return tags.fetchTags(50, {columns: ['slug', 'name']})
   .then(function (collection) {
-    config.collection = collection;
 
-    App.setCache('tags', config);
+    App.setCache('tags', collection);
     
-    return config;
+    return collection;
   });
 };
-
-
-module.exports = config;

@@ -3,7 +3,9 @@ var when = require('when');
 var config = require('./config.json');
 
 
-config.exec = function (App) {
+module.exports.config = config;
+
+module.exports.exec = function (App) {
 
   if (App.cacheExists('featuredmeetups')) {
     return when(App.getCache('featuredmeetups'));
@@ -20,13 +22,9 @@ config.exec = function (App) {
     columns: ['title', 'short_desc', 'slug', 'image_url']
   })
   .then(function (collection) {
-    config.collection = collection;
+    
+    App.setCache('featuredmeetups', collection);
 
-    App.setCache('featuredmeetups', config);
-
-    return config;
+    return collection;
   });
 };
-
-
-module.exports = config;

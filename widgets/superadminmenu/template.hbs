@@ -4,11 +4,23 @@
 {{#ifCond user.role.name '==' 'Super Administrator'}}
   <div class="panel panel-default">
     <div class="panel-heading">
-      Super Administrator
+      {{config.title}}
     </div>
     <ul class="list-group">
       <li class="list-group-item {{#activeAdminMenu 'users' page}}{{/activeAdminMenu}}">
         <span class="glyphicon glyphicon-user"></span> <a href="/account/users">Users</a>
+      </li>
+      <li class="list-group-item {{#activeAdminMenu 'menus' page}}{{/activeAdminMenu}}">
+        <span class="glyphicon glyphicon-folder-open"></span> 
+        <a href="/account/menus">Menus</a>
+      </li>
+      <li class="list-group-item {{#activeAdminMenu 'links' page}}{{/activeAdminMenu}}">
+        <span class="glyphicon glyphicon-link"></span> 
+        <a href="/account/links">Links</a>
+      </li>
+      <li class="list-group-item {{#activeAdminMenu 'routes' page}}{{/activeAdminMenu}}">
+        <span class="glyphicon glyphicon-road"></span> 
+        <a href="/account/routes">Routes</a>
       </li>
     </ul>
   </div>

@@ -19,10 +19,10 @@ module.exports.populate  = function () {
     {name: 'Super Administrator'}
   ];
   var catsData = [
-    {name: 'Articles'}, 
-    {name: 'Interviews'},
-    {name: 'Tutorials'}, 
-    {name: 'News'}
+    {name: 'Articles', description: 'General content'}, 
+    {name: 'Interviews', description: 'Companies using Node'},
+    {name: 'Tutorials', description: 'Node.js Tutorials'}, 
+    {name: 'News', description: 'Latest Node.js news'}
   ];
 
   var operations =  [];
@@ -45,13 +45,14 @@ module.exports.populate  = function () {
   });
 
   _.each(catsData, function (model) {
-
     operations.push(function () {
-      return Category.forge(model).save().then(function(cat) {
+      return Category.forge(model)
+      .save()
+      .then(function(cat) {
         var res = 'Category entry id: ' + cat.get('id') + ' created';
         console.log(chalk.green(' > ') + res);
         return res;
-      }); 
+      }).otherwise(function (err) { console.log(err.message); });
     });
   });
 
@@ -62,7 +63,7 @@ module.exports.populate  = function () {
         var res = 'Meetup entry id: ' + meetup.get('id') + ' created';
         console.log(chalk.green(' > ') + res);
         return res;
-      }).otherwise(function (err) { throw err;}); 
+      }).otherwise(function (err) { console.log(err.message); }); 
     });
   });
 
@@ -72,7 +73,7 @@ module.exports.populate  = function () {
         var res = 'Events entry id: ' + event.get('id') + ' created';
         console.log(chalk.green(' > ') + res);
         return res;
-      });
+      }).otherwise(function (err) { console.log(err.message); });
     });
   });
 
@@ -82,7 +83,7 @@ module.exports.populate  = function () {
         var res = 'Post entry id: ' + post.get('id') + ' created';
         console.log(chalk.green(' > ') + res);
         return res;
-      });
+      }).otherwise(function (err) { console.log(err.message); });
     });
   });
 

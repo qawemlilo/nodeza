@@ -6,7 +6,7 @@
   "description": "Subscribe",
   "author": "Qawelesizwe Mlilo",
   "authorEmail": "qawemlilo@gmail.com",
-  "position": ["abovecontent"],
+  "position": "abovecontent",
   "order": 3,
   "active": true,
   "repo": "git://github.com/nodeza/nodeza-subscribe.git"

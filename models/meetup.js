@@ -3,6 +3,7 @@
  */
 var Base  = require('./base');
 var markdown = require('markdown').markdown;
+var _ = require('lodash');
 
 
 var Meetup =  Base.Model.extend({
@@ -18,7 +19,7 @@ var Meetup =  Base.Model.extend({
     this.set('html', markdown.toHTML(this.get('markdown')));
     this.set('title', this.get('title').trim());
     
-    return Base.Model.prototype.saving.apply(this, arguments);
+    return Base.Model.prototype.saving.apply(this, _.toArray(arguments));
   }
 });
 

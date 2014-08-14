@@ -1,11 +1,11 @@
 
-//Data require by the controller
+var App = require('../app');
 var Posts = require('../collections/posts');
 var Tag = require('../models/tag');
 
 
 
-module.exports = {
+var TagsController = {
 
   /**
    * GET /blog/tags/:slug
@@ -66,4 +66,7 @@ module.exports = {
     });
   }
 };
+
+
+module.exports = App.controller('Tags', TagsController);
 

@@ -94,5 +94,21 @@
     "lng": "-33.9213455",
     "lat": "18.4199708",
     "email": "none@none.com" 
+  },
+  {
+    "user_id": 1,
+    "title": "NodeZA",
+    "short_desc": "Controllers contain the logical parts that work as a glue between views and models.",
+    "markdown": "Controllers contain the logical parts that work as a glue between views and models. They accept a request and response object, load data from a model or collection, pass the data to a view template and then render the view.",
+    "dt": "2014-09-30",
+    "start_time": "18:30:00",
+    "finish_time": "",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "town": "",
+    "address": "60 Hout Street, Cape Town, za",
+    "lng": "-33.9213455",
+    "lat": "18.4199708",
+    "email": "none@none.com" 
   }
 ]

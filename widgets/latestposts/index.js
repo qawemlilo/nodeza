@@ -3,7 +3,9 @@ var when = require('when');
 var config = require('./config.json');
 
 
-config.exec = function (App) {
+module.exports.config = config;
+
+module.exports.exec = function (App) {
 
   if (App.cacheExists('latestposts')) {
     return when(App.getCache('latestposts'));
@@ -13,13 +15,9 @@ config.exec = function (App) {
 
   return posts.fetchBy('published_at', {limit: 5, noPagination: true})
   .then(function (collection) {
-    config.collection = collection;
 
-    App.setCache('latestposts', config);
+    App.setCache('latestposts', collection);
     
-    return config;
+    return collection;
   });
 };
-
-
-module.exports = config;

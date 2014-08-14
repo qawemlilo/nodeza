@@ -25,6 +25,7 @@
 
   <div class="container-fluid">
     <div class="row" style="margin-top:5px;">
+    {{#ifCond posts.length '>' 0}}
       <table class="table table-bordered table-striped table-condensed">
         <thead>
           <tr>
@@ -50,8 +51,7 @@
         </thead>
   
         <tbody>
-          {{#ifCond posts.length '>' 0}}
-            {{#each posts}}
+          {{#each posts}}
             <tr>
               <td style="text-align:center" class="active">
                {{id}}
@@ -82,13 +82,29 @@
                 {{views}}
               </td>
             </tr>
-            {{/each}}
-          {{/ifCond}}
+          {{/each}}
+          
         </tbody>
       </table>
+      {{/ifCond}}
+
+      {{#ifCond posts.length '==' 0}}
+        <div class="alert alert-info fade in" role="alert">
+          <h4>Welcome to your blog admin</h4>
+          <p>Hi there {{user.name}}, looks like you haven't posted any content yet. We would love to see you sharing some of your Node.js knowledge with the community.</p>
+          <p>
+            <a class="btn btn-danger" href="/blog/new">Create your first post</a>
+          </p>
+        </div>
+      {{/ifCond}}
     </div>
   
     {{> pagination}}
   
   </div>
 </div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

@@ -3,7 +3,9 @@ var when = require('when');
 var config = require('./config.json');
 
 
-config.exec = function (App) {
+module.exports.config = config;
+
+module.exports.exec = function (App) {
    
   if (App.cacheExists('popularposts')) {
     return when(App.getCache('popularposts'));
@@ -14,13 +16,9 @@ config.exec = function (App) {
 
   return posts.fetchBy('views', {limit: 5, noPagination: true})
   .then(function (collection) {
-    config.collection = collection;
 
-    App.setCache('popularposts', config);
+    App.setCache('popularposts', collection);
     
-    return config;
+    return collection;
   });
 };
-
-
-module.exports = config;

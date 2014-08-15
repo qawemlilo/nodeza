@@ -77,7 +77,7 @@ var EventsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Event not found.'});
-      res.redirect('/account/events');       
+      res.redirect('/admin/events');       
     });
   },
 
@@ -212,11 +212,11 @@ var EventsController = {
       page: currentpage,
       where: ['user_id', '=', req.user.get('id')],
       andWhere: [],
-      base: '/account/events'
+      base: '/admin/events'
     };
   
     if (currentpage < 1) {
-      res.redirect('/account/events');
+      res.redirect('/admin/events');
     }
 
     if (req.user.related('role').get('name') === 'Super Administrator') {

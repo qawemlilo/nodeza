@@ -77,7 +77,7 @@ var MeetupsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Meetup not found :('});
-      res.redirect('/account/meetups');
+      res.redirect('/admin/meetups');
     });
   },
 
@@ -115,7 +115,7 @@ var MeetupsController = {
 
 
   /**
-   * GET /account/meetups
+   * GET /admin/meetups
    * get upcoming meetups
    */
   getAdmin: function (req, res, next) {
@@ -205,7 +205,7 @@ var MeetupsController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': errMsg});
-      res.redirect('/account/meetups');
+      res.redirect('/admin/meetups');
     });
   },
 
@@ -264,12 +264,12 @@ var MeetupsController = {
       })
       .otherwise(function (error) {
         req.flash('errors', {'msg': 'Error. Meetup not updated.'});
-        res.redirect('/account/meetups');
+        res.redirect('/admin/meetups');
       });
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': 'Meetup not found.'});
-      res.redirect('/account/meetups');
+      res.redirect('/admin/meetups');
     });
   }
 };

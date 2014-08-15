@@ -66,10 +66,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account', function() {
+  describe('GET /admin/account', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account')
+        .get('/admin/account')
         .expect('Location', '/login')
         .expect(302)
         .end(function(err, resp) {
@@ -80,10 +80,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/events', function() {
+  describe('GET /admin/events', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/events')
+        .get('/admin/events')
         .expect('Location', '/login')
         .expect(302)
         .end(function(err, resp) {
@@ -94,10 +94,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/meetups', function() {
+  describe('GET /admin/meetups', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/meetups')
+        .get('/admin/meetups')
         .expect('Location', '/login')
         .expect(302)
         .end(function(err, resp) {
@@ -108,10 +108,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/blog', function() {
+  describe('GET /admin/blog', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/blog')
+        .get('/admin/blog')
         .expect('Location', '/login')
         .expect(302)
         .end(function(err, resp) {
@@ -122,10 +122,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/password', function() {
+  describe('GET /admin/account/password', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/password')
+        .get('/admin/account/password')
         .expect('Location', '/login')
         .expect(302)
         .end(function(err, resp) {
@@ -136,10 +136,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/linked', function() {
+  describe('GET /admin/account/linked', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/linked')
+        .get('/admin/account/linked')
         .expect('Location', '/login')
         .expect(302)
         .end(function(err, resp) {
@@ -150,10 +150,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/blog/categories', function() {
+  describe('GET /admin/blog/categories', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/blog/categories')
+        .get('/admin/blog/categories')
         .expect('Location', '/')
         .expect(302)
         .end(function(err, resp) {
@@ -164,10 +164,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/users', function() {
+  describe('GET /admin/users', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/users')
+        .get('/admin/users')
         .expect('Location', '/')
         .expect(302)
         .end(function(err, resp) {
@@ -178,10 +178,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/users/roles', function() {
+  describe('GET /admin/users/roles', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/users/roles')
+        .get('/admin/users/roles')
         .expect('Location', '/')
         .expect(302)
         .end(function(err, resp) {
@@ -192,10 +192,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/links', function() {
+  describe('GET /admin/links', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/links')
+        .get('/admin/links')
         .expect('Location', '/')
         .expect(302)
         .end(function(err, resp) {
@@ -206,10 +206,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/routes', function() {
+  describe('GET /admin/routes', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/routes')
+        .get('/admin/routes')
         .expect('Location', '/')
         .expect(302)
         .end(function(err, resp) {
@@ -220,10 +220,10 @@ describe('Routes', function(){
   });
   
   
-  describe('GET /account/menus', function() {
+  describe('GET /admin/menus', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
-        .get('/account/menus')
+        .get('/admin/menus')
         .expect('Location', '/')
         .expect(302)
         .end(function(err, resp) {

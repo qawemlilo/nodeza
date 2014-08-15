@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "cleanup": "rm -f *~",
-    "jshint": "jshint models collections controllers lib sql widgets test app.js dbconnect.js server.js index.js config/passport.js routes.js",
+    "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
+    "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js config/passport.js router.js",
     "test": "npm run jshint && ./node_modules/mocha/bin/mocha test",
     "setup": "node sql/dbsetup.js && node sql/migrate.js"
   },

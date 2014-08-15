@@ -20,6 +20,16 @@ function datetime(ts) {
 
 var AccountController = {
 
+
+  getAdmin: function (req, res) {
+    res.render('admin', {
+      title: 'NodeZA Admin',
+      description: 'NodeZA Admin',
+      page: 'admin'
+    });
+  },
+
+
   /**
    * GET /login
    * View login page
@@ -318,7 +328,7 @@ var AccountController = {
 
 
   /**
-   * GET /account
+   * GET /admin/account
    * logged in user account details form.
    */
   getAccount: function (req, res) {
@@ -332,7 +342,7 @@ var AccountController = {
 
 
   /**
-   * GET /account/password
+   * GET /admin/account/password
    * logged in user password form
    */
   getPasswordForm: function (req, res) {
@@ -345,7 +355,7 @@ var AccountController = {
 
 
   /**
-   * GET /account/password
+   * GET /admin/account/password
    * logged in user password form
    */
   getLinkedAccounts: function (req, res) {
@@ -377,17 +387,17 @@ var AccountController = {
 
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/account');
+      return res.redirect('back');
     }
 
     req.user.save({password: req.body.password})
     .then(function () {
       req.flash('success', { msg: 'Password has been changed.' });
-      res.redirect('/account/password');
+      res.redirect('/admin/account/password');
     })
     .otherwise(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('/account/password');
+      res.redirect('/admin/account/password');
     });
   },
 
@@ -404,7 +414,7 @@ var AccountController = {
   
     if (errors) {
       req.flash('errors', errors);
-      return res.redirect('/account');
+      return res.redirect('/admin/account');
     }
 
     var details = {
@@ -424,11 +434,11 @@ var AccountController = {
       user.save(details)
       .then(function() {
         req.flash('success', {msg: 'Account information updated.'});
-        res.redirect('/account');
+        res.redirect('/admin/account');
       })
       .otherwise(function (error) {
         req.flash('error', {msg: error.message});
-        res.redirect('/account');
+        res.redirect('/admin/account');
       });
     })
     .otherwise(function () {
@@ -452,7 +462,7 @@ var AccountController = {
     })
     .otherwise(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('/account');        
+      res.redirect('/admin/account');        
     });
   },
 
@@ -467,7 +477,7 @@ var AccountController = {
     req.user.unlink(provider)
     .then(function (msg) {
       req.flash('info', {msg: msg}); 
-      res.redirect('/account/linked');
+      res.redirect('/admin/account/linked');
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message}); 

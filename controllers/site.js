@@ -8,7 +8,7 @@ var SiteController = {
    * Get /
    * load home page
   */
-  index: function (req, res, next) {
+  getIndex: function (req, res, next) {
     var opts = {
       title: 'Welcome to NodeZA, a Node.js information portal for developers in South Africa',
       description: 'NodeZA is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa',
@@ -19,7 +19,7 @@ var SiteController = {
   },
 
 
-  about: function (req, res, next) {
+  getAbout: function (req, res, next) {
     var opts = {
       title: 'A Node.js information portal and social platform for developers in South Africa',
       description: 'NodeZA is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa',
@@ -30,7 +30,7 @@ var SiteController = {
   },
 
 
-  developers: function (req, res, next) {
+  getDevelopers: function (req, res, next) {
     var opts = {
       title: 'NodeZA - developers',
       description: 'Invitation to contributors',
@@ -41,7 +41,7 @@ var SiteController = {
   },
 
 
-  contact: function (req, res, next) {
+  getContact: function (req, res, next) {
     var opts = {
       title: 'NodeZA - Contact Us',
       description: 'Get in touch with us via email, twitter, or phone',
@@ -52,7 +52,7 @@ var SiteController = {
   },
 
 
-  privacy: function (req, res, next) {
+  getPrivacy: function (req, res, next) {
     var opts = {
       title: 'NodeZA - Privacy',
       description: 'Privacy policy',

@@ -27,14 +27,14 @@ var CategoriesController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Category not found.'});
-      res.redirect('/account/blog/categories');      
+      res.redirect('/admin/blog/categories');      
     });
   },
 
 
 
   /**
-   * GET /account/blog/categories
+   * GET /admin/blog/categories
    * get blog posts for current account
    */
   getCategories: function (req, res) {
@@ -44,7 +44,7 @@ var CategoriesController = {
     var opts = {
       limit: 10,
       page: currentpage,
-      base: '/account/blog/categories',
+      base: '/admin/blog/categories',
       where: ['created_at', '<', new Date()],
       order: "asc"
     };
@@ -62,7 +62,7 @@ var CategoriesController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/account/blog');      
+      res.redirect('/admin/blog');      
     });
   },
 

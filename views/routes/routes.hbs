@@ -13,17 +13,17 @@
 
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
     <li>
-      <a href="/account/menus">
+      <a href="/admin/menus">
         <span class="glyphicon glyphicon-folder-open"></span> Menus
       </a>
     </li>
     <li>
-      <a href="/account/menus">
+      <a href="/admin/links">
         <span class="glyphicon glyphicon-link"></span> Links
       </a>
     </li>
     <li class="active">
-      <a href="/account/routes">
+      <a href="/admin/routes">
         <span class="glyphicon glyphicon-road"></span> Routes
       </a>
     </li>
@@ -38,7 +38,7 @@
         <thead>
           <tr>
             <th style="text-align:center" class="active">
-              ID
+              http
             </th>
             <th>
               Route
@@ -63,19 +63,16 @@
           {{#each routes}}
             <tr>
               <td style="text-align:center" class="active">
-                {{id}}
+                <code>{{http_method}}</code>
               </td>
               <td>
                 <a href="/routes/edit/{{id}}">{{path}}</a>
-                <a href="{{path}}" target="_blank" title="View Profile" class="text-danger">
-                  <small><span class="glyphicon glyphicon-new-window"></span></small>
-                </a>
               </td>
               <td>
-                {{controller_name}}
+                <code>{{controller_name}}</code>
               </td>
               <td>
-                {{controller_method}}
+                <code>{{controller_method}}</code>
               </td>
               <td>
                 {{#if role.name}}

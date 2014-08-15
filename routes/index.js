@@ -1,6 +1,7 @@
 
 module.exports = {
   account: require('./account'),
+  auth: require('./auth'),
   categories: require('./categories'),
   events: require('./events'),
   links: require('./links'),

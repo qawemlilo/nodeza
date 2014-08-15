@@ -27,7 +27,7 @@ var RoutesController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/routes');      
+      res.redirect('/admin/routes');      
     });
   },
 
@@ -55,18 +55,18 @@ var RoutesController = {
       })
       .otherwise(function (error) {
         req.flash('errors', {'msg': error.message});
-        res.redirect('/account/routes');      
+        res.redirect('/admin/routes');      
       });
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/routes');      
+      res.redirect('/admin/routes');      
     });
   },
 
 
   /**
-   * GET /account/blog/routes
+   * GET /admin/blog/routes
    * get blog posts for current account
    */
   getRoutes: function (req, res) {
@@ -76,12 +76,12 @@ var RoutesController = {
     var opts = {
       limit: 10,
       page: currentpage,
-      base: '/account/routes',
+      base: '/admin/routes',
       where: ['created_at', '<', new Date()],
       order: "asc"
     };
 
-    routes.fetchBy('id', opts, {withRelated: ['role']})
+    routes.fetchBy('controller_name', opts, {withRelated: ['role']})
     .then(function (collection) {
       res.render('routes/routes', {
         title: 'Blog Routes',
@@ -94,7 +94,7 @@ var RoutesController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account');      
+      res.redirect('/admin');      
     });
   },
 
@@ -126,18 +126,18 @@ var RoutesController = {
 
     if (!App.testController(inputs.controller_name, inputs.controller_method)) {
       req.flash('error',  { msg: 'Controller method does not exist'});
-      return res.redirect('/account/routes');
+      return res.redirect('/admin/routes');
     }
 
     Route.forge(inputs)
     .save()
     .then(function(model) {
       req.flash('success', { msg: 'Route successfully created.' });
-      res.redirect('/account/routes');
+      res.redirect('/admin/routes');
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/account/routes');
+      res.redirect('/admin/routes');
     });
   },
 

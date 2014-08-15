@@ -83,12 +83,12 @@ var PostsController = {
       })
       .otherwise(function () {
         req.flash('errors', {'msg': 'Post not found.'});
-        res.redirect('/account/blog');      
+        res.redirect('/admin/blog');      
       });
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Categories not found.'});
-      res.redirect('/account/blog');      
+      res.redirect('/admin/blog');      
     });
   },
 
@@ -185,7 +185,7 @@ var PostsController = {
 
 
   /**
-   * GET /account/blog
+   * GET /admin/blog
    * get blog posts for current account
    */
   getAdmin: function (req, res) {
@@ -196,7 +196,7 @@ var PostsController = {
     var opts = {
       limit: 10,
       page: currentpage,
-      base: '/account/blog'
+      base: '/admin/blog'
     };
 
     if (role.name !== 'Super Administrator') {
@@ -243,7 +243,7 @@ var PostsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/account/blog');       
+      res.redirect('/admin/blog');       
     });
   },
 
@@ -294,7 +294,7 @@ var PostsController = {
     })
     .otherwise(function (error) {
       req.flash('error', {msg: 'Post could not be created.'});
-      res.redirect('/account/blog');
+      res.redirect('/admin/blog');
     });
   },
 
@@ -350,12 +350,12 @@ var PostsController = {
       })
       .otherwise(function (error) {
         req.flash('info', {msg: error.message});
-        res.redirect('/account/blog');
+        res.redirect('/admin/blog');
       });
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/account/blog');
+      res.redirect('/admin/blog');
     });
   },
 

@@ -36,13 +36,13 @@ var RolesController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/users/roles');
+      res.redirect('/admin/users/roles');
     });
   },
 
 
   /*
-   * GET /account/users/roles
+   * GET /admin/users/roles
    * Load user roles
   **/
   getRoles: function (req, res, next) {
@@ -59,7 +59,7 @@ var RolesController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/users');
+      res.redirect('/admin/users');
     });
   },
 

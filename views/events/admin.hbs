@@ -10,12 +10,19 @@
 <div class="col-sm-9 blog-main">
   {{> flash}}
 
-  <div class="container-fluid">
-    <div class="row" style="text-align:right">
-      <a role="button" href="/events/new" class="btn btn-danger">
-        <span class="glyphicon glyphicon-calendar"></span> Add An Event
+  <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li class="active">
+      <a href="/admin/events">
+        <span class="glyphicon glyphicon-calendar"></span> Meetups
       </a>
-    </div>
+    </li>
+    <a role="button" href="/events/new" class="btn btn-danger pull-right">
+     <span class="glyphicon glyphicon-calendar"></span> Create a meetup
+    </a>
+  </ul>
+
+  <div class="container-fluid">
+
     <div class="row" style="margin-top:5px;">
     {{#ifCond myEvents.length '>' 0}}
       <table class="table table-bordered table-striped table-condensed">

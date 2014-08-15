@@ -26,7 +26,7 @@ var MenusController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/menus');      
+      res.redirect('/admin/menus');      
     });
   },
 
@@ -52,19 +52,19 @@ var MenusController = {
       })
       .otherwise(function (error) {
         req.flash('errors', {'msg': error.message});
-        res.redirect('/account/menus');      
+        res.redirect('/admin/menus');      
       });
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/menus');      
+      res.redirect('/admin/menus');      
     });
   },
 
 
 
   /**
-   * GET /account/menus
+   * GET /admin/menus
    * get blog posts for current account
    */
   getMenus: function (req, res) {
@@ -74,7 +74,7 @@ var MenusController = {
     var opts = {
       limit: 10,
       page: currentpage,
-      base: '/account/menus',
+      base: '/admin/menus',
       where: ['created_at', '<', new Date()],
       order: "asc"
     };
@@ -119,7 +119,7 @@ var MenusController = {
     .save()
     .then(function(model) {
       req.flash('success', { msg: 'Menu successfully created.' });
-      res.redirect('/account/menus');
+      res.redirect('/admin/menus');
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});

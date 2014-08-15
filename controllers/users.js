@@ -36,7 +36,7 @@ var UsersController = {
 
 
   /*
-   * GET /account/users/new
+   * GET /admin/users/new
    * Load new user form
   **/
   getNewUser: function (req, res, next) {
@@ -70,19 +70,19 @@ var UsersController = {
       })
       .otherwise(function (error) {
         req.flash('errors', {'msg': error.message});
-        res.redirect('/account/users');
+        res.redirect('/admin/users');
       });
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/users');
+      res.redirect('/admin/users');
     });
   },
 
 
 
   /**
-   * GET /account/users
+   * GET /admin/users
    * get all users
    */
   getUsers: function (req, res) {
@@ -140,11 +140,11 @@ var UsersController = {
     .save()
     .then(function (user) {
       req.flash('success', {msg: 'User account created'});
-      res.redirect('/account/users');
+      res.redirect('/admin/users');
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/account/users');
+      res.redirect('/admin/users');
     });
   },
 
@@ -188,12 +188,12 @@ var UsersController = {
       })
       .otherwise(function (error) {
         req.flash('error', {msg: error.message});
-        res.redirect('/account/users');
+        res.redirect('/admin/users');
       });
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/account/users');
+      res.redirect('/admin/users');
     });
   },
 
@@ -210,7 +210,7 @@ var UsersController = {
     })
     .otherwise(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('/account/users');        
+      res.redirect('/admin/users');        
     });
   }
 };

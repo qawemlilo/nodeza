@@ -43,7 +43,7 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/links');      
+      res.redirect('/admin/links');      
     });
   },
 
@@ -90,13 +90,13 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/account/links');      
+      res.redirect('/admin/links');      
     });
   },
 
 
   /**
-   * GET /account/links
+   * GET /admin/links
    * get blog posts for current account
    */
   getLinks: function (req, res) {
@@ -106,7 +106,7 @@ var LinksController = {
     var opts = {
       limit: 10,
       page: currentpage,
-      base: '/account/links',
+      base: '/admin/links',
       where: ['created_at', '<', new Date()],
       order: "asc"
     };
@@ -161,11 +161,11 @@ var LinksController = {
     .save()
     .then(function(model) {
       req.flash('success', { msg: 'LinkModel successfully created.' });
-      res.redirect('/account/links');
+      res.redirect('/admin/links');
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/account/links');
+      res.redirect('/admin/links');
     });
   },
 
@@ -207,7 +207,7 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/account/links');
+      res.redirect('/admin/links');
     });
   },
 

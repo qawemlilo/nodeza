@@ -101,6 +101,8 @@ var PostsController = {
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
 
+    res.locals._page = 'blog';
+
     if (currentpage < 1) {
       res.redirect('/blog');
     }

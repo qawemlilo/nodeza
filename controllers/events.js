@@ -89,6 +89,8 @@ var EventsController = {
    */
   getEvents: function (req, res, next) {
     var events = new Events();
+
+    res.locals._page = 'events';
   
     var page = parseInt(req.query.p, 10);
     var query = {};

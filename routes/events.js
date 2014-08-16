@@ -2,31 +2,6 @@
 
 var passportConf = require('../config/passport');
 
-/*
-  var blacklist = [
-    {'/login': ['get', 'post']},
-    {'/signup': ['get', 'post']},
-    {'/account': ['get', 'post']},
-    {'/forgot': ['get', 'post']},
-    {'/reset/:token': ['get', 'post']},
-    {'/logout': ['get']},
-    {'/account/password': ['get', 'post']},
-    {'/account/delete': ['post']},
-    {'/account/linked': ['get']},
-    {'/account/unlink/:provider': ['get']},
-    {'/auth/github': ['get']},
-    {'/auth/github/callback': ['get']},
-    {'/auth/twitter': ['get']},
-    {'/auth/twitter/callback': ['get']},
-    {'/auth/google': ['get']},
-    {'/auth/google/callback': ['get']},
-    {'/account/blog/categories': ['get']},
-    {'/category/edit/:id': ['get']},
-    {'/category/new': ['get', 'post']},
-    {'/category/edit': ['post']},
-    {'/category/delete/:id': ['get']},
-  ];
-*/
 
 module.exports = function (app, EventsController) {
   // private

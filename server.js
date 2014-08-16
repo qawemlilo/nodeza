@@ -1,8 +1,7 @@
 
-module.exports = function (config, App) {
+module.exports = function (config) {
   
   var express = require('express');
-  var router = require('./router');
   var flash = require('express-flash');
   var logger = require('morgan');
   var multer = require('multer');
@@ -11,7 +10,6 @@ module.exports = function (config, App) {
   var session = require('express-session');
   var csrf = require('lusca').csrf();
   var errorHandler = require('errorhandler');
-  var widget = require('./lib/widget');
   var expressValidator = require('express-validator');
   var hbs = require('hbs');
   var path = require('path');
@@ -25,8 +23,6 @@ module.exports = function (config, App) {
    * Create Express server.
    */
   var server = express();
-
-  App.server = server;
   
   
   /**
@@ -115,9 +111,6 @@ module.exports = function (config, App) {
       // make user object available in templates
       res.locals.user = req.user.toJSON();
       req.session.user = res.locals.user;
-
-      // make current user accessible from App object
-      App.user = req.user;
     }
   
     res.locals.base = 'http://' + req.headers.host;
@@ -145,11 +138,6 @@ module.exports = function (config, App) {
   
   // error handling
   server.use(errorHandler());
-  
-  // Load widgets
-  server.use(widget({app: App}));
-
-  router.setup(server);
 
   return server;
 };

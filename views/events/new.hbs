@@ -26,34 +26,7 @@
     <div class="panel-body">
     <form class="form-horizontal" id="event-form" action="/events/new" method="POST">
       <input type="hidden" name="_csrf" value="{{_csrf}}" />
-      <div class="form-group">
-        <label class="col-sm-3 control-label" for="title">
-          Title <span class="text-danger">*</span>
-        </label>
-  
-        <div class="col-sm-7">
-          <input class="form-control" type="text" name="title" id="title" placeholder="Event Title" required="" autofocus />
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label class="col-sm-3 control-label" for="short_desc">
-          Short Description <span class="text-danger">*</span>
-        </label>
-        <div class="col-sm-7">
-          <textarea class="form-control" size="124" rows="2" name="short_desc" id="short_desc" required=""></textarea>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="col-sm-3 control-label" for="markdown">
-          Full Description <span class="text-danger">*</span>
-        </label>
-  
-        <div class="col-sm-7">
-          <textarea class="form-control" rows="4" name="markdown" id="markdown"  required=""></textarea>
-        </div>
-      </div>
+
   
       <div class="form-group">
         <label class="col-sm-3 control-label" for="date">
@@ -106,7 +79,35 @@
             </div>
         </div>
       </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="title">
+          Title <span class="text-danger">*</span>
+        </label>
   
+        <div class="col-sm-7">
+          <input class="form-control" type="text" name="title" id="title" placeholder="Event Title" required="" autofocus />
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="short_desc">
+          Short Description <span class="text-danger">*</span>
+        </label>
+        <div class="col-sm-7">
+          <textarea class="form-control" size="124" rows="2" name="short_desc" id="short_desc" required=""></textarea>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="markdown">
+          Full Description <span class="text-danger">*</span>
+        </label>
+  
+        <div class="col-sm-7">
+          <textarea class="form-control" rows="4" name="markdown" id="markdown"  required=""></textarea>
+        </div>
+      </div>
   
       <div class="form-group">
         <label class="col-sm-3 control-label" for="email">

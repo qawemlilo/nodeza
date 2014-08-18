@@ -21,11 +21,14 @@ function datetime(ts) {
 var AccountController = {
 
 
-  getAdmin: function (req, res) {
-    res.render('admin', {
-      title: 'NodeZA Admin',
-      description: 'NodeZA Admin',
-      page: 'admin'
+  getConfig: function (req, res) {
+    res.render('account/config', {
+      title: 'Account Config',
+      description: 'Account Config',
+      page: 'account',
+      google: App.getConfig('google'),
+      twitter: App.getConfig('twitter'),
+      github: App.getConfig('github')
     });
   },
 
@@ -424,6 +427,8 @@ var AccountController = {
       gender: req.body.gender,
       location:req.body.location,
       website: req.body.website,
+      twitter_url: req.body.twitter_url,
+      github_url: req.body.github_url,
       about: req.body.about,
       updated_by: req.user.get('id')
     };

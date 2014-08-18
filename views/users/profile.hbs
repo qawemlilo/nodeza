@@ -15,14 +15,30 @@
         <img src="{{gravatar}}" class="profile-pic img-responsive" alt="{{profile.name}}" title="{{profile.name}}">
 
         <div class="caption">
+          {{#if profile.location}}
           <p>
-            <span class="glyphicon glyphicon-map-marker"></span> 
+            <span class="glyphicon glyphicon-map-marker text-danger"></span> 
             {{profile.location}}
           </p>
+          {{/if}}
+          {{#if profile.website}}
           <p>
             <span class="glyphicon glyphicon-globe"></span> 
             <a href="{{profile.website}}" target="_blank">Website</a>
           </p>
+          {{/if}}
+          {{#if profile.twitter_url}}
+          <p>
+            <span class="fa fa-twitter text-primary"></span>
+            <a href="{{profile.twitter_url}}" target="_blank">Twitter</a>
+          </p> 
+          {{/if}}
+          {{#if profile.github_url}}
+          <p>
+            <span class="fa fa-github"></span>
+            <a href="{{profile.github_url}}" target="_blank">Github</a>
+          </p> 
+          {{/if}}
         </div>
       </div>
 

@@ -1,0 +1,197 @@
+
+
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+
+{{> leftsidebar}}
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li><a href="/admin/account"><span class="glyphicon glyphicon-user"></span> Profile Information</a></li>
+    <li><a href="/admin/account/password"><span class="fa fa-keyboard-o"></span> Change Password</a></li>
+    <li><a href="/admin/account/linked"><span class="fa fa-chain"></span> Linked Accounts</a></li>
+    <li class="active"><a href="/admin/account/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+  </ul>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="fa fa-google-plus text-danger"></span> Google
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="google" />
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="clientID">Client ID</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="clientID" id="clientID"   placeholder="clientID" value="{{google.clientID}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="clientSecret">Client Secret</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="clientSecret" id="clientSecret"   placeholder="clientSecret" value="{{google.clientSecret}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="callbackURL">Callback URL</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="callbackURL" id="callbackURL" value="{{google.callbackURL}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="passReqToCallback">Pass Req To Callback</label>
+            <div class="col-sm-7">
+              <label style="margin-left:20px" class="radio">
+                <input type="radio" {{#if google.passReqToCallback}}checked="checked"{{/if}} name="passReqToCallback" value="yes" data-toggle="radio">
+                <span>Yes</span>
+              </label>
+    
+              <label style="margin-left:20px" class="radio">
+                <input type="radio" {{#if google.passReqToCallback}}{{else}}checked="checked"{{/if}}  name="passReqToCallback" value="no" data-toggle="radio">
+                <span>No</span>
+              </label>
+            </div>
+          </div>
+    
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+              <button class="btn btn-success" type="submit">
+                <i class="fa fa-check"></i> Update
+              </button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+  
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="fa fa-github"></span> Github
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="github" />
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="clientID">Client ID</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="clientID" id="clientID"   placeholder="clientID" value="{{github.clientID}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="clientSecret">Client Secret</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="clientSecret" id="clientSecret"   placeholder="clientSecret" value="{{github.clientSecret}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="callbackURL">Callback URL</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="callbackURL" id="callbackURL" value="{{github.callbackURL}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="passReqToCallback">Pass Req To Callback</label>
+            <div class="col-sm-7">
+              <label style="margin-left:20px" class="radio">
+                <input type="radio" {{#if github.passReqToCallback}}checked="checked"{{/if}} name="passReqToCallback" value="yes" data-toggle="radio">
+                <span>Yes</span>
+              </label>
+    
+              <label style="margin-left:20px" class="radio">
+                <input type="radio" {{#if github.passReqToCallback}}{{else}}checked="checked"{{/if}}  name="passReqToCallback" value="no" data-toggle="radio">
+                <span>No</span>
+              </label>
+            </div>
+          </div>
+    
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+              <button class="btn btn-success" type="submit">
+                <i class="fa fa-check"></i> Update
+              </button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="fa fa-twitter text-primary"></span> Twitter
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="twitter" />
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="consumerKey">Consumer Key</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="consumerKey" id="consumerKey"   placeholder="consumerKey" value="{{twitter.consumerKey}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="consumerSecret">Consumer Secret</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="consumerSecret" id="consumerSecret"   placeholder="consumerSecret" value="{{twitter.consumerSecret}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="callbackURL">Callback URL</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="callbackURL" id="callbackURL" value="{{twitter.callbackURL}}" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="passReqToCallback">Pass Req To Callback</label>
+            <div class="col-sm-7">
+              <label style="margin-left:20px" class="radio">
+                <input type="radio" {{#if twitter.passReqToCallback}}checked="checked"{{/if}} name="passReqToCallback" value="yes" data-toggle="radio">
+                <span>Yes</span>
+              </label>
+    
+              <label style="margin-left:20px" class="radio">
+                <input type="radio" {{#if twitter.passReqToCallback}}{{else}}checked="checked"{{/if}}  name="passReqToCallback" value="no" data-toggle="radio">
+                <span>No</span>
+              </label>
+            </div>
+          </div>
+    
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+              <button class="btn btn-success" type="submit">
+                <i class="fa fa-check"></i> Update
+              </button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

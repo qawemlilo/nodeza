@@ -28,16 +28,13 @@ module.exports = function (config) {
   /**
    * Express configuration.
    */
-  var hour = (1000 * 60 * 60);
-  var day = hour * 24;
-  var week = day * 7;
+  var day = (1000 * 60 * 60) * 24;
+  var maxAge = day * config.maxAge;
   
-  var csrfWhitelist = [
-    '/this-url-will-bypass-csrf'
-  ];
+  var csrfWhitelist = config.csrfWhitelist;
   
   // port
-  server.set('port', process.env.PORT || 3000);
+  server.set('port', process.env.PORT || config.port);
   
   // define views folder  
   server.set('views', path.join(__dirname, 'views'));
@@ -94,16 +91,22 @@ module.exports = function (config) {
   server.use(flash());
   
   // serve static files
-  server.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
+  server.use(express.static(path.join(__dirname, 'public'), { maxAge: maxAge }));
   
   
   // logging
   server.use(logger('dev'));
   
-  // security
-  server.use(function(req, res, next) {
-    csrf(req, res, next);
-  });
+  // CSRF protection.
+  if (config.activateCSRF) {
+    server.use(function(req, res, next) {
+      if (_.contains(csrfWhitelist, req.path)) {
+        return next();
+      }
+      
+      csrf(req, res, next);
+    });
+  }
   
 
   server.use(function(req, res, next) {

@@ -15,8 +15,9 @@ var chalk = require('chalk');
 module.exports.populate  = function () {
   var rolesData = [
     {name: 'Registered'}, 
-    {name: 'Publisher'}, 
-    {name: 'Super Administrator'}
+    {name: 'Editor'}, 
+    {name: 'Super Administrator'},
+    {name: 'Public Only'}
   ];
   var catsData = [
     {name: 'Articles', description: 'General content'}, 

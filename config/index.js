@@ -3,6 +3,26 @@ var secrets = require('./secrets.json');
 
 module.exports = {
 
+  siteName: secrets.siteName || '',
+
+  title: secrets.title || '',
+
+  description: secrets.description || '',
+
+  keywords: secrets.keywords || '',
+
+  twitter_url: secrets.twitter_url || '',
+
+  github_url: secrets.github_url || '',
+
+  port: secrets.port || 3000,
+
+  maxAge: secrets.maxAge || 7,
+
+  activateCSRF: secrets.activateCSRF || true,
+
+  csrfWhitelist: secrets.csrfWhitelist || [],
+
   client: 'mysql',
 
   db: secrets.mysql.db,
@@ -43,5 +63,6 @@ module.exports = {
     clientSecret: process.env.GOOGLE_SECRET || secrets.google.clientSecret,
     callbackURL: secrets.google.callbackURL,
     passReqToCallback: secrets.google.passReqToCallback
-  }
+  },
+  widget: secrets.widget || false
 };

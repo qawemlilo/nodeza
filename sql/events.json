@@ -1,5 +1,4 @@
-[
-  {
+[{
     "user_id": 1,
     "title": "Software meets hardware : bling a bot not a DIV",
     "short_desc": "In this session we will escape from our beloved browser and start moving things in the real world.",
@@ -110,5 +109,4 @@
     "lng": "-33.9213455",
     "lat": "18.4199708",
     "email": "none@none.com" 
-  }
-]
+}]

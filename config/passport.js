@@ -5,7 +5,7 @@ var GitHubStrategy = require('passport-github').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../models/user');
-var secrets = require('./secrets');
+var config = require('./index');
 var Tokens = require('../models/token');
 
 
@@ -52,7 +52,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
 
 
 // Sign in with GitHub.
-passport.use(new GitHubStrategy(secrets.github, 
+passport.use(new GitHubStrategy(config.github, 
   function (req, accessToken, refreshToken, profile, done) {
 
   // if the user is already logged in
@@ -188,7 +188,7 @@ passport.use(new GitHubStrategy(secrets.github,
 
 
 // Sign in with Twitter
-passport.use(new TwitterStrategy(secrets.twitter, 
+passport.use(new TwitterStrategy(config.twitter, 
   function (req, accessToken, tokenSecret, profile, done) {
   if (req.user) {
     User.forge({twitter: profile.id})
@@ -249,7 +249,7 @@ passport.use(new TwitterStrategy(secrets.twitter,
 
 
 // Sign in with Google.
-passport.use(new GoogleStrategy(secrets.google, function (req, accessToken, refreshToken, profile, done) {
+passport.use(new GoogleStrategy(config.google, function (req, accessToken, refreshToken, profile, done) {
   if (req.user) {
     User.forge({google: profile.id})
     .fetch()
@@ -368,9 +368,9 @@ exports.isNotAuthenticated = function (req, res, next) {
 **/ 
 exports.isAuthorized = function (req, res, next) {
   var provider = req.path.split('/').slice(-1)[0];
-  var tokens = req.user.related('tokens').toJSON();
+  var tokens = req.user.related('tokens');
 
-  if (_.findWhere(tokens, { kind: 'github' })) {
+  if (tokens.findWhere({kind: 'github'})) {
     next();
   } else {
     res.redirect('/auth/' + provider);

@@ -6,26 +6,10 @@ var Prompt = require('simple-prompt');
 var chalk = require('chalk');
 
 var questions = [
-  {
-    question: 'Host',
-    required: true,
-    default: 'localhost'
-  },
-  {
-    question: 'MySQL Database',
-    required: true,
-    default: 'test'
-  },
-  {
-    question: 'Database User',
-    required: true,
-    default: 'root'
-  },
-  {
-    question: 'Password',
-    required: true,
-    default: ''
-  }
+  {question: 'Host', required: true, default: 'localhost'},
+  {question: 'MySQL Database', required: true, default: 'test'},
+  {question: 'Database User', required: true, default: 'root'},
+  {question: 'Password', required: true, default: ''}
 ];
 
 

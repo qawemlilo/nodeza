@@ -166,12 +166,12 @@ var MenusController = {
   */
   getDeleteMenu: function(req, res, next) {
     Menu.forge({id: req.params.id})
-    .fetch({withRelated: ['menus']})
+    .fetch({withRelated: ['links']})
     .then(function (menu) {
-      var menus = menu.related('menus');
+      var links = menu.related('links');
 
-      if (menus.length > 0) {
-        req.flash('error', { msg: 'You cannot delete a menu that contains menus' });
+      if (links.length > 0) {
+        req.flash('error', { msg: 'You cannot delete a menu that contains links' });
         return res.redirect('back');
       }
       menu.destroy()

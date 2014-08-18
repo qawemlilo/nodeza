@@ -9,7 +9,6 @@ var passport = require('../config/passport');
 
 module.exports = function (app, AccountController) {
 
-  app.get('/admin', passport.isAuthenticated, AccountController.getAdmin);
   app.get('/login', passport.isNotAuthenticated, AccountController.getLogin);
   app.post('/login', passport.isNotAuthenticated, AccountController.postLogin);
   app.get('/signup', passport.isNotAuthenticated, AccountController.getSignup);
@@ -21,6 +20,7 @@ module.exports = function (app, AccountController) {
 
   app.get('/logout', passport.isAuthenticated, AccountController.logout);
   app.get('/admin/account', passport.isAuthenticated, AccountController.getAccount);
+  app.get('/admin/account/settings', passport.isAuthenticated, AccountController.getConfig);
   app.post('/account', passport.isAuthenticated, AccountController.postAccount);
   app.get('/admin/account/password', passport.isAuthenticated, AccountController.getPasswordForm);
   app.get('/admin/account/linked', passport.isAuthenticated, AccountController.getLinkedAccounts);

@@ -3,10 +3,9 @@ var _ = require('lodash');
 var path = require('path');
 var fs = require('fs');
 var pkg = require('./package.json');
-var config = require('./config/secrets');
+var config = require('./config');
 var Bookshelf = require('./dbconnect')(config);
 var express = require('./server');
-var widget = require('./lib/widget');
 
 var emitter = new EventEmitter();
 var Cache = {};
@@ -16,9 +15,49 @@ var models;
 var collections; 
 var controllers; 
 var routes; 
+var widget;
 
 
-module.exports = {
+// flag to check if app is already running
+var appIsRunning = false;
+
+
+
+
+/*
+ * loads application modules
+**/
+function loadAppModules() {
+  models = require('./models');
+  collections = require('./collections');
+  controllers = require('./controllers');
+  routes = require('./routes');
+  widget = require('./lib/widget');
+
+  return {
+    models: models,
+    collections: collections,
+    controllers: controllers,
+    routes: routes,
+    widget: widget
+  };
+}
+
+
+/*
+ * sets up route by matching routes to their controllers
+**/
+function setupRoutes(App, routes, controllers) {
+  _.keys(routes).forEach(function (route) {
+    // call routes with their corresponding controllers
+    routes[route](App, controllers[route]); 
+  });
+}
+
+
+
+
+var App = {
 
   version: pkg.version,
 
@@ -26,27 +65,35 @@ module.exports = {
   bookshelf: Bookshelf,
 
 
+  // before creating a new route in the admin area,
+  // we need to check if it already exists
   routesBlacklist: [],
+
 
   /*
    * Pseudo express get method
-   * 
+   * we need to hijack express http methods 
+   * so we can spy on the routes passed
   **/
   get: function () {
     var args = _.toArray(arguments);
+    var routeString = args[0];
 
-    this.routesBlacklist.push(args[0]);
+    this.routesBlacklist.push(routeString);
     this.server.get.apply(this.server, args);
   },
 
 
   /*
    * Pseudo express post method
+   * we need to hijack express http methods 
+   * so we can spy on the routes passed
   **/
   post: function () {
     var args = _.toArray(arguments);
+    var routeString = args[0];
     
-    this.routesBlacklist.push(args[0]);
+    this.routesBlacklist.push(routeString);
     this.server.post.apply(this.server, args);
   },
 
@@ -64,35 +111,6 @@ module.exports = {
   **/
   emit: function () {
     emitter.emit.apply(this, _.toArray(arguments));
-  },
-
-
-  /*
-   * loads application modules
-  **/
-  loadAppModules: function () {
-    models = require('./models');
-    collections = require('./collections');
-    controllers = require('./controllers');
-    routes = require('./routes');
-
-    return {
-      models: models,
-      collections: collections,
-      controllers: controllers,
-      routes: routes
-    };
-  },
-
-
-  /*
-   * sets up route by matching routes to their controllers
-  **/
-  setupRoutes: function (App, routes, controllers) {
-    _.keys(routes).forEach(function (route) {
-      // call routes with their corresponding controllers
-      routes[route](App, controllers[route]); 
-    });
   },
 
 
@@ -117,6 +135,33 @@ module.exports = {
         res.redirect('back');
       }
     };
+  },
+
+
+  /*
+   * fetches a model
+  **/
+  getConfig: function (name) {
+    var val = '';
+    var blacklist = ['mongodb','db','user','password','sessionSecret','mailgun','github','twitter','google'];
+    var safeToSee = _.omit(config, blacklist);
+    var user = this.user;
+
+    if (user && user.related('role').get('name') === 'Super Administrator') {
+      val = config[name];
+    }
+    else {
+      val = safeToSee[name];
+    }
+
+    return val;
+  },
+
+
+  updateConfig: function (name, val) {
+    if (config[name]) {
+      config[name] = val;
+    }
   },
 
 
@@ -195,7 +240,7 @@ module.exports = {
 
 
   /*
-   * fetches a controller with sll its method names
+   * fetches a controller with all its method names
   **/
   getControllers: function () {
     return _.keys(Controllers).map(function (val) {
@@ -221,11 +266,16 @@ module.exports = {
    * initialize the application
   **/
   init: function (port) {
+    // prevent re-initialization of the app
+    if (appIsRunning) {
+      return false;
+    }
+
     var self = this;
     var server;
 
     // load modules
-    var modules = self.loadAppModules();
+    var modules = loadAppModules();
 
     // create express server
     server = self.server = express(config);
@@ -236,17 +286,47 @@ module.exports = {
       next();
     });
 
-    // Load widgets
-    server.use(widget({app: self}));
+    // add widget middleware
+    server.use(modules.widget());
 
     // set up routes
-    self.setupRoutes(self, modules.routes, modules.controllers);
+    setupRoutes(self, modules.routes, modules.controllers);
     
     // start server
     server.listen(port || server.get('port'), function() {
       console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
+
+      appIsRunning = true;
     });
   }
 };
+
+
+
+/*
+ * We do not want to expose the whole Application API to
+ * the Widget scope so we need to create a limited version
+**/
+var WidgetAPI = {};
+
+WidgetAPI.on = App.on;
+WidgetAPI.emit = App.emit;
+WidgetAPI.getController = App.getController;
+WidgetAPI.getCollection = App.getCollection;
+WidgetAPI.getModel = App.getModel;
+WidgetAPI.getCache = App.getCache;
+WidgetAPI.setCache = App.setCache;
+WidgetAPI.getConfig = App.getConfig;
+WidgetAPI.setConfig = App.setConfig;
+WidgetAPI.cacheExists = App.cacheExists;
+
+
+App.widgetAPI = function () {
+  return WidgetAPI;
+};
+
+
+
+module.exports = App;
 
 

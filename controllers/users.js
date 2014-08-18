@@ -22,7 +22,7 @@ var UsersController = {
         gravatar: profile.gravatar(198),
         myevents: profile.related('events').toJSON(),
         description: 'NodeZA profile of ' + profile.get('name'),
-        profile: profile.getJSON(['slug', 'name', 'location', 'about', 'email']),
+        profile: profile.toJSON(),
         page: 'profile'
       });
 

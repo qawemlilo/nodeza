@@ -10,7 +10,7 @@ module.exports = {
 
   users: {
     id: {type: 'increments', nullable: false, primary: true},
-    role_id: {type: 'integer', nullable: false, unsigned: true},
+    role_id: {type: 'integer', nullable: false, unsigned: true, references: 'roles.id'},
     name: {type: 'string', maxlength: 150, nullable: false},
     last_name: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
@@ -36,7 +36,7 @@ module.exports = {
 
   tokens: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'users.id'},
     kind: {type: 'string', nullable: false, maxlength: 32},
     accessToken: {type: 'string', maxlength: 254, nullable: false},
     tokenSecret: {type: 'string', maxlength: 254, nullable: true}
@@ -44,7 +44,7 @@ module.exports = {
 
   events: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'users.id'},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
     email: {type: 'string', maxlength: 254, nullable: false, validations: {'isEmail': true}},
@@ -71,7 +71,7 @@ module.exports = {
 
   meetups: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'users.id'},
     organiser: {type: 'string', maxlength: 254, nullable: false},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
@@ -110,8 +110,8 @@ module.exports = {
 
   posts: {
     id: {type: 'increments', nullable: false, primary: true},
-    user_id: {type: 'integer', nullable: false, unsigned: true},
-    category_id: {type: 'integer', nullable: false, unsigned: true},
+    user_id: {type: 'integer', nullable: false, unsigned: true, references: 'users.id'},
+    category_id: {type: 'integer', nullable: false, unsigned: true, references: 'categories.id'},
     title: {type: 'string', maxlength: 150, nullable: false},
     slug: {type: 'string', maxlength: 150, nullable: false, unique: true},
     markdown: {type: 'text', maxlength: 16777215, fieldtype: 'medium', nullable: true},
@@ -152,11 +152,12 @@ module.exports = {
 
   routes: {
     id: {type: 'increments', nullable: false, primary: true},
-    role_id: {type: 'integer', nullable: false, unsigned: true},
+    role_id: {type: 'integer', nullable: false, unsigned: true, references: 'roles.id'},
     path: {type: 'string', maxlength: 150, nullable: false, unique: true},
     http_method: {type: 'string', maxlength: 12, nullable: false},
     controller_name: {type: 'string', maxlength: 150, nullable: false},
     controller_method: {type: 'string', maxlength: 150, nullable: false},
+    published: {type: 'bool', nullable: false, defaultTo: true},
     created_at: {type: 'dateTime', nullable: false},
     updated_by: {type: 'integer', nullable: false, unsigned: true},
     updated_at: {type: 'dateTime', nullable: true}
@@ -166,8 +167,9 @@ module.exports = {
   menus: {
     id: {type: 'increments', nullable: false, primary: true},
     name: {type: 'string', maxlength: 150, nullable: false, unique: true},
-    role_id: {type: 'integer', nullable: false, unsigned: true},
+    role_id: {type: 'integer', nullable: false, unsigned: true, references: 'roles.id'},
     description: {type: 'string', maxlength: 200, nullable: true},
+    published: {type: 'bool', nullable: false, defaultTo: true},
     created_at: {type: 'dateTime', nullable: false},
     updated_by: {type: 'integer', nullable: false, unsigned: true},
     updated_at: {type: 'dateTime', nullable: true}
@@ -176,8 +178,8 @@ module.exports = {
 
   links: {
     id: {type: 'increments', nullable: false, primary: true},
-    route_id: {type: 'integer', nullable: true, unsigned: true},
-    menu_id: {type: 'integer', nullable: true, unsigned: true},
+    route_id: {type: 'integer', nullable: true, unsigned: true, references: 'routes.id'},
+    menu_id: {type: 'integer', nullable: true, unsigned: true, references: 'menus.id'},
     parentId: {type: 'integer', nullable: true, unsigned: true},
     inner_text: {type: 'string', maxlength: 150, nullable: false},
     class_attr: {type: 'string', maxlength: 150, nullable: false},
@@ -185,6 +187,7 @@ module.exports = {
     title: {type: 'string', maxlength: 150, nullable: true},
     target: {type: 'string', maxlength: 150, nullable: true},
     icon: {type: 'string', maxlength: 150, nullable: true},
+    published: {type: 'bool', nullable: false, defaultTo: true},
     created_at: {type: 'dateTime', nullable: false},
     updated_by: {type: 'integer', nullable: false, unsigned: true},
     updated_at: {type: 'dateTime', nullable: true}

@@ -1,6 +1,6 @@
 
-var secrets = require('../config/secrets');
-var Bookshelf = require('../dbconnect')(secrets);
+var config = require('../config');
+var Bookshelf = require('../dbconnect')(config);
 var knex = Bookshelf.knex;
 
 
@@ -36,51 +36,6 @@ var questions = [
     }
   }
 ];
-
-/*
-function createTable(tableName) {
-  console.log(chalk.green(' > ') + 'Creating ' + tableName + ' table....');
- 
-  return knex.schema.createTable(tableName, function (table) {
-    
-    var column,
-        columnKeys = _.keys(schema[tableName]);
-    _.each(columnKeys, function (key) {
-      // creation distinguishes between text with fieldtype, string with maxlength and all others
-      if (schema[tableName][key].type === 'text' && schema[tableName][key].hasOwnProperty('fieldtype')) {
-        column = table[schema[tableName][key].type](key, schema[tableName][key].fieldtype);
-      } 
-      else if (schema[tableName][key].type === 'string' && schema[tableName][key].hasOwnProperty('maxlength')) {
-        column = table[schema[tableName][key].type](key, schema[tableName][key].maxlength);
-      } 
-      else {
-        column = table[schema[tableName][key].type](key);
-      }
-      if (schema[tableName][key].hasOwnProperty('nullable') && schema[tableName][key].nullable === true) {
-        column.nullable();
-      } else {
-        column.notNullable();
-      }
-      if (schema[tableName][key].hasOwnProperty('primary') && schema[tableName][key].primary === true) {
-        column.primary();
-      }
-      if (schema[tableName][key].hasOwnProperty('unique') && schema[tableName][key].unique) {
-        column.unique();
-      }
-      if (schema[tableName][key].hasOwnProperty('unsigned') && schema[tableName][key].unsigned) {
-        column.unsigned();
-      }
-      if (schema[tableName][key].hasOwnProperty('references') && schema[tableName][key].hasOwnProperty('inTable')) {
-        //check if table exists?
-        column.references(schema[tableName][key].references);
-        column.inTable(schema[tableName][key].inTable);
-      }
-      if (schema[tableName][key].hasOwnProperty('defaultTo')) {
-        column.defaultTo(schema[tableName][key].defaultTo);
-      }
-    });
-  });
-}*/
 
 
 function createTable(table) {
@@ -153,7 +108,7 @@ function createDB () {
   var tables = [];
 
   console.log(chalk.yellow('--------------------------------------------------------'));
-  console.log('\t%s', chalk.yellow('Application init. Creating database tables.....'));
+  console.log('\t%s', chalk.yellow('Creating database tables.......'));
   console.log(chalk.yellow('--------------------------------------------------------'));
   console.log();
 
@@ -164,8 +119,7 @@ function createDB () {
   });
 
   return sequence(tables).then(function () {
-    console.log(chalk.green(' > ') + 'Database tables created!');
-    return data.populate();
+    return data.populateFirst();
   });
 }
 
@@ -183,39 +137,37 @@ var migrate = {
     .then(function () {
       console.log();
       console.log(chalk.yellow('--------------------------------------------------------'));
-      console.log('\t%s', chalk.yellow('Now creating your Super Admin account'));
+      console.log('\t%s', chalk.yellow('Create your Super Admin account'));
       console.log(chalk.yellow('--------------------------------------------------------'));
       console.log();
-
+  
       profile.create()
       .then(function (error, answers) {
         var details = {name: answers.Name, email: answers.Email, password: answers.Password};
-
         details.role_id = 3;
-
         User.forge(details)
         .save()
         .then(function (model) {
           console.log('');
-          console.log(chalk.green(' > ') + 'Super Admin accout created!');
+          console.log(chalk.green(' > ') + 'Super Admin account created!');
           console.log('');
-          console.log(chalk.red('WARNING!! Running the `node setup` command again will delete and reset your databases.\n        Remove the setup.js file in the root directory to avoid this.'));
-          console.log('');
-          console.log(chalk.yellow('--------------------------------------------------------'));
-          console.log(chalk.yellow('\tCongratulations! Setup is complete!!!\n\tRun the command `node app` to start your app'));
-          console.log(chalk.yellow('--------------------------------------------------------'));
-          console.log();
-
-          deferred.resolve();
+  
+          return model;
+        })
+        .then(function (user) {
+          data.populateSecond()
+          .then(function () {
+            deferred.resolve();
+          })
+          .otherwise (function (err) {
+            deferred.reject(err);
+          });
         })
         .otherwise(function (error) {
-          console.log(chalk.red(' > ') + 'Sorry ' + details.name + ', your Super Admin accout could not be created. Please open an issues on our github page.');
+          console.log(chalk.red(' > ') + 'Sorry ' + details.name + ', your Super Admin account could not be created. Please open an issues on our github page.');
           deferred.reject(error);
         });
       });
-    })
-    .otherwise (function (err) {
-      deferred.reject(err);
     });
 
     return deferred.promise;
@@ -244,6 +196,13 @@ migrate.reset()
 .then(function () {
   migrate.init()
   .then(function () {
+    console.log();
+    console.log(chalk.red('WARNING!! Running the `npm run setup` command again will delete and reset your databases.\n        Remove the sql/dbsetup.js file in the root directory to avoid this.'));
+    console.log('');
+    console.log(chalk.yellow('--------------------------------------------------------'));
+    console.log(chalk.yellow('\tCongratulations! Setup is complete!!!\n\tRun the command `npm start` to start your app'));
+    console.log(chalk.yellow('--------------------------------------------------------'));
+    console.log();
     process.exit(0);
   })
   .otherwise(function (err) {

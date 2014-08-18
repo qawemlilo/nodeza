@@ -29,12 +29,12 @@ module.exports = function (config) {
    * Express configuration.
    */
   var day = (1000 * 60 * 60) * 24;
-  var maxAge = day * config.maxAge;
+  var maxAge = day * config.site.maxAge;
   
-  var csrfWhitelist = config.csrfWhitelist;
+  var csrfWhitelist = config.site.csrfWhitelist;
   
   // port
-  server.set('port', process.env.PORT || config.port);
+  server.set('port', process.env.PORT || config.site.port);
   
   // define views folder  
   server.set('views', path.join(__dirname, 'views'));
@@ -58,9 +58,9 @@ module.exports = function (config) {
   
   // session management
   server.use(session({
-    secret: config.sessionSecret,
+    secret: config.site.sessionSecret,
     store: new MongoStore({
-      url: config.mongodb,
+      url: config.mongodb.url,
       auto_reconnect: true
     }),
     proxy: true,
@@ -98,7 +98,7 @@ module.exports = function (config) {
   server.use(logger('dev'));
   
   // CSRF protection.
-  if (config.activateCSRF) {
+  if (config.site.activateCSRF) {
     server.use(function(req, res, next) {
       if (_.contains(csrfWhitelist, req.path)) {
         return next();

@@ -1,7 +1,7 @@
 
 var should = require('chai').should();
 var Meetup = require('../models/meetup');
-var meetupsData = require('../sql/meetups');
+var meetupsData = require('../sql/data/meetups');
 
 
 

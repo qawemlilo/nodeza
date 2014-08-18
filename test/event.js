@@ -1,7 +1,7 @@
 
 var should = require('chai').should();
 var Event = require('../models/event');
-var eventsData = require('../sql/events');
+var eventsData = require('../sql/data/events');
 var moment = require('moment');
 
 

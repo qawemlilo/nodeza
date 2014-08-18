@@ -10,20 +10,20 @@ module.exports = function (config) {
 
   var mongoose = require('mongoose');
 
-  mongoose.connect(config.mongodb);
+  mongoose.connect(config.mongodb.url);
   mongoose.connection.on('error', function() {
     console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
   });
 
 
   var knex = require('knex')({
-    client: 'mysql',
+    client: config.mysql.client,
     connection: {
-      host: config.host,
-      user: config.user,
-      password: config.password,
-      database: config.db,
-      charset: config.charset
+      host: config.mysql.host,
+      user: config.mysql.user,
+      password: config.mysql.password,
+      database: config.mysql.db,
+      charset: config.mysql.charset
     }
   });
 

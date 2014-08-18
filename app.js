@@ -143,7 +143,7 @@ var App = {
   **/
   getConfig: function (name) {
     var val = '';
-    var blacklist = ['mongodb','db','user','password','sessionSecret','mailgun','github','twitter','google'];
+    var blacklist = ['mongodb','mysql','mailgun','github','twitter','google'];
     var safeToSee = _.omit(config, blacklist);
     var user = this.user;
 

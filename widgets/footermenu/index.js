@@ -6,12 +6,12 @@ var when = require('when');
 module.exports.config = config;
 
 module.exports.exec = function (App) {
+  var site = App.getConfig('site');
+  var menu = App.getModel('Menu', {name: 'Footer Menu'});
 
   // add some properties to the config object
-  config.twitter = App.getConfig('twitter_url');
-  config.github = App.getConfig('github_url');
-
-  var menu = App.getModel('Menu', {name: 'Footer Menu'});
+  config.twitter = site.twitter_url;
+  config.github = site.github_url;
 
   return menu.fetch({withRelated: ['links', 'links.route']})
   .then(function (model) {

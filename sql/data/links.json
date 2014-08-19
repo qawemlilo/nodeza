@@ -1,0 +1,90 @@
+[
+  {
+    "route_id": 1,
+    "menu_id": 2,
+    "parentId": null,
+    "inner_text": "About",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "About NodeZA",
+    "target": "",
+    "icon": "user"
+  },
+  {
+    "route_id": 2,
+    "menu_id": 2,
+    "parentId": null,
+    "inner_text": "Developers",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Developers",
+    "target": "",
+    "icon": "calendar"
+  },
+  {
+    "route_id": 3,
+    "menu_id": 2,
+    "parentId": null,
+    "inner_text": "Privacy",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Privacy Policy",
+    "target": "",
+    "icon": "calendar"
+  },
+  {
+    "route_id": 4,
+    "menu_id": 2,
+    "parentId": null,
+    "inner_text": "Contact",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Contact Us",
+    "target": "",
+    "icon": "calendar"
+  },
+  {
+    "route_id": 5,
+    "menu_id": 1,
+    "parentId": null,
+    "inner_text": "Home",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Home",
+    "target": "",
+    "icon": "home"
+  },
+  {
+    "route_id": 6,
+    "menu_id": 1,
+    "parentId": null,
+    "inner_text": "Events",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Upcoming events",
+    "target": "",
+    "icon": "calendar"
+  },
+  {
+    "route_id": 7,
+    "menu_id": 1,
+    "parentId": null,
+    "inner_text": "Meetups",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Find meetups near you",
+    "target": "",
+    "icon": "map-marker"
+  },
+  {
+    "route_id": 8,
+    "menu_id": 1,
+    "parentId": null,
+    "inner_text": "Blog",
+    "class_attr": "",
+    "id_attr": "",
+    "title": "Blog",
+    "target": "",
+    "icon": "list-alt"
+  }
+]

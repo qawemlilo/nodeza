@@ -1,0 +1,59 @@
+[
+  {
+    "role_id": 4,
+    "path": "/about",
+    "http_method": "get",
+    "controller_name": "Site",
+    "controller_method": "about"
+  },
+  {
+    "role_id": 4,
+    "path": "/developers",
+    "http_method": "get",
+    "controller_name": "Site",
+    "controller_method": "developers"
+  },
+  {
+    "role_id": 4,
+    "path": "/privacy",
+    "http_method": "get",
+    "controller_name": "Site",
+    "controller_method": "privacy"
+  },
+  {
+    "role_id": 4,
+    "path": "/contact",
+    "http_method": "get",
+    "controller_name": "Site",
+    "controller_method": "contact"
+  },
+  {
+    "role_id": 4,
+    "path": "/",
+    "http_method": "get",
+    "controller_name": "Site",
+    "controller_method": "index"
+  },
+  {
+    "role_id": 4,
+    "path": "/events",
+    "http_method": "get",
+    "controller_name": "Events",
+    "controller_method": "getEvents",
+    "created_at": "2014-08-14 16:16:33"
+  },
+  {
+    "role_id": 4,
+    "path": "/meetups",
+    "http_method": "get",
+    "controller_name": "Meetups",
+    "controller_method": "getMeetups"
+  },
+  {
+    "role_id": 4,
+    "path": "/blog",
+    "http_method": "get",
+    "controller_name": "Posts",
+    "controller_method": "getBlog"
+  }
+]

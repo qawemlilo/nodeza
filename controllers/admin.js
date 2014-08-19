@@ -48,28 +48,30 @@ var AdminController = {
       title: 'Global Config',
       description: 'Global Config',
       page: 'getGlobalConfig',
-      google: App.getConfig('google'),
-      twitter: App.getConfig('twitter'),
-      github: App.getConfig('github')
+      site: App.getConfig('site')
     });
   },
 
 
   getServerConfig: function (req, res) {
-    var mysql = {
-      db: App.getConfig('db'),
-      user: App.getConfig('user'),
-      host: App.getConfig('host'),
-      password: App.getConfig('password'),
-      charset: App.getConfig('charset'),
-    };
-
     res.render('admin/config_server', {
       title: 'Global Config',
       description: 'Global Config',
       page: 'getGlobalConfig',
-      mysql: mysql,
+      mysql: App.getConfig('mysql'),
       mongodb: App.getConfig('mongodb')
+    });
+  },
+
+
+  getAccountConfig: function (req, res) {
+    res.render('admin/config_account', {
+      title: 'Account Config',
+      description: 'Account Config',
+      page: 'account',
+      google: App.getConfig('google'),
+      twitter: App.getConfig('twitter'),
+      github: App.getConfig('github')
     });
   },
 
@@ -87,7 +89,9 @@ var AdminController = {
       }
     }
 
-    configs[config] = _.omit(req.body, ['id', '_csrf']);
+    var update = _.omit(req.body, ['id', '_csrf']);
+
+    configs[config] = _.extend(App.getConfig(config), update);
 
     updateConfig(configs);
 

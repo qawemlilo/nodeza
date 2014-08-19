@@ -58,11 +58,6 @@ var Post = Base.Model.extend({
 
   saving: function (model, attr, options) {
     var self = this;
-    
-    // if only updating views field
-    if (self.hasChanged('views') && !self.isNew()) {
-      return;
-    }
 
     self.set('html', markdown.toHTML(self.get('markdown')));
 

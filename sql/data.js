@@ -1,5 +1,8 @@
 
 var _ = require('lodash');
+var sequence = require('when/sequence');
+var chalk = require('chalk');
+
 var Role = require('../models/roles');
 var Category = require('../models/category');
 var Event = require('../models/event');
@@ -8,17 +11,47 @@ var Post = require('../models/post');
 var Route = require('../models/route');
 var Link = require('../models/link');
 var Menu = require('../models/menu');
+
 var eventsData = require('./data/events');
 var meetupsData = require('./data/meetups');
 var postsData = require('./data/posts');
 var menusData = require('./data/menus');
 var routesData = require('./data/routes');
 var linksData = require('./data/links');
-var sequence = require('when/sequence');
-var chalk = require('chalk');
+
+var operations =  [];
+
+
+function unpackCollection (collection) {
+  _.each(collection.data, function (data) {
+    operations.push(function () {
+      var props;
+
+      // if its posts
+      if (data.data)
+        props = [data.data, {updateTags: data.tags}];
+      else
+        props = [data, {}];
+
+      return collection.model.forge()
+      .save(props[0], props[1])
+      .then(function(model) {
+        var res = model.tableName + ' entry id: ' + model.get('id') + ' created';
+        console.log(chalk.green(' > ') + res);
+        return res;
+      })
+      .otherwise(function (err) { 
+        console.log(err.message); 
+      }); 
+    });
+  });
+}
 
 
 module.exports.populateFirst  = function () {
+  // reset operations
+  operations =  [];
+  
   var rolesData = [
     {name: 'Registered'}, 
     {name: 'Editor'}, 
@@ -32,45 +65,24 @@ module.exports.populateFirst  = function () {
     {name: 'News', description: 'Latest Node.js news'}
   ];
 
-  var operations =  [];
-
   console.log();
   console.log(chalk.yellow('--------------------------------------------------------'));
   console.log('\t%s', chalk.yellow('Now populating admin tables with sample content'));
   console.log(chalk.yellow('--------------------------------------------------------'));
   console.log();
 
-  _.each(rolesData, function (model) {
-
-    operations.push(function () {
-      return Role.forge(model).save().then(function(role) {
-        var res = 'Roles entry id: ' + role.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      }); 
-    });
-  });
-
-  _.each(catsData, function (model) {
-    operations.push(function () {
-      return Category.forge(model)
-      .save()
-      .then(function(cat) {
-        var res = 'Category entry id: ' + cat.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      }).otherwise(function (err) { console.log(err.message); });
-    });
-  });
+  _.each([
+    {model: Role, data: rolesData},
+    {model: Category, data: catsData}
+  ], unpackCollection);
 
   return sequence(operations);
 };
 
 
-
 module.exports.populateSecond  = function () {
-
-  var operations =  [];
+  // reset operations
+  operations =  [];
 
   console.log();
   console.log(chalk.yellow('--------------------------------------------------------'));
@@ -78,76 +90,14 @@ module.exports.populateSecond  = function () {
   console.log(chalk.yellow('--------------------------------------------------------'));
   console.log();
 
-  _.each(meetupsData, function (model) {
-
-    operations.push(function () {
-      return Meetup.forge(model).save().then(function(meetup) {
-        var res = 'Meetup entry id: ' + meetup.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      }).otherwise(function (err) { console.log(err.message); }); 
-    });
-  });
-
-  _.each(eventsData, function (model) {
-    operations.push(function () {
-      return Event.forge(model).save().then(function(event) {
-        var res = 'Events entry id: ' + event.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      }).otherwise(function (err) { console.log(err.message); });
-    });
-  });
-
-  _.each(postsData, function (model) {
-    operations.push(function () {
-      return Post.forge().save(model.data, {updateTags: model.tags}).then(function(post) {
-        var res = 'Post entry id: ' + post.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      }).otherwise(function (err) { console.log(err.message); });
-    });
-  });
-
-  _.each(routesData, function (model) {
-    operations.push(function () {
-      return Route.forge(model).save().then(function(route) {
-        var res = 'Routes entry id: ' + route.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      })
-      .otherwise(function (err) { 
-        console.log(err.message); 
-      });
-    });
-  });
-
-  _.each(menusData, function (model) {
-    operations.push(function () {
-      return Menu.forge(model).save().then(function(menu) {
-        var res = 'Menus entry id: ' + menu.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      })
-      .otherwise(function (err) { 
-        console.log(err.message); 
-      });
-    });
-  });
-
-  _.each(linksData, function (model) {
-    operations.push(function () {
-      return Link.forge(model).save().then(function(link) {
-        var res = 'Links entry id: ' + link.get('id') + ' created';
-        console.log(chalk.green(' > ') + res);
-        return res;
-      })
-      .otherwise(function (err) { 
-        console.log(err.message); 
-      });
-    });
-  });
+  _.each([
+    {model: Meetup, data: meetupsData},
+    {model: Event, data: eventsData},
+    {model: Post, data: postsData},
+    {model: Route, data: routesData}, 
+    {model: Menu, data: menusData},
+    {model: Link, data: linksData}
+  ], unpackCollection);
 
   return sequence(operations);
 };
-

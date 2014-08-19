@@ -12,6 +12,7 @@ module.exports = {
     github_url: secrets.site.github_url || '',
     port: secrets.site.port || 3000,
     maxAge: secrets.site.maxAge || 7,
+    email: secrets.site.email,
     activateCSRF: secrets.site.activateCSRF || true,
     csrfWhitelist: secrets.site.csrfWhitelist || [],
     sessionSecret: process.env.SESSION_SECRET || secrets.site.sessionSecret
@@ -50,6 +51,7 @@ module.exports = {
     passReqToCallback: secrets.google.passReqToCallback
   },
   widget: {
-    whitelist: secrets.widget.whitelist || []
+    whitelist: secrets.widget.whitelist || [],
+    cache: true
   }
 };

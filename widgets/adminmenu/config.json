@@ -10,7 +10,6 @@
     "/admin/blog",
     "/admin/account/password",
     "/admin/account/linked",
-    "/admin/account/settings",
     "/admin/users",
     "/admin/users/roles",
     "/admin/blog/categories",
@@ -18,6 +17,7 @@
     "/admin/links",
     "/admin/settings",
     "/admin/settings/server",
+    "/admin/settings/account",
     "/admin/menus"
   ],
   "description": "Admin Menu",

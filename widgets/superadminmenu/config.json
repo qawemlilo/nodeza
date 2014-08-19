@@ -10,7 +10,7 @@
     "/admin/blog",
     "/admin/account/password",
     "/admin/account/linked",
-    "/admin/account/settings",
+    "/admin/settings/account",
     "/admin/users",
     "/admin/users/roles",
     "/admin/blog/categories",

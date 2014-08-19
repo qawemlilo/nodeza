@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Main Menu",
+    "role_id": 3,
+    "description": "Main Menu"
+
+  },
+  {
+    "name": "Footer Menu",
+    "role_id": 1,
+    "description": "Footer Menu"
+  }
+]

@@ -14,168 +14,84 @@
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
     <li class="active"><a href="/admin/settings"><span class="glyphicon glyphicon-wrench"></span> Global  Settings</a></li>
     <li><a href="/admin/settings/server"><span class="glyphicon glyphicon-tasks"></span> Server Settings</a></li>
-    <li><a href="/admin/account/settings"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+    <li><a href="/admin/settings/account"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
   </ul>
   
   <div class="panel panel-default">
     <div class="panel-heading">
-      <span class="fa fa-google-plus text-danger"></span> Google
+      <span class="glyphicon glyphicon-wrench"></span> Global Settings
     </div>
     
     <div class="panel-body">
       <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
         <input type="hidden" name="_csrf" value="{{_csrf}}" />
-        <input type="hidden" name="id" value="google" />
+        <input type="hidden" name="id" value="site" />
 
           <div class="form-group">
-            <label class="col-sm-3 control-label" for="clientID">Client ID</label>
+            <label class="col-sm-3 control-label" for="siteName">Site Name</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" name="clientID" id="clientID"   placeholder="clientID" value="{{google.clientID}}" />
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="clientSecret">Client Secret</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" name="clientSecret" id="clientSecret"   placeholder="clientSecret" value="{{google.clientSecret}}" />
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="callbackURL">Callback URL</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" name="callbackURL" id="callbackURL" value="{{google.callbackURL}}" />
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="passReqToCallback">Pass Req To Callback</label>
-            <div class="col-sm-7">
-              <label style="margin-left:20px" class="radio">
-                <input type="radio" {{#if google.passReqToCallback}}checked="checked"{{/if}} name="passReqToCallback" value="yes" data-toggle="radio">
-                <span>Yes</span>
-              </label>
-    
-              <label style="margin-left:20px" class="radio">
-                <input type="radio" {{#if google.passReqToCallback}}{{else}}checked="checked"{{/if}}  name="passReqToCallback" value="no" data-toggle="radio">
-                <span>No</span>
-              </label>
+              <input class="form-control" type="text" name="siteName" id="siteName" value="{{site.siteName}}" />
             </div>
           </div>
     
           <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-7">
-              <button class="btn btn-success" type="submit">
-                <i class="fa fa-check"></i> Update
-              </button>
+            <label class="col-sm-3 control-label" for="title">Meta Title</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" rows="4" name="title" id="title">{{site.title}}</textarea>
             </div>
           </div>
-      </form>
-    </div>
-  </div>
-  
-  
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <span class="fa fa-github"></span> Github
-    </div>
     
-    <div class="panel-body">
-      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
-        <input type="hidden" name="_csrf" value="{{_csrf}}" />
-        <input type="hidden" name="id" value="github" />
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="description">Meta Description</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" rows="4" name="description" id="description">{{site.description}}</textarea>
+            </div>
+          </div>
 
           <div class="form-group">
-            <label class="col-sm-3 control-label" for="clientID">Client ID</label>
+            <label class="col-sm-3 control-label" for="twitter_url">Twitter Url</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" name="clientID" id="clientID"   placeholder="clientID" value="{{github.clientID}}" />
+              <input class="form-control" type="text" name="twitter_url" id="twitter_url" value="{{site.twitter_url}}" />
             </div>
           </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="clientSecret">Client Secret</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" name="clientSecret" id="clientSecret"   placeholder="clientSecret" value="{{github.clientSecret}}" />
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="callbackURL">Callback URL</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" name="callbackURL" id="callbackURL" value="{{github.callbackURL}}" />
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="passReqToCallback">Pass Req To Callback</label>
-            <div class="col-sm-7">
-              <label style="margin-left:20px" class="radio">
-                <input type="radio" {{#if github.passReqToCallback}}checked="checked"{{/if}} name="passReqToCallback" value="yes" data-toggle="radio">
-                <span>Yes</span>
-              </label>
-    
-              <label style="margin-left:20px" class="radio">
-                <input type="radio" {{#if github.passReqToCallback}}{{else}}checked="checked"{{/if}}  name="passReqToCallback" value="no" data-toggle="radio">
-                <span>No</span>
-              </label>
-            </div>
-          </div>
-    
-          <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-7">
-              <button class="btn btn-success" type="submit">
-                <i class="fa fa-check"></i> Update
-              </button>
-            </div>
-          </div>
-      </form>
-    </div>
-  </div>
-
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <span class="fa fa-twitter text-primary"></span> Twitter
-    </div>
-    
-    <div class="panel-body">
-      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
-        <input type="hidden" name="_csrf" value="{{_csrf}}" />
-        <input type="hidden" name="id" value="twitter" />
 
           <div class="form-group">
-            <label class="col-sm-3 control-label" for="consumerKey">Consumer Key</label>
+            <label class="col-sm-3 control-label" for="github_url">Github Url</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" name="consumerKey" id="consumerKey"   placeholder="consumerKey" value="{{twitter.consumerKey}}" />
+              <input class="form-control" type="text" name="github_url" id="github_url"   value="{{site.github_url}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
-            <label class="col-sm-3 control-label" for="consumerSecret">Consumer Secret</label>
+            <label class="col-sm-3 control-label" for="sessionSecret">Session Secret</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" name="consumerSecret" id="consumerSecret"   placeholder="consumerSecret" value="{{twitter.consumerSecret}}" />
+              <input class="form-control" type="text" name="sessionSecret" id="sessionSecret"  value="{{site.sessionSecret}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
-            <label class="col-sm-3 control-label" for="callbackURL">Callback URL</label>
+            <label class="col-sm-3 control-label" for="port">Default Port</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" name="callbackURL" id="callbackURL" value="{{twitter.callbackURL}}" />
+              <input class="form-control" type="text" name="port" id="port"  value="{{site.port}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
-            <label class="col-sm-3 control-label" for="passReqToCallback">Pass Req To Callback</label>
+            <label class="col-sm-3 control-label" for="email">Default Email</label>
             <div class="col-sm-7">
-              <label style="margin-left:20px" class="radio">
-                <input type="radio" {{#if twitter.passReqToCallback}}checked="checked"{{/if}} name="passReqToCallback" value="yes" data-toggle="radio">
-                <span>Yes</span>
-              </label>
-    
-              <label style="margin-left:20px" class="radio">
-                <input type="radio" {{#if twitter.passReqToCallback}}{{else}}checked="checked"{{/if}}  name="passReqToCallback" value="no" data-toggle="radio">
-                <span>No</span>
-              </label>
+              <input class="form-control" type="text" name="email" id="email"  value="{{site.email}}" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="maxAge">Cache Expires</label>
+            <div class="col-sm-7">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  Days
+                </span>
+                <input type="text" class="form-control" name="maxAge" id="maxAge" value="{{site.maxAge}}" />
+              </div>
             </div>
           </div>
     

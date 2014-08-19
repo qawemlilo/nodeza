@@ -14,7 +14,7 @@
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
     <li><a href="/admin/settings"><span class="glyphicon glyphicon-wrench"></span> Global  Settings</a></li>
     <li class="active"><a href="/admin/settings/server"><span class="glyphicon glyphicon-tasks"></span> Server Settings</a></li>
-    <li><a href="/admin/account/settings"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+    <li><a href="/admin/settings/account"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
   </ul>
   
   <div class="panel panel-default">
@@ -87,7 +87,7 @@
           <div class="form-group">
             <label class="col-sm-3 control-label" for="mongodb">Database Url</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" name="mongodb" id="mongodb" value="{{mongodb}}" />
+              <input class="form-control" type="text" name="url" id="url" value="{{mongodb.url}}" />
             </div>
           </div>
 

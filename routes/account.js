@@ -20,7 +20,6 @@ module.exports = function (app, AccountController) {
 
   app.get('/logout', passport.isAuthenticated, AccountController.logout);
   app.get('/admin/account', passport.isAuthenticated, AccountController.getAccount);
-  app.get('/admin/account/settings', passport.isAuthenticated, AccountController.getConfig);
   app.post('/account', passport.isAuthenticated, AccountController.postAccount);
   app.get('/admin/account/password', passport.isAuthenticated, AccountController.getPasswordForm);
   app.get('/admin/account/linked', passport.isAuthenticated, AccountController.getLinkedAccounts);

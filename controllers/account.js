@@ -20,19 +20,6 @@ function datetime(ts) {
 
 var AccountController = {
 
-
-  getConfig: function (req, res) {
-    res.render('account/config', {
-      title: 'Account Config',
-      description: 'Account Config',
-      page: 'account',
-      google: App.getConfig('google'),
-      twitter: App.getConfig('twitter'),
-      github: App.getConfig('github')
-    });
-  },
-
-
   /**
    * GET /login
    * View login page

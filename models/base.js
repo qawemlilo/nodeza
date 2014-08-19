@@ -66,6 +66,11 @@ Bookshelf.Model = Bookshelf.Model.extend({
     var self = this;
     var table = self.getTableName();
 
+    // if only updating views field
+    if (self.hasChanged('views') && !self.isNew()) {
+      return;
+    }
+
     // if user has no access to content
     if (!self.isNew() && !self.hasPermission()) {
       throw new Error('Access restricted');

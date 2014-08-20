@@ -1,5 +1,5 @@
 # NodeZA
-> A Node.js information portal for developers in South Africa.
+> A Node.js information portal and social platform for developers in South Africa.
 
 Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.
 

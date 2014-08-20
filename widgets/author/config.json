@@ -1,0 +1,13 @@
+{
+  "name": "Author",
+  "title": "Author",
+  "version": "0.0.1",
+  "routes": ["/blog/:any"],
+  "description": "Author",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "belowpost",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/nodeza/author.git"
+}

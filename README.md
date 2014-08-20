@@ -45,7 +45,7 @@ Clone this repo to your local machine and install dependencies.
 
 ```
 git clone https://github.com/qawemlilo/nodeza.git
-cd nodeza && git checkout dev && npm install
+cd nodeza && npm install
 ```
 
 Once all the dependencies are installed we need to setup our database and create tables.

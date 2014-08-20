@@ -81,14 +81,13 @@ Bookshelf.Model = Bookshelf.Model.extend({
       App.clearCache();
     }
     
+    // if updating and has updated_by feild, set it to current user
     if (!self.isNew() && Databases[table].updated_by) {
-      // updated_by current user
       self.set('updated_by', App.user.get('id'));
     }
 
+    // if is new or slug has changed and has slug field - generate new slug
     if (self.hasChanged('slug') || !self.get('slug') && Databases[table].slug) {
-
-      // Pass the new slug through the generator to strip illegal characters, detect duplicates
       return self.generateSlug(self.get('slug') || self.get('name') || self.get('title'))
         .then(function (slug) {
           self.set({slug: slug});

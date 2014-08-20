@@ -47,7 +47,7 @@ var EventsController = {
         parseTime: event.parseTime(),
         myEvent: event.toJSON(),
         description: event.get('title'),
-        page: 'event'
+        page: 'events'
       });
 
       event.viewed();

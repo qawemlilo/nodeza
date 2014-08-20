@@ -14,11 +14,8 @@
     <div class="navbar-collapse collapse">
      
       <ul class="nav navbar-nav">
-        {{#each collection}}
-        <li>
-          <a href="{{route.path}}"><span class="glyphicon glyphicon-{{icon}}"></span> {{inner_text}}</a>
-        </li>
-        {{/each}}
+        {{#mainMenu collection page}}
+        {{/mainMenu}}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

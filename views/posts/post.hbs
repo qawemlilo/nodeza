@@ -15,9 +15,9 @@
 
   {{#if post}}
     <div class="blog-main-body">  
-      <h2 class="blog-post-title">
+      <h1 class="blog-post-title">
         {{post.title}}
-      </h2>
+      </h1>
       <p class="blog-post-meta" style="padding-right:10px">
         {{#parseDate post.published_at 'MMMM D, YYYY'}}{{/parseDate}} by 
         <a href="/devs/{{author.slug}}">{{author.name}}</a>
@@ -48,20 +48,9 @@
       
     </div>
   
-    <div class="blog-main-footer post-author">
-      <div style="padding:10px">
-        <div class="media">
-          <a class="pull-left" href="/devs/{{author.slug}}">
-            <img class="media-object" style="width:48px; height:48px;" src="{{gravatar}}"  alt="{{author.name}}">
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading">Author: <a href="/devs/{{author.slug}}">{{author.name}}</a></h4>
-  
-            {{author.about}}
-          </div>
-        </div>
-      </div>     
-    </div>
+    {{#if @WidgetCollection.belowpost}}
+      {{#list @WidgetCollection.belowpost page}}{{/list}}
+    {{/if}}
   {{/if}}
 </div>
 

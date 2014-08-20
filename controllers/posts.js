@@ -6,7 +6,7 @@ var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
 var gulpfile = require('../lib/process-images');
-
+var _ = require('lodash');
 
 function processTags(tags) {
   if (!tags) {
@@ -25,6 +25,17 @@ function processTags(tags) {
 
 var PostsController = {
 
+
+  getSettings: function (req, res) {
+    res.render('posts/config', {
+      title: 'Posts Config',
+      description: 'Posts Config',
+      page: 'globalconfig',
+      blog: App.getConfig('blog')
+    });
+  },
+
+
   /*
    * GET /blog/:slug
    * loads a blog post by slug
@@ -38,13 +49,14 @@ var PostsController = {
     })
     .then(function (post) {
       res.render('posts/post', {
-        page: 'post',
+        page: 'blog',
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('title'),
         description: post.get('meta_description'),
         author: post.related('created_by').getJSON(['slug', 'name', 'about']),
         category: post.related('category').toJSON(),
         url: 'http://' + req.headers.host + '/blog/' + slug,
+        keywords: _.pluck(post.related('tags').toJSON(), 'name'),
         post: post.toJSON()
       });
 

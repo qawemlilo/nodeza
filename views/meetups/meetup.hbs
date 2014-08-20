@@ -22,7 +22,11 @@
       <div class="meetup panel panel-default">
         <div class="panel-body">
           <div class="col-md-8">
-           <h3>{{{meetup.title}}}</h3>
+            <h3>{{{meetup.title}}}</h3>
+            <p class="blog-post-meta" style="padding-right:10px">
+              <span class="glyphicon glyphicon-tag"></span> 
+              {{meetup.city}}
+            </p>
           </div>
           <div class="col-md-8">
             <p>
@@ -44,19 +48,15 @@
   
           <div class="col-md-4">
             <p>
-              <span class="glyphicon glyphicon-tag"></span> 
-              {{meetup.city}}
+              <button class="btn btn-danger btn-block">
+                <span class="glyphicon glyphicon-envelope"></span> Contact
+              </button>
             </p>
+            {{#if meetup.number}}
             <p>
               <span class="glyphicon glyphicon-earphone"></span> {{meetup.number}}
             </p>
-            <!--
-            <p>
-              <span class="glyphicon glyphicon-envelope"></span>
-              <a href="mailto:{{meetup.email}}"> 
-                Contact
-              </a>
-            </p>-->
+            {{/if}}
           </div>
   
           <div class="col-md-12">

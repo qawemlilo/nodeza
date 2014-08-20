@@ -179,7 +179,7 @@ var Post = Base.Model.extend({
 
 
   /**
-   * (un)publish post
+   * toggle publish
   */
   togglePublisher: function(id) {
     var deferred = when.defer();

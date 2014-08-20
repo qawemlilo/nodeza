@@ -120,7 +120,7 @@ module.exports = {
     featured: {type: 'bool', nullable: false, defaultTo: false},
     published: {type: 'bool', nullable: false, defaultTo: false},
     curated: {type: 'bool', nullable: false, defaultTo: false},
-    meta_title: {type: 'string', maxlength: 150, nullable: true},
+    meta_keywords: {type: 'string', maxlength: 150, nullable: true},
     meta_description: {type: 'string', maxlength: 200, nullable: true},
     views: {type: 'integer', nullable: false, defaultTo: 0},
     published_at: {type: 'dateTime', nullable: true},

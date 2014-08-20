@@ -38,7 +38,7 @@ var AdminController = {
     res.render('admin/admin', {
       title: 'NodeZA Admin',
       description: 'NodeZA Admin',
-      page: 'accountconfig'
+      page: 'admin'
     });
   },
 
@@ -47,8 +47,8 @@ var AdminController = {
     res.render('admin/config', {
       title: 'Global Config',
       description: 'Global Config',
-      page: 'getGlobalConfig',
-      site: App.getConfig('site')
+      site: App.getConfig('site'),
+      page: 'globalconfig'
     });
   },
 
@@ -57,9 +57,9 @@ var AdminController = {
     res.render('admin/config_server', {
       title: 'Global Config',
       description: 'Global Config',
-      page: 'getGlobalConfig',
       mysql: App.getConfig('mysql'),
-      mongodb: App.getConfig('mongodb')
+      mongodb: App.getConfig('mongodb'),
+      page: 'serverconfig'
     });
   },
 
@@ -68,7 +68,7 @@ var AdminController = {
     res.render('admin/config_account', {
       title: 'Account Config',
       description: 'Account Config',
-      page: 'account',
+      page: 'globalconfig',
       google: App.getConfig('google'),
       twitter: App.getConfig('twitter'),
       github: App.getConfig('github')

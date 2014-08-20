@@ -44,7 +44,7 @@ var MeetupsController = {
       res.render('meetups/meetup', {
         title: meetup.get('title'),
         description: meetup.get('short_desc'),
-        page: 'meetup', 
+        page: 'meetups', 
         meetup: meetup.toJSON()
       });
 

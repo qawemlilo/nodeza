@@ -89,7 +89,9 @@ NodeZA is built on a MVC-like architecture. The main building blocks are `models
 The descriptions below are guidelines that have been used in the NodeZA project and should be followed as closely as possible.
 
 ### Routes
-Routes are the entry point to the application, they are responsible for routing and determine which `controller` and method to call for each `route`. This project has only one routing file(`routes.js`) which is found in the root directory.
+Routes are the entry point to the application, they are responsible for routing and determine which `controller` and method to call for each http request. 
+
+All routes are located in the `routes` directory
 
 
 ### Controllers

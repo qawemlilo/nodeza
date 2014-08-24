@@ -1,4 +1,4 @@
-
+"use strict";
 
 var passportConf = require('../config/passport');
 

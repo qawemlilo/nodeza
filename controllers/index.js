@@ -1,8 +1,10 @@
+"use strict";
 
 module.exports = {
   account: require('./account'),
   admin: require('./admin'),
   categories: require('./categories'),
+  contact: require('./contact'),
   events: require('./events'),
   links: require('./links'),
   meetups: require('./meetups'),

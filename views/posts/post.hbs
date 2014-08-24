@@ -19,15 +19,23 @@
         {{post.title}}
       </h1>
       <p class="blog-post-meta" style="padding-right:10px">
-        {{#parseDate post.published_at 'MMMM D, YYYY'}}{{/parseDate}} by 
-        <a href="/devs/{{author.slug}}">{{author.name}}</a>
-        | 
+      {{#if config.showDate}}
+        {{#parseDate post.published_at 'MMMM D, YYYY'}}{{/parseDate}} 
+      {{/if}}
+      {{#if config.showAuthor}}
+        by 
+        <a href="/devs/{{author.slug}}">{{author.name}}</a> 
+      {{/if}}
+        
+      {{#if config.showTags}} 
+        |
         <span class="glyphicon glyphicon-tag"></span>
         <a href="/blog/category/{{category.slug}}" class="text-danger">{{category.name}}</a>
         {{#each post.tags}}
           <a href="/blog/tags/{{slug}}">{{name}}</a> 
         {{/each}}
-  
+      {{/if}}
+      {{#if config.showShareButtons}}
         <a target="_blank" data-toggle="tooltip" data-placement="top" href="http://www.facebook.com/share.php?u={{url}}" class="share share-fb" title="Share on Facebook"> 
           &nbsp;
         </a>
@@ -42,14 +50,15 @@
         </a>
   
         <span class="pull-right">Share</span> 
+      {{/if}}
       </p>
   
       {{{post.html}}}
       
     </div>
-  
-    {{#if @WidgetCollection.belowpost}}
-      {{#list @WidgetCollection.belowpost page}}{{/list}}
+   
+    {{#if config.showAuthor}}
+      {{#list @WidgetCollection.belowpost author}}{{/list}}
     {{/if}}
   {{/if}}
 </div>
@@ -63,9 +72,47 @@
 
 
 {{#extend "scripts"}}
+<script src="/js/prettify.js"></script>
 <script>
   (function ($) {
-    $('.share').tooltip()
-  })(jQuery)
+    $('.share').tooltip();
+
+    function addClassNames() {
+        var pre = document.getElementsByTagName('pre'), i;
+    
+        for (i = 0; i < pre.length; i++) {
+            pre[i].className = "prettyprint linenums";
+        }
+    }
+    
+    
+    function inspectLinks() {
+        var links = document.getElementsByTagName('a'), 
+            i, href, isInternalLink,
+            mysite = window.location.href;
+        
+        isInternalLink = function (href, link) {
+            var hrefParser = document.createElement('a'),
+                linkParser = document.createElement('a');
+        
+            hrefParser.href = href;
+            linkParser.href = link;
+        
+            return hrefParser.hostname === linkParser.hostname;
+        };
+    
+        for (i = 0; i < links.length; i++) {
+            href = links[i].href;
+            
+            if (!isInternalLink(mysite, href)) {
+                links[i].target = '_blank';
+            }
+        }
+    }
+
+    addClassNames();
+    prettyPrint();
+    inspectLinks();
+  })(jQuery);
 </script>
 {{/extend}}

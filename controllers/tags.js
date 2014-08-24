@@ -1,3 +1,4 @@
+"use strict";
 
 var App = require('../app');
 var Posts = require('../collections/posts');

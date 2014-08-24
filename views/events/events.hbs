@@ -19,6 +19,7 @@
 
   <div class="container-fluid">
     <div class="row">
+      <div class="col-sm-7 no-padding">
       <ul class="list-inline">
         <li>
           <form action="/events/limit" name="eventslimit" method="post">
@@ -77,21 +78,21 @@
             </select>
           </form>
         </li>
-        <li class="pull-right">
+      </div>
+      <div class="col-sm-5 no-padding" style="text-align:right">
           <a href="/events/new" class="btn btn-danger">
             <span class="glyphicon glyphicon-calendar"></span> Add An Event
           </a>
-        </li>
-      </ul>
+      </div>
     </div>
     
     {{#each myEvents}}
     <div class="row" style="margin-top:10px;">  
       <div class="panel panel-default">
         <div class="panel-body">
-          <h2 class="blog-post-title">
+          <h2 class="blog-post-title" style="margin-top:0px;">
             <a href="/events/{{slug}}">{{title}}</a>
-          </h2>
+          </h2 style="margin-top:0px;">
             <p class="blog-post-meta">
               <span class="glyphicon glyphicon-map-marker"></span>
               <a href="{{url}}" target="_blank">

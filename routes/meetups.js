@@ -1,4 +1,4 @@
-
+"use strict";
 
 var passportConf = require('../config/passport');
 
@@ -6,6 +6,7 @@ var passportConf = require('../config/passport');
 module.exports = function (app, MeetupsController) {
   // private
   app.get('/admin/meetups', passportConf.isAuthenticated, MeetupsController.getAdmin);
+  app.get('/admin/meetups/settings', passportConf.isUserAdmin, MeetupsController.getSettings);
   app.get('/meetups/new', passportConf.isAuthenticated, MeetupsController.getNew);
   app.get('/meetups/edit/:id', passportConf.isAuthenticated, MeetupsController.getEdit);
   app.post('/meetups/new', passportConf.isAuthenticated, MeetupsController.postNew);

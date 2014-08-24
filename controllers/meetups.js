@@ -1,3 +1,4 @@
+"use strict";
 
 var App = require('../app');
 var Meetup = require('../models/meetup');
@@ -7,6 +8,17 @@ var gulpfile = require('../lib/process-images');
 
 
 var MeetupsController = {
+
+  getSettings: function (req, res) {
+    res.render('meetups/config', {
+      title: 'Meetups Config',
+      description: 'Meetups Config',
+      page: 'adminmeetups',
+      meetups: App.getConfig('meetups')
+    });
+  },
+
+
 
   /*
    * GET /meetups/new
@@ -89,9 +101,13 @@ var MeetupsController = {
    */
   getMeetups: function (req, res, next) {
     var meetups = new Meetups();
+    var page = parseInt(req.query.p, 10);
+    var settings = App.getConfig('meetups');
   
     meetups.fetchBy('id', {
       where: ['created_at', '<', new Date()],
+      limit: settings.meetupsPerPage,
+      page: page || 1,
       andWhere: []
     }, {
       columns: ['title', 'short_desc', 'city', 'slug', 'image_url']
@@ -99,11 +115,12 @@ var MeetupsController = {
     .then(function (collection) {
       res.render('meetups/meetups', {
         title: 'Find Meetups',
-        pagination: collection.pages,
+        pagination: meetups.pages,
         meetups: collection.toJSON(),
         query: {},
         description: 'Find a meetup group in South Africa',
-        page: 'meetups'
+        page: 'meetups',
+        config: settings
       });
     })
     .otherwise(function () {

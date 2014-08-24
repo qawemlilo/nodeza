@@ -1,3 +1,4 @@
+"use strict";
 
 var App = require('../app');
 var _ = require('lodash');
@@ -80,14 +81,14 @@ var AdminController = {
     var config = req.body.id;
     var configs = {};
 
-    if (req.body.passReqToCallback) {
-      if(req.body.passReqToCallback === "yes") {
-        req.body.passReqToCallback = true;
+    _.each(req.body, function(val, key) {
+      if(req.body[key] === "yes") {
+        req.body[key] = true;
       }
-      else {
-        req.body.passReqToCallback = false;
+      if(req.body[key] === "no") {
+        req.body[key] = false;
       }
-    }
+    });
 
     var update = _.omit(req.body, ['id', '_csrf']);
 

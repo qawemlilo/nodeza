@@ -12,10 +12,28 @@
   {{> flash}}
 
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-    <li class="active"><a href="/admin/account"><span class="glyphicon glyphicon-user"></span> Profile Information</a></li>
-    <li><a href="/admin/account/password"><span class="fa fa-keyboard-o"></span> Change Password</a></li>
-    <li><a href="/admin/account/linked"><span class="fa fa-chain"></span> Linked Accounts</a></li>
-    <li><a href="/admin/settings/account"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+    <li class="active">
+      <a href="/admin/account">
+        <span class="glyphicon glyphicon-user"></span> Profile Information
+      </a>
+    </li>
+    <li>
+      <a href="/admin/account/password">
+        <span class="fa fa-keyboard-o"></span> Change Password
+      </a>
+    </li>
+    <li>
+      <a href="/admin/account/linked">
+        <span class="fa fa-chain"></span> Linked Accounts
+      </a>
+    </li>
+    {{#ifCond user.role.name '==' 'Super Administrator'}}
+    <li>
+      <a href="/admin/settings/account">
+        <span class="glyphicon glyphicon-cog"></span> Settings
+      </a>
+    </li>
+    {{/ifCond}}
   </ul>
   
   <div class="panel panel-default">
@@ -52,14 +70,14 @@
           <div class="form-group">
             <label class="col-sm-3 control-label" for="gender">Gender</label>
             <div class="col-sm-7">
-              <label style="margin-left:20px" class="radio">
+              <label class="radio-inline">
                 <input type="radio" {{#ifCond user.gender '==' 'male'}}checked="checked"{{/ifCond}} name="gender" value="male" data-toggle="radio">
-                <span>Male</span>
+                Male
               </label>
     
-              <label style="margin-left:20px" class="radio">
+              <label class="radio-inline">
                 <input type="radio" {{#ifCond user.gender '==' 'female'}}checked="checked"{{/ifCond}}  name="gender" value="female" data-toggle="radio">
-                <span>Female</span>
+                Female
               </label>
             </div>
           </div>

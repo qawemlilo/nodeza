@@ -1,5 +1,6 @@
 
 module.exports = function (config) {
+  "use strict"; 
   
   var express = require('express');
   var flash = require('express-flash');
@@ -35,6 +36,8 @@ module.exports = function (config) {
   
   // port
   server.set('port', process.env.PORT || config.site.port);
+
+  server.set('ipAddress', process.env.PORT || config.site.ipAddress);
   
   // define views folder  
   server.set('views', path.join(__dirname, 'views'));

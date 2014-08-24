@@ -1,7 +1,8 @@
+"use strict";
 
 var App = require('../app');
 var User = require('../models/user');
-var Mailer = require('../lib/mailer');
+var mailer = require('../lib/mailer');
 var async = require('async');
 var crypto = require('crypto');
 var passport = require('passport');
@@ -225,13 +226,16 @@ var AccountController = {
             'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.\n'
         };
         
-        Mailer(mailOptions, function (error) {
+        mailer(mailOptions, function (error) {
           req.flash('success', { msg: error.message });
-          done(err);
+          done(error);
         });
       }
-    ], function(err) {
-      if (err) return next(err);
+    ], function(error) {
+      if (error) {
+        return next(error);
+      }
+
       res.redirect('/');
     });
   },
@@ -305,13 +309,15 @@ var AccountController = {
             'NodeZA Team'
         };
 
-        Mailer(mailOptions, function(err, resp) {
+        mailer(mailOptions, function(err, resp) {
           req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.' });
           done(err, 'done');
         });
       }
     ], function(err) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       res.redirect('/forgot');
     });
   },

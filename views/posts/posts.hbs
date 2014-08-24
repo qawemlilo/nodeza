@@ -10,7 +10,7 @@
   <div class="container">
     <h1>Blog</h1>
     <p>
-      Node.js news, articles, tutorials, and more...
+      {{config.description}}
     </p>
   </div>
 </div>
@@ -33,13 +33,13 @@
     {{/if}}
   
     {{#each posts}}
-    <div class="row" style="margin-bottom: 20px">
+    <div class="row box-shadow" style="margin-bottom: 20px">
       <div class="media">
         <a href="/blog/{{slug}}" class="pull-left">
           <img class="media-object" title="Post" {{#if image_url}}src="/img/120/{{image_url}}"{{else}}data-src="holder.js/120x120"{{/if}} alt="..." style="width:120px;height:120px">
         </a>
         <div class="media-body">
-          <h3 class="media-heading">
+          <h3 class="media-heading" style="margin-top:5px">
             <a href="/blog/{{slug}}">
               {{title}}
             </a>

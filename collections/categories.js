@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Blog categories collection
 **/

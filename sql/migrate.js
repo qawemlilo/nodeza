@@ -1,8 +1,8 @@
+"use strict";
 
 var config = require('../config');
 var Bookshelf = require('../dbconnect')(config);
 var knex = Bookshelf.knex;
-
 
 var _ = require('lodash');
 var when = require('when');

@@ -1,3 +1,5 @@
+"use strict";
+
 var _ = require('lodash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -164,7 +166,7 @@ passport.use(new GitHubStrategy(config.github,
               req.flash('info', { msg: 'GitHub account has been linked.' });
             }
 
-            res.locals.isNewAccount = isNewAccount;
+            req.session.isNewAccount = isNewAccount;
               
             done(false, model);
           })

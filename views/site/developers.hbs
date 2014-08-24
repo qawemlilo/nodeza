@@ -4,11 +4,108 @@
   {{> navigation}}
 {{/extend}}
 
-<div class="col-sm-12">
-    <h1>Developers</h1>
+<div class="col-sm-9">
 
-    <p>Hello devs!</p>
+<h1>Developers</h1>
+<p>The NodeZA platform is an express application that uses handlebars for templating, MySQL as the main application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets, the plugins are called <code>widgets</code>.  </p>
+
+<h3>Software Requirements</h3>
+
+<ul>
+	<li>Node.js(with npm) 10.x</li>
+	<li>MySQL (Application database)</li>
+	<li>MongoDB (session store)</li>
+	<li>GraphicsMagick or ImageMagick</li>
+</ul>
+
+<h3>Dependencies</h3>
+
+<p>Some of the major dependencies are <code>express</code>, <code>mysql</code>, <code>knex</code>, <code>bookshelf</code>, and <code>mongoose</code>. Please checkout <a href="https://github.com/qawemlilo/nodeza/blob/master/docs/dependencies.md">the dependencies page</a> for a complete list.</p>
+
+<h3>Getting started</h3>
+
+<p>Clone this repo to your local machine and install dependencies.</p>
+
+<p><code>
+git clone https://github.com/qawemlilo/nodeza.git
+cd nodeza &amp;&amp; npm install
+</code></p>
+
+<p>Once all the dependencies are installed we need to setup our database and create tables.</p>
+
+<p><code>npm run setup</code> You will be prompted for a your database information.</p>
+
+
+<h3>Architecture</h3>
+<p>NodeZA is built on a MVC-like architecture. The main building blocks are <code>models</code>, <code>collections</code>, <code>views</code>, <code>controllers</code>, <code>widgets</code>, and <code>routes</code>.</p>
+
+<pre><code>  /
+   collections/
+   models/
+   controllers/
+   views/
+   widgets/
+   routes.js</code></pre>
+
+<p>The descriptions below are guidelines that have been used in the NodeZA project and should be followed as closely as possible.</p>
+
+<h3>Routes</h3>
+
+<p>Routes are the entry point to the application, they are responsible for routing and determine which <code>controller</code> and method to call for each http request. </p>
+
+<p>All routes are located in the <code>routes</code> directory</p>
+
+<h3>Controllers</h3>
+
+<p>Controllers contain the logical parts that work as a glue between <code>views</code> and <code>models</code>. They accept a request and response object, load data from a <code>model</code> or <code>collection</code>, pass the data to a <code>view</code> template and then render the <code>view</code>.</p>
+
+<p>Each path base should have its own <code>controller</code>, e.g, the route <code>/events</code> should have a <code>controller</code> named <code>events.js</code>.</p>
+
+<p>All controllers are located in the <code>controllers</code> directory.</p>
+
+<h3>Models &amp; Collections</h3>
+
+<p>A <code>model</code> is associated with a database table and its properties represent the table columns. The whole table is represented by the associated <code>collection</code> - which is basically a group of the same <code>model</code>. A <code>model</code> name should be a singular and a
+<code>collection</code> name should be the plural version.</p>
+
+<p>All <code>models</code> are located in the <code>models</code> folder and <code>collections</code> in the <code>collections</code> folder.</p>
+
+<h3>Widgets</h3>
+
+<p>A <code>widget</code> is a special kind of module. It is self contained and is completely decoupled from other parts of the application.</p>
+
+<p>A widget comprises of 3 files, <code>config.json</code>, <code>template.hbs</code>, and <code>index.js</code>.</p>
+
+<p><code>config.json</code> contains the configuration.</p>
+
+<p><code>template.hbs</code> contains the handlebars template.</p>
+
+<p><code>index.js</code> is the main program file.</p>
+
+<p><a href="https://github.com/qawemlilo/nodeza/blob/master/docs/widgets.md">Read more &gt;&gt;</a></p>
+
+<h3>Testing</h3>
+
+<p><code>
+npm test
+</code></p>
+
+<h3>To-Do</h3>
+
+<ol><li>Create application Admin</li><li>Create company profiles section</li><li>Create Jobs section</li><li>Remove tests against database and use stubs</li><li>Fix UI and graphics</li><li>Create content</li><li>Add newsletter functionality</li><li>Add rss feed</li><li>Add Google SEO configs</li></ol>
+
+<h3>Contributing</h3>
+
+<p>Create a new branch, make changes, commit and push branch.</p>
+
+<h3>Style Guide</h3>
+
+<ul><li>All indents should use 2 spaces, no tabs</li><li>wrap the body of <code>if</code> conditionals with curly braces</li><li>all variables should be defined with their own <code>var</code> keyword</li><li>all variable should be defined at the top of a scope</li><li>use camelCases for methods and variable names</li><li>Run <code>npm test</code> before committing any changes</li></ul>
+      
 </div>
+
+{{> sidebar}}
+
 {{#extend "footer"}}
   {{> footer}}
 {{/extend}}

@@ -9,7 +9,10 @@
     "/blog/category/:any",
     "/blog/tags/:any",
     "/meetups", 
-    "/events"
+    "/events",
+    "/developers",
+    "/about",
+    "/privacy"
   ],
   "description": "Latest posts",
   "author": "Qawelesizwe Mlilo",

@@ -19,7 +19,7 @@ h6, .h6 {
   color: #333;
 }
 
-.blog-main-body p {
+.blog-main-body p, .blog-main-body h3, .blog-main-body h2 {
   margin-top: 1.3em;
 }
 
@@ -33,6 +33,15 @@ label {
   font-weight: bold;
   line-height: 20px;
   font-size: 14px;
+}
+
+
+.form-control {
+  border-radius: 0px;
+}
+
+.panel {
+  border-radius: 4px 4px 0px 0px;
 }
 
 
@@ -54,6 +63,13 @@ label {
   background-size: cover;
   margin-top: -20px;
 }
+
+/*
+
+#jumbotron.home {
+  background: url(../img/nodejs_bg.jpg) no-repeat center center;
+}
+*/
 
 #jumbotron.events {
   padding-top:20px; 
@@ -248,11 +264,61 @@ label {
   font-size: 14px;
 }
 
+
+/*
+ * Callouts
+ *
+ * Not quite alerts, but custom and helpful notes for folks reading the docs.
+ * Requires a base and modifier class.
+ */
+
+/* Common styles for all types */
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 3px solid #eee;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+.bs-callout code {
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+/* Variations */
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #d9534f;
+}
+.bs-callout-danger h4 {
+  color: #d9534f;
+}
+.bs-callout-warning {
+  background-color: #fcf8f2;
+  border-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+  color: #f0ad4e;
+}
+.bs-callout-info {
+  background-color: #f4f8fa;
+  border-color: #5bc0de;
+}
+.bs-callout-info h4 {
+  color: #5bc0de;
+}
+
 .post-author .media-heading {
   font-size: 16px;
 }
 
-.thumbnail {
+
+.thumbnail, pre {
   border-radius: 0px;
 }
 
@@ -282,20 +348,85 @@ label {
   margin-bottom: 0;
 }
 
-.meetups-tile .col-sm-6 img {
-  width: 320px;
-  height: 200px;
-}
-
 .admin-tiles span {
   display: block;
   font-size: 24px;
+  color: #555;
 }
 
 .admin-tiles a {
   text-decoration: none;
   padding-top: 25px;
   padding-bottom: 25px;
+}
+
+.admin-tiles a:hover {
+  border-color: #999;
+}
+
+
+/* Meetups */
+.lib-panel {
+    margin-bottom: 20Px;
+}
+.lib-panel img {
+    width: 100%;
+    background-color: transparent;
+}
+
+.lib-panel .row,
+.lib-panel .col-md-6 {
+    padding: 0;
+    background-color: #FFFFFF;
+}
+
+
+.lib-panel .lib-row {
+    padding: 0 20px 0 20px;
+}
+
+.lib-panel .lib-row.lib-header {
+    background-color: #FFFFFF;
+    font-size: 20px;
+    padding: 10px 20px 0 20px;
+}
+
+.lib-panel .lib-row.lib-header .lib-header-seperator {
+    height: 2px;
+    width: 26px;
+    background-color: #d9d9d9;
+    margin: 7px 0 7px 0;
+}
+
+.lib-panel .lib-row.lib-desc {
+    position: relative;
+    height: 100%;
+    display: block;
+    font-size: 13px;
+}
+.lib-panel .lib-row.lib-desc a{
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    left: 20px;
+}
+
+.zero-margin {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.row-margin-bottom {
+    margin-bottom: 20px;
+}
+
+.box-shadow {
+    -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.10);
+}
+
+.no-padding {
+    padding: 0;
 }
 
 /* Desktop */

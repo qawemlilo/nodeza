@@ -1,4 +1,4 @@
-
+"use strict";
 
 var App = require('../app');
 var Routes = require('../collections/routes');

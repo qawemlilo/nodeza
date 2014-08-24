@@ -1,4 +1,54 @@
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Contact Organiser</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="signup-form" action="/contact" method="POST"  >
+          <input type="hidden" name="_csrf" value="{{_csrf}}" />
+          <input type="hidden" name="_email" value="{{meetup.email}}" />
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="name">Name:</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="name" id="name" placeholder="Your name" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="email">
+              Email:
+            </label>
+            <div class="col-sm-7">
+              <input class="form-control" type="email" name="email" id="email" placeholder="Your email address" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="message">
+              Message
+            </label>
+            <div class="col-sm-7">
+              <textarea class="form-control" rows="5" name="message" id="message" placeholder="..." required=""></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+              <button class="btn btn-success" type="submit">
+                <span class="glyphicon glyphicon-check"></span> Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {{#extend "navigation"}}
   {{> navigation}}
@@ -48,8 +98,8 @@
   
           <div class="col-md-4">
             <p>
-              <button class="btn btn-danger btn-block">
-                <span class="glyphicon glyphicon-envelope"></span> Contact
+              <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-envelope"></span> Contact Organiser
               </button>
             </p>
             {{#if meetup.number}}

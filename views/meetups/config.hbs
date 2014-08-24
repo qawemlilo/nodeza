@@ -1,0 +1,100 @@
+
+
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+
+{{> leftsidebar}}
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li>
+      <a href="/admin/meetups">
+        <span class="glyphicon glyphicon-map-marker"></span> Meetups
+      </a>
+    </li>
+    <li class="active">
+      <a href="/admin/meetups/settings">
+        <span class="glyphicon glyphicon-cog"></span> Settings
+      </a>
+    </li>
+  </ul>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Meetups Settings
+    </div>
+    
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="meetups" />
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="title">Title</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="title" id="title" value="{{meetups.title}}" />
+            </div>
+          </div>
+    
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="description">Description</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" rows="4" name="description" id="description">{{meetups.description}}</textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="meetupsPerPage">Posts Per Page</label>
+            <div class="col-sm-7">
+              <input class="col-xs-2" type="text" name="meetupsPerPage" id="meetupsPerPage" value="{{meetups.meetupsPerPage}}" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="showTags">Show Tags</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input type="radio" {{#if meetups.showTags}}checked="checked"{{/if}} name="showTags" value="yes" data-toggle="radio">
+                Yes
+              </label>
+              <label class="radio-inline">
+                <input type="radio" {{#if meetups.showTags}}{{else}}checked="checked"{{/if}}  name="showTags" value="no" data-toggle="radio">
+                No
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="showDate">Show Date</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input type="radio" {{#if meetups.showDate}}checked="checked"{{/if}} name="showDate" value="yes" data-toggle="radio">
+                Yes
+              </label>
+              <label class="radio-inline">
+                <input type="radio" {{#if meetups.showDate}}{{else}}checked="checked"{{/if}}  name="showDate" value="no" data-toggle="radio">
+                No
+              </label>
+            </div>
+          </div>
+    
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+              <button class="btn btn-success" type="submit">
+                <i class="fa fa-check"></i> Update
+              </button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

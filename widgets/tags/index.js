@@ -12,7 +12,7 @@ module.exports.exec = function (App) {
   }
 
   App.on('newentry', function (table) {
-    if (table == 'posts') Cache = null;
+    if (table === 'posts') App.setCache('tags', null);
   });
 
   var tags = App.getCollection('Tags');

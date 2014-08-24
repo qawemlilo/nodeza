@@ -1,4 +1,4 @@
-
+"use strict";
 
 var App = require('../app');
 var Posts = require('../collections/posts');
@@ -25,7 +25,6 @@ function processTags(tags) {
 
 var PostsController = {
 
-
   getSettings: function (req, res) {
     res.render('posts/config', {
       title: 'Posts Config',
@@ -42,18 +41,24 @@ var PostsController = {
    */
   getPost: function (req, res) {
     var slug = req.params.slug;
+    var settings = App.getConfig('blog');
 
     return Post.forge({slug: slug, published: 1})
     .fetch({
       withRelated: ['created_by', 'tags', 'category']
     })
     .then(function (post) {
+      var author = post.related('created_by').getJSON(['slug', 'name', 'about']);
+
+      author.gravatar = post.related('created_by').gravatar(48);
+
       res.render('posts/post', {
         page: 'blog',
+        config: settings,
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('title'),
         description: post.get('meta_description'),
-        author: post.related('created_by').getJSON(['slug', 'name', 'about']),
+        author: author,
         category: post.related('category').toJSON(),
         url: 'http://' + req.headers.host + '/blog/' + slug,
         keywords: _.pluck(post.related('tags').toJSON(), 'name'),
@@ -112,6 +117,7 @@ var PostsController = {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
+    var settings = App.getConfig('blog');
 
     res.locals._page = 'blog';
 
@@ -121,25 +127,26 @@ var PostsController = {
 
     posts.fetchBy('published_at', {
       page: currentpage,
-      limit: 5
+      limit: settings.postsPerPage
     }, {
       columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
       withRelated: ['category']
     })
     .then(function (collection) {
       res.render('posts/posts', {
-        title: 'Blog',
+        title: settings.title || 'Blog',
         pagination: posts.pages,
         posts: collection.toJSON(),
-        description: 'Node.js tutorials, articles and news',
+        description: settings.description || 'Node.js tutorials, articles and news',
         page: 'blog',
         tag: '',
         category: '',
-        query: {}
+        query: {},
+        config: settings
       });
     })
-    .otherwise(function () {
-      req.flash('errors', {'msg': 'Database error.'});
+    .otherwise(function (error) {
+      req.flash('errors', {'msg': error.message});
       res.redirect('/');      
     });
   },
@@ -154,6 +161,7 @@ var PostsController = {
     var slug = req.params.slug;
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
+    var settings = App.getConfig('blog');
 
     if (currentpage < 1) {
       res.redirect('/blog/category/' + slug);
@@ -165,7 +173,7 @@ var PostsController = {
       var categoryName  = model.get('name');
 
       posts.fetchBy('created_at', {
-        limit: 2,
+        limit: settings.postsPerPage,
         page: currentpage,
         andWhere: ['category_id', '=', model.get('id')],
         base:'/blog/category/' + slug
@@ -339,6 +347,7 @@ var PostsController = {
       published: !!req.body.published,
       featured: !!req.body.featured
     };
+
     var options = {method: 'update'};
     var post = new Post({id: postData.id});   
 
@@ -363,7 +372,7 @@ var PostsController = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('info', {msg: error.message});
+        req.flash('error', {msg: error.message});
         res.redirect('/admin/blog');
       });
     })

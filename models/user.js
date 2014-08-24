@@ -1,3 +1,4 @@
+"use strict";
 
 /**
  * Module dependencies.
@@ -7,6 +8,7 @@ var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var when = require('when');
 var _ = require('lodash');
+var Tokens = require('./token');
 
 
 var User = Base.Model.extend({
@@ -160,9 +162,15 @@ var User = Base.Model.extend({
     var token = _.findWhere(tokens, {kind: provider});
     
     if (token) {
-      if (token.kind === 'github') this.set({'github': null});
-      if (token.kind === 'twitter') this.set({'twitter': null});
-      if (token.kind === 'google') this.set({'google': null});
+      if (token.kind === 'github') {
+        this.set({'github': null});
+      }
+      if (token.kind === 'twitter') {
+        this.set({'twitter': null});
+      }
+      if (token.kind === 'google') {
+        this.set({'google': null});
+      }
 
       this.save()
       .then(function (user) {

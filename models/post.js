@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Module dependencies.
 **/
@@ -58,9 +60,11 @@ var Post = Base.Model.extend({
 
   saving: function (model, attr, options) {
     var self = this;
+    var html = markdown.toHTML(self.get('markdown'));
 
-    self.set('html', markdown.toHTML(self.get('markdown')));
-
+    html = html.replace(/&amp;/gi, '&');
+   
+    self.set('html', html);
     self.set('title', self.get('title').trim());
     
     // set publishing date if published and notExists
@@ -163,6 +167,9 @@ var Post = Base.Model.extend({
         post.destroy()
         .then(function () {
           deferred.resolve();
+        })
+        .otherwise(function (error) {
+          deferred.reject(error);
         });
       })
       .otherwise(function (error) {

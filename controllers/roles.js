@@ -1,3 +1,4 @@
+"use strict";
 
 var App = require('../app');
 var Roles = require('../collections/roles');

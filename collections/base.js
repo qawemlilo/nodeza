@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Base Class for collections
 **/
@@ -69,7 +71,9 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
       }
 
       for (var counter = lowestF; counter < lowestF + 5; counter++) {
-        if (counter > counterLimit) break;
+        if (counter > counterLimit) {
+          break;
+        }
 
         items.push(counter);
       }
@@ -153,8 +157,8 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     fetchOptions = fetchOptions || {};
 
     var self = this;
-    var limit = options.limit || self.limit;
-    var currentpage = options.page || self.currentpage;
+    var limit = parseInt(options.limit, 10) || self.limit;
+    var currentpage = parseInt(options.page, 10) || self.currentpage;
     var order = options.order || self.order; 
     var whereQuery = options.where || self.whereQuery;
     var andWhereQuery = options.andWhere || self.andWhereQuery;

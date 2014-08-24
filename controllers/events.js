@@ -1,4 +1,4 @@
-
+"use strict";
 
 var App = require('../app');
 var Events = require('../collections/events');
@@ -7,7 +7,7 @@ var moment = require('moment');
 
 
 var EventsController = {
-
+  
   /*
    * GET /events/new
    * load new event page
@@ -154,6 +154,7 @@ var EventsController = {
     var limit = req.session.elimit || 2;
     var city = req.params.city || '';
     var month = req.query.month || '';
+    var monthObj;
 
     query.limit = limit;
     query.month = month;

@@ -16,7 +16,7 @@ This is an express application that uses handlebars for templating, MySQL as the
 Table of Contents
 -----------------
 
-- [System Requirements](#system-requirements)
+- [Software Requirements](#software-requirements)
 - [Dependencies](#dependencies)
 - [Getting Started](#getting-started)
 - [Features](#features)
@@ -28,11 +28,12 @@ Table of Contents
 
 
 
-System Requirements
+Software Requirements
 -------------------
  - Node.js(with npm) 10.x
  - MySQL (Application database)
  - MongoDB (session store)
+ - GraphicsMagick or ImageMagick
 
 
 Dependencies

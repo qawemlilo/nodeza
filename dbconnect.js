@@ -3,7 +3,8 @@
 var Bookshelf = null;
 
 module.exports = function (config) {
-
+  "use strict";
+  
   if (Bookshelf) {
   	return Bookshelf;
   }
@@ -17,14 +18,8 @@ module.exports = function (config) {
 
 
   var knex = require('knex')({
-    client: config.mysql.client,
-    connection: {
-      host: config.mysql.host,
-      user: config.mysql.user,
-      password: config.mysql.password,
-      database: config.mysql.db,
-      charset: config.mysql.charset
-    }
+    client: 'mysql',
+    connection: config.mysql
   });
 
   Bookshelf = require('bookshelf')(knex);

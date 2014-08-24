@@ -1,3 +1,5 @@
+"use strict";
+
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
 var path = require('path');
@@ -293,7 +295,7 @@ var App = {
     setupRoutes(self, modules.routes, modules.controllers);
     
     // start server
-    server.listen(port || server.get('port'), function() {
+    server.listen(port || server.get('port'), server.get('ipAddress'),function() {
       console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
 
       appIsRunning = true;

@@ -4,6 +4,14 @@
   {{> navigation}}
 {{/extend}}
 
+{{#extend "stylesheets"}}
+<style type="text/css">
+h3, p {
+  margin-top: 1.3em;
+}
+</style>
+{{/extend}}
+
 <div class="col-sm-9">
 
 <h1>Developers</h1>
@@ -97,10 +105,6 @@ npm test
 <h3>Contributing</h3>
 
 <p>Create a new branch, make changes, commit and push branch.</p>
-
-<h3>Style Guide</h3>
-
-<ul><li>All indents should use 2 spaces, no tabs</li><li>wrap the body of <code>if</code> conditionals with curly braces</li><li>all variables should be defined with their own <code>var</code> keyword</li><li>all variable should be defined at the top of a scope</li><li>use camelCases for methods and variable names</li><li>Run <code>npm test</code> before committing any changes</li></ul>
       
 </div>
 

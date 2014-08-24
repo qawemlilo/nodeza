@@ -4,13 +4,13 @@
 Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.
 
 NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
-The long term goal is to become an information repository for all Node.js related content in South Africa.
+The long term goal is to become an information repository for all things that are related to Node.js in South Africa.
 
 The information below is aimed at developers who would like to contribute to this platform.
 
 Brief description
 -----------------
-This is an express application that uses handlebars for templating, MySQL as the main application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets, the plugins are called `widgets`.  
+The NodeZA platform is an express application that uses handlebars for templating, MySQL as the main application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets, the plugins are called `widgets`.  
 
 
 Table of Contents
@@ -33,7 +33,7 @@ Software Requirements
  - Node.js(with npm) 10.x
  - MySQL (Application database)
  - MongoDB (session store)
- - GraphicsMagick or ImageMagick
+ - GraphicsMagick or ImageMagick (for resizing and optimising images)
 
 
 Dependencies
@@ -136,30 +136,21 @@ npm test
 
 To-Do
 -----
-1. Create application Admin
-2. Create company profiles section
-3. Create Jobs section
-4. Remove tests against database and use stubs
-5. Fix UI and graphics
-6. Create content
-7. Add newsletter functionality
-8. Add rss feed
-9. Add Google SEO configs
+1. Create company profiles section
+2. Create Jobs section
+3. Remove tests against database and use stubs
+4. Add more graphics
+5. Create content
+6. Add newsletter functionality
+7. Add rss feed
+8. Add SEO stuff
 
 
 Contributing
 ------------
 
-Create a new branch, make changes, commit and push branch.
-
-### Style Guide
- - All indents should use 2 spaces, no tabs
- - wrap the body of `if` conditionals with curly braces
- - all variables should be defined with their own `var` keyword
- - all variable should be defined at the top of a scope
- - use camelCases for methods and variable names
- - Run `npm test` before committing any changes
-
+Create a new branch, make changes, commit and push branch 
+(Please run `npm test` before committing your code).
 
 
 License

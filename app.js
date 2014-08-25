@@ -73,7 +73,6 @@ var App = {
 
 
   /*
-   * Pseudo express get method
    * we need to hijack express http methods 
    * so we can spy on the routes passed
   **/
@@ -87,7 +86,6 @@ var App = {
 
 
   /*
-   * Pseudo express post method
    * we need to hijack express http methods 
    * so we can spy on the routes passed
   **/
@@ -141,7 +139,7 @@ var App = {
 
 
   /*
-   * fetches a model
+   * fetches a config property
   **/
   getConfig: function (name) {
     var val = '';
@@ -224,7 +222,7 @@ var App = {
 
 
   /*
-   * stores a controller Oject Bookshelf.registry style
+   * stores a controller Object Bookshelf.registry style
   **/
   controller: function (name, val) {
     Controllers[name] = val;

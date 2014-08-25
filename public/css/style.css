@@ -44,6 +44,16 @@ label {
   border-radius: 4px 4px 0px 0px;
 }
 
+.panel-body li {
+  margin-bottom: 5px;
+}
+
+.panel-body li:before {
+    content: " » ";
+    margin-left: -10px;
+    top: -1px;
+}
+
 
 /*
  * Override Bootstrap's default container.
@@ -343,6 +353,7 @@ label {
   color: #999;
   background-color: #f9f9f9;
   border-top: 1px solid #e5e5e5;
+  margin-top: 20px
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
@@ -431,7 +442,7 @@ label {
 
 /* Desktop */
 @media (min-width: 768px) {
-  /* Sidebar modules for boxing content */
+  /* Sidebar modules for boxing content
   .blog-sidebar .panel {
     margin-left: -15px; 
     margin-right:-15px; 
@@ -440,7 +451,7 @@ label {
 
   .sidebar-module {
     margin: 0 -15px 15px;
-  }
+  } */
 
   .panel-footer {
     text-align: center;

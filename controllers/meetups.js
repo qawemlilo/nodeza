@@ -108,6 +108,7 @@ var MeetupsController = {
       where: ['created_at', '<', new Date()],
       limit: settings.meetupsPerPage,
       page: page || 1,
+      order: 'asc',
       andWhere: []
     }, {
       columns: ['title', 'short_desc', 'city', 'slug', 'image_url']
@@ -221,7 +222,7 @@ var MeetupsController = {
       res.redirect('back');
     })
     .otherwise(function (error) {
-      req.flash('errors', {'msg': errMsg});
+      req.flash('errors', {'msg': error.message});
       res.redirect('/admin/meetups');
     });
   },
@@ -280,12 +281,12 @@ var MeetupsController = {
         res.redirect('back');
       })
       .otherwise(function (error) {
-        req.flash('errors', {'msg': 'Error. Meetup not updated.'});
+        req.flash('errors', {'msg': error.message});
         res.redirect('/admin/meetups');
       });
     })
     .otherwise(function (error) {
-      req.flash('errors', {'msg': 'Meetup not found.'});
+      req.flash('errors', {'msg': error.message});
       res.redirect('/admin/meetups');
     });
   }

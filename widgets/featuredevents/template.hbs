@@ -3,12 +3,12 @@
 <div class="col-sm-6 col-md-4">
   <h3>
     <span class="glyphicon glyphicon-calendar text-danger"></span> 
-    <a href="/events">Upcoming Events</a>
+    <a href="/events">Featured Events</a>
   </h3>
   <dl class="dl-horizontal">
   {{#each collection}}
     <dt>{{#parseDate dt 'DD/MM/YY'}}{{/parseDate}}</dt>
-    <dd><a href="/events/{{slug}}">{{title}}</a></dd>
+    <dd><a href="/events/{{slug}}">{{title}}</a> {{#eventLabel dt}}{{/eventLabel}}</dd>
   {{/each}}    
   </dl>
 </div>

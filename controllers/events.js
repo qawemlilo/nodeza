@@ -108,9 +108,9 @@ var EventsController = {
 
     var fetchQuery = {
       limit: limit,
-      order: 'asc',
+      order: 'desc',
       page: currentpage,
-      where: ['dt', '>', events.today()]
+      where: ['created_at', '<', new Date()]
     };
 
     if (month) {

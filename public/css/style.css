@@ -44,14 +44,14 @@ label {
   border-radius: 4px 4px 0px 0px;
 }
 
-.panel-body li {
-  margin-bottom: 5px;
+ul.styled-lists li {
+  margin-bottom: 4px;
 }
 
-.panel-body li:before {
-    content: " » ";
-    margin-left: -10px;
-    top: -1px;
+ul.styled-lists li:before {
+  content: " » ";
+  margin-left: -10px;
+  top: -1px;
 }
 
 
@@ -80,6 +80,12 @@ label {
   background: url(../img/nodejs_bg.jpg) no-repeat center center;
 }
 */
+
+#jumbotron.cape-town-nodebots {
+  background: url(../img/cape_town_nodebots.jpg) no-repeat center center;
+  padding-top:80px; 
+  padding-bottom:80px;
+}
 
 #jumbotron.events {
   padding-top:20px; 
@@ -178,6 +184,7 @@ label {
   font-size: 16px;
   line-height: 1.5;
 }
+
 
 /* Sidebar modules for boxing content */
 .sidebar-module {
@@ -300,6 +307,11 @@ label {
   border-radius: 3px;
 }
 
+.blog-main .bs-callout {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
 /* Variations */
 .bs-callout-danger {
   background-color: #fdf7f7;
@@ -362,7 +374,7 @@ label {
 .admin-tiles span {
   display: block;
   font-size: 24px;
-  color: #555;
+  color: #777;
 }
 
 .admin-tiles a {
@@ -372,7 +384,9 @@ label {
 }
 
 .admin-tiles a:hover {
-  border-color: #999;
+  border-color: #ccc;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.25);
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.25);
 }
 
 

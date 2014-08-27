@@ -19,7 +19,6 @@ var controllers;
 var routes; 
 var widget;
 
-
 // flag to check if app is already running
 var appIsRunning = false;
 

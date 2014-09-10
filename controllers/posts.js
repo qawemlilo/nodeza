@@ -312,6 +312,7 @@ var PostsController = {
     post.save(postData, {updateTags: tags})
     .then(function(model) {
       req.flash('success', { msg: 'Post successfully created.' });
+      req.session.clearCache = true;
       res.redirect('/blog/edit/' + model.get('id'));
     })
     .otherwise(function (error) {
@@ -394,7 +395,7 @@ var PostsController = {
     post.remove(req.params.id)
     .then(function () {
       req.flash('success', {msg: 'Post successfully deleted.'});
-      App.clearCache();
+      req.session.clearCache = true;
       res.redirect('back');
     })
     .otherwise(function (error) {

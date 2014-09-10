@@ -10,7 +10,6 @@
     "/blog/tags/:any",
     "/meetups", 
     "/events",
-    "/developers",
     "/about",
     "/privacy"
   ],

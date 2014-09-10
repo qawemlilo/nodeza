@@ -118,7 +118,8 @@ module.exports = function (config) {
       res.locals.user = req.user.toJSON();
       req.session.user = res.locals.user;
     }
-  
+
+    res.locals.sessionHistory = req.session.history;
     res.locals.base = 'http://' + req.headers.host;
   
     next();

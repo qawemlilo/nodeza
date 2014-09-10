@@ -32,6 +32,15 @@ var EventsController = {
 
 
   /*
+   * Post /events/history
+   */
+  setHistory: function (req, res) {
+    req.session.history = req.body.history;
+    res.redirect('back');
+  },
+
+
+  /*
    * GET /events/:id
    * loads an event by id
    */
@@ -96,8 +105,10 @@ var EventsController = {
     var query = {};
     var currentpage = page || 1;
     var limit = req.session.elimit || 2;
+    var history = req.session.history;
     var month = req.query.month || '';
     var monthObj;
+    var where = ['created_at', '<', new Date()]
 
     query.limit = limit;
     query.month = month;
@@ -106,11 +117,20 @@ var EventsController = {
       res.redirect('/events');
     }
 
+    if (history) {
+      if(history === 'upcoming') {
+        where = ['dt', '>', events.today()]
+      }
+      if(history === 'archived') {
+        where = ['dt', '<', events.today()]
+      }
+    }
+
     var fetchQuery = {
       limit: limit,
       order: 'desc',
       page: currentpage,
-      where: ['created_at', '<', new Date()]
+      where: where
     };
 
     if (month) {
@@ -118,6 +138,9 @@ var EventsController = {
 
       fetchQuery.where = ['dt', '>', monthObj.firstday];
       fetchQuery.andWhere = ['dt', '<', monthObj.lastday];
+
+      req.session.history = "";
+      res.locals.sessionHistory = "";
     }
 
     events.fetchBy('dt', fetchQuery, {

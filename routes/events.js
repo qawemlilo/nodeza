@@ -17,4 +17,5 @@ module.exports = function (app, EventsController) {
   app.get('/events/city/:city', EventsController.getEventsByCity); 
   app.get('/events/:slug', EventsController.getEvent);
   app.post('/events/limit', EventsController.setLimit);
+  app.post('/events/history', EventsController.setHistory);
 };

@@ -1,0 +1,13 @@
+{
+  "name": "buttons",
+  "title": "Buttons",
+  "version": "0.0.1",
+  "routes": ["/developers"],
+  "description": "Buttons",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "sidebar",
+  "order": 1,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza-buttons.git"
+}

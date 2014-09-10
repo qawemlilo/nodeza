@@ -26,7 +26,7 @@ var appIsRunning = false;
 
 
 /*
- * loads application modules
+ * loads application resources
 **/
 function loadAppModules() {
   models = require('./models');
@@ -258,6 +258,8 @@ var App = {
     _.each(Cache, function (value, key) {
       Cache[key] = null;
     });
+
+    console.log('Cache cleared. Process ID: %s', process.pid);
   },
 
 
@@ -282,6 +284,12 @@ var App = {
     // make current user accessible from applicaction object
     server.use(function(req, res, next) {
       if (req.user) self.user = req.user;
+
+      if (req.session.clearCache) {
+        self.clearCache();
+        req.session.clearCache = null;
+      }
+
       next();
     });
 
@@ -294,8 +302,12 @@ var App = {
     // start server
     server.listen(port || server.get('port'), server.get('ipAddress'),function() {
       console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
-
+      
       appIsRunning = true;
+
+      setInterval(function () {
+        self.clearCache();
+      }, 1000 * 60 * 60);
     });
   }
 };

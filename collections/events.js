@@ -3,7 +3,6 @@
 /**
  * Events collection
 **/
-
 var Base  = require('./base');
 var Event = require('../models/event');
 var moment = require('moment');
@@ -42,8 +41,8 @@ var Events = Base.Collection.extend({
     firstday = year + '-' + dateObj.month + '-' +  dateObj.firstday;
     lastday = year + '-' + dateObj.month + '-' +  dateObj.lastday;
   
-    firstday = moment(firstday, "YYYY-MM-DD").subtract('days', 1).format("YYYY-MM-DD");
-    lastday = moment(lastday, "YYYY-MM-DD").add('days', 1).format("YYYY-MM-DD");
+    firstday = moment(firstday, "YYYY-MM-DD").subtract(1, 'days').format("YYYY-MM-DD");
+    lastday = moment(lastday, "YYYY-MM-DD").add(1, 'days').format("YYYY-MM-DD");
     
     return { 
       firstday: firstday,

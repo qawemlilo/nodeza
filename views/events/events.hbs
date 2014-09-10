@@ -19,7 +19,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-7 no-padding">
+      <div class="col-sm-8 no-padding">
       <ul class="list-inline">
         <li>
           <form action="/events/limit" name="eventslimit" method="post">
@@ -78,8 +78,23 @@
             </select>
           </form>
         </li>
+        <li>
+          <form action="/events/history" name="historyform" method="post">
+            <strong>Tag </strong>
+            <input type="hidden" name="_csrf" value="{{_csrf}}" />
+            <select name="history" class="ddown">
+              <option value="">Select</option>
+              <option value="upcoming" {{#ifCond sessionHistory '==' 'upcoming'}}selected{{/ifCond}}>
+                Upcoming
+              </option>
+              <option value="archived" {{#ifCond sessionHistory '==' 'archived'}}selected{{/ifCond}}>
+                Archived
+              </option>
+            </select>
+          </form>
+        </li>
       </div>
-      <div class="col-sm-5 no-padding" style="text-align:right">
+      <div class="col-sm-4 no-padding" style="text-align:right">
           <a href="/events/new" class="btn btn-danger">
             <span class="glyphicon glyphicon-calendar"></span> Add An Event
           </a>

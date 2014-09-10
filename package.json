@@ -2,7 +2,7 @@
   "name": "nodeza",
   "version": "0.1.0",
   "description": "Node.js portal for developers in South Africa",
-  "main": "cluster.js",
+  "main": "index.js",
   "scripts": {
     "start": "node cluster.js",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",

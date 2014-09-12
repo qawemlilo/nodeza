@@ -29,7 +29,7 @@ dbSetup.create()
   secrets.mysql.host = answers.Host;
   secrets.mysql.user = answers.DatabaseUser;
   secrets.mysql.password = answers.Password;
-  secrets.mysql.db = answers.MySQLDatabase;
+  secrets.mysql.database = answers.MySQLDatabase;
 
   var filepath = path.resolve(__dirname, '../config/secrets.json');
   var data = JSON.stringify(secrets, null, 4);

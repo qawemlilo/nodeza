@@ -40,7 +40,7 @@ module.exports = {
     port: process.env.OPENSHIFT_MYSQL_DB_PORT || null,
     user: process.env.OPENSHIFT_MYSQL_DB_USERNAME || secrets.mysql.user,
     password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || secrets.mysql.password,
-    database: process.env.OPENSHIFT_APP_NAME || secrets.mysql.db,
+    database: process.env.OPENSHIFT_APP_NAME || secrets.mysql.database,
     charset: secrets.mysql.charset || 'utf8'
   },
   mailgun: {

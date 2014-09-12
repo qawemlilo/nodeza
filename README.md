@@ -54,7 +54,7 @@ Once all the dependencies are installed we need to setup our database and create
 ```
 npm run setup
 ```
-You will be prompted for a your database information.
+You will be prompted for your database information.
 
 Features
 --------
@@ -136,19 +136,27 @@ npm test
 
 To-Do
 -----
-1. Create company profiles section
-2. Create Jobs section
-3. Remove tests against database and use stubs
-4. Add more graphics
-5. Create content
-6. Add newsletter functionality
-7. Add rss feed
-8. Add SEO stuff
+1. Images - Logo, Banners: home, events, meetups, Node.js Cape Town, Node.Jozi, Nodebots Capetown, blog list default image
+2. Mail server - configure mailgun and create project emails
+3. Mail admin - create mail ui in admin area
+5. Newsletter - design & layout, topics/categories, operation plan, mailchimp integration, and functionality
+6. Feedback - uservoice integration
+7. Comments - for posts, meetup groups, and events - disqus integration
+8. Add trello hooks to github repo
+9. Build admin interface for widgets
+10. Create companies feature
+11. Create Jobs feature
+12. Write more tests and improve existing ones
+13. Add build tools
+14. Create site content
+15. Add newsletter functionality
+16. Add rss feed
+17. Add Google related stuff - analytics, sitemap, robots.txt, e.t.c
+18. Create social pages - twitter and google+
 
 
 Contributing
 ------------
-
 Create a new branch, make changes, commit and push branch 
 (Please run `npm test` before committing your code).
 

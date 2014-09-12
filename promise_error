@@ -1,0 +1,10 @@
+    at Promise._beget (/home/qawe/Desktop/code/nodeza/node_modules/when/lib/makePromise.js:163:16)
+    at Promise.then (/home/qawe/Desktop/code/nodeza/node_modules/when/lib/makePromise.js:137:17)
+    at /home/qawe/Desktop/code/nodeza/lib/widget/index.js:183:25
+    at Layer.handle [as handle_request] (/home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/layer.js:76:5)
+    at trim_prefix (/home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/index.js:263:13)
+    at /home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/index.js:230:9
+    at Function.proto.process_params (/home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/index.js:305:12)
+    at /home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/index.js:221:12
+    at Function.match_layer (/home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/index.js:288:3)
+    at next (/home/qawe/Desktop/code/nodeza/node_modules/express/lib/router/index.js:182:10)

@@ -55,6 +55,7 @@ ul.styled-lists li:before {
 }
 
 
+
 /*
  * Override Bootstrap's default container.
  */
@@ -377,6 +378,10 @@ ul.styled-lists li:before {
   color: #777;
 }
 
+.admin-tiles span:hover {
+  color: #A94442;
+}
+
 .admin-tiles a {
   text-decoration: none;
   padding-top: 25px;
@@ -387,6 +392,7 @@ ul.styled-lists li:before {
   border-color: #ccc;
   -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.25);
   box-shadow: 0 0 10px 0 rgba(0,0,0,.25);
+  color: #A94442!important;
 }
 
 

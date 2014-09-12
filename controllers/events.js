@@ -108,7 +108,7 @@ var EventsController = {
     var history = req.session.history;
     var month = req.query.month || '';
     var monthObj;
-    var where = ['created_at', '<', new Date()]
+    var where = ['created_at', '<', new Date()];
 
     query.limit = limit;
     query.month = month;
@@ -119,10 +119,10 @@ var EventsController = {
 
     if (history) {
       if(history === 'upcoming') {
-        where = ['dt', '>', events.today()]
+        where = ['dt', '>', events.today()];
       }
       if(history === 'archived') {
-        where = ['dt', '<', events.today()]
+        where = ['dt', '<', events.today()];
       }
     }
 

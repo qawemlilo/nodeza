@@ -28,6 +28,7 @@ var ContactController = {
 
     mailer(mailOptions, function(err, resp) {
       if (err) {
+        console.log(err.message);
         req.flash('error', {msg: 'An error occured. Message not sent.'});
       }
       else {

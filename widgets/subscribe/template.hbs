@@ -1,16 +1,13 @@
 
-
 <div class="col-sm-12 col-md-3">
   <div class="sidebar-module sidebar-module-inset">
-    <div class="form-group">
-      <label for="">{{config.title}}</label>
-      <div class="input-group">
-        <input type="text" placeholder="Email Address" class="form-control">
-        <div class="input-group-btn">
-          <button tabindex="-1" class="btn btn-danger" type="button">Send</button>
-        </div>
+    <form role="form">
+      <div class="form-group">
+        <p class="help-block">Don't miss any hot news</p>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
       </div>
-      <p class="help-block">Stay informed</p>
-    </div>
+
+      <button type="submit" class="btn btn-danger btn-block">Subscribe</button>
+    </form>
   </div>
 </div>

@@ -150,14 +150,14 @@ To-Do
 13. Add build tools
 14. Create site content
 15. Add newsletter functionality
-16. Add rss feed
+> Add rss feed
 17. Add Google related stuff - analytics, sitemap, robots.txt, e.t.c
 18. Create social pages - twitter and google+
 
 
 Contributing
 ------------
-Create a new branch, make changes, commit and push branch 
+Create a new branch, make changes, commit, push branch, and then send pull request.
 (Please run `npm test` before committing your code).
 
 

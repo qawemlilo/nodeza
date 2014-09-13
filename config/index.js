@@ -27,7 +27,9 @@ module.exports = {
     port: process.env.OPENSHIFT_NODEJS_PORT || secrets.site.port,
     ipAddress: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
     maxAge: secrets.site.maxAge || 7,
+    rssLimit: secrets.site.rssLimit || 10,
     email: secrets.site.email,
+    baseUrl: secrets.site.baseUrl,
     activateCSRF: secrets.site.activateCSRF || true,
     csrfWhitelist: secrets.site.csrfWhitelist || [],
     sessionSecret: process.env.SESSION_SECRET || secrets.site.sessionSecret

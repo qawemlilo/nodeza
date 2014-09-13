@@ -12,6 +12,7 @@ module.exports = {
   posts: require('./posts'),
   roles: require('./roles'),
   routes: require('./routes'),
+  rss: require('./rss'),
   site: require('./site'),
   tags: require('./tags'),
   users: require('./users')

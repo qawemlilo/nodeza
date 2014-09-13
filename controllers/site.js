@@ -2,6 +2,7 @@
 
 var App = require('../app');
 var site = App.getConfig('site');
+var rss = require('./rss');
 
 
 var SiteController = {
@@ -29,6 +30,18 @@ var SiteController = {
     };
 
     res.render('site/about', opts);
+  },
+
+
+  getRSS: function (req, res, next) {
+    rss(req, res)
+    .then(function (feed) {
+      res.writeHead(200, {
+        'Content-Type': 'application/xml; charset=utf-8'
+      });
+      
+      res.end(feed);
+    });
   },
 
 

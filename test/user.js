@@ -19,7 +19,7 @@ describe('User', function(){
 
   var fakeUser = createFakeUser();
 
-  describe('#set #save', function() {
+  describe('#forge #save', function() {
     it('should create a new user', function(done){
       User.forge(fakeUser)
       .save()
@@ -58,7 +58,7 @@ describe('User', function(){
   });
 
 
-  describe('#set #update', function() {
+  describe('#update', function() {
     it('should update user details', function(done){
       User.forge({email: fakeUser.email})
       .fetch()

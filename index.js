@@ -6,4 +6,4 @@
 
 var app = require('./app');
 
-app.init(3001);
+app.init();

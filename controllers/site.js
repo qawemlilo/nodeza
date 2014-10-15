@@ -3,6 +3,7 @@
 var App = require('../app');
 var site = App.getConfig('site');
 var rss = require('./rss');
+var Newsletter = require('../lib/newsletter');
 
 
 var SiteController = {
@@ -75,6 +76,23 @@ var SiteController = {
     };
 
     res.render('site/privacy', opts);
+  },
+
+
+  postSubscribe: function (req, res, next) {
+    var opts = {
+      name: req.body.name,
+      email: req.body.email,
+    };
+
+    Newsletter.subscribe(opts, function (error, message) {
+      if (error) {
+        console.log(error);
+        return res.end('An error occured', 501);
+      }
+
+      res.end('Success!');
+    });
   }
 };
 

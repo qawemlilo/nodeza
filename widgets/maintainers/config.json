@@ -1,0 +1,13 @@
+{
+  "name": "maintainers",
+  "title": "Maintainers",
+  "version": "0.0.1",
+  "routes": ["/blog"],
+  "description": "Maintainers",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "sidebar",
+  "order": 1,
+  "active": false,
+  "repo": "git://github.com/nodeza/maintainers.git"
+}

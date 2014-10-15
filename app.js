@@ -303,10 +303,11 @@ var App = {
       console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
       
       appIsRunning = true;
-
+      
+      /*
       setInterval(function () {
         self.clearCache();
-      }, 1000 * 60 * 60);
+      }, 1000 * 60 * 60); */
     });
   }
 };

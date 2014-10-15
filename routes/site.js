@@ -8,4 +8,5 @@ module.exports = function (app, SiteController) {
   app.get('/contact', SiteController.getContact);
   app.get('/privacy', SiteController.getPrivacy);
   app.get('/rss', SiteController.getRSS);
+  app.post('/subscribe', SiteController.postSubscribe);
 };

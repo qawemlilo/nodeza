@@ -1,6 +1,6 @@
 "use strict";
 
-var passportConf = require('../config/passport');
+
 var passport = require('passport');
 
 
@@ -10,7 +10,6 @@ function authCallback(req, res) {
 
 
 module.exports = function (app) {
-
   app.get('/auth/github', passport.authenticate('github'), function(req, res, next) {
     if (res.locals.isNewAccount) return res.redirect('/admin/account/password');
     next();

@@ -7,7 +7,7 @@ var knex = Bookshelf.knex;
 var _ = require('lodash');
 var when = require('when');
 var sequence = require('when/sequence');
-var data = require('./data');
+var seed = require('./seed');
 var User = require('../models/user');
 var schema = require('./schema');
 var schemaTables = _.keys(schema);
@@ -119,7 +119,7 @@ function createDB () {
   });
 
   return sequence(tables).then(function () {
-    return data.populateFirst();
+    return seed.firstBatch();
   });
 }
 
@@ -155,7 +155,7 @@ var migrate = {
           return model;
         })
         .then(function (user) {
-          data.populateSecond()
+          seed.secondBatch()
           .then(function () {
             deferred.resolve();
           })

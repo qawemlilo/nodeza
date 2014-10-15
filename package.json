@@ -4,15 +4,15 @@
   "description": "Node.js portal for developers in South Africa",
   "main": "index.js",
   "scripts": {
-    "start": "node cluster.js",
+    "start": "node index.js",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
-    "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js config/passport.js",
+    "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js lib/auth.js",
     "test": "npm run jshint && ./node_modules/mocha/bin/mocha test",
     "setup": "node sql/dbsetup.js && node sql/migrate.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/qawemlilo/nodeza.git"
+    "url": "git://github.com/nodeza/nodeza.git"
   },
   "keywords": [
     "nodejs"
@@ -20,7 +20,7 @@
   "author": "Qawelesizwe Mlilo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/qawemlilo/nodeza/issues"
+    "url": "https://github.com/nodeza/nodeza/issues"
   },
   "dependencies": {
     "async": "^0.7.0",
@@ -41,6 +41,7 @@
     "knex": "^0.6.22",
     "lodash": "^2.4.1",
     "lusca": "^1.0.1",
+    "mailgun-js": "^0.6.7",
     "markdown": "^0.5.0",
     "method-override": "^1.0.0",
     "moment": "^2.8.1",

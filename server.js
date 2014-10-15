@@ -37,7 +37,7 @@ module.exports = function (config) {
   // port
   server.set('port', process.env.PORT || config.site.port);
 
-  server.set('ipAddress', process.env.PORT || config.site.ipAddress);
+  //server.set('ipAddress', process.env.PORT || config.site.ipAddress);
   
   // define views folder  
   server.set('views', path.join(__dirname, 'views'));

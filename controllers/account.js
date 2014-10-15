@@ -2,7 +2,7 @@
 
 var App = require('../app');
 var User = require('../models/user');
-var mailer = require('../lib/mailer');
+var mailer = require('../lib/newsletter');
 var async = require('async');
 var crypto = require('crypto');
 var passport = require('passport');
@@ -118,14 +118,14 @@ var AccountController = {
     User.forge(userData)
     .save()
     .then(function (model) {
-      req.flash('success', { msg: 'Account successfully created! You are now logged in.' });
+      req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
       req.logIn(model, function(err) {
         if (err) {
           return next(err);
         }
         
-        res.redirect('/');
+        res.redirect('/admin/account');
       });         
     })
     .otherwise(function (error) {
@@ -220,14 +220,13 @@ var AccountController = {
       function(user, done) {
         var mailOptions = {
           to: user.get('email'),
-          from: 'qawemlilo@gmail.com',
           subject: 'Your NodeZA password has been changed',
-          body: 'Hello,\n\n' +
-            'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.\n'
+          body: 'Hello, <br><br>' +
+            'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
         };
         
-        mailer(mailOptions, function (error) {
-          req.flash('success', { msg: error.message });
+        mailer.email(mailOptions, function (error, res) {
+          req.flash('success', {msg: 'Your account has been updated'});
           done(error);
         });
       }
@@ -292,25 +291,26 @@ var AccountController = {
             done(false, token, model);
           })
           .otherwise(function (error) {
-            done({'errors': {msg: error.message}});
+            done(error);
           });
+        })
+        .otherwise(function (error) {
+          done(error);
         });
       },
       function(token, user, done) {
         var mailOptions = {
           to: user.get('email'),
-          from: 'NodeZA <info@nodeza.co.za>',
           subject: 'Reset your password on NodeZA',
-          body: 'Hi there ' + user.get('name') + ', \n\n' +
-            'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n' +
-            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n\n\n' +
-            'NodeZA Team'
+          body: 'Hi there ' + user.get('name') + ', <br><br>' +
+            'You are receiving this email because you (or someone else) have requested the reset of the password for your account.<br>' +
+            'Please click on the following link, or paste this into your browser to complete the process:<br><br>' +
+            'http://' + req.headers.host + '/reset/' + token + '<br><br>' +
+            'If you did not request this, please ignore this email and your password will remain unchanged.'
         };
 
-        mailer(mailOptions, function(err, resp) {
-          req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.' });
+        mailer.email(mailOptions, function(err, resp) {
+          req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.'});
           done(err, 'done');
         });
       }

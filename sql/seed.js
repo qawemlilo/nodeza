@@ -49,7 +49,7 @@ function unpackCollection (collection) {
 }
 
 
-module.exports.populateFirst  = function () {
+module.exports.firstBatch  = function () {
   // reset operations
   operations =  [];
   
@@ -81,7 +81,7 @@ module.exports.populateFirst  = function () {
 };
 
 
-module.exports.populateSecond  = function () {
+module.exports.secondBatch  = function () {
   // reset operations
   operations =  [];
 

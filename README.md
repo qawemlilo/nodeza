@@ -150,7 +150,6 @@ To-Do
 13. Add build tools
 14. Create site content
 15. Add newsletter functionality
-> Add rss feed
 17. Add Google related stuff - analytics, sitemap, robots.txt, e.t.c
 18. Create social pages - twitter and google+
 

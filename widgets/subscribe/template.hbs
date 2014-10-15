@@ -1,10 +1,22 @@
 
 <div class="col-sm-12 col-md-3">
   <div class="sidebar-module sidebar-module-inset">
-    <form role="form">
+    <form role="form" name="subscription" id="subscription">
+      <p class="help-block">Don't miss anything!</p>
+      <input type="hidden" name="_csrf" value="{{_csrf}}" />
+
+      <div class="progress progress-striped active" style="display:none">
+        <div class="bar" style="width: 100%;"></div>
+      </div>
+
+      <div id="responseD" class="alert" style="display:none"></div>
+
       <div class="form-group">
-        <p class="help-block">Don't miss anything!</p>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+        <input type="name" class="form-control" id="name" name="name" placeholder="Your Name" required="">
+      </div>
+
+      <div class="form-group">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" pattern="[^ @]*@[^ @]*" required="">
       </div>
 
       <button type="submit" class="btn btn-danger btn-block">Subscribe</button>

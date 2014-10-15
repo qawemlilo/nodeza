@@ -69,7 +69,7 @@ Bookshelf.Model = Bookshelf.Model.extend({
     var table = self.getTableName();
 
     // if only updating views field
-    if (self.hasChanged('views') && !self.isNew()) {
+    if (self.hasChanged('views') && !self.isNew() || self.hasChanged('resetPasswordToken')) {
       return;
     }
 

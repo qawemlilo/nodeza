@@ -143,7 +143,7 @@ var AccountController = {
     var user =  new User();
 
     user.query(function (qb) {
-      qb.where('resetPasswordToken', '=', req.params.token)
+      return qb.where('resetPasswordToken', '=', req.params.token)
       .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
     })
     .fetch()
@@ -152,7 +152,7 @@ var AccountController = {
         req.flash('errors', {msg: 'Password reset token is invalid or has expired.'});
         return res.redirect('/forgot');
       }
-      res.render('account/password', {
+      res.render('account/reset', {
         title: 'Password Reset',
         token: req.params.token,
         description: 'Reset your password',
@@ -175,7 +175,7 @@ var AccountController = {
     req.assert('confirm', 'Passwords must match.').equals(req.body.password);
   
     var errors = req.validationErrors();
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
@@ -183,41 +183,43 @@ var AccountController = {
   
     async.waterfall([
       function(done) {
-        var user =  new User();
+        //var user =  new User();
 
-        user.query(function (qb) {
-          qb.where('resetPasswordToken', '=', req.params.token)
-          .andWhere('resetPasswordExpires', '>', new Date());
-        })
+
+        User.forge({resetPasswordToken: req.params.token})
         .fetch()
         .then(function(model) {
-          if (!model) {
-            req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
-            return res.redirect('back');
+          var resetPasswordExpires = model.get('resetPasswordExpires');
+          var dt = new Date(resetPasswordExpires);
+          
+          if (model && dt.getTime() < Date.now()) {
+            req.flash('errors', {msg: 'Your token has expired'});
+            res.redirect('/forgot');
           }
-
-          user.save({
-            password: req.body.password,
-            resetPasswordToken: null,
-            resetPasswordExpires: null
-          })
-          .then(function (user) {
-            if (!user) {
-              return next({errors: {msg: 'Failed to save new password.'}});
-            }
-            req.logIn(user, function (err) {
-              done(err, user);
+          else {
+            model.save({
+              password: req.body.password,
+              resetPasswordToken: '',
+              resetPasswordExpires: ''
+            })
+            .then(function (user) {
+              console.log('calling req.logIn')
+              req.logIn(user, function (err) {
+                done(err, user);
+              });
+            })
+            .otherwise(function (error) {
+              throw error;
             });
-          })
-          .otherwise(function (error) {
-            next({errors: {msg: error.message}});
-          });
+          }
         })              
         .otherwise(function (error) {
           next({errors: {msg: error.message}});
         });
       },
       function(user, done) {
+
+        console.log(user);
         var mailOptions = {
           to: user.get('email'),
           subject: 'Your NodeZA password has been changed',

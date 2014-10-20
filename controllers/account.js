@@ -163,8 +163,8 @@ var AccountController = {
       req.flash('errors', { msg: error.message });
       return res.redirect('/forgot');
     });
-  },
-  
+  }, 
+
 
   /**
    * POST /reset/:token
@@ -183,48 +183,37 @@ var AccountController = {
   
     async.waterfall([
       function(done) {
-        //var user =  new User();
+        var user =  new User();
 
-
-        User.forge({resetPasswordToken: req.params.token})
+        user.query(function (qb) {
+          return qb.where('resetPasswordToken', '=', req.params.token)
+          .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
+        })
         .fetch()
         .then(function(model) {
-          var resetPasswordExpires = model.get('resetPasswordExpires');
-          var dt = new Date(resetPasswordExpires);
-          
-          if (model && dt.getTime() < Date.now()) {
-            req.flash('errors', {msg: 'Your token has expired'});
-            res.redirect('/forgot');
-          }
-          else {
-            model.save({
-              password: req.body.password,
-              resetPasswordToken: '',
-              resetPasswordExpires: ''
-            })
-            .then(function (user) {
-              console.log('calling req.logIn')
-              req.logIn(user, function (err) {
-                done(err, user);
-              });
-            })
-            .otherwise(function (error) {
-              throw error;
+          model.save({
+            password: req.body.password,
+            resetPasswordToken: '',
+            resetPasswordExpires: ''
+          })
+          .then(function (user) {
+            req.logIn(user, function (err) {
+              done(err, user);
             });
-          }
+          })
+          .otherwise(function (error) {
+            next({errors: {msg: error.message}});
+          });
         })              
         .otherwise(function (error) {
           next({errors: {msg: error.message}});
         });
       },
       function(user, done) {
-
-        console.log(user);
         var mailOptions = {
           to: user.get('email'),
           subject: 'Your NodeZA password has been changed',
-          body: 'Hello, <br><br>' +
-            'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
+          body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
         };
         
         mailer.email(mailOptions, function (error, res) {

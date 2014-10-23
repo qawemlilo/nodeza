@@ -49,11 +49,13 @@ var MeetupsController = {
    */
   getMeetup: function (req, res) {
     var slug = req.params.slug;
+    var settings = App.getConfig('meetups');
 
     Meetup.forge({slug: slug})
     .fetch()
     .then(function (meetup) {
       res.render('meetups/meetup', {
+        config: settings,
         title: meetup.get('title'),
         description: meetup.get('short_desc'),
         page: 'meetups', 

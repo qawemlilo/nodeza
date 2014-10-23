@@ -89,6 +89,20 @@
           </div>
 
           <div class="form-group">
+            <label class="col-sm-3 control-label" for="showComments">Show Comments</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input type="radio" {{#if blog.showComments}}checked="checked"{{/if}} name="showComments" value="yes" data-toggle="radio">
+                Yes
+              </label>
+              <label class="radio-inline">
+                <input type="radio" {{#if blog.showComments}}{{else}}checked="checked"{{/if}}  name="showComments" value="no" data-toggle="radio">
+                No
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="col-sm-3 control-label" for="showDate">Show Date</label>
             <div class="col-sm-7">
               <label class="radio-inline">

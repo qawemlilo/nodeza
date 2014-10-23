@@ -47,10 +47,12 @@ var EventsController = {
   getEvent: function (req, res, next) {
     var slug = req.params.slug;
     var event = new Event({slug: slug});
+    var settings = App.getConfig('events');
 
     event.fetch()
     .then(function (event) {
       res.render('events/event', {
+        config: settings,
         title: event.get('title'),
         parseDate: event.parseDate(),
         parseTime: event.parseTime(),

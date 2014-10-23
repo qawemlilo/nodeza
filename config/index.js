@@ -69,6 +69,7 @@ module.exports = {
     showAuthor: secrets.blog.showAuthor,
     showTags: secrets.blog.showTags,
     showDate: secrets.blog.showDate,
+    showComments: secrets.blog.showComments || false,
     title: secrets.blog.title,
     showShareButtons: secrets.blog.showShareButtons,
     description: secrets.blog.description
@@ -78,6 +79,15 @@ module.exports = {
     showTags: secrets.meetups.showTags,
     showDate: secrets.meetups.showDate,
     title: secrets.meetups.title,
-    description: secrets.meetups.description
+    showComments: secrets.meetups.showComments || false,
+    description: secrets.meetups.description || ""
+  },
+  events: {
+    eventsPerPage: secrets.events.eventsPerPage || 2,
+    showTags: secrets.events.showTags || true,
+    showDate: secrets.events.showDate || true,
+    showComments: secrets.events.showComments || false,
+    title: secrets.events.showComments || "",
+    description: secrets.events.description || ""
   }
 };

@@ -9,4 +9,6 @@ module.exports = function (app, SiteController) {
   app.get('/privacy', SiteController.getPrivacy);
   app.get('/rss', SiteController.getRSS);
   app.post('/subscribe', SiteController.postSubscribe);
+  app.get('/subscribe/confirm/:email', SiteController.getConfirmSubscription);
+  app.get('/unsubscribe/:email', SiteController.unSubscribe);
 };

@@ -79,19 +79,58 @@ var SiteController = {
   },
 
 
-  postSubscribe: function (req, res, next) {
+  postSubscribe: function (req, res) {
     var opts = {
       name: req.body.name,
       email: req.body.email,
+      host: req.headers.host
     };
 
     Newsletter.subscribe(opts, function (error, message) {
       if (error) {
         console.log(error);
-        return res.end('An error occured', 501);
+        return res.status(501).send('An error occured');
       }
 
       res.end('Success!');
+    });
+  },
+
+
+  getConfirmSubscription: function (req, res) {
+    var opts = {
+      email: req.params.email,
+      subscribed: 'yes'
+    };
+
+    Newsletter.confirmSubscription(opts, function (error, message) {
+      if (error) {
+        console.log(error);
+        req.flash('errors',  { msg: 'An error occured, subscription not confirmed :('});
+        return res.redirect('/');
+      }
+
+      req.flash('success',  {msg: 'You have successfully subscribed to our website'});
+      res.redirect('/');
+    });
+  },
+
+
+  unSubscribe: function (req, res) {
+    var opts = {
+      email: req.params.email,
+      subscribed: 'no'
+    };
+
+    Newsletter.confirmSubscription(opts, function (error, message) {
+      if (error) {
+        console.log(error);
+        req.flash('errors',  { msg: 'An error occured, please try again or contact us :('});
+        return res.redirect('/');
+      }
+
+      req.flash('success',  {msg: 'You have successfully unsubscribed'});
+      res.redirect('/');
     });
   }
 };

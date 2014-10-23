@@ -14,7 +14,7 @@ var Tokens = require('./token');
 var User = Base.Model.extend({
 
   tableName: 'users',
-
+  
 
   hasTimestamps: true,
 

@@ -6,39 +6,31 @@ jQuery.noConflict();
     e.preventDefault();
 
     var self = this;
-    var progress = $('.progress');
-    var responseD = $('#responseD');
+    var loadingBtn = $('#subscribe-btn');
+    var updatep = $('#updatep');
+    var ogData = updatep.html();
+    var timer = 1000 * 10;
 
-    progress.slideDown(function () {
-      $.post('/subscribe', $(self).serialize())
-      
-      .done(function (res) {
-        self.reset();
+    loadingBtn.button('loading');
 
-        progress.slideUp(function () {
-          responseD.addClass('alert-success').html($('<strong>' + res + '</strong>')).slideDown('slow');
-        });
-          
-        setTimeout(function () { 
-          responseD.slideUp(function () {
-            responseD.removeClass('alert-success');
-          }); 
-        }, 10 * 1000);
-      }) 
-      
-      .fail(function (res) {
-        self.reset();
+    $.post('/subscribe', $(self).serialize())
+    .done(function (res) {
+      updatep.html('<span class="glyphicon glyphicon-ok"></span> Please check your inbox to confirm subscription');
+      loadingBtn.button('reset');
+      self.reset();
 
-        progress.slideUp(function () {
-          responseD.addClass('alert-error').html($('<strong>' + res + '</strong>')).slideDown();
-        });
-          
-        setTimeout(function () { 
-          responseD.slideUp(function () {
-            responseD.removeClass('alert-error');
-          }); 
-        }, 10 * 1000);
-      });
+      setTimeout(function () {
+        updatep.html(ogData);
+      }, timer);
+    }) 
+    .fail(function (res) {
+      updatep.addClass('text-danger').html('<span class="glyphicon glyphicon-remove"></span> Error, subscription failed.');
+      loadingBtn.button('reset');
+      self.reset();
+
+      setTimeout(function () {
+        updatep.removeClass('text-danger').html(ogData);
+      }, timer);
     });
   });
 })(jQuery);

@@ -17,7 +17,7 @@ module.exports = function (config) {
   var passport = require('passport');
   var _ = require('lodash');
   var hbsHelpers = require('./lib/helpers');
-  var MongoStore = require('connect-mongo')({ session: session });
+  var MongoStore = require('connect-mongo')({session: session});
   
   
   /**
@@ -116,7 +116,7 @@ module.exports = function (config) {
     if (req.user) {
       // make user object available in templates
       res.locals.user = req.user.toJSON();
-      req.session.user = res.locals.user;
+      req.session.userid = req.user.get('id');
     }
 
     res.locals.sessionHistory = req.session.history;

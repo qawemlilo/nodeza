@@ -296,6 +296,9 @@ ul.styled-lists li:before {
   margin: 20px 0;
   border-left: 3px solid #eee;
 }
+.nodeza-blog-post .bs-callout {
+  padding: 5px;
+}
 .bs-callout h4 {
   margin-top: 0;
   margin-bottom: 5px;

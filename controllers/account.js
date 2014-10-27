@@ -2,7 +2,7 @@
 
 var App = require('../app');
 var User = require('../models/user');
-var mailer = require('../lib/newsletter');
+var mailGun = require('../lib/mailgun');
 var async = require('async');
 var crypto = require('crypto');
 var passport = require('passport');
@@ -216,7 +216,7 @@ var AccountController = {
           body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
         };
         
-        mailer.email(mailOptions, function (error, res) {
+        mailGun.sendEmail(mailOptions, function (error, res) {
           req.flash('success', {msg: 'Your account has been updated'});
           done(error);
         });
@@ -300,7 +300,7 @@ var AccountController = {
             'If you did not request this, please ignore this email and your password will remain unchanged.'
         };
 
-        mailer.email(mailOptions, function(err, resp) {
+        mailGun.email(mailOptions, function(err, resp) {
           req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.'});
           done(err, 'done');
         });

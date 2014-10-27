@@ -137,7 +137,6 @@ npm test
 To-Do
 -----
 1. Images - Logo, Banners: home, events, meetups, Node.js Cape Town, Node.Jozi, Nodebots Capetown, blog list default image
-2. Mail server - configure mailgun and create project emails
 3. Mail admin - create mail ui in admin area
 5. Newsletter - design & layout, topics/categories, operation plan, mailchimp integration, and functionality
 6. Feedback - uservoice integration
@@ -150,7 +149,6 @@ To-Do
 14. Create site content
 17. Add Google related stuff - analytics, sitemap, robots.txt, e.t.c
 18. Create social pages - twitter and google+
-- in /admin/account/linked and /admin/meetups and /admin/account/password remove setting link
 
 
 Contributing

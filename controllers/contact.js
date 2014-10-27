@@ -1,7 +1,7 @@
 "use strict";
 
 var App = require('../app');
-var mailer = require('../lib/mailer');
+var mailGun = require('../lib/mailgun');
 
 
 var ContactController = {
@@ -18,17 +18,16 @@ var ContactController = {
       return res.redirect('back');
     }
 
-
     var mailOptions = {
       to: req.body._email,
       from: req.body.name + ' <' + req.body.email + '>',
       subject: req.body.subject,
       body: req.body.message
     };
-
-    mailer(mailOptions, function(err, resp) {
-      if (err) {
-        console.log(err.message);
+    
+    mailGun.sendEmail(mailOptions, function (error, data) {
+      if (error) {
+        console.log(error);
         req.flash('error', {msg: 'An error occured. Message not sent.'});
       }
       else {

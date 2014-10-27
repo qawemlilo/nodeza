@@ -3,7 +3,7 @@
 var App = require('../app');
 var site = App.getConfig('site');
 var rss = require('./rss');
-var Newsletter = require('../lib/newsletter');
+var mailGun = require('../lib/mailgun');
 
 
 var SiteController = {
@@ -86,7 +86,7 @@ var SiteController = {
       host: req.headers.host
     };
 
-    Newsletter.subscribe(opts, function (error, message) {
+    mailGun.subscribe(opts, function (error, message) {
       if (error) {
         console.log(error);
         return res.status(501).send('An error occured');
@@ -100,10 +100,11 @@ var SiteController = {
   getConfirmSubscription: function (req, res) {
     var opts = {
       email: req.params.email,
-      subscribed: 'yes'
+      subscribed: 'yes',
+      host: req.headers.host
     };
 
-    Newsletter.confirmSubscription(opts, function (error, message) {
+    mailGun.confirmSubscription(opts, function (error, message) {
       if (error) {
         console.log(error);
         req.flash('errors',  { msg: 'An error occured, subscription not confirmed :('});
@@ -119,10 +120,11 @@ var SiteController = {
   unSubscribe: function (req, res) {
     var opts = {
       email: req.params.email,
-      subscribed: 'no'
+      subscribed: 'no',
+      host: req.headers.host
     };
 
-    Newsletter.confirmSubscription(opts, function (error, message) {
+    mailGun.confirmSubscription(opts, function (error, message) {
       if (error) {
         console.log(error);
         req.flash('errors',  { msg: 'An error occured, please try again or contact us :('});

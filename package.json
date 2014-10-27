@@ -57,7 +57,6 @@
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",
     "passport-twitter": "^1.0.2",
-    "redis": "^0.12.1",
     "request": "^2.40.0",
     "rss": "^0.3.2",
     "superagent": "^0.18.2",
@@ -68,7 +67,6 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "chai-bookshelf": "^1.0.0",
     "chalk": "^0.4.0",
     "gulp": "^3.8.6",
     "gulp-image-resize": "^0.5.0",
@@ -76,7 +74,6 @@
     "jshint": "^2.5.0",
     "mocha": "^1.18.2",
     "simple-prompt": "^0.2.1",
-    "sinon": "latest",
     "supertest": "^0.11.0"
   },
   "engines": {

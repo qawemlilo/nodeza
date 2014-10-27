@@ -12,7 +12,7 @@ module.exports = {
     keywords: secrets.site.keywords || '',
     twitter_url: secrets.site.twitter_url || '',
     github_url: secrets.site.github_url || '',
-    port: process.env.OPENSHIFT_NODEJS_PORT || secrets.site.port,
+    port: process.env.NODEJS_PORT || secrets.site.port,
     ipAddress: process.env.NODEJS_IP || secrets.site.ipAddress,
     maxAge: secrets.site.maxAge || 7,
     rssLimit: secrets.site.rssLimit || 10,

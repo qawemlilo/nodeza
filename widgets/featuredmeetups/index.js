@@ -7,11 +7,6 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  if (App.cacheExists('featuredmeetups')) {
-    return when(App.getCache('featuredmeetups'));
-  }
-
-
   var meetups = App.getCollection('Meetups');
 
   return meetups.fetchBy('id', {
@@ -23,8 +18,6 @@ module.exports.exec = function (App) {
     columns: ['title', 'short_desc', 'slug', 'image_url']
   })
   .then(function (collection) {
-    
-    App.setCache('featuredmeetups', collection);
 
     return collection;
   });

@@ -31,8 +31,8 @@ Table of Contents
 Software Requirements
 -------------------
  - Node.js(with npm) 10.x
- - MySQL (Application database)
- - MongoDB (session store)
+ - MySQL 5.5.40(Application database)
+ - MongoDB v2.0.4 (session store)
  - GraphicsMagick or ImageMagick (for resizing and optimising images)
 
 

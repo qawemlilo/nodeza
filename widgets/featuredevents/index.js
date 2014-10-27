@@ -7,10 +7,6 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  if (App.cacheExists('featuredevents')) {
-    return when(App.getCache('featuredevents'));
-  }
-
   var events = new App.getCollection('Events');
   var deferred = when.defer();
 
@@ -35,8 +31,6 @@ module.exports.exec = function (App) {
         oldcollection.forEach(function (model) {
           collection.push(model);
         });
-
-        App.setCache('featuredevents', collection);
         
         return collection;
       });

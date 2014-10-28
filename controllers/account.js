@@ -61,7 +61,8 @@ var AccountController = {
       
       req.logIn(user, function(err) {
         if (err) {
-          return next(err);
+          req.flash('errors', { msg: err.message });
+          res.redirect('/login');
         }
 
         res.redirect(req.session.returnTo || '/');

@@ -12,51 +12,51 @@ module.exports = {
     keywords: secrets.site.keywords || '',
     twitter_url: secrets.site.twitter_url || '',
     github_url: secrets.site.github_url || '',
-    port: process.env.NODEJS_PORT || secrets.site.port,
-    ipAddress: process.env.NODEJS_IP || secrets.site.ipAddress,
+    port: secrets.site.port,
+    ipAddress: secrets.site.ipAddress,
     maxAge: secrets.site.maxAge || 7,
     rssLimit: secrets.site.rssLimit || 10,
     email: secrets.site.email,
     baseUrl: secrets.site.baseUrl,
     activateCSRF: secrets.site.activateCSRF || true,
     csrfWhitelist: secrets.site.csrfWhitelist || [],
-    sessionSecret: process.env.SESSION_SECRET || secrets.site.sessionSecret,
-    domain: process.env.DOMAIN || 'localhost:300'
+    sessionSecret: secrets.site.sessionSecret,
+    domain: secrets.site.domain
   },
   mongodb: {
-    url: process.env.MONGODB || secrets.mongodb.url
+    url: secrets.mongodb.url
   },
   mysql: {
-    host: process.env.MYSQL_HOST || secrets.mysql.host,
-    port: process.env.MYSQL_PORT || null,
-    user: process.env.MYSQL_USER || secrets.mysql.user,
-    password: process.env.MYSQL_PASSWORD || secrets.mysql.password,
-    database: process.env.MYSQL_DB || secrets.mysql.database,
+    host: secrets.mysql.host,
+    port: null,
+    user: secrets.mysql.user,
+    password: secrets.mysql.password,
+    database: secrets.mysql.database,
     charset: secrets.mysql.charset || 'utf8'
   },
   mailgun: {
-    login: process.env.MAILGUN_LOGIN || secrets.mailgun.login,
-    password: process.env.MAILGUN_PASSWORD || secrets.mailgun.password,
-    apiKey: process.env.MAILGUN_API_KEY || secrets.mailgun.apiKey,
-    email: process.env.MAILGUN_EMAIL || secrets.mailgun.email,
-    newsletterEmail: process.env.MAILGUN_NEWSLETTER_EMAIL || secrets.mailgun.newsletterEmail,
-    domain: process.env.DOMAIN || secrets.mailgun.domain
+    login: secrets.mailgun.login,
+    password: secrets.mailgun.password,
+    apiKey: secrets.mailgun.apiKey,
+    email: secrets.mailgun.email,
+    newsletterEmail: secrets.mailgun.newsletterEmail,
+    domain: secrets.mailgun.domain
   },
   github: {
-    clientID: process.env.GITHUB_ID || secrets.github.clientID,
-    clientSecret: process.env.GITHUB_SECRET || secrets.github.clientSecret,
+    clientID: secrets.github.clientID,
+    clientSecret: secrets.github.clientSecret,
     callbackURL: secrets.github.callbackURL,
     passReqToCallback: secrets.github.passReqToCallback
   },
   twitter: {
-    consumerKey: process.env.TWITTER_KEY || secrets.twitter.consumerKey,
-    consumerSecret: process.env.TWITTER_SECRET  || secrets.twitter.consumerSecret,
+    consumerKey: secrets.twitter.consumerKey,
+    consumerSecret: secrets.twitter.consumerSecret,
     callbackURL: secrets.twitter.callbackURL,
     passReqToCallback: secrets.twitter.passReqToCallback
   },
   google: {
-    clientID: process.env.GOOGLE_ID || secrets.google.clientID,
-    clientSecret: process.env.GOOGLE_SECRET || secrets.google.clientSecret,
+    clientID: secrets.google.clientID,
+    clientSecret: secrets.google.clientSecret,
     callbackURL: secrets.google.callbackURL,
     passReqToCallback: secrets.google.passReqToCallback
   },

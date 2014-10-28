@@ -48,6 +48,7 @@ module.exports = function (config) {
   **/
   server.set('view engine', 'hbs');
   server.engine('hbs', hbs.__express);
+  server.disable('view cache');
   
   hbs.localsAsTemplateData(server);
   hbs.registerPartials(path.join(__dirname,'views', 'partials'));

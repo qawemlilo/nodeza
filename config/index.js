@@ -2,7 +2,6 @@
 
 var secrets = require('./secrets.json');
 
-
 module.exports = {
   site: {
     siteName: secrets.site.siteName || '',

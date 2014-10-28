@@ -7,6 +7,7 @@ var Base  = require('./base');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var when = require('when');
+var node = require('when/node');
 var _ = require('lodash');
 var Tokens = require('./token');
 
@@ -61,17 +62,20 @@ var User = Base.Model.extend({
 
 
   comparePassword: function(candidatePassword) {
-    var deferred = when.defer();
 
-    bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
-      if (err) {
-        deferred.reject(err);
-      }
+    return node.call(bcrypt.compare.bind(bcrypt), candidatePassword, this.get('password'));
 
-      deferred.resolve(isMatch);
-    });
+    // var deferred = when.defer();
 
-    return deferred.promise;
+    // bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
+    //   if (err) {
+    //     deferred.reject(err);
+    //   }
+
+    //   deferred.resolve(isMatch);
+    // });
+
+    // return deferred.promise;
   },
 
 

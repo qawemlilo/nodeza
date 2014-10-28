@@ -102,14 +102,14 @@ module.exports = function (config) {
   server.use(logger('dev'));
   
   // CSRF protection.
-  
+  /*
   server.use(function(req, res, next) {
     if (_.contains(csrfWhitelist, req.path)) {
       return next();
     }
     
     csrf(req, res, next);
-  });
+  });*/
   
 
   server.use(function(req, res, next) {
@@ -121,6 +121,7 @@ module.exports = function (config) {
 
     res.locals.sessionHistory = req.session.history;
     res.locals.base = 'http://' + req.headers.host;
+    res.locals._csrf = '';
   
     next();
   });

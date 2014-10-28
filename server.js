@@ -102,15 +102,14 @@ module.exports = function (config) {
   server.use(logger('dev'));
   
   // CSRF protection.
-  if (config.site.activateCSRF) {
-    server.use(function(req, res, next) {
-      if (_.contains(csrfWhitelist, req.path)) {
-        return next();
-      }
-      
-      csrf(req, res, next);
-    });
-  }
+  
+  server.use(function(req, res, next) {
+    if (_.contains(csrfWhitelist, req.path)) {
+      return next();
+    }
+    
+    csrf(req, res, next);
+  });
   
 
   server.use(function(req, res, next) {

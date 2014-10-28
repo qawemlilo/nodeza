@@ -2,10 +2,6 @@
 
 var secrets = require('./secrets.json');
 
-secrets.mysql.user = "root";
-secrets.mysql.password = "juliet";
-secrets.mysql.database = "test";
-
 module.exports = {
   site: {
     siteName: secrets.site.siteName || '',

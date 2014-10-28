@@ -1,7 +1,6 @@
 "use strict";
 
-var secrets = require('./secrets.json');
-
+var secrets = require('./secrets.json'); 
 
 
 module.exports = {

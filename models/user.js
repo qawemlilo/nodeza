@@ -40,53 +40,22 @@ var User = Base.Model.extend({
   },
 
 
-  generatePasswordHash: function (password) {
-    var deferred = when.defer();
-  
-    bcrypt.genSalt(5, function(err, salt) {
-      if (err) {
-        deferred.reject(err);
-      }
-  
-      bcrypt.hash(password, salt, null, function(err, hash) {
-        if (err) {
-          deferred.reject(err);
-        }
-        
-        deferred.resolve(hash);
-      });
+  generatePasswordHash: function(password) {
+    return node.call(bcrypt.genSalt.bind(bcrypt), 5)
+    .then(function(err, salt) {
+      return node.call(bcrypt.hash.bind(bcrypt), password, salt, null);
     });
-  
-    return deferred.promise;
   },
 
 
   comparePassword: function(candidatePassword) {
-
     return node.call(bcrypt.compare.bind(bcrypt), candidatePassword, this.get('password'));
-
-    // var deferred = when.defer();
-
-    // bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
-    //   if (err) {
-    //     deferred.reject(err);
-    //   }
-
-    //   deferred.resolve(isMatch);
-    // });
-
-    // return deferred.promise;
   },
 
 
   gravatar: function(size, defaults) {
-    if (!size) {
-      size = 32;
-    }
-
-    if (!defaults) {
-      defaults = 'retro';
-    }
+    size = size || 32;
+    defaults = defaults || 'retro';
   
     if (!this.get('email')) {
       return 'https://gravatar.com/avatar/?s=' + size + '&d=' + defaults;
@@ -150,6 +119,9 @@ var User = Base.Model.extend({
           deferred.reject('Action not permitted');
         });       
       }
+    })
+    .otherwise(function (error) {
+      deferred.reject('Action not permitted');
     });
 
     return deferred.promise;

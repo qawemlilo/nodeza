@@ -2,28 +2,6 @@
 
 var secrets = require('./secrets.json');
 
-
-switch (process.env.NODE_ENV) {
-  case 'development':
-    secrets = require('../env/dev/secrets.json');
-  break;
-
-  case 'production':
-    secrets = require('.../env/production/secrets.json');
-  break;
-
-  case 'testing':
-    secrets = require('../env/testing/secrets.json');
-  break;
-
-  case 'staging':
-    secrets = require('../env/staging/secrets.json');
-  break;
-
-  default:
-    secrets = require('../env/dev/secrets.json');
-}
-
 module.exports = {
   site: {
     siteName: secrets.site.siteName || '',

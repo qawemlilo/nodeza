@@ -1,5 +1,5 @@
 
-
+var when = require('when');
 var config = require('./config.json');
 
 
@@ -12,6 +12,10 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
+  if (App.cacheExists('recentevents')) {
+    return when(App.getCache('recentevents'));
+  }
+
   var events = App.getCollection('Events');
 
   return events.fetchBy('dt', {
@@ -22,6 +26,8 @@ module.exports.exec = function (App) {
     {columns: ['slug', 'title']
   })
   .then(function (collection) {
+    
+    App.setCache('recentevents', collection);
 
     return collection;
   });

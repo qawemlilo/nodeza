@@ -1,11 +1,15 @@
 
-
 var config = require('./config.json');
+var when = require('when');
 
 // this makes the module config properties available in our template
 module.exports.config = config;
 
 module.exports.exec = function (App) {
+
+  if (App.cacheExists('footermenu')) {
+    return when(App.getCache('footermenu'));
+  }
 
   var site = App.getConfig('site');
   var menu = App.getModel('Menu', {name: 'Footer Menu'});

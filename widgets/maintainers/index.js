@@ -7,6 +7,10 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
+  if (App.cacheExists('maintainers')) {
+    return when(App.getCache('maintainers'));
+  }
+
   var users = new App.getCollection('Users');
   var deferred = when.defer();
 
@@ -27,6 +31,8 @@ module.exports.exec = function (App) {
         twitter_url: model.get('twitter_url')
       };
     });*/
+
+    App.setCache('maintainers', collection);
 
     return collection;
   });

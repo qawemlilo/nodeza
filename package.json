@@ -7,7 +7,7 @@
     "start": "node index.js",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
     "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js lib/auth.js",
-    "test": "npm run jshint && env NODE_ENV=development ./node_modules/mocha/bin/mocha test",
+    "test": "npm run jshint && env NODE_ENV=testing ./node_modules/mocha/bin/mocha test",
     "setup": "node sql/dbsetup.js && node sql/migrate.js"
   },
   "repository": {

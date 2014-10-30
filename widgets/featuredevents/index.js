@@ -1,5 +1,5 @@
 
-var when = require('when');
+
 var config = require('./config.json');
 
 
@@ -8,7 +8,6 @@ module.exports.config = config;
 module.exports.exec = function (App) {
 
   var events = new App.getCollection('Events');
-  var deferred = when.defer();
 
   return events.fetchBy('dt', {
     limit: 4,

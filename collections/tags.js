@@ -6,7 +6,6 @@
 
 var Base  = require('./base');
 var Tag = require('../models/tag');
-var when = require('when');
 
 
 
@@ -24,21 +23,15 @@ var Tags = Base.Collection.extend({
   fetchTags: function (limit, options) {
     
     var self = this;
-    var deferred = when.defer();
     var tags = Tags.forge();
     
-    tags.query(function (query) {
+    return tags.query(function (query) {
       query.limit(limit || self.limit);
     })
     .fetch(options || {})
     .then(function (collection) {
-      deferred.resolve(collection);
-    })
-    .otherwise(function (err) {
-      deferred.reject(err);
+      return collection;
     });
-
-    return deferred.promise;
   }
 
 });

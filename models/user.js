@@ -40,16 +40,40 @@ var User = Base.Model.extend({
   },
 
 
-  generatePasswordHash: function(password) {
-    return node.call(bcrypt.genSalt.bind(bcrypt), 5)
-    .then(function(err, salt) {
-      return node.call(bcrypt.hash.bind(bcrypt), password, salt, null);
+
+  generatePasswordHash: function (password) {
+    var deferred = when.defer();
+  
+    bcrypt.genSalt(5, function(err, salt) {
+      if (err) {
+        deferred.reject(err);
+      }
+  
+      bcrypt.hash(password, salt, null, function(err, hash) {
+        if (err) {
+          deferred.reject(err);
+        }
+        
+        deferred.resolve(hash);
+      });
     });
+  
+    return deferred.promise;
   },
 
 
   comparePassword: function(candidatePassword) {
-    return node.call(bcrypt.compare.bind(bcrypt), candidatePassword, this.get('password'));
+    var deferred = when.defer();
+
+    bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
+      if (err) {
+        deferred.reject(err);
+      }
+
+      deferred.resolve(isMatch);
+    });
+
+    return deferred.promise;
   },
 
 

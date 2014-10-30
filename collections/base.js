@@ -119,7 +119,6 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
   */ 
   paginate: function () {
     var self = this;
-    var deferred = when.defer();
     var query = self.model.forge().query();
     var totalpages = 0;
 
@@ -131,19 +130,14 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
       query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
     }
     
-    query.count('id AS total')
+    return query.count('id AS total')
     .then(function (results) {
       totalpages = results[0].total;
 
       self.makePages(totalpages);
 
-      deferred.resolve(totalpages);
-    })
-    .otherwise(function (err) {
-      deferred.reject(err);
+      return totalpages;
     });
-
-    return deferred.promise;
   },
 
   
@@ -162,7 +156,6 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     var order = options.order || self.order; 
     var whereQuery = options.where || self.whereQuery;
     var andWhereQuery = options.andWhere || self.andWhereQuery;
-    var deferred = when.defer();
 
     /*
      *  Let's make sure the filters are available
@@ -178,7 +171,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     var posts = self.constructor.forge();
     
     function fetch() {
-      posts.query(function (query) {
+      return posts.query(function (query) {
         query.limit(limit);
         query.where(whereQuery[0], whereQuery[1], whereQuery[2]);
         
@@ -191,25 +184,16 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
       })
       .fetch(fetchOptions)
       .then(function (collection) {
-        deferred.resolve(collection);
-      })
-      .otherwise(function (err) {
-        deferred.reject(err);
+        return collection;
       });
     }
 
     if (options.noPagination) {
-      fetch();
+      return fetch();
     }
     else {
-      self.paginate()
-      .then(fetch)
-      .otherwise(function (err) {
-        deferred.reject(err);
-      });
+      return self.paginate().then(fetch);
     }
-
-    return deferred.promise;
   }
 });
 

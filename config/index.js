@@ -1,6 +1,25 @@
 "use strict";
 
-var secrets = require('./secrets.json');
+var secrets;
+
+switch (process.env.NODE_ENV) {
+  case 'production':
+    secrets = require('../env/production/secrets.json');
+  break;
+
+  case 'development':
+    secrets = require('../env/dev/secrets.json');
+  break;
+
+  case 'testing':
+    secrets = require('../env/testing/secrets.json');
+  break;
+
+  case 'staging':
+    secrets = require('../env/staging/secrets.json');
+  break;
+}
+
 
 module.exports = {
   site: {

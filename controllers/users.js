@@ -203,7 +203,7 @@ var UsersController = {
    * Delete user account.
   */
   getDeleteUser: function(req, res, next) {
-    user = new User();
+    var user = new User();
     user.deleteAccount(req.params.id)
     .then(function (msg) {
       req.flash('success', {msg: 'User successfully deleted.'});

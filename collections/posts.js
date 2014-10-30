@@ -4,7 +4,6 @@
  * Blog posts collection
 **/
 
-var when = require('when');
 var Base  = require('./base');
 var Post = require('../models/post');
 
@@ -27,10 +26,9 @@ var Posts = Base.Collection.extend({
     options = options || {};
     
     var self = this;
-    var deferred = when.defer();
     var posts = Posts.forge();
     
-    posts.query(function (query) {
+    return posts.query(function (query) {
       query.limit(limit || self.limit);
       query.where('featured', '=', 1);
       query.andWhere('published', '=', 1);
@@ -38,13 +36,8 @@ var Posts = Base.Collection.extend({
     })
     .fetch(options)
     .then(function (collection) {
-      deferred.resolve(collection);
-    })
-    .otherwise(function (err) {
-      deferred.reject(err);
+      return collection;
     });
-
-    return deferred.promise;
   }
 });
 

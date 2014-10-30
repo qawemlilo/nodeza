@@ -1,5 +1,5 @@
 
-var when = require('when');
+
 var config = require('./config.json');
 
 

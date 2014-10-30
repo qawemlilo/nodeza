@@ -156,31 +156,15 @@ var Post = Base.Model.extend({
    * delete post
   **/
   remove: function(id) {
-    var deferred = when.defer();
-
-    Post.forge({id: id})
+    return Post.forge({id: id})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
-      post.related('tags')
+      return post.related('tags')
       .detach()
       .then(function () {
-        post.destroy()
-        .then(function () {
-          deferred.resolve();
-        })
-        .otherwise(function (error) {
-          deferred.reject(error);
-        });
-      })
-      .otherwise(function (error) {
-        deferred.reject(error);
+        return post.destroy();
       });
-    })
-    .otherwise(function (error) {
-      deferred.reject(error);
     });
-
-    return deferred.promise;
   },
 
 
@@ -189,9 +173,7 @@ var Post = Base.Model.extend({
    * toggle publish
   */
   togglePublisher: function(id) {
-    var deferred = when.defer();
-
-    Post.forge({id: id})
+    return Post.forge({id: id})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
       var published = post.get('published') ? false : true;
@@ -203,19 +185,8 @@ var Post = Base.Model.extend({
         opts.published_at = new Date();
       }
 
-      post.save(opts, {patch: true})
-      .then(function () {
-        deferred.resolve(post);
-      })
-      .otherwise(function (error) {
-        deferred.reject(error);
-      });
-    })
-    .otherwise(function (error) {
-      deferred.reject(error);
+      return post.save(opts, {patch: true});
     });
-
-    return deferred.promise;
   }
 
 });

@@ -1,6 +1,6 @@
 
+
 var config = require('./config.json');
-var when = require('when');
 
 // this makes the module config properties available in our template
 module.exports.config = config;

@@ -188,6 +188,9 @@
 <script src="/js/moment.min.js"></script>
 <script src="/js/bootstrap-datetimepicker.min.js"></script>
 <script>
+jQuery.noConflict();
+
+(function ($) {
   $(function(){
     if (typeof google !== 'undefined') {
       $("#geocomplete").geocomplete({
@@ -218,5 +221,6 @@
       pickDate: false
     });
   });
+})(jQuery);
 </script>
 {{/extend}}

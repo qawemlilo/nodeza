@@ -3,8 +3,20 @@
 var App = require('../app');
 var Meetup = require('../models/meetup');
 var Meetups = require('../collections/meetups');
-var gulpfile = require('../lib/process-images');
+var path =  require('path');
+var imgProcessorFile = path.resolve(__dirname, '../lib/process-images');
 
+
+
+function processMyImg (url) {
+  var imgProcessor = require('child_process').fork(imgProcessorFile);
+
+  imgProcessor.on('message', function(message) {
+    console.log(message);
+  });
+
+  imgProcessor.send(url);
+}
 
 
 var MeetupsController = {
@@ -58,7 +70,7 @@ var MeetupsController = {
         config: settings,
         title: meetup.get('title'),
         description: meetup.get('short_desc'),
-        page: 'meetups', 
+        page: 'meetups',
         meetup: meetup.toJSON()
       });
 
@@ -105,7 +117,7 @@ var MeetupsController = {
     var meetups = new Meetups();
     var page = parseInt(req.query.p, 10);
     var settings = App.getConfig('meetups');
-  
+
     meetups.fetchBy('id', {
       where: ['created_at', '<', new Date()],
       limit: settings.meetupsPerPage,
@@ -128,7 +140,7 @@ var MeetupsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch meetups.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -140,7 +152,7 @@ var MeetupsController = {
    */
   getAdmin: function (req, res, next) {
     var meetups = new Meetups();
-    var role = req.user.related('role').toJSON(); 
+    var role = req.user.related('role').toJSON();
     var opts = {where: ['user_id', '=', req.user.get('id')]};
 
     if (role.name === 'Super Administrator') {
@@ -160,7 +172,7 @@ var MeetupsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch meetups.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -174,13 +186,13 @@ var MeetupsController = {
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('markdown', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
-  
+
     var errors = req.validationErrors();
     var meetupData = {};
     var user = req.user;
     var errMsg = 'Database error. Meetup not created.';
     var successMsg = 'Meetup successfully created!';
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
@@ -194,10 +206,8 @@ var MeetupsController = {
 
     if (req.files.image_url) {
       meetupData.image_url = req.files.image_url.name;
-      
-      setTimeout(function () {
-        gulpfile('public/temp/' + meetupData.image_url);
-      }, 100);
+
+      processMyImg('public/temp/' + meetupData.image_url);
     }
 
     meetupData.user_id = user.get('id');
@@ -239,7 +249,7 @@ var MeetupsController = {
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('markdown', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
-  
+
     var errors = req.validationErrors();
     var meetupData = {};
 
@@ -267,10 +277,8 @@ var MeetupsController = {
 
     if (req.files.image_url) {
       meetupData.image_url = req.files.image_url.name;
-      
-      setTimeout(function () {
-        gulpfile('public/temp/' + meetupData.image_url);
-      }, 100);
+
+      processMyImg('public/temp/' + meetupData.image_url);
     }
 
     var meetup = new Meetup({id: meetupData.id});

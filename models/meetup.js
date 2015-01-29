@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var Base  = require('./base');
-var markdown = require('markdown').markdown;
+var markdown = require('markdown-it')();
 var _ = require('lodash');
 
 
@@ -18,9 +18,9 @@ var Meetup =  Base.Model.extend({
 
   saving: function (model, attr, options) {
 
-    this.set('html', markdown.toHTML(this.get('markdown')));
+    this.set('html', markdown.render(this.get('markdown')));
     this.set('title', this.get('title').trim());
-    
+
     return Base.Model.prototype.saving.apply(this, _.toArray(arguments));
   }
 });

@@ -7,7 +7,6 @@ var path =  require('path');
 var imgProcessorFile = path.resolve(__dirname, '../lib/process-images');
 
 
-
 function processMyImg (url) {
   var imgProcessor = require('child_process').fork(imgProcessorFile);
 

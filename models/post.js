@@ -5,7 +5,7 @@
 **/
 var Base  = require('./base');
 var when  = require('when');
-var markdown = require('markdown').markdown;
+var markdown = require('markdown-it')();
 var _ = require('lodash');
 var moment = require('moment');
 var Tag  = require('./tag');
@@ -60,13 +60,13 @@ var Post = Base.Model.extend({
 
   saving: function (model, attr, options) {
     var self = this;
-    var html = markdown.toHTML(self.get('markdown'));
+    var html = markdown.render(self.get('markdown'));
 
     html = html.replace(/&amp;/gi, '&');
-   
+
     self.set('html', html);
     self.set('title', self.get('title').trim());
-    
+
     // set publishing date if published and notExists
     if (self.hasChanged('published') && self.get('published')) {
       if (!self.get('published_at')) {

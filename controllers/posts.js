@@ -5,8 +5,21 @@ var Posts = require('../collections/posts');
 var Post = require('../models/post');
 var Categories = require('../collections/categories');
 var Category = require('../models/category');
-var gulpfile = require('../lib/process-images');
 var _ = require('lodash');
+var path =  require('path');
+var imgProcessorFile = path.resolve(__dirname, '../lib/process-images.js');
+
+
+function processMyImg (url) {
+  var imgProcessor = require('child_process').fork(imgProcessorFile);
+
+  imgProcessor.on('message', function(message) {
+    console.log(message);
+  });
+
+  imgProcessor.send(url);
+}
+
 
 function processTags(tags) {
   if (!tags) {
@@ -70,7 +83,7 @@ var PostsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Page not found :('});
-      res.redirect('/blog');      
+      res.redirect('/blog');
     });
   },
 
@@ -100,12 +113,12 @@ var PostsController = {
       })
       .otherwise(function () {
         req.flash('errors', {'msg': 'Post not found.'});
-        res.redirect('/admin/blog');      
+        res.redirect('/admin/blog');
       });
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Categories not found.'});
-      res.redirect('/admin/blog');      
+      res.redirect('/admin/blog');
     });
   },
 
@@ -147,14 +160,14 @@ var PostsController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
 
   /**
    * GET /blog/category/:slug
-   * loads posts by category 
+   * loads posts by category
   **/
   getBlogCategory: function (req, res) {
     var posts = new Posts();
@@ -166,7 +179,7 @@ var PostsController = {
     if (currentpage < 1) {
       res.redirect('/blog/category/' + slug);
     }
-    
+
     Category.forge({slug: slug})
     .fetch({columns: ['id', 'name']})
     .then(function (model) {
@@ -195,12 +208,12 @@ var PostsController = {
       })
       .otherwise(function () {
         req.flash('errors', {'msg': 'Database error.'});
-        res.redirect('/');      
+        res.redirect('/');
       });
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -214,7 +227,7 @@ var PostsController = {
     var posts = new Posts();
     var page = parseInt(req.query.p, 10);
     var currentpage = page || 1;
-    var role = req.user.related('role').toJSON(); 
+    var role = req.user.related('role').toJSON();
     var opts = {
       limit: 10,
       page: currentpage,
@@ -241,7 +254,7 @@ var PostsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -265,7 +278,7 @@ var PostsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/admin/blog');       
+      res.redirect('/admin/blog');
     });
   },
 
@@ -300,10 +313,8 @@ var PostsController = {
 
     if (req.files.image_url) {
       postData.image_url = req.files.image_url.name;
-      
-      setTimeout(function () {
-        gulpfile('public/temp/' + postData.image_url);
-      }, 100);
+
+      processMyImg('public/temp/' + postData.image_url);
     }
 
     var tags = processTags(req.body.tags);
@@ -336,7 +347,7 @@ var PostsController = {
       req.flash('errors', errors);
       return res.redirect('back');
     }
-    
+
     var postData = {
       id: req.body.id,
       title: req.body.title,
@@ -348,14 +359,12 @@ var PostsController = {
     };
 
     var options = {method: 'update'};
-    var post = new Post({id: postData.id});   
+    var post = new Post({id: postData.id});
 
     if (req.files.image_url) {
       postData.image_url = req.files.image_url.name;
-      
-      setTimeout(function () {
-        gulpfile('public/temp/' + postData.image_url);
-      }, 100);
+
+      processMyImg('public/temp/' + postData.image_url);
     }
 
     if (req.body.tags) {

@@ -13,10 +13,10 @@ var emitter = new EventEmitter();
 var Cache = {};
 var Controllers = {};
 
-var models; 
-var collections; 
-var controllers; 
-var routes; 
+var models;
+var collections;
+var controllers;
+var routes;
 var widget;
 
 
@@ -50,7 +50,7 @@ function loadAppModules() {
 function setupRoutes(App, routes, controllers) {
   _.keys(routes).forEach(function (route) {
     // call routes with their corresponding controllers
-    routes[route](App, controllers[route]); 
+    routes[route](App, controllers[route]);
   });
 }
 
@@ -71,7 +71,7 @@ var App = {
 
 
   /*
-   * we need to hijack express http methods 
+   * we need to hijack express http methods
    * so we can spy on the routes passed
   **/
   get: function () {
@@ -84,13 +84,13 @@ var App = {
 
 
   /*
-   * we need to hijack express http methods 
+   * we need to hijack express http methods
    * so we can spy on the routes passed
   **/
   post: function () {
     var args = _.toArray(arguments);
     var routeString = args[0];
-    
+
     this.routesBlacklist.push(routeString);
     this.server.post.apply(this.server, args);
   },
@@ -127,7 +127,7 @@ var App = {
       }
       else if ((req.user && req.user.related('role').get('id') === role.get('id')))  {
         next();
-      } 
+      }
       else {
         req.flash('errors', { msg: 'You are not authorized to view that page' });
         res.redirect('back');
@@ -243,7 +243,7 @@ var App = {
   getControllers: function () {
     return _.keys(Controllers).map(function (val) {
       return {
-        name: val, 
+        name: val,
         methods: _.keys(Controllers[val])
       };
     });
@@ -297,17 +297,13 @@ var App = {
 
     // set up routes
     setupRoutes(self, modules.routes, modules.controllers);
-    
+
     // start server
     server.listen(port || server.get('port'), server.get('ipAddress'),function() {
       console.log("✔ Express server listening on port %d in %s mode", port || server.get('port'), server.get('env'));
-      
+
       appIsRunning = true;
-      
-      /*
-      setInterval(function () {
-        self.clearCache();
-      }, 1000 * 60 * 60); */
+
     });
   }
 };

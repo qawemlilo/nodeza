@@ -4,7 +4,7 @@ var App = require('../app');
 var Meetup = require('../models/meetup');
 var Meetups = require('../collections/meetups');
 var path =  require('path');
-var imgProcessorFile = path.resolve(__dirname, '../lib/process-images');
+var imgProcessorFile = path.resolve(__dirname, '../process-images.js');
 
 
 function processMyImg (url) {
@@ -14,7 +14,7 @@ function processMyImg (url) {
     console.log(message);
   });
 
-  imgProcessor.send(path.resolve(__dirname, '..', url));
+  imgProcessor.send(url);
 }
 
 var MeetupsController = {

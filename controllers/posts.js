@@ -7,7 +7,7 @@ var Categories = require('../collections/categories');
 var Category = require('../models/category');
 var _ = require('lodash');
 var path =  require('path');
-var imgProcessorFile = path.resolve(__dirname, '../lib/process-images.js');
+var imgProcessorFile = path.resolve(__dirname, '../process-images.js');
 
 
 function processMyImg (url) {
@@ -17,7 +17,7 @@ function processMyImg (url) {
     console.log(message);
   });
 
-  imgProcessor.send(path.resolve(__dirname, '..', url));
+  imgProcessor.send(url);
 }
 
 

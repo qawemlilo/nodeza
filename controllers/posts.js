@@ -17,7 +17,7 @@ function processMyImg (url) {
     console.log(message);
   });
 
-  imgProcessor.send(url);
+  imgProcessor.send(path.resolve(__dirname, '..', url));
 }
 
 

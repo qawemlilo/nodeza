@@ -36,10 +36,12 @@ process.on('message', function (img) {
 
   stream.on('end', function () {
     process.send('complete');
+    process.exit();
   });
 
   stream.on('error', function (err) {
     process.send(err);
+    process.exit(1);
   });
 });
 

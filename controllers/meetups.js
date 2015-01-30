@@ -11,7 +11,11 @@ function processMyImg (url) {
   var imgProcessor = require('child_process').fork(imgProcessorFile);
 
   imgProcessor.on('message', function(message) {
-    console.log(message);
+    if (message === 'complete') console.log(message);
+
+    else {
+      console.log(message.stack)
+    }
   });
 
   imgProcessor.send(url);

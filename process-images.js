@@ -32,11 +32,7 @@ function processImg (filename) {
 
 
 process.on('message', function (img) {
-
-  console.log('uploaded image: ' + img);
-
   var stream = processImg(img);
-
 
   stream.on('end', function () {
     process.send('complete');

@@ -41,14 +41,14 @@ var AccountController = {
   postLogin: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password cannot be blank').notEmpty();
-  
+
     var errors = req.validationErrors();
-  
+
     if (errors) {
       req.flash('errors',  { msg: errors});
       return res.redirect('/login');
     }
-  
+
     passport.authenticate('local', function(err, user, info) {
       if (err) {
         return next(err);
@@ -58,7 +58,7 @@ var AccountController = {
         req.flash('errors', { msg: info.message });
         return res.redirect('/login');
       }
-      
+
       req.logIn(user, function(err) {
         if (err) {
           req.flash('errors', { msg: err.message });
@@ -102,10 +102,10 @@ var AccountController = {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 6 characters long').len(6);
     req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-  
+
     var errors = req.validationErrors();
     var userData = {};
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/signup');
@@ -125,9 +125,9 @@ var AccountController = {
         if (err) {
           return next(err);
         }
-        
+
         res.redirect('/admin/account');
-      });         
+      });
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
@@ -164,7 +164,7 @@ var AccountController = {
       req.flash('errors', { msg: error.message });
       return res.redirect('/forgot');
     });
-  }, 
+  },
 
 
   /**
@@ -174,14 +174,14 @@ var AccountController = {
   postReset: function (req, res, next) {
     req.assert('password', 'Password must be at least 6 characters long.').len(6);
     req.assert('confirm', 'Passwords must match.').equals(req.body.password);
-  
+
     var errors = req.validationErrors();
 
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
-  
+
     async.waterfall([
       function(done) {
         var user =  new User();
@@ -205,7 +205,7 @@ var AccountController = {
           .otherwise(function (error) {
             next({errors: {msg: error.message}});
           });
-        })              
+        })
         .otherwise(function (error) {
           next({errors: {msg: error.message}});
         });
@@ -216,7 +216,7 @@ var AccountController = {
           subject: 'Your NodeZA password has been changed',
           body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
         };
-        
+
         mailGun.sendEmail(mailOptions, function (error, res) {
           req.flash('success', {msg: 'Your account has been updated'});
           done(error);
@@ -230,7 +230,7 @@ var AccountController = {
       res.redirect('/');
     });
   },
-  
+
 
   /**
    * GET /forgot
@@ -244,21 +244,21 @@ var AccountController = {
     });
   },
 
-  
+
   /**
    * POST /forgot
    * Create a random token, then the send user an email with a reset link.
    */
   postForgot: function (req, res, next) {
     req.assert('email', 'Please enter a valid email address.').isEmail();
-  
+
     var errors = req.validationErrors();
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/forgot');
     }
-  
+
     async.waterfall([
       function (done) {
         crypto.randomBytes(16, function (err, buf) {
@@ -274,7 +274,7 @@ var AccountController = {
             req.flash('errors', {msg: 'No account with that email address exists.' });
             return res.redirect('/forgot');
           }
-  
+
           user.save({
             resetPasswordToken: token,
             resetPasswordExpires: datetime(Date.now() + 3600000)
@@ -324,7 +324,7 @@ var AccountController = {
       title: 'My Account',
       description: 'My account details',
       page: 'account',
-      gravatar: req.user.gravatar()
+      gravatar: req.user.gravatar(100)
     });
   },
 
@@ -399,7 +399,7 @@ var AccountController = {
     req.assert('name', 'Name must be at least 3 characters long').len(3);
 
     var errors = req.validationErrors();
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/admin/account');
@@ -444,7 +444,7 @@ var AccountController = {
   */
   postDeleteAccount: function(req, res, next) {
     var user = req.user;
-    
+
     user.deleteAccount(user.get('id'))
     .then(function () {
       req.logout();
@@ -452,7 +452,7 @@ var AccountController = {
     })
     .otherwise(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('/admin/account');        
+      res.redirect('/admin/account');
     });
   },
 
@@ -463,14 +463,14 @@ var AccountController = {
    */
   getOauthUnlink: function(req, res, next) {
     var provider = req.params.provider;
-    
+
     req.user.unlink(provider)
     .then(function (msg) {
-      req.flash('info', {msg: msg}); 
+      req.flash('info', {msg: msg});
       res.redirect('/admin/account/linked');
     })
     .otherwise(function (error) {
-      req.flash('error', {msg: error.message}); 
+      req.flash('error', {msg: error.message});
       next({'errors': {msg: error.message}});
     });
   }

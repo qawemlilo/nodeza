@@ -32,7 +32,10 @@ module.exports = function (config) {
   var day = (1000 * 60 * 60) * 24;
   var maxAge = day * config.site.maxAge;
 
-  var csrfWhitelist = config.site.csrfWhitelist;
+  var csrfWhitelist = config.site.csrfWhitelist || [];
+
+
+  csrfWhitelist.push('/pull');
 
   // port
   server.set('port', process.env.PORT || config.site.port);

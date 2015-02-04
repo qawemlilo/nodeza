@@ -34,7 +34,7 @@ module.exports = function (config) {
   var csrfWhitelist = config.site.csrfWhitelist;
 
 
-  // port
+  // server port
   server.set('port', process.env.PORT || config.site.port);
 
   //server.set('ipAddress', process.env.PORT || config.site.ipAddress);

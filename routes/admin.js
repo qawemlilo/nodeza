@@ -25,5 +25,7 @@ module.exports = function (app, AdminController) {
         console.error(error);
       }
     });
+
+    res.end('done!');
   });
 };

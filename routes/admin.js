@@ -18,11 +18,11 @@ module.exports = function (app, AdminController) {
 
   app.post('/pull', function (req, res) {
     exec('cd /var/repos/nodeza && git pull', function (error, stdout, stderr) {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
+      console.log(stdout);
+      console.log(stderr);
 
       if (error !== null) {
-        console.log('exec error: ' + error);
+        console.error(error);
       }
     });
   });

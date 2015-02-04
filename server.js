@@ -25,7 +25,6 @@ module.exports = function (config) {
    */
   var server = express();
 
-
   /**
    * Express configuration.
    */
@@ -42,7 +41,6 @@ module.exports = function (config) {
 
   // define views folder
   server.set('views', path.join(__dirname, 'views'));
-
 
   /*
    * Handlebars settings

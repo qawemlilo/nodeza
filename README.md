@@ -136,7 +136,7 @@ npm test
 
 To-Do
 -----
-[Check out the our trello board](https://trello.com/b/pSAfnOim/nodeza)
+[Check out our trello board](https://trello.com/b/pSAfnOim/nodeza)
 
 
 Contributing

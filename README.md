@@ -136,19 +136,7 @@ npm test
 
 To-Do
 -----
-1. Images - Logo, Banners: home, events, meetups, Node.js Cape Town, Node.Jozi, Nodebots Capetown, blog list default image
-3. Mail admin - create mail ui in admin area
-5. Newsletter - design & layout, topics/categories, operation plan, mailchimp integration, and functionality
-6. Feedback - uservoice integration
-8. Add trello hooks to github repo
-9. Build admin interface for widgets
-10. Create companies feature
-11. Create Jobs feature
-12. Write more tests and improve existing ones
-13. Add build tools
-14. Create site content
-17. Add Google related stuff - analytics, sitemap, robots.txt, e.t.c
-18. Create social pages - twitter and google+
+[Check out the our trello board](https://trello.com/b/pSAfnOim/nodeza)
 
 
 Contributing

@@ -38,6 +38,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.7.5",
     "express-validator": "^2.3.0",
+    "feed": "^0.2.6",
     "github-api": "^0.7.0",
     "hbs": "^2.7.0",
     "hiredis": "^0.1.17",

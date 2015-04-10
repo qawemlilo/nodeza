@@ -31,92 +31,81 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
 
   Cache: {},
 
- 
+
   /**
    * Creates pagination data
    *
-   * @returns: {Promiscollectione} - resolves with pagination
-  */ 
+   * @returns: {Promise} - resolves with pagination
+  */
   makePages: function (totalRecords) {
     var self = this;
+    var CURRENTPAGE = self.currentpage;
     var totalpages = Math.ceil(totalRecords / self.limit);
     var groups = Math.ceil(totalpages / self.paginationLimit);
-    var currentpage = self.currentpage; 
-    var items = [];
-    var prev = currentpage - 1;
-    var next = currentpage + 1;
-    var isFirstPage = currentpage === 1;
-    var lastpage = totalpages;
-    var isLastPage = currentpage === lastpage;
-    var highestF = currentpage + 2;
-    var lowestF = currentpage - 2;
-    var counterLimit = totalpages - 2; 
+    var pages = [];
+    var highestF = CURRENTPAGE + 2;
+    var lowestF = CURRENTPAGE - 2;
+    var COUNTERLIMIT = totalpages - 2;
+    var page;
 
-
+    // we have groups of pagination
     if (groups > 1) {
-      items.push(1);
-      items.push(2);
-      
+      pages.push(1);
+      pages.push(2);
+
       // if our current page is higher than 3
       if (lowestF > 3) {
-        items.push('...');
+        pages.push('...');
 
         //lets check if we our current page is towards the end
-        if (lastpage - currentpage < 2) {
-           lowestF -=  3; // add more previous links       
+        if (totalpages - CURRENTPAGE < 2) {
+          lowestF -=  3; // add more previous links
         }
       }
       else {
         lowestF = 3; // lowest num to start looping from
       }
 
-      for (var counter = lowestF; counter < lowestF + 5; counter++) {
-        if (counter > counterLimit) {
-          break;
-        }
+      for (page = lowestF; page < lowestF + 5; page++) {
+        if (page > COUNTERLIMIT) break;
 
-        items.push(counter);
+        pages.push(page);
       }
-        
+
       // if current page not towards the end
-      if (highestF < totalpages - 2) {
-        items.push('...');
-      }
+      if (highestF < COUNTERLIMIT) pages.push('...');
 
-      items.push(lastpage - 1);
-      items.push(lastpage);
+      pages.push(totalpages - 1);
+      pages.push(totalpages);
     }
     else {
       // no complex pagination required
-      for (var counter2 = 1; counter2 <= lastpage; counter2++) {
-        items.push(counter2);
+      for (page = 1; page <= totalpages; page++) {
+        pages.push(page);
       }
     }
-      
-      
-    var pages = {
-      items: items,
-      currentpage: currentpage,
+
+    self.pages = {
       base: self.base,
-      isFirstPage: isFirstPage,
-      isLastPage: isLastPage,
-      next: next,
-      prev: prev,
+      items: pages,
+      currentpage: CURRENTPAGE,
+      isFirstPage: (CURRENTPAGE === 1),
+      isLastPage: (CURRENTPAGE === totalpages),
+      next: (CURRENTPAGE + 1),
+      prev: (CURRENTPAGE - 1),
       total: totalRecords,
       limit: self.limit
     };
-    
-    self.pages = pages;
 
-    return pages;
+    return self.pages;
   },
 
- 
+
   /**
    * Creates pagination data
    *
    * @returns: {Promiscollectione} - resolves with pagination
-  */ 
+  */
   paginate: function () {
     var self = this;
     var query = self.model.forge().query();
@@ -124,12 +113,12 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
 
     if (self.whereQuery.length) {
       query.where(self.whereQuery[0], self.whereQuery[1], self.whereQuery[2]);
-    }  
+    }
 
     if (self.andWhereQuery.length) {
       query.andWhere(self.andWhereQuery[0], self.andWhereQuery[1], self.andWhereQuery[2]);
     }
-    
+
     return query.count('id AS total')
     .then(function (results) {
       totalpages = results[0].total;
@@ -140,26 +129,26 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     });
   },
 
-  
+
   /**
    * fetches posts and orders them by {sortColumn}
    * @returns: {Promise} - resolves with Collection
   */
   fetchBy: function (sortColumn, options, fetchOptions) {
-    
+
     options = options || {};
     fetchOptions = fetchOptions || {};
 
     var self = this;
     var limit = parseInt(options.limit, 10) || self.limit;
     var currentpage = parseInt(options.page, 10) || self.currentpage;
-    var order = options.order || self.order; 
+    var order = options.order || self.order;
     var whereQuery = options.where || self.whereQuery;
     var andWhereQuery = options.andWhere || self.andWhereQuery;
+    var posts = self.constructor.forge();
 
     /*
-     *  Let's make sure the filters are available
-     *  for pagination
+     *  Let's make sure the filters are available for pagination
     **/
     self.currentpage = currentpage;
     self.whereQuery = whereQuery;
@@ -168,13 +157,14 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     self.order = order;
     self.base = options.base || self.base;
 
-    var posts = self.constructor.forge();
-    
     function fetch() {
       return posts.query(function (query) {
         query.limit(limit);
-        query.where(whereQuery[0], whereQuery[1], whereQuery[2]);
-        
+
+        if (whereQuery.length) {
+          query.where(whereQuery[0], whereQuery[1], whereQuery[2]);
+        }
+
         if (andWhereQuery.length) {
           query.andWhere(andWhereQuery[0], andWhereQuery[1], andWhereQuery[2]);
         }

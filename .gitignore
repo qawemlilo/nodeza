@@ -16,4 +16,6 @@ secrets.json
 node_modules/
 build/
 temp/
-
+public/img/120/
+public/img/320/
+public/img/48/

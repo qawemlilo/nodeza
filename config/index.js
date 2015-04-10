@@ -1,8 +1,9 @@
 "use strict";
 
 var secrets;
+var env = process.env.NODE_ENV || 'development';
 
-switch (process.env.NODE_ENV) {
+switch (env) {
   case 'production':
     secrets = require('../env/production/secrets.json');
   break;

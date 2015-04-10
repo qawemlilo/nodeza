@@ -142,18 +142,12 @@
     lat: "{{meetup.lat}}"
   });
     
-  GMaps.geocode({
-    address: "{{meetup.address}}",
-
-    callback: function(results, status){
-     if (status=='OK'){
-       var latlng = results[0].geometry.location;
-       map.setCenter(latlng.lat(), latlng.lng());
-       map.addMarker({
-         lat: latlng.lat(),
-         lng: latlng.lng()
-       });
-     }
+  map.addMarker({
+    lat: {{meetup.lat}},
+    lng: {{meetup.lng}},
+    title: '{{meetup.title}}',
+    infoWindow: {
+      content: '<p>{{meetup.address}}</p>'
     }
   });
 </script>

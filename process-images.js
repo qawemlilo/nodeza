@@ -7,9 +7,10 @@ var imageResize = require('gulp-image-resize');
 
 function processImg (filename) {
  return gulp.src(filename)
-  .pipe(imagemin({optimizationLevel: 5}))
+  .pipe(imagemin({optimizationLevel: 3}))
   .pipe(gulp.dest('public/img'))
   .pipe(imageResize({
+    format: 'jpg',
     width: 300,
     height: 200,
     crop: true
@@ -17,12 +18,15 @@ function processImg (filename) {
   .pipe(gulp.dest('public/img/320'))
 
   .pipe(imageResize({
+    format: 'jpg',
     width: 120,
-    crop: false
+    height: 120,
+    crop: true
   }))
   .pipe(gulp.dest('public/img/120'))
 
   .pipe(imageResize({
+    format: 'jpg',
     width: 48,
     height: 48,
     crop: true

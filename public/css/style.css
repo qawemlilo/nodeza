@@ -28,6 +28,10 @@ h1, .h1 {
   margin-left: 0px;
 }
 
+h3 a, h1.blog-post-title a, h4 a, h2 a {
+  color: #333;
+}
+
 
 label {
   font-weight: bold;

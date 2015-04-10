@@ -7,6 +7,7 @@
 var Base  = require('./base');
 var Category = require('../models/category');
 
+
 var Categories = Base.Collection.extend({
 
   model: Category

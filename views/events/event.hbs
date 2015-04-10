@@ -81,18 +81,12 @@
     lng: "{{myEvent.lng}}"
   });
     
-  GMaps.geocode({
-    address: "{{myEvent.address}}",
-
-    callback: function(results, status){
-     if (status=='OK'){
-       var latlng = results[0].geometry.location;
-       map.setCenter(latlng.lat(), latlng.lng());
-       map.addMarker({
-         lat: latlng.lat(),
-         lng: latlng.lng()
-       });
-     }
+  map.addMarker({
+    lat: {{myEvent.lat}},
+    lng: {{myEvent.lng}},
+    title: '{{myEvent.title}}',
+    infoWindow: {
+      content: '<p>{{myEvent.address}}</p>'
     }
   });
 </script>

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env NODE_ENV=production node index.js",
-    "dev": "env NODE_ENV=development node index.js",
+    "dev": "env NODE_ENV=development nodemon index.js",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
     "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js lib/auth.js",
     "test": "npm run jshint && env NODE_ENV=testing ./node_modules/mocha/bin/mocha test",
@@ -40,6 +40,9 @@
     "express-validator": "^2.3.0",
     "feed": "^0.2.6",
     "github-api": "^0.7.0",
+    "gulp": "^3.8.11",
+    "gulp-image-resize": "^0.6.0",
+    "gulp-imagemin": "^2.2.1",
     "hbs": "^2.7.0",
     "hiredis": "^0.1.17",
     "knex": "^0.6.22",

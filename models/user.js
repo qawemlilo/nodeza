@@ -15,7 +15,7 @@ var Tokens = require('./token');
 var User = Base.Model.extend({
 
   tableName: 'users',
-  
+
 
   hasTimestamps: true,
 
@@ -43,21 +43,21 @@ var User = Base.Model.extend({
 
   generatePasswordHash: function (password) {
     var deferred = when.defer();
-  
+
     bcrypt.genSalt(5, function(err, salt) {
       if (err) {
         deferred.reject(err);
       }
-  
+
       bcrypt.hash(password, salt, null, function(err, hash) {
         if (err) {
           deferred.reject(err);
         }
-        
+
         deferred.resolve(hash);
       });
     });
-  
+
     return deferred.promise;
   },
 
@@ -80,13 +80,13 @@ var User = Base.Model.extend({
   gravatar: function(size, defaults) {
     size = size || 32;
     defaults = defaults || 'retro';
-  
+
     if (!this.get('email')) {
       return 'https://gravatar.com/avatar/?s=' + size + '&d=' + defaults;
     }
-  
+
     var md5 = crypto.createHash('md5').update(this.get('email'));
-    
+
     return 'https://gravatar.com/avatar/' + md5.digest('hex').toString() + '?s=' + size + '&d=' + defaults;
   },
 
@@ -103,7 +103,7 @@ var User = Base.Model.extend({
       });
     }
 
-    return Base.Model.prototype.saving.apply(self, _.toArray(arguments));      
+    return Base.Model.prototype.saving.apply(self, _.toArray(arguments));
   },
 
 
@@ -127,11 +127,11 @@ var User = Base.Model.extend({
             deferred.resolve();
           })
           .otherwise(function (error) {
-            deferred.reject('Action not permitted');
+            deferred.reject(error);
           });
         })
         .otherwise(function (error) {
-          deferred.reject('Action failed');
+          deferred.reject(error);
         });
       }
       else {
@@ -140,12 +140,12 @@ var User = Base.Model.extend({
           deferred.resolve();
         })
         .otherwise(function (error) {
-          deferred.reject('Action not permitted');
-        });       
+          deferred.reject(error);
+        });
       }
     })
     .otherwise(function (error) {
-      deferred.reject('Action not permitted');
+      deferred.reject(error.message);
     });
 
     return deferred.promise;
@@ -160,7 +160,7 @@ var User = Base.Model.extend({
     var deferred = when.defer();
     var tokens = this.related('tokens').toJSON();
     var token = _.findWhere(tokens, {kind: provider});
-    
+
     if (token) {
       if (token.kind === 'github') {
         this.set({'github': null});
@@ -177,7 +177,7 @@ var User = Base.Model.extend({
         Tokens.forge()
         .remove(token.id)
         .then(function(msg) {
-          deferred.resolve(msg); 
+          deferred.resolve(msg);
         })
         .otherwise(function (msg) {
           deferred.reject(msg);
@@ -188,7 +188,7 @@ var User = Base.Model.extend({
       });
     }
     else {
-      deferred.reject('Could not find ' + provider + ' token.'); 
+      deferred.reject('Could not find ' + provider + ' token.');
     }
 
     return deferred.promise;

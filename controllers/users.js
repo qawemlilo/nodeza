@@ -143,7 +143,7 @@ var UsersController = {
       res.redirect('/admin/users');
     })
     .otherwise(function (error) {
-      req.flash('error', {msg: error.message});
+      req.flash('errors', {msg: error.message});
       res.redirect('/admin/users');
     });
   },
@@ -187,12 +187,12 @@ var UsersController = {
         res.redirect('/users/edit/' + model.get('id'));
       })
       .otherwise(function (error) {
-        req.flash('error', {msg: error.message});
+        req.flash('errors', {msg: error.message});
         res.redirect('/admin/users');
       });
     })
     .otherwise(function (error) {
-      req.flash('error', {msg: error.message});
+      req.flash('errors', {msg: error.message});
       res.redirect('/admin/users');
     });
   },

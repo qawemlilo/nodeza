@@ -120,15 +120,11 @@ var User = Base.Model.extend({
       var tokens = user.related('tokens');
 
       if (tokens.length > 0) {
-        tokens.detach()
+        user.tokens().detach();
+
+        user.destroy()
         .then(function () {
-          user.destroy()
-          .then(function () {
-            deferred.resolve();
-          })
-          .otherwise(function (error) {
-            deferred.reject(error);
-          });
+          deferred.resolve();
         })
         .otherwise(function (error) {
           deferred.reject(error);

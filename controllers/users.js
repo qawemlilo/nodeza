@@ -210,7 +210,8 @@ var UsersController = {
       res.redirect('back');
     })
     .otherwise(function (error) {
-      req.flash('errors', { msg: error.message });
+      console.log(error.message);
+      req.flash('error', { msg: error.message });
       res.redirect('/admin/users');
     });
   }

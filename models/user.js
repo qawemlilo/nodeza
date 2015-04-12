@@ -145,7 +145,7 @@ var User = Base.Model.extend({
       }
     })
     .otherwise(function (error) {
-      deferred.reject(error.message);
+      deferred.reject(error);
     });
 
     return deferred.promise;

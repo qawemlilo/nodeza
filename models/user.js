@@ -115,12 +115,12 @@ var User = Base.Model.extend({
     var deferred = when.defer();
 
     User.forge({id: userId})
-    .fetch({withRelated: ['tokens']})
+    .fetch({withRelated: ['tokens'], require: true})
     .then(function (user) {
       var tokens = user.related('tokens');
 
       if (tokens.length > 0) {
-        user.tokens().detach();
+        user.tokens().detach(null, _.omit(options, 'query'));
 
         user.destroy()
         .then(function () {

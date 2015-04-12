@@ -204,13 +204,14 @@ var UsersController = {
   */
   getDeleteUser: function(req, res, next) {
     var user = new User();
+
     user.deleteAccount(req.params.id)
     .then(function (msg) {
       req.flash('success', {msg: 'User successfully deleted.'});
       res.redirect('back');
     })
     .otherwise(function (error) {
-      console.log(error.message);
+      console.log(error.stack);
       req.flash('error', { msg: error.message });
       res.redirect('/admin/users');
     });

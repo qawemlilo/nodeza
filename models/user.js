@@ -113,15 +113,19 @@ var User = Base.Model.extend({
   **/
   deleteAccount: function(userId) {
     var deferred = when.defer();
+    var user = new User({id: userId})
 
-    User.forge({id: userId})
-    .fetch({withRelated: ['tokens'], require: true})
-    .then(function (user) {
-      var tokens = user.related('tokens');
+
+    user.fetch({withRelated: ['tokens'], require: true})
+    .then(function (model) {
+      var tokens = model.related('tokens');
+
+      console.log(tokens);
 
       if (tokens.length > 0) {
+        tokens().detach();
 
-        user.destroy()
+        model.destroy()
         .then(function () {
           deferred.resolve();
         })
@@ -130,7 +134,7 @@ var User = Base.Model.extend({
         });
       }
       else {
-        user.destroy()
+        model.destroy()
         .then(function () {
           deferred.resolve();
         })

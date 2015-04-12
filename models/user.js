@@ -113,7 +113,7 @@ var User = Base.Model.extend({
   **/
   deleteAccount: function(userId) {
     var deferred = when.defer();
-    var user = new User({id: userId})
+    var user = new User({id: userId});
 
 
     user.fetch({withRelated: ['tokens'], require: true})
@@ -123,7 +123,7 @@ var User = Base.Model.extend({
       console.log(tokens);
 
       if (tokens.length > 0) {
-        tokens().detach();
+        tokens.detach();
 
         model.destroy()
         .then(function () {

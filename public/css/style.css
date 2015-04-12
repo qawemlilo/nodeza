@@ -79,12 +79,9 @@ ul.styled-lists li:before {
   margin-top: -20px;
 }
 
-/*
-
 #jumbotron.home {
-  background: url(../img/nodejs_bg.jpg) no-repeat center center;
+  background: url(../img/banner_io.jpg) no-repeat center center;
 }
-*/
 
 #jumbotron.cape-town-nodebots {
   background: url(../img/cape_town_nodebots.jpg) no-repeat center center;

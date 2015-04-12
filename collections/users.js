@@ -11,9 +11,9 @@ var User = require('../models/user');
 var Users = Base.Collection.extend({
 
   model: User,
-  
 
-  base: '/account/users'
+
+  base: '/admin/users'
 
 });
 

@@ -88,7 +88,7 @@ var UsersController = {
   getUsers: function (req, res) {
     var users = new Users();
     var page = parseInt(req.query.p, 10);
-    var currentpage = page || 1; 
+    var currentpage = page || 1;
     var opts = {
       limit: 10,
       page: currentpage,
@@ -109,7 +109,7 @@ var UsersController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -210,8 +210,8 @@ var UsersController = {
       res.redirect('back');
     })
     .otherwise(function (error) {
-      req.flash('error', { msg: error.message });
-      res.redirect('/admin/users');        
+      req.flash('errors', { msg: error.message });
+      res.redirect('/admin/users');
     });
   }
 };

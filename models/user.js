@@ -120,7 +120,6 @@ var User = Base.Model.extend({
       var tokens = user.related('tokens');
 
       if (tokens.length > 0) {
-        user.tokens().detach(null);
 
         user.destroy()
         .then(function () {

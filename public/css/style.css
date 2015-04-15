@@ -32,6 +32,12 @@ h3 a, h1.blog-post-title a, h4 a, h2 a {
   color: #333;
 }
 
+blockquote p {
+  margin-top: 0px!important;
+  font-size: 16px;
+  font-style: italic;
+}
+
 
 label {
   font-weight: bold;

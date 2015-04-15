@@ -34,17 +34,17 @@ var Events = Base.Collection.extend({
       oct: {firstday: '01', month: '10', lastday: '31'},
       nov: {firstday: '01', month: '11', lastday: '30'},
       dec: {firstday: '01', month: '12', lastday: '31'}
-    };  
-  
+    };
+
     var dateObj = Months[mon];
-  
+
     firstday = year + '-' + dateObj.month + '-' +  dateObj.firstday;
     lastday = year + '-' + dateObj.month + '-' +  dateObj.lastday;
-  
+
     firstday = moment(firstday, "YYYY-MM-DD").subtract(1, 'days').format("YYYY-MM-DD");
     lastday = moment(lastday, "YYYY-MM-DD").add(1, 'days').format("YYYY-MM-DD");
-    
-    return { 
+
+    return {
       firstday: firstday,
       lastday: lastday
     };
@@ -65,7 +65,7 @@ var Events = Base.Collection.extend({
 
 
   today: function () {
-    return new Date(Date.now()).toISOString().slice(0, 19).replace('T', ' ');
+    return moment();
   }
 });
 

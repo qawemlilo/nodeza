@@ -16,18 +16,18 @@ module.exports.exec = function (App) {
 
   return events.fetchBy('dt', {
     limit: 4,
-    where: ['dt', '>', events.today()],
+    where: ['dt', '>', new Date()],
     order: 'asc',
     noPagination: true
   }, {columns: ['slug', 'dt', 'title']})
-  .then(function (collection) { 
+  .then(function (collection) {
     // if the collection has less than 4 items
     if (collection.length < 4) {
       var diff = 4 - collection.length;
 
       return events.fetchBy('dt', {
         limit: diff,
-        where: ['dt', '<', events.today()],
+        where: ['dt', '<', new Date()],
         order: 'desc',
         noPagination: true
       }, {columns: ['slug', 'dt', 'title']})
@@ -37,11 +37,11 @@ module.exports.exec = function (App) {
         });
 
         App.setCache('featuredevents', collection);
-        
+
         return collection;
       });
     }
-    
+
     App.setCache('featuredevents', collection);
 
     return collection;

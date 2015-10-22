@@ -14,6 +14,11 @@ var Tokens = require('./token');
 
 var User = Base.Model.extend({
 
+  defaults: {
+    role_id: 1
+  },
+
+
   tableName: 'users',
 
 

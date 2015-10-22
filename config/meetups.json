@@ -1,0 +1,8 @@
+{
+    "meetupsPerPage": "4",
+    "showTags": true,
+    "showDate": true,
+    "title": "Meetups",
+    "showComments": true,
+    "description": "Find a Node.js meetup group near you"
+}

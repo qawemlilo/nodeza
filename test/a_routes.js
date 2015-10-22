@@ -8,14 +8,15 @@ describe('Routes', function(){
   var server;
 
   before(function (done) {
-    app.init(3002);
-    server = app.server;
+    app.init(3002, function () {
+      server = app.server;
 
-    user.forge({id: 1})
-    .fetch({withRelated: ['role', 'tokens']})
-    .then(function (model) {
-      app.user = model;
-      done();
+      user.forge({id: 1})
+      .fetch({withRelated: ['role', 'tokens']})
+      .then(function (model) {
+        app.user = model;
+        done();
+      });
     });
   });
 
@@ -27,9 +28,9 @@ describe('Routes', function(){
         .expect(404, done);
     });
   });
-  
-  
-  
+
+
+
   describe('GET /login', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -37,8 +38,8 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
-  
+
+
   describe('GET /forgot', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -46,8 +47,8 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
-  
+
+
   describe('GET /signup', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -55,8 +56,8 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
-  
+
+
   describe('GET /devs/:slug', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -64,8 +65,8 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
-  
+
+
   describe('GET /admin/account', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -78,8 +79,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/events', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -92,8 +93,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/meetups', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -106,8 +107,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/blog', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -120,8 +121,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/account/password', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -134,8 +135,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/account/linked', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -148,8 +149,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/blog/categories', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -162,8 +163,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/users', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -176,8 +177,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/users/roles', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -190,8 +191,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/links', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -204,8 +205,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/routes', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -218,8 +219,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /admin/menus', function() {
     it('should redirect to login and return 302', function(done) {
       request(server)
@@ -232,8 +233,8 @@ describe('Routes', function(){
         });
     });
   });
-  
-  
+
+
   describe('GET /events', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -241,7 +242,7 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
+
   describe('GET /blog', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -249,8 +250,8 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
-  
+
+
   describe('GET /meetups', function() {
     it('should return 200 OK', function(done) {
       request(server)
@@ -258,7 +259,7 @@ describe('Routes', function(){
         .expect(200, done);
     });
   });
-  
+
   describe('GET /', function() {
     it('should return 200 OK', function(done) {
       request(server)

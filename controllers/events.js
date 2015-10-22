@@ -7,7 +7,7 @@ var moment = require('moment');
 
 
 var EventsController = {
-  
+
   /*
    * GET /events/new
    * load new event page
@@ -88,7 +88,7 @@ var EventsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Event not found.'});
-      res.redirect('/admin/events');       
+      res.redirect('/admin/events');
     });
   },
 
@@ -102,7 +102,7 @@ var EventsController = {
     var events = new Events();
 
     res.locals._page = 'events';
-  
+
     var page = parseInt(req.query.p, 10);
     var query = {};
     var currentpage = page || 1;
@@ -114,7 +114,7 @@ var EventsController = {
 
     query.limit = limit;
     query.month = month;
-  
+
     if (currentpage < 1) {
       res.redirect('/events');
     }
@@ -160,7 +160,7 @@ var EventsController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -172,7 +172,7 @@ var EventsController = {
    */
   getEventsByCity: function (req, res, next) {
     var events = new Events();
-  
+
     var page = parseInt(req.query.p, 10);
     var query = {};
     var currentpage = page || 1;
@@ -183,7 +183,7 @@ var EventsController = {
 
     query.limit = limit;
     query.month = month;
-  
+
     if (currentpage < 1) {
       res.redirect('/events');
     }
@@ -218,7 +218,7 @@ var EventsController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -229,7 +229,7 @@ var EventsController = {
    */
   getAdmin: function (req, res, next) {
     var events = new Events();
-  
+
     var page = parseInt(req.query.p, 10);
     var query = {};
     var currentpage = page || 1;
@@ -242,7 +242,7 @@ var EventsController = {
       andWhere: [],
       base: '/admin/events'
     };
-  
+
     if (currentpage < 1) {
       res.redirect('/admin/events');
     }
@@ -264,7 +264,7 @@ var EventsController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -279,11 +279,11 @@ var EventsController = {
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
-  
+
     var errors = req.validationErrors();
     var eventData = {};
     var cleanDate = (req.body.date).split('/').join(' ');
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/events/new');
@@ -308,7 +308,7 @@ var EventsController = {
     eventData.number = req.body.number;
 
     var event = new Event(eventData);
-    
+
     event.save()
     .then(function (model) {
       req.flash('success', { msg: 'Event successfully created!' });
@@ -331,17 +331,17 @@ var EventsController = {
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
-  
+
     var errors = req.validationErrors();
     var eventData = {};
     var user = req.user;
     var cleanDate = (req.body.date).split('/').join(' ');
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
-    
+
     eventData.id = req.body.event_id;
     eventData.title = req.body.title;
     eventData.short_desc = req.body.short_desc;
@@ -361,7 +361,7 @@ var EventsController = {
     eventData.number = req.body.number;
 
     var event = new Event({id: eventData.id});
-    
+
     event.fetch()
     .then(function (model) {
       model.save(eventData, {method: 'update'})
@@ -384,7 +384,7 @@ var EventsController = {
   **/
   getDelete: function(req, res) {
     var event = new Event({id: req.params.id});
-    
+
     event.fetch()
     .then(function (event) {
       event.destroy()

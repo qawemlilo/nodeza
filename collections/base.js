@@ -5,7 +5,7 @@
 **/
 
 var when = require('when');
-var Bookshelf  = require('../app').bookshelf;
+var Bookshelf  = require('../app').Bookshelf;
 
 
 Bookshelf.Collection = Bookshelf.Collection.extend({
@@ -37,7 +37,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
    *
    * @returns: {Promise} - resolves with pagination
   */
-  makePages: function (totalRecords) {
+  getData: function (totalRecords) {
     var self = this;
     var CURRENTPAGE = self.currentpage;
     var totalpages = Math.ceil(totalRecords / self.limit);
@@ -123,7 +123,7 @@ Bookshelf.Collection = Bookshelf.Collection.extend({
     .then(function (results) {
       totalpages = results[0].total;
 
-      self.makePages(totalpages);
+      self.getData(totalpages);
 
       return totalpages;
     });

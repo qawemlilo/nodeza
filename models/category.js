@@ -2,8 +2,8 @@
 
 /**
  * Module dependencies.
- */
- 
+**/
+
 var Base  = require('./base');
 
 

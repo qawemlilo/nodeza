@@ -10,10 +10,10 @@ module.exports = {
   links: require('./links'),
   meetups: require('./meetups'),
   menus: require('./menus'),
-  posts: require('./posts'),
   roles: require('./roles'),
   routes: require('./routes'),
   site: require('./site'),
+  users: require('./users'),
   tags: require('./tags'),
-  users: require('./users')
+  posts: require('./posts')
 };

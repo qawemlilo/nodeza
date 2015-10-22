@@ -1,0 +1,10 @@
+{
+    "postsPerPage": "5",
+    "showAuthor": true,
+    "showTags": true,
+    "showDate": true,
+    "showComments": true,
+    "title": "Blog",
+    "showShareButtons": true,
+    "description": "Node.js news, articles, tutorials, and more... "
+}

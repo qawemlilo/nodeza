@@ -7,10 +7,10 @@
     "start": "env NODE_ENV=production node index.js",
     "dev": "env NODE_ENV=development nodemon index.js",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
-    "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js lib/auth.js",
+    "jshint": "jshint models collections controllers lib sql routes widgets test app.js server.js index.js lib/auth.js",
     "test": "npm run jshint && env NODE_ENV=testing ./node_modules/mocha/bin/mocha test",
     "setup": "node sql/dbsetup.js && node sql/migrate.js",
-    "precommit": "npm test",
+    
     "prepush": "npm shrinkwrap && npm test",
     "postmerge": "npm install"
   },
@@ -30,7 +30,7 @@
     "async": "^0.9.0",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.0.2",
-    "bookshelf": "^0.7.7",
+    "bookshelf": "^0.8.1",
     "compression": "^1.0.1",
     "connect-assets": "^3.0.0-beta2",
     "connect-mongo": "^0.4.0",
@@ -42,6 +42,7 @@
     "express-session": "^1.7.5",
     "express-validator": "^2.3.0",
     "feed": "^0.2.6",
+    "ghost-sandbox": "^0.1.1",
     "github-api": "^0.7.0",
     "gulp": "^3.8.11",
     "gulp-image-resize": "^0.6.0",
@@ -73,7 +74,8 @@
     "uglify-js": "^2.4.15",
     "unidecode": "^0.1.3",
     "validator": "^3.17.0",
-    "when": "^3.4.3"
+    "when": "^3.4.3",
+    "widget-loader": "^0.1.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",

@@ -17,7 +17,7 @@ var LinksController = {
     var menus = new Menus();
     var routes = new Routes();
     var data = {};
-    
+
     routes.fetch()
     .then(function (collection) {
       return collection;
@@ -43,7 +43,7 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/links');      
+      res.redirect('/admin/links');
     });
   },
 
@@ -57,7 +57,7 @@ var LinksController = {
     var routes = new Routes();
     var link = new LinkModel({id: req.params.id});
     var data = {};
-    
+
     routes.fetch()
     .then(function (collection) {
       return collection;
@@ -90,7 +90,7 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/links');      
+      res.redirect('/admin/links');
     });
   },
 
@@ -124,7 +124,7 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -232,7 +232,7 @@ var LinksController = {
     })
     .otherwise(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

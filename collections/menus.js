@@ -4,7 +4,7 @@
  * Blog categories collection
 **/
 
-var Bookshelf  = require('../app').bookshelf;
+var Bookshelf  = require('./base');
 var Menu = require('../models/menu');
 
 var Menus = Bookshelf.Collection.extend({

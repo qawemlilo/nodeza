@@ -24,7 +24,7 @@ var ContactController = {
       subject: req.body.subject,
       body: req.body.message
     };
-    
+
     mailGun.sendEmail(mailOptions, function (error, data) {
       if (error) {
         console.log(error);
@@ -33,7 +33,7 @@ var ContactController = {
       else {
         req.flash('success', {msg: 'You message has been successfully sent.'});
       }
-      
+
       res.redirect('back');
     });
   }

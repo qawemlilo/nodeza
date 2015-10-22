@@ -4,6 +4,7 @@ var Users = require('../collections/users');
 var Roles = require('../collections/roles');
 var Role = require('../models/roles');
 var User = require('../models/user');
+var _ = require('lodash');
 
 
 var UsersController = {
@@ -129,12 +130,7 @@ var UsersController = {
       return res.redirect('back');
     }
 
-    var details = {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      role_id: 1
-    };
+    var details = _.pick(req.body, ['name', 'email', 'password']);
 
     User.forge(details)
     .save()
@@ -163,11 +159,7 @@ var UsersController = {
       return res.redirect('back');
     }
 
-    var details = {
-      name: req.body.name,
-      email: req.body.email,
-      role_id: req.body.role_id
-    };
+    var details = _.pick(req.body, ['name', 'email', 'role_id']);
 
     if (req.body.password) {
       if (req.body.password !== req.body.confirmPassword) {

@@ -27,7 +27,7 @@ var CategoriesController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Category not found.'});
-      res.redirect('/admin/blog/categories');      
+      res.redirect('/admin/blog/categories');
     });
   },
 
@@ -62,7 +62,7 @@ var CategoriesController = {
     })
     .otherwise(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/admin/blog');      
+      res.redirect('/admin/blog');
     });
   },
 
@@ -169,7 +169,7 @@ var CategoriesController = {
     })
     .otherwise(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

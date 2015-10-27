@@ -1,10 +1,29 @@
 
 var should = require('chai').should();
 var Posts = require('../collections/posts');
-
+var postsData = require('../sql/data/posts');
 
 
 describe('Posts', function(){
+
+  var newposts;
+
+  before(function (done) {
+    var postsArr = [];
+
+    postsData.forEach(function (item) {
+      postsArr.push(item.data);
+    });
+
+    newposts = new Posts(postsArr);
+
+    newposts.invokeThen('save').then(function() {
+      done();
+    }).
+    catch(function (error) {
+      done(error);
+    });
+  });
 
   describe('#fetchBy views', function() {
     it('should fetch posts and order by views', function(done){
@@ -17,7 +36,7 @@ describe('Posts', function(){
         collection.length.should.be.equal(2);
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -34,24 +53,21 @@ describe('Posts', function(){
         collection.length.should.be.equal(2);
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
   });
 
-  describe('#featured', function() {
-    it('should fetch featured posts', function(done){
-      var posts = new Posts();
-
-      posts.featured(1)
-      .then(function (collection) {
-        collection.length.should.be.equal(1);
+  describe('#fetchBy created_at', function() {
+    it('should fetch posts and order by created_at', function(done){
+      newposts.invokeThen('destroy').then(function() {
         done();
-      })
-      .otherwise(function (error) {
+      }).
+      catch(function (error) {
         done(error);
       });
     });
   });
+
 });

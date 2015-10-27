@@ -81,7 +81,7 @@ var PostsController = {
       // post has been viewed
       post.viewed();
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Page not found :('});
       res.redirect('/blog');
     });
@@ -111,12 +111,12 @@ var PostsController = {
           post: post.toJSON()
         });
       })
-      .otherwise(function () {
+      .catch(function () {
         req.flash('errors', {'msg': 'Post not found.'});
         res.redirect('/admin/blog');
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Categories not found.'});
       res.redirect('/admin/blog');
     });
@@ -158,7 +158,7 @@ var PostsController = {
         config: settings
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/');
     });
@@ -206,12 +206,12 @@ var PostsController = {
           query: {}
         });
       })
-      .otherwise(function () {
+      .catch(function () {
         req.flash('errors', {'msg': 'Database error.'});
         res.redirect('/');
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error.'});
       res.redirect('/');
     });
@@ -252,7 +252,7 @@ var PostsController = {
         query: {}
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error.'});
       res.redirect('/');
     });
@@ -276,7 +276,7 @@ var PostsController = {
         categories: collection.toJSON()
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error.'});
       res.redirect('/admin/blog');
     });
@@ -325,7 +325,7 @@ var PostsController = {
       req.session.clearCache = true;
       res.redirect('/blog/edit/' + model.get('id'));
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: 'Post could not be created.'});
       res.redirect('/admin/blog');
     });
@@ -379,12 +379,12 @@ var PostsController = {
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', {msg: error.message});
         res.redirect('/admin/blog');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('/admin/blog');
     });
@@ -405,7 +405,7 @@ var PostsController = {
       req.session.clearCache = true;
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('info', {msg: error.message});
       res.redirect('back');
     });
@@ -427,7 +427,7 @@ var PostsController = {
       req.flash('success', {msg: 'Post successfully ' + msg});
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('info', {msg: error.message});
       res.redirect('back');
     });

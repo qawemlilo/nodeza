@@ -28,7 +28,7 @@ var UsersController = {
 
       profile.viewed();
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('back');
     });
@@ -68,12 +68,12 @@ var UsersController = {
           page: 'edituser'
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': error.message});
         res.redirect('/admin/users');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/admin/users');
     });
@@ -107,7 +107,7 @@ var UsersController = {
         query: {}
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/');
     });
@@ -142,7 +142,7 @@ var UsersController = {
       req.flash('success', {msg: 'User account created'});
       res.redirect('/admin/users');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {msg: error.message});
       res.redirect('/admin/users');
     });
@@ -186,12 +186,12 @@ var UsersController = {
         req.flash('success', {msg: 'User information updated.'});
         res.redirect('/users/edit/' + model.get('id'));
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {msg: error.message});
         res.redirect('/admin/users');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {msg: error.message});
       res.redirect('/admin/users');
     });
@@ -210,7 +210,7 @@ var UsersController = {
       req.flash('success', {msg: 'User successfully deleted.'});
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log(error.stack);
       req.flash('error', { msg: error.message });
       res.redirect('/admin/users');

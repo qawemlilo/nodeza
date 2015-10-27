@@ -10,12 +10,12 @@ describe('Categories Widget', function(){
   describe('#exec', function() {
     it('should return widget props with categories collection', function(done){
 
-      Categories.exec(App) 
+      Categories.exec(App)
       .then(function (collection) {
         collection.length.should.above(0);
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

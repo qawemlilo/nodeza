@@ -127,7 +127,7 @@ var User = Base.Model.extend({
         .then(function () {
           deferred.resolve();
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           deferred.reject(error);
         });
       }
@@ -136,12 +136,12 @@ var User = Base.Model.extend({
         .then(function () {
           deferred.resolve();
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           deferred.reject(error);
         });
       }
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       deferred.reject(error);
     });
 
@@ -176,11 +176,11 @@ var User = Base.Model.extend({
         .then(function(msg) {
           deferred.resolve(msg);
         })
-        .otherwise(function (msg) {
+        .catch(function (msg) {
           deferred.reject(msg);
         });
       })
-      .otherwise(function () {
+      .catch(function () {
         deferred.reject('Database error. Failed to update user ' + provider + ' id.');
       });
     }

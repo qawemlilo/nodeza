@@ -129,7 +129,7 @@ var AccountController = {
         res.redirect('/admin/account');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/signup');
     });
@@ -160,7 +160,7 @@ var AccountController = {
         page: 'resetpassword'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', { msg: error.message });
       return res.redirect('/forgot');
     });
@@ -202,11 +202,11 @@ var AccountController = {
               done(err, user);
             });
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             next({errors: {msg: error.message}});
           });
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           next({errors: {msg: error.message}});
         });
       },
@@ -282,11 +282,11 @@ var AccountController = {
           .then(function(model) {
             done(false, token, model);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             done(error);
           });
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           done(error);
         });
       },
@@ -383,7 +383,7 @@ var AccountController = {
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/admin/account/password');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
       res.redirect('/admin/account/password');
     });
@@ -426,12 +426,12 @@ var AccountController = {
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/admin/account');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', {msg: error.message});
         res.redirect('/admin/account');
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('error', {msg: 'Account not found.'});
       res.redirect('/');
     });
@@ -450,7 +450,7 @@ var AccountController = {
       req.logout();
       res.redirect('/');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
       res.redirect('/admin/account');
     });
@@ -469,7 +469,7 @@ var AccountController = {
       req.flash('info', {msg: msg});
       res.redirect('/admin/account/linked');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       next({'errors': {msg: error.message}});
     });

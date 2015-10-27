@@ -10,13 +10,13 @@ describe('Users', function(){
   describe('#fetch', function() {
     it('should fetch all users', function(done){
       var users = new Users();
-      
+
       users.fetch()
       .then(function(collection) {
         collection.length.should.above(0);
         done();
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         done(err);
       });
     });

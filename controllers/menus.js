@@ -24,9 +24,9 @@ var MenusController = {
         page: 'newmenu'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/menus');      
+      res.redirect('/admin/menus');
     });
   },
 
@@ -50,14 +50,14 @@ var MenusController = {
           menu: menu.toJSON()
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': error.message});
-        res.redirect('/admin/menus');      
+        res.redirect('/admin/menus');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/menus');      
+      res.redirect('/admin/menus');
     });
   },
 
@@ -90,9 +90,9 @@ var MenusController = {
         query: {}
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -121,7 +121,7 @@ var MenusController = {
       req.flash('success', { msg: 'Menu successfully created.' });
       res.redirect('/admin/menus');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('back');
     });
@@ -155,7 +155,7 @@ var MenusController = {
       req.flash('success', { msg: 'Menu successfully updated.' });
       res.redirect('/menus/edit/' + model.get('id'));
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('back');
     });
@@ -179,14 +179,14 @@ var MenusController = {
         req.flash('success', {msg: 'Menu successfully deleted.'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', { msg: error.message });
         return res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

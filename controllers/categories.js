@@ -25,9 +25,9 @@ var CategoriesController = {
         category: category.toJSON()
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Category not found.'});
-      res.redirect('/admin/blog/categories');      
+      res.redirect('/admin/blog/categories');
     });
   },
 
@@ -60,9 +60,9 @@ var CategoriesController = {
         query: {}
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error.'});
-      res.redirect('/admin/blog');      
+      res.redirect('/admin/blog');
     });
   },
 
@@ -105,7 +105,7 @@ var CategoriesController = {
       req.flash('success', { msg: 'Category successfully created.' });
       res.redirect('/category/edit/' + model.get('id'));
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: 'Category could not be created.'});
       res.redirect('back');
     });
@@ -138,7 +138,7 @@ var CategoriesController = {
       req.flash('success', { msg: 'Category successfully updated.' });
       res.redirect('/category/edit/' + model.get('id'));
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: 'Category could not be updated.'});
       res.redirect('back');
     });
@@ -162,14 +162,14 @@ var CategoriesController = {
         req.flash('success', {msg: 'Category successfully deleted.'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', { msg: error.message });
         return res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

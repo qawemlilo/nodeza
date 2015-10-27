@@ -17,7 +17,7 @@ describe('Roles', function(){
         role.get('name').should.equal('Super Administrator');
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

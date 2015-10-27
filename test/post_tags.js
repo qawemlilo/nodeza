@@ -14,7 +14,6 @@ function blogData() {
     category_id: 1,
     user_id: 1,
     views: 0,
-    meta_title: 'Welcome to NodeZA',
     meta_description: 'NodeZA is a community',
     markdown: introPost,
     published: true,
@@ -28,7 +27,7 @@ function blogData() {
 describe('Post', function(){
 
   var data = blogData();
-  
+
 
 
   describe('#set #save', function() {
@@ -37,18 +36,18 @@ describe('Post', function(){
 
       post.save(data, {updateTags: [{name: 'qawe'},{name: 'test'}]})
       .then(function (model) {
-        postID = model.get('id'); 
+        postID = model.get('id');
         postID.should.above(0);
         model.get('meta_description').should.equal('NodeZA is a community');
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
   });
 
- 
+
   describe('#tags #category #created_by', function() {
     it('should load tags associated this this post', function(done){
       Post.forge({id: postID})
@@ -62,7 +61,7 @@ describe('Post', function(){
 
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -80,11 +79,11 @@ describe('Post', function(){
         post = model;
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
-    
+
     it('should destroy post with related tags', function(done){
       post.related('tags')
       .detach()
@@ -93,11 +92,11 @@ describe('Post', function(){
         .then(function() {
           done();
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           done(error);
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

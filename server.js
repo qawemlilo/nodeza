@@ -9,7 +9,6 @@ module.exports = function (config) {
   var cookieParser = require('cookie-parser');
   var bodyParser = require('body-parser');
   var session = require('express-session');
-  var csrf = require('lusca').csrf();
   var errorHandler = require('errorhandler');
   var expressValidator = require('express-validator');
   var hbs = require('hbs');
@@ -17,6 +16,7 @@ module.exports = function (config) {
   var passport = require('passport');
   var _ = require('lodash');
   var hbsHelpers = require('./lib/helpers');
+  var middleware = require('./lib/middleware');
   var MongoStore = require('connect-mongo')({session: session});
 
 
@@ -100,45 +100,12 @@ module.exports = function (config) {
   server.use(logger('dev'));
 
   // CSRF protection.
-  server.use(function(req, res, next) {
-    if (_.contains(csrfWhitelist, req.path)) {
-      return next();
-    }
-
-    csrf(req, res, next);
-  });
+  server.use(middleware.csrf({whitelist: config.site.csrfWhitelist}));
 
 
-  server.use(function(req, res, next) {
-    if (req.user) {
-      // make user object available in templates
-      res.locals.user = req.user.toJSON();
-      req.session.userid = req.user.get('id');
-    }
+  server.use(middleware.sessionHistory());
 
-    res.locals.sessionHistory = req.session.history;
-    res.locals.base = 'http://' + req.headers.host;
-
-    next();
-  });
-
-  server.use(function(req, res, next) {
-    // Keep track of previous URL to redirect back to
-    // original destination after a successful login.
-    if (req.method !== 'GET') {
-      return next();
-    }
-
-    var path = req.path.split('/')[1];
-
-    if (/(auth|login|logout|signup)$/i.test(path)) {
-      return next();
-    }
-
-    req.session.returnTo = req.path;
-
-    next();
-  });
+  server.use(middleware.returnTo());
 
   // error handling
   server.use(errorHandler());

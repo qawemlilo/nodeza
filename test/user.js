@@ -8,8 +8,9 @@ function createFakeUser() {
   var user = {};
 
   user.name = 'John Doe';
-  user.email = 'john@none.com';
+  user.email = 'user_' + Date.now() + '@none.com';
   user.password = 'juliet';
+  user.role_id = 1;
 
   return user;
 }
@@ -28,7 +29,7 @@ describe('User', function(){
         model.get('email').should.equal(fakeUser.email);
         done();
       })
-      .otherwise(function (err) {
+      .catch(function (err) {
         done(err);
       });
     });
@@ -47,11 +48,11 @@ describe('User', function(){
           model.get('email').should.equal(fakeUser.email);
           done();
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           done(error);
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -69,7 +70,7 @@ describe('User', function(){
           user.get('last_name').should.equal('Mlilo');
           done();
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           done(error);
         });
       });
@@ -85,7 +86,7 @@ describe('User', function(){
         model.gravatar().should.contain('gravatar.com');
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -102,7 +103,7 @@ describe('User', function(){
           done();
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

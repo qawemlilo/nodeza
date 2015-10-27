@@ -7,7 +7,7 @@ var moment = require('moment');
 
 
 var EventsController = {
-  
+
   /*
    * GET /events/new
    * load new event page
@@ -63,7 +63,7 @@ var EventsController = {
 
       event.viewed();
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': 'Database error. Could not fetch event.'});
       res.redirect('/events');
     });
@@ -86,9 +86,9 @@ var EventsController = {
         event: model.toJSON()
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Event not found.'});
-      res.redirect('/admin/events');       
+      res.redirect('/admin/events');
     });
   },
 
@@ -102,7 +102,7 @@ var EventsController = {
     var events = new Events();
 
     res.locals._page = 'events';
-  
+
     var page = parseInt(req.query.p, 10);
     var query = {};
     var currentpage = page || 1;
@@ -114,7 +114,7 @@ var EventsController = {
 
     query.limit = limit;
     query.month = month;
-  
+
     if (currentpage < 1) {
       res.redirect('/events');
     }
@@ -158,9 +158,9 @@ var EventsController = {
         page: 'events'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -172,7 +172,7 @@ var EventsController = {
    */
   getEventsByCity: function (req, res, next) {
     var events = new Events();
-  
+
     var page = parseInt(req.query.p, 10);
     var query = {};
     var currentpage = page || 1;
@@ -183,7 +183,7 @@ var EventsController = {
 
     query.limit = limit;
     query.month = month;
-  
+
     if (currentpage < 1) {
       res.redirect('/events');
     }
@@ -216,9 +216,9 @@ var EventsController = {
         page: 'events'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -229,7 +229,7 @@ var EventsController = {
    */
   getAdmin: function (req, res, next) {
     var events = new Events();
-  
+
     var page = parseInt(req.query.p, 10);
     var query = {};
     var currentpage = page || 1;
@@ -242,7 +242,7 @@ var EventsController = {
       andWhere: [],
       base: '/admin/events'
     };
-  
+
     if (currentpage < 1) {
       res.redirect('/admin/events');
     }
@@ -262,9 +262,9 @@ var EventsController = {
         page: 'adminevents'
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch events.'});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -279,11 +279,11 @@ var EventsController = {
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
-  
+
     var errors = req.validationErrors();
     var eventData = {};
     var cleanDate = (req.body.date).split('/').join(' ');
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/events/new');
@@ -295,7 +295,14 @@ var EventsController = {
     eventData.markdown = req.body.markdown;
     eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
-    eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
+
+    if(req.body.finish_time) {
+      eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
+    }
+    else {
+      eventData.finish_time = null;
+    }
+
     eventData.province = req.body.administrative_area_level_1 || '';
     eventData.city = req.body.locality || '';
     eventData.town = req.body.sublocality || '';
@@ -308,13 +315,13 @@ var EventsController = {
     eventData.number = req.body.number;
 
     var event = new Event(eventData);
-    
+
     event.save()
     .then(function (model) {
       req.flash('success', { msg: 'Event successfully created!' });
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': 'Database error. Event not created.'});
       res.redirect('/events/new');
     });
@@ -331,24 +338,31 @@ var EventsController = {
     req.assert('date', 'Date cannot be blank').notEmpty();
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
-  
+
     var errors = req.validationErrors();
     var eventData = {};
     var user = req.user;
     var cleanDate = (req.body.date).split('/').join(' ');
-  
+
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
-    
+
     eventData.id = req.body.event_id;
     eventData.title = req.body.title;
     eventData.short_desc = req.body.short_desc;
     eventData.markdown = req.body.markdown;
     eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
-    eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
+
+    if(req.body.finish_time) {
+      eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
+    }
+    else {
+      eventData.finish_time = null;
+    }
+
     eventData.province = req.body.administrative_area_level_1 || '';
     eventData.city = req.body.locality || '';
     eventData.town = req.body.sublocality || '';
@@ -361,7 +375,7 @@ var EventsController = {
     eventData.number = req.body.number;
 
     var event = new Event({id: eventData.id});
-    
+
     event.fetch()
     .then(function (model) {
       model.save(eventData, {method: 'update'})
@@ -369,7 +383,7 @@ var EventsController = {
         req.flash('success', { msg: 'Event successfully updated!' });
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': 'Restricted access, event not updated.'});
         res.redirect('back');
       });
@@ -384,7 +398,7 @@ var EventsController = {
   **/
   getDelete: function(req, res) {
     var event = new Event({id: req.params.id});
-    
+
     event.fetch()
     .then(function (event) {
       event.destroy()
@@ -392,12 +406,12 @@ var EventsController = {
         req.flash('success', {msg: 'Event successfully deleted.'});
         res.redirect('back');
       })
-      .otherwise(function () {
+      .catch(function () {
         req.flash('error', {msg: 'Restricted access, event not deleted.'});
         res.redirect('back');
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('error', {msg: 'Event not found'});
       res.redirect('back');
     });

@@ -35,7 +35,7 @@ var RolesController = {
         page: 'editrole'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/admin/users/roles');
     });
@@ -58,7 +58,7 @@ var RolesController = {
         page: 'userroles'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/admin/users');
     });
@@ -83,12 +83,12 @@ var RolesController = {
         req.flash('success', {msg: 'Role updated'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': error.message});
         res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('back');
     });
@@ -112,7 +112,7 @@ var RolesController = {
       req.flash('success', {msg: 'New user role created'});
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('back');
     });
@@ -137,14 +137,14 @@ var RolesController = {
         req.flash('success', {msg: 'Role successfully deleted.'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', { msg: error.message });
         return res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

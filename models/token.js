@@ -27,20 +27,20 @@ var Token = Base.Model.extend({
       var kind = model.get('kind');
       model.destroy()
       .then(function () {
-        deferred.resolve(kind + ' account has been unlinked.'); 
+        deferred.resolve(kind + ' account has been unlinked.');
       })
-      .otherwise(function (error) {
-        deferred.reject(error); 
+      .catch(function (error) {
+        deferred.reject(error);
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       deferred.reject(error);
-    }); 
+    });
 
     return deferred.promise;
   },
 
-  
+
 });
 
 

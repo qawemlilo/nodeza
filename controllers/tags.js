@@ -15,7 +15,7 @@ var TagsController = {
     var slug = req.params.slug;
     var tag = new Tag({slug: slug});
     var page = parseInt(req.query.p, 10);
-    
+
     // hack for pagination of /blog/tags/:slug
     tag.currentpage = page || 1;
     tag.limit = 2;
@@ -28,7 +28,7 @@ var TagsController = {
       // with this tag
       tag.total(tag.get('id'))
       .then(function (result) {
-        
+
         // hack for pagination of /blog/tags/:slug
         var pagination = Posts.prototype.makePages.call(tag, result[0].total);
         var tagname = tag.get('name');
@@ -51,17 +51,17 @@ var TagsController = {
             query: {}
           });
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           req.flash('errors', {'msg': 'Database error.'});
           res.redirect('back');
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': 'Database error.'});
         res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': 'Database error.'});
       res.redirect('back');
     });

@@ -9,12 +9,12 @@ describe('Featured Posts Widget', function(){
   describe('#exec', function() {
     it('should return widget props with Featured Posts collection', function(done){
 
-      FeaturedPosts.exec(App) 
+      FeaturedPosts.exec(App)
       .then(function (collection) {
         collection.length.should.above(0);
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

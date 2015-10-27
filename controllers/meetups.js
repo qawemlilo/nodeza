@@ -80,7 +80,7 @@ var MeetupsController = {
       // count number of views
       meetup.viewed();
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Page not found :('});
       res.redirect('/meetups');
     });
@@ -104,7 +104,7 @@ var MeetupsController = {
         meetup: model.toJSON()
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Meetup not found :('});
       res.redirect('/admin/meetups');
     });
@@ -141,7 +141,7 @@ var MeetupsController = {
         config: settings
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch meetups.'});
       res.redirect('/');
     });
@@ -173,7 +173,7 @@ var MeetupsController = {
         page: 'adminmeetups'
       });
     })
-    .otherwise(function () {
+    .catch(function () {
       req.flash('errors', {'msg': 'Database error. Could not fetch meetups.'});
       res.redirect('/');
     });
@@ -236,7 +236,7 @@ var MeetupsController = {
       req.flash('success', { msg: successMsg});
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/admin/meetups');
     });
@@ -293,12 +293,12 @@ var MeetupsController = {
         req.flash('success', { msg: 'Meetup successfully updated!'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': error.message});
         res.redirect('/admin/meetups');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
       res.redirect('/admin/meetups');
     });

@@ -17,7 +17,7 @@ var LinksController = {
     var menus = new Menus();
     var routes = new Routes();
     var data = {};
-    
+
     routes.fetch()
     .then(function (collection) {
       return collection;
@@ -41,9 +41,9 @@ var LinksController = {
         page: 'newmenu'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/links');      
+      res.redirect('/admin/links');
     });
   },
 
@@ -57,7 +57,7 @@ var LinksController = {
     var routes = new Routes();
     var link = new LinkModel({id: req.params.id});
     var data = {};
-    
+
     routes.fetch()
     .then(function (collection) {
       return collection;
@@ -88,9 +88,9 @@ var LinksController = {
         page: 'editmenu'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/links');      
+      res.redirect('/admin/links');
     });
   },
 
@@ -122,9 +122,9 @@ var LinksController = {
         query: {}
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/');      
+      res.redirect('/');
     });
   },
 
@@ -163,7 +163,7 @@ var LinksController = {
       req.flash('success', { msg: 'LinkModel successfully created.' });
       res.redirect('/admin/links');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('/admin/links');
     });
@@ -205,7 +205,7 @@ var LinksController = {
       req.flash('success', { msg: 'LinkModel successfully updated.' });
       res.redirect('/links/edit/' + model.get('id'));
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('/admin/links');
     });
@@ -225,14 +225,14 @@ var LinksController = {
         req.flash('success', {msg: 'Link successfully deleted.'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', { msg: error.message });
         return res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

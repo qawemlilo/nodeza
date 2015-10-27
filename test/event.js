@@ -22,7 +22,7 @@ describe('Event', function(){
          model.get('email').should.equal(eventData.email);
          done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -55,7 +55,7 @@ describe('Event', function(){
       .then(function () {
          done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

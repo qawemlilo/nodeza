@@ -18,7 +18,7 @@ describe('Menu', function(){
         model.get('name').should.equal('Test');
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -34,7 +34,7 @@ describe('Menu', function(){
         menu = model;
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });
@@ -44,7 +44,7 @@ describe('Menu', function(){
       .then(function() {
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

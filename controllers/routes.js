@@ -25,9 +25,9 @@ var RoutesController = {
         page: 'newroute'
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/routes');      
+      res.redirect('/admin/routes');
     });
   },
 
@@ -53,14 +53,14 @@ var RoutesController = {
           roles: rolesCollection.toJSON()
         });
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('errors', {'msg': error.message});
-        res.redirect('/admin/routes');      
+        res.redirect('/admin/routes');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/routes');      
+      res.redirect('/admin/routes');
     });
   },
 
@@ -92,9 +92,9 @@ var RoutesController = {
         query: {}
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin');      
+      res.redirect('/admin');
     });
   },
 
@@ -140,7 +140,7 @@ var RoutesController = {
       req.flash('success', { msg: 'Route successfully created.' });
       res.redirect('/admin/routes');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('/admin/routes');
     });
@@ -184,7 +184,7 @@ var RoutesController = {
       req.flash('success', { msg: 'Route successfully updated.' });
       res.redirect('back');
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', {msg: error.message});
       res.redirect('back');
     });
@@ -209,14 +209,14 @@ var RoutesController = {
         req.flash('success', {msg: 'Route successfully deleted.'});
         res.redirect('back');
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         req.flash('error', { msg: error.message });
         return res.redirect('back');
       });
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       req.flash('error', { msg: error.message });
-      res.redirect('back');        
+      res.redirect('back');
     });
   }
 };

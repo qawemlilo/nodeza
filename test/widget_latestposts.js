@@ -10,12 +10,12 @@ describe('Latest Posts Widget', function(){
   describe('#exec', function() {
     it('should return widget props with Latest Posts collection', function(done){
 
-      LatestPosts.exec(App) 
+      LatestPosts.exec(App)
       .then(function (collection) {
         collection.length.should.above(0);
         done();
       })
-      .otherwise(function (error) {
+      .catch(function (error) {
         done(error);
       });
     });

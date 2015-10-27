@@ -16,23 +16,23 @@ var chalk = require('chalk');
 var questions = [
   {
     question: 'Name',
-    required: true, 
+    required: true,
     validate: function (answer) {
-      return answer.length >= 3; 
+      return answer.length >= 3;
     }
   },
   {
     question: 'Email',
-    required: true, 
+    required: true,
     validate: function (answer) {
-      return answer.indexOf('@') > 0; 
+      return answer.indexOf('@') > 0;
     }
   },
   {
     question: 'Password',
-    required: true, 
+    required: true,
     validate: function (answer) {
-      return answer.length >= 6; 
+      return answer.length >= 6;
     }
   }
 ];
@@ -58,10 +58,10 @@ function addTableColumn(tablename, table, columnname) {
     // creation distinguishes between text with fieldtype, string with maxlength and all others
     if (columnSpec.type === 'text' && columnSpec.hasOwnProperty('fieldtype')) {
       column = table[columnSpec.type](columnname, columnSpec.fieldtype);
-    } 
+    }
     else if (columnSpec.type === 'string' && columnSpec.hasOwnProperty('maxlength')) {
       column = table[columnSpec.type](columnname, columnSpec.maxlength);
-    } 
+    }
     else {
       column = table[columnSpec.type](columnname);
     }
@@ -140,7 +140,7 @@ var migrate = {
       console.log('\t%s', chalk.yellow('Create your Super Admin account'));
       console.log(chalk.yellow('--------------------------------------------------------'));
       console.log();
-  
+
       profile.create()
       .then(function (error, answers) {
         var details = {name: answers.Name, email: answers.Email, password: answers.Password};
@@ -151,7 +151,7 @@ var migrate = {
           console.log('');
           console.log(chalk.green(' > ') + 'Super Admin account created!');
           console.log('');
-  
+
           return model;
         })
         .then(function (user) {
@@ -159,11 +159,11 @@ var migrate = {
           .then(function () {
             deferred.resolve();
           })
-          .otherwise (function (err) {
+          .catch (function (err) {
             deferred.reject(err);
           });
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           console.log(chalk.red(' > ') + 'Sorry ' + details.name + ', your Super Admin account could not be created. Please open an issues on our github page.');
           deferred.reject(error);
         });
@@ -186,7 +186,7 @@ var migrate = {
         return deleteTable(table);
       };
     }).reverse();
-    
+
     return sequence(tables);
   }
 };
@@ -205,7 +205,7 @@ migrate.reset()
     console.log();
     process.exit(0);
   })
-  .otherwise(function (err) {
+  .catch(function (err) {
     console.log(err);
     process.exit(1);
   });

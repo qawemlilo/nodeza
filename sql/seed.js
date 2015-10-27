@@ -41,9 +41,9 @@ function unpackCollection (collection) {
         console.log(chalk.green(' > ') + res);
         return res;
       })
-      .otherwise(function (err) { 
-        console.log(err.message); 
-      }); 
+      .catch(function (err) {
+        console.log(err.message);
+      });
     });
   });
 }
@@ -52,17 +52,17 @@ function unpackCollection (collection) {
 module.exports.firstBatch  = function () {
   // reset operations
   operations =  [];
-  
+
   var rolesData = [
-    {name: 'Registered'}, 
-    {name: 'Editor'}, 
+    {name: 'Registered'},
+    {name: 'Editor'},
     {name: 'Super Administrator'},
     {name: 'Public'}
   ];
   var catsData = [
-    {name: 'Articles', description: 'General content'}, 
+    {name: 'Articles', description: 'General content'},
     {name: 'Interviews', description: 'Companies using Node'},
-    {name: 'Tutorials', description: 'Node.js Tutorials'}, 
+    {name: 'Tutorials', description: 'Node.js Tutorials'},
     {name: 'News', description: 'Latest Node.js news'}
   ];
 
@@ -95,7 +95,7 @@ module.exports.secondBatch  = function () {
     {model: Meetup, data: meetupsData},
     {model: Event, data: eventsData},
     {model: Post, data: postsData},
-    {model: Route, data: routesData}, 
+    {model: Route, data: routesData},
     {model: Menu, data: menusData},
     {model: Link, data: linksData}
   ], unpackCollection);

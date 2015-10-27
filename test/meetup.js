@@ -1,7 +1,6 @@
 
 var should = require('chai').should();
 var Meetup = require('../models/meetup');
-var Meetups = require('../collections/meetups');
 var meetupsData = require('../sql/data/meetups');
 
 
@@ -11,17 +10,6 @@ describe('Meetup', function(){
   var meetupData = meetupsData[0];
   var meetup = new Meetup();
 
-  before(function (done) {
-
-    var newmeetups = new Meetups(meetupData);
-
-    newmeetups.invokeThen('save').then(function() {
-      done();
-    }).
-    catch(function (error) {
-      done(error);
-    });
-  });
 
   describe('#set #save', function() {
     it('should create a new meetup', function(done){

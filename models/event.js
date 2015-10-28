@@ -10,7 +10,7 @@ var markdown = require('markdown-it')();
 var _ = require('lodash');
 
 
-var Event = Base.Model.extend({
+var nodeEvent = Base.Model.extend({
 
   tableName: 'events',
 
@@ -49,4 +49,4 @@ var Event = Base.Model.extend({
 
 
 
-module.exports = Base.model('Event', Event);
+module.exports = Base.model('Event', nodeEvent);

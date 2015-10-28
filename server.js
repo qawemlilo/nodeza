@@ -64,7 +64,7 @@ module.exports = function (config) {
     secret: config.site.sessionSecret,
     store: new MongoStore({
       url: config.mongodb.url,
-      auto_reconnect: true
+      autoReconnect: true
     }),
     proxy: true,
     resave: true,
@@ -76,8 +76,8 @@ module.exports = function (config) {
   server.use(passport.session());
 
   // for forms
+  server.use(bodyParser.urlencoded({ extended: false }));
   server.use(bodyParser.json());
-  server.use(bodyParser.urlencoded());
 
   // input validation
   server.use(expressValidator());
@@ -90,11 +90,8 @@ module.exports = function (config) {
 
   // handle image uploads
   server.use(multer({
-    dest: './public/temp/',
-    rename: function (fieldname, filename) {
-      return 'image_' + Date.now();
-    }
-  }));
+    dest: './public/temp/'
+  }).single('image_' + Date.now()));
 
   // logging
   server.use(logger('dev'));

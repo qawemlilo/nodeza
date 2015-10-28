@@ -4,13 +4,13 @@
  * Events collection
 **/
 var Base  = require('./base');
-var Event = require('../models/event');
+var nodeEvent = require('../models/event');
 var moment = require('moment');
 
 
 var Events = Base.Collection.extend({
 
-  model: Event,
+  model: nodeEvent,
 
 
   base: '/events',

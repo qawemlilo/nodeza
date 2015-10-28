@@ -2,7 +2,7 @@
 
 var App = require('../app');
 var Events = require('../collections/events');
-var Event = require('../models/event');
+var nodeEvent = require('../models/event');
 var moment = require('moment');
 
 
@@ -46,7 +46,7 @@ var EventsController = {
    */
   getEvent: function (req, res, next) {
     var slug = req.params.slug;
-    var event = new Event({slug: slug});
+    var event = new nodeEvent({slug: slug});
     var settings = App.getConfig('events');
 
     event.fetch()
@@ -75,7 +75,7 @@ var EventsController = {
    * GET /events/edit/:id
    */
   getEdit: function (req, res) {
-    var event = new Event({id: req.params.id});
+    var event = new nodeEvent({id: req.params.id});
 
     event.fetch()
     .then(function (model) {
@@ -314,7 +314,7 @@ var EventsController = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = new Event(eventData);
+    var event = new nodeEvent(eventData);
 
     event.save()
     .then(function (model) {
@@ -374,7 +374,7 @@ var EventsController = {
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = new Event({id: eventData.id});
+    var event = new nodeEvent({id: eventData.id});
 
     event.fetch()
     .then(function (model) {
@@ -397,7 +397,7 @@ var EventsController = {
    * delete event
   **/
   getDelete: function(req, res) {
-    var event = new Event({id: req.params.id});
+    var event = new nodeEvent({id: req.params.id});
 
     event.fetch()
     .then(function (event) {

@@ -6,7 +6,7 @@ var chalk = require('chalk');
 
 var Role = require('../models/roles');
 var Category = require('../models/category');
-var Event = require('../models/event');
+var nodeEvent = require('../models/event');
 var Meetup = require('../models/meetup');
 var Post = require('../models/post');
 var Route = require('../models/route');
@@ -93,7 +93,7 @@ module.exports.secondBatch  = function () {
 
   _.each([
     {model: Meetup, data: meetupsData},
-    {model: Event, data: eventsData},
+    {model: nodeEvent, data: eventsData},
     {model: Post, data: postsData},
     {model: Route, data: routesData},
     {model: Menu, data: menusData},

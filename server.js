@@ -90,8 +90,11 @@ module.exports = function (config) {
 
   // handle image uploads
   server.use(multer({
-    dest: './public/temp/'
-  }).single('image_' + Date.now()));
+    dest: './public/temp/',
+    rename: function (fieldname, filename) {
+      return 'image_' + Date.now();
+    }
+  }));
 
   // logging
   server.use(logger('dev'));

@@ -4,7 +4,6 @@
  * Base Class for collections
 **/
 
-var when = require('when');
 var Bookshelf  = require('../app').bookshelf;
 
 

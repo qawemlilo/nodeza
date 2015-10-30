@@ -4,6 +4,7 @@ var Users = require('../collections/users');
 var Roles = require('../collections/roles');
 var Role = require('../models/roles');
 var User = require('../models/user');
+var twitter = require('../lib/twitter');
 
 
 var UsersController = {
@@ -13,20 +14,34 @@ var UsersController = {
    * loads an event by id
    */
   getProfile: function (req, res, next) {
+    var data = {};
+
     User.forge({slug: req.params.slug})
     .fetch({withRelated: ['posts', 'events']})
     .then(function (profile) {
+      data.profile = profile;
+
+      if (profile.twitterHandle()) {
+        return twitter.getTweets(profile.twitterHandle());
+      }
+      else {
+        return false;
+      }
+    })
+    .then(function (tweets) {
+
       res.render('users/profile', {
-        title: 'NodeZA profile of ' + profile.get('name'),
-        myposts: profile.related('posts').toJSON(),
-        gravatar: profile.gravatar(198),
-        myevents: profile.related('events').toJSON(),
-        description: 'NodeZA profile of ' + profile.get('name'),
-        profile: profile.toJSON(),
-        page: 'profile'
+        title: 'NodeZA profile of ' + data.profile.get('name'),
+        myposts: data.profile.related('posts').toJSON(),
+        gravatar: data.profile.gravatar(198),
+        myevents: data.profile.related('events').toJSON(),
+        description: 'NodeZA profile of ' + data.profile.get('name'),
+        profile: data.profile.toJSON(),
+        page: 'profile',
+        tweets: tweets || []
       });
 
-      profile.viewed();
+      data.profile.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
@@ -166,6 +181,8 @@ var UsersController = {
     var details = {
       name: req.body.name,
       email: req.body.email,
+      github_url: req.body.github_url,
+      twitter_url: req.body.twitter_url,
       role_id: req.body.role_id
     };
 

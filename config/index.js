@@ -69,6 +69,8 @@ module.exports = {
   twitter: {
     consumerKey: secrets.twitter.consumerKey,
     consumerSecret: secrets.twitter.consumerSecret,
+    accessTokenKey: secrets.twitter.accessTokenKey,
+    accessTokenSecret: secrets.twitter.accessTokenSecret,
     callbackURL: secrets.twitter.callbackURL,
     passReqToCallback: secrets.twitter.passReqToCallback
   },

@@ -58,14 +58,30 @@
         </div>
       {{/if}}
 
+      {{#if tweets}}
+        <div class="row" style="margin-bottom:20px">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box">
+                <div class="info">
+                {{#each tweets}}
+                  <p class="text-center">{{text}}</p>
+                {{/each}}
+                  <div class="twitter-timeline"><a href="{{profile.twitter_url}}" target="_blank" width="500">Recent tweets by @ {{profile.name}}</a> &middot; <a href="#" class="tiny-tweet prev">&laquo; prev</a> | <a href="#" class="tiny-tweet next">next &raquo;</a></div>
+                </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
       <ul class="nav nav-tabs nav-justified" style="margin-bottom: 20px;">
-        <li class="active">
+        <li {{#ifCond myposts.length '>' 0}}class="active"{{/ifCond}}>
           <a href="#myposts" data-toggle="tab">
             <span class="glyphicon glyphicon-list-alt"></span> 
             Posts
           </a>
         </li>
-        <li>
+
+        <li {{#ifCond myposts.length '==' 0}}class="active"{{/ifCond}}>
           <a href="#contactform" data-toggle="tab">
             <span class="glyphicon glyphicon-envelope"></span>
             Contact Me
@@ -74,7 +90,7 @@
       </ul>
       <!-- Tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="myposts">
+        <div class="tab-pane {{#ifCond myposts.length '>' 0}}active{{/ifCond}}" id="myposts">
         {{#ifCond myposts.length '>' 0}}
           <dl class="dl-horizontal"> 
           {{#each myposts}}
@@ -88,7 +104,8 @@
           </dl>
         {{/ifCond}}
         </div>
-        <div class="tab-pane" id="contactform">
+
+        <div class="tab-pane {{#ifCond myposts.length '==' 0}}active{{/ifCond}}" id="contactform">
           <div class="panel panel-default">
             <div class="panel-heading">
               Contact Form
@@ -148,8 +165,39 @@
 
 {{#extend "scripts"}}
 <script>
-  $('.profile-pic').on('error', function () {
-    $(this).attr('data-src', 'holder.js/300x200');
+  jQuery('.profile-pic').on('error', function () {
+    jQuery(this).attr('data-src', 'holder.js/300x200');
+  });
+
+  jQuery(function () {
+    jQuery('.box a.prev').on('click', function (e) {
+      e.preventDefault();
+
+      var visibleTweet = jQuery('.box .info > p:visible:first');
+      
+      if (visibleTweet.prev('p').length) {
+        visibleTweet.hide().prev('p').show();
+      }
+      else {
+        visibleTweet.hide();
+        jQuery('.box .info > p:last').show();
+      }
+      
+    });
+
+    jQuery('.box a.next').on('click', function (e) {
+      e.preventDefault();
+      var visibleTweet = jQuery('.box .info > p:visible:first');
+
+      if (visibleTweet.hide().next('p').length) {
+        visibleTweet.hide().next('p').show();
+      }
+      else {
+        console.log('is last child')
+        visibleTweet.hide();
+        jQuery('.box .info > p:first').show();
+      }
+    });
   });
 </script>
 {{/extend}}

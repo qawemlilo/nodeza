@@ -91,6 +91,19 @@ var User = Base.Model.extend({
   },
 
 
+  twitterHandle: function() {
+    var handle = false;
+    var twitter_url = this.get('twitter_url');
+
+    if (twitter_url) {
+      handle = twitter_url.substring(twitter_url.lastIndexOf('/') + 1);
+    }
+
+    return handle;
+  },
+
+
+
   saving: function (newObj, attr, options) {
     var self = this;
 

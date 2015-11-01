@@ -44,7 +44,7 @@ var UsersController = {
       data.profile.viewed();
     })
     .catch(function (error) {
-      req.flash('errors', {'msg': error.message});
+      req.flash('errors', {'msg': error[0].message});
       res.redirect('back');
     });
   },
@@ -204,12 +204,12 @@ var UsersController = {
         res.redirect('/users/edit/' + model.get('id'));
       })
       .catch(function (error) {
-        req.flash('errors', {msg: error.message});
+        req.flash('error', {msg: error.message});
         res.redirect('/admin/users');
       });
     })
     .catch(function (error) {
-      req.flash('errors', {msg: error.message});
+      req.flash('error', {msg: error.message});
       res.redirect('/admin/users');
     });
   },

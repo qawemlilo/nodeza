@@ -24,16 +24,15 @@ var ContactController = {
       subject: req.body.subject,
       body: req.body.message
     };
-    
-    mailGun.sendEmail(mailOptions, function (error, data) {
-      if (error) {
-        console.log(error);
-        req.flash('error', {msg: 'An error occured. Message not sent.'});
-      }
-      else {
-        req.flash('success', {msg: 'You message has been successfully sent.'});
-      }
-      
+
+    mailGun.sendEmail(mailOptions)
+    .then(function (data) {
+      req.flash('success', {msg: 'Your message has been successfully sent.'});
+      res.redirect('back');
+    })
+    .catch(function (error) {
+      console.error(error);
+      req.flash('error', {msg: 'An error occured. Message not sent.'});
       res.redirect('back');
     });
   }

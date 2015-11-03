@@ -14,31 +14,16 @@ var Token = Base.Model.extend({
   tableName: 'tokens',
 
 
-
   /*
    * delete post
   **/
   remove: function(id) {
-    var deferred = when.defer();
-
-    Token.forge({id: id})
+    return Token.forge({id: id})
     .fetch()
     .then(function(model) {
-      var kind = model.get('kind');
-      model.destroy()
-      .then(function () {
-        deferred.resolve(kind + ' account has been unlinked.');
-      })
-      .catch(function (error) {
-        deferred.reject(error);
-      });
-    })
-    .catch(function (error) {
-      deferred.reject(error);
+      return model.destroy();
     });
-
-    return deferred.promise;
-  },
+  }
 
 
 });

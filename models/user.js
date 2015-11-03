@@ -42,38 +42,37 @@ var User = Base.Model.extend({
 
 
   generatePasswordHash: function (password) {
-    var deferred = when.defer();
-
-    bcrypt.genSalt(5, function(err, salt) {
-      if (err) {
-        deferred.reject(err);
-      }
-
-      bcrypt.hash(password, salt, null, function(err, hash) {
+    return when.promise(function(resolve, reject, notify) {
+      bcrypt.genSalt(5, function(err, salt) {
         if (err) {
-          deferred.reject(err);
+          reject(err);
         }
 
-        deferred.resolve(hash);
+        bcrypt.hash(password, salt, null, function(err, hash) {
+          if (err) {
+            reject(err);
+          }
+
+          resolve(hash);
+        });
       });
     });
-
-    return deferred.promise;
   },
 
 
   comparePassword: function(candidatePassword) {
-    var deferred = when.defer();
+    var password = this.get('password');
 
-    bcrypt.compare(candidatePassword, this.get('password'), function(err, isMatch) {
-      if (err) {
-        deferred.reject(err);
-      }
-
-      deferred.resolve(isMatch);
+    return when.promise(function(resolve, reject, notify) {
+      bcrypt.compare(candidatePassword, password, function(err, isMatch) {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(isMatch);
+        }
+      });
     });
-
-    return deferred.promise;
   },
 
 
@@ -125,40 +124,21 @@ var User = Base.Model.extend({
    * delete post
   **/
   deleteAccount: function(userId) {
-    var deferred = when.defer();
     var user = new User({id: userId});
 
-
-    user.fetch({withRelated: ['tokens'], require: true})
+    return user.fetch({withRelated: ['tokens'], require: true})
     .then(function (model) {
       var tokens = model.related('tokens');
 
       if (tokens.length > 0) {
         model.tokens().detach();
 
-        model.destroy()
-        .then(function () {
-          deferred.resolve();
-        })
-        .catch(function (error) {
-          deferred.reject(error);
-        });
+        return model.destroy();
       }
       else {
-        model.destroy()
-        .then(function () {
-          deferred.resolve();
-        })
-        .catch(function (error) {
-          deferred.reject(error);
-        });
+        return model.destroy();
       }
-    })
-    .catch(function (error) {
-      deferred.reject(error);
     });
-
-    return deferred.promise;
   },
 
 
@@ -167,7 +147,6 @@ var User = Base.Model.extend({
    * Unlink an auth account
    */
   unlink: function(provider) {
-    var deferred = when.defer();
     var tokens = this.related('tokens').toJSON();
     var token = _.findWhere(tokens, {kind: provider});
 
@@ -182,26 +161,14 @@ var User = Base.Model.extend({
         this.set({'google': null});
       }
 
-      this.save()
+      return this.save()
       .then(function (user) {
-        Tokens.forge()
-        .remove(token.id)
-        .then(function(msg) {
-          deferred.resolve(msg);
-        })
-        .catch(function (msg) {
-          deferred.reject(msg);
-        });
-      })
-      .catch(function () {
-        deferred.reject('Database error. Failed to update user ' + provider + ' id.');
+        return Tokens.forge().remove(token.id);
       });
     }
     else {
-      deferred.reject('Could not find ' + provider + ' token.');
+      return when.resolve();
     }
-
-    return deferred.promise;
   }
 });
 

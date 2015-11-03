@@ -14,15 +14,15 @@ var UsersController = {
    * loads an event by id
    */
   getProfile: function (req, res, next) {
-    var data = {};
+    var profile;
 
     User.forge({slug: req.params.slug})
     .fetch({withRelated: ['posts', 'events']})
-    .then(function (profile) {
-      data.profile = profile;
+    .then(function (user) {
+      profile = user;
 
-      if (profile.twitterHandle()) {
-        return twitter.getTweets(profile.twitterHandle());
+      if (user.twitterHandle()) {
+        return twitter.getTweets(user.twitterHandle());
       }
       else {
         return false;
@@ -31,17 +31,17 @@ var UsersController = {
     .then(function (tweets) {
 
       res.render('users/profile', {
-        title: 'NodeZA profile of ' + data.profile.get('name'),
-        myposts: data.profile.related('posts').toJSON(),
-        gravatar: data.profile.gravatar(198),
-        myevents: data.profile.related('events').toJSON(),
-        description: 'NodeZA profile of ' + data.profile.get('name'),
-        profile: data.profile.toJSON(),
+        title: 'NodeZA profile of ' + profile.get('name'),
+        myposts: profile.related('posts').toJSON(),
+        gravatar: profile.gravatar(198),
+        myevents: profile.related('events').toJSON(),
+        description: 'NodeZA profile of ' + profile.get('name'),
+        profile: profile.toJSON(),
         page: 'profile',
         tweets: tweets || []
       });
 
-      data.profile.viewed();
+      profile.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error[0].message});
@@ -68,24 +68,22 @@ var UsersController = {
    * Load user edit form
   **/
   getEditUser: function (req, res, next) {
-    var roles = new Roles();
+    var roles;
 
-    roles.fetch()
-    .then(function (roles) {
-      User.forge({id: req.params.id})
-      .fetch({withRelated: ['role']})
-      .then(function (user) {
-        res.render('users/edit', {
-          title: 'Edit User',
-          description: 'Edit User',
-          usr: user.toJSON(),
-          roles: roles.toJSON(),
-          page: 'edituser'
-        });
-      })
-      .catch(function (error) {
-        req.flash('errors', {'msg': error.message});
-        res.redirect('/admin/users');
+    Roles.forge()
+    .fetch()
+    .then(function (collection) {
+      roles = collection;
+
+      return User.forge({id: req.params.id}).fetch({withRelated: ['role']});
+    })
+    .then(function (user) {
+      res.render('users/edit', {
+        title: 'Edit User',
+        description: 'Edit User',
+        usr: user.toJSON(),
+        roles: roles.toJSON(),
+        page: 'edituser'
       });
     })
     .catch(function (error) {
@@ -198,15 +196,11 @@ var UsersController = {
     User.forge({id: req.body.id})
     .fetch()
     .then(function (user) {
-      user.save(details)
-      .then(function(model) {
-        req.flash('success', {msg: 'User information updated.'});
-        res.redirect('/users/edit/' + model.get('id'));
-      })
-      .catch(function (error) {
-        req.flash('error', {msg: error.message});
-        res.redirect('/admin/users');
-      });
+      return user.save(details);
+    })
+    .then(function(model) {
+      req.flash('success', {msg: 'User information updated.'});
+      res.redirect('/users/edit/' + model.get('id'));
     })
     .catch(function (error) {
       req.flash('error', {msg: error.message});

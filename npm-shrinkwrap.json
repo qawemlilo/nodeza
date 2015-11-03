@@ -4,7 +4,7 @@
   "dependencies": {
     "async": {
       "version": "1.5.0",
-      "from": "async@*",
+      "from": "https://registry.npmjs.org/async/-/async-1.5.0.tgz",
       "resolved": "https://registry.npmjs.org/async/-/async-1.5.0.tgz"
     },
     "bcrypt-nodejs": {

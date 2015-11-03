@@ -3,7 +3,7 @@
 var App = require('../app');
 var User = require('../models/user');
 var mailGun = require('../lib/mailgun');
-var async = require('async');
+var when = require('when');
 var crypto = require('crypto');
 var passport = require('passport');
 var _ = require('lodash');
@@ -153,6 +153,7 @@ var AccountController = {
         req.flash('errors', {msg: 'Password reset token is invalid or has expired.'});
         return res.redirect('/forgot');
       }
+
       res.render('account/reset', {
         title: 'Password Reset',
         token: req.params.token,
@@ -162,7 +163,7 @@ var AccountController = {
     })
     .catch(function (error) {
       req.flash('errors', { msg: error.message });
-      return res.redirect('/forgot');
+      res.redirect('/forgot');
     });
   },
 
@@ -176,58 +177,41 @@ var AccountController = {
     req.assert('confirm', 'Passwords must match.').equals(req.body.password);
 
     var errors = req.validationErrors();
+    var user =  new User();
 
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
 
-    async.waterfall([
-      function(done) {
-        var user =  new User();
-
-        user.query(function (qb) {
-          return qb.where('resetPasswordToken', '=', req.params.token)
-          .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
-        })
-        .fetch()
-        .then(function(model) {
-          model.save({
-            password: req.body.password,
-            resetPasswordToken: '',
-            resetPasswordExpires: ''
-          })
-          .then(function (user) {
-            req.logIn(user, function (err) {
-              done(err, user);
-            });
-          })
-          .catch(function (error) {
-            next({errors: {msg: error.message}});
-          });
-        })
-        .catch(function (error) {
-          next({errors: {msg: error.message}});
-        });
-      },
-      function(user, done) {
-        var mailOptions = {
-          to: user.get('email'),
-          subject: 'Your NodeZA password has been changed',
-          body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
-        };
-
-        mailGun.sendEmail(mailOptions, function (error, res) {
-          req.flash('success', {msg: 'Your account has been updated'});
-          done(error);
-        });
-      }
-    ], function(error) {
-      if (error) {
-        return next(error);
-      }
-
-      res.redirect('/');
+    user.query(function (qb) {
+      return qb.where('resetPasswordToken', '=', req.params.token)
+      .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
+    })
+    .fetch()
+    .then(function(userModel) {
+      return userModel.save({
+        password: req.body.password,
+        resetPasswordToken: '',
+        resetPasswordExpires: ''
+      });
+    })
+    .then(function (userModel) {
+      return mailGun.sendEmail({
+        to: userModel.get('email'),
+        subject: 'Your NodeZA password has been changed',
+        body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
+      });
+    })
+    .then(function (mailRes) {
+      req.logIn(user, function (err) {
+        req.flash('success', {msg: 'Your account has been updated'});
+        res.redirect('/');
+      });
+    })
+    .catch(function (error) {
+      req.flash('error', {msg: error.message});
+      res.redirect('back');
     });
   },
 
@@ -253,64 +237,56 @@ var AccountController = {
     req.assert('email', 'Please enter a valid email address.').isEmail();
 
     var errors = req.validationErrors();
+    var user;
 
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('/forgot');
     }
 
-    async.waterfall([
-      function (done) {
+    User.forge({email: req.body.email})
+    .fetch({require:true})
+    .then(function(userModel) {
+      user = userModel;
+
+      return when.promise(function(resolve, reject, notify) {
         crypto.randomBytes(16, function (err, buf) {
-          var token = buf.toString('hex');
-          done(err, token);
-        });
-      },
-      function(token, done) {
-        User.forge({email: req.body.email})
-        .fetch()
-        .then(function(user) {
-          if (!user) {
-            req.flash('errors', {msg: 'No account with that email address exists.' });
-            return res.redirect('/forgot');
+          if(err) {
+            reject(err);
           }
-
-          user.save({
-            resetPasswordToken: token,
-            resetPasswordExpires: datetime(Date.now() + 3600000)
-          })
-          .then(function(model) {
-            done(false, token, model);
-          })
-          .catch(function (error) {
-            done(error);
-          });
-        })
-        .catch(function (error) {
-          done(error);
+          else {
+            resolve(buf.toString('hex'));
+          }
         });
-      },
-      function(token, user, done) {
-        var mailOptions = {
-          to: user.get('email'),
-          subject: 'Reset your password on NodeZA',
-          body: 'Hi there ' + user.get('name') + ', <br><br>' +
-            'You are receiving this email because you (or someone else) have requested the reset of the password for your account.<br>' +
-            'Please click on the following link, or paste this into your browser to complete the process:<br><br>' +
-            'http://' + req.headers.host + '/reset/' + token + '<br><br>' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.'
-        };
+      });
+    })
+    .then(function (token) {
+      return user.save({
+        resetPasswordToken: token,
+        resetPasswordExpires: datetime(Date.now() + 3600000)
+      });
+    })
+    .then(function(userModel) {
+      var mailOptions = {
+        to: userModel.get('email'),
+        subject: 'Reset your password on NodeZA',
+        body: 'Hi there ' + userModel.get('name') + ', <br><br>' +
+          'You are receiving this email because you (or someone else) have requested the reset of the password for your account.<br>' +
+          'Please click on the following link, or paste this into your browser to complete the process:<br><br>' +
+          'http://' + req.headers.host + '/reset/' + userModel.get('resetPasswordToken') + '<br><br>' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.'
+      };
 
-        mailGun.email(mailOptions, function(err, resp) {
-          req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.'});
-          done(err, 'done');
-        });
-      }
-    ], function(err) {
-      if (err) {
-        return next(err);
-      }
+      return mailGun.sendEmail(mailOptions);
+    })
+    .then(function(resp) {
+      req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.'});
       res.redirect('/forgot');
+    })
+    .catch(function (error) {
+      console.error(error);
+      req.flash('errors', {msg: error.message});
+      res.redirect('back');
     });
   },
 

@@ -33,7 +33,6 @@ var UsersController = {
       res.render('users/profile', {
         title: 'NodeZA profile of ' + profile.get('name'),
         myposts: profile.related('posts').toJSON(),
-        gravatar: profile.gravatar(198),
         myevents: profile.related('events').toJSON(),
         description: 'NodeZA profile of ' + profile.get('name'),
         profile: profile.toJSON(),
@@ -91,6 +90,43 @@ var UsersController = {
       res.redirect('/admin/users');
     });
   },
+
+
+
+  /**
+   * GET /devs
+   * get all users
+   */
+  getDevs: function (req, res) {
+    var users = new Users();
+    var page = parseInt(req.query.p, 10);
+    var currentpage = page || 1;
+    var opts = {
+      limit: 5,
+      page: currentpage,
+      order: "asc",
+      where: ['created_at', '<', new Date()]
+    };
+
+    users.base = '/devs';
+
+    users.fetchBy('id', opts, {withRelated: ['role']})
+    .then(function (collection) {
+      res.render('users/devs', {
+        title: 'Developers',
+        pagination: users.pages,
+        users: collection.toJSON(),
+        description: 'Developers',
+        page: 'devs',
+        query: {}
+      });
+    })
+    .catch(function (error) {
+      req.flash('errors', {'msg': error.message});
+      res.redirect('/');
+    });
+  },
+
 
 
 

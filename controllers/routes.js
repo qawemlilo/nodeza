@@ -123,11 +123,11 @@ var RoutesController = {
       http_method: req.body.http_method,
       role_id: req.body.role_id
     };
-
+    /*
     if (App.routesBlacklist.indexOf(inputs.path) > -1) {
       req.flash('error',  { msg: 'That route is already defined in the application'});
       return res.redirect('back');
-    }
+    }*/
 
     if (!App.hasController(inputs.controller_name, inputs.controller_method)) {
       req.flash('error',  { msg: 'Controller method does not exist'});

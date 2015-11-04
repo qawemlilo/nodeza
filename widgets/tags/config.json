@@ -6,7 +6,8 @@
     "/blog", 
     "/blog/:any", 
     "/blog/category/:any", 
-    "/blog/tags/:any"
+    "/blog/tags/:any",
+    "/devs"
   ],
   "description": "Lists tags",
   "author": "Qawelesizwe Mlilo",

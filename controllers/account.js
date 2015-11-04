@@ -300,7 +300,7 @@ var AccountController = {
       title: 'My Account',
       description: 'My account details',
       page: 'account',
-      gravatar: req.user.gravatar(100)
+      gravata: req.user.gravatar(100)
     });
   },
 

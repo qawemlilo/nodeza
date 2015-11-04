@@ -1,0 +1,71 @@
+
+
+
+
+
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+{{#extend "jumbotron"}}
+<div id="jumbotron" class="jumbotron events">
+  <div class="container">
+    <h1>Developers</h1>
+    <p>Connect with Node.js developers<p>
+  </div>
+</div>
+{{/extend}}
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <div class="container-fluid">  
+    <div class="row row-margin-bottom">
+      {{#each users}}
+        <div class="col-md-12 no-padding">
+          <div class="lib-panel">
+            <div class="row box-shadow zero-margin">
+              <div class="col-md-2 no-padding">
+                <a href="/devs/{{slug}}">
+                  <img src="{{#gravatar email '180'}}{{/gravatar}}" alt="{{name}}">
+                </a>
+              </div>
+              <div class="col-md-10">
+                <div class="lib-row lib-header">
+                  
+                  <h3 style="margin-top:0px;"><a href="/devs/{{slug}}">{{name}}</a></h3>
+                  
+                  <p class="blog-post-meta">
+                    {{#if twitter_url}}
+                      <a href="{{#parseUrl twitter_url}}{{/parseUrl}}" target="_blank" style="margin-right:4px"><span class="fa fa-twitter text-primary"></span> twitter</a>
+                    {{/if}}
+                    {{#if github_url}}
+                      <a href="{{#parseUrl github_url}}{{/parseUrl}}" target="_blank" style="margin-right:4px"><span class="fa fa-github text-default"></span> github</a>
+                    {{/if}}
+                    {{#if website}}
+                      <a href="{{#parseUrl website}}{{/parseUrl}}" target="_blank" style="margin-right:4px"><span class="glyphicon glyphicon-globe"></span> Website</a>
+                    {{/if}}
+                  </p>
+                </div>
+                <div class="lib-row lib-desc">
+                  {{about}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  
+    {{> pagination}}
+  </div>
+</div>
+
+
+{{> sidebar}}
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

@@ -7,6 +7,7 @@
 
 
 <div class="container-fluid">
+
   <div class="modal fade" id="contactform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -111,11 +112,15 @@
 
       <h1 class="blog-post-title">{{profile.name}}</h1>
 
-      {{#if profile.about}}
-        <div class="bs-callout bs-callout-info">
+      
+      <div class="bs-callout bs-callout-info">
+        {{#if profile.about}}
           <p>{{{profile.about}}}</p>
-        </div>
-      {{/if}}
+        {{else}}
+          <p class="text-center"><em>{{profile.name}}'s profile is empty</em></p>
+        {{/if}}
+      </div>
+      
 
       {{#if tweets}}
         <div class="row" style="margin-bottom:20px">
@@ -134,7 +139,7 @@
 
       {{#ifCond myposts.length '>' 0}}
       <br>
-      <h4>Posts by {{profile.name}}</h4>
+      <h4><i class="glyphicon glyphicon-list-alt"></i> Posts by {{profile.name}}</h4>
       <!-- Tab panes -->
         <dl class="dl-horizontal"> 
         {{#each myposts}}

@@ -6,7 +6,8 @@
     "/events", 
     "/events/:any",
     "/meetups", 
-    "/meetups/:any"
+    "/meetups/:any",
+    "/devs"
   ],
   "description": "Recent events",
   "author": "Qawelesizwe Mlilo",

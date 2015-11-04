@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var secrets = require('./data/secrets');
+var secrets = require('./data/secrets.json');
 var Prompt = require('simple-prompt');
 var chalk = require('chalk');
 
@@ -35,7 +35,7 @@ dbSetup.create()
   var data = JSON.stringify(secrets, null, 4);
 
   fs.writeFileSync(filepath, data, 'utf8');
-    
+
   console.log();
   console.log(chalk.green(' > ') + ' MySQL details saved!');
   console.log();

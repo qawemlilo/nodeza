@@ -5,13 +5,68 @@
 {{/extend}}
 
 
-<div class="container-fluid">
-  <div class="row">
 
+<div class="container-fluid">
+  <div class="modal fade" id="contactform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Hi there..</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" action="/contact" method="POST">
+            <input type="hidden" name="_csrf" value="{{_csrf}}" />
+            <input type="hidden" name="_email" value="{{profile.email}}" />
+            <input type="hidden" name="subject" value="Message from your NodeZA profile page" />
+            {{#if user}}
+              <input type="hidden" name="name" value="{{user.name}}" />
+              <input type="hidden" name="email" value="{{user.email}}" />
+            {{else}}
+            <div class="form-group">
+              <label class="col-sm-3 control-label" for="name">Name:</label>
+              <div class="col-sm-7">
+                <input class="form-control" type="text" name="name" id="name" placeholder="Your name" required="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" for="email">
+                Email:
+              </label>
+              <div class="col-sm-7">
+                <input class="form-control" type="email" name="email" id="email" placeholder="Your email address" required="">
+              </div>
+            </div>
+            {{/if}}
+            <div class="form-group">
+              <label class="col-sm-3 control-label" for="message">
+                Message:
+              </label>
+              <div class="col-sm-7">
+                <textarea class="form-control" rows="5" name="message" id="message" required=""></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-7">
+                <button class="btn btn-success" type="submit">
+                  <span class="glyphicon glyphicon-check"></span> Send
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-3">
 
       <div class="thumbnail">
-        <img src="{{gravatar}}" class="profile-pic img-responsive" alt="{{profile.name}}" title="{{profile.name}}">
+        <img src="{{#gravatar profile.email '220'}}{{/gravatar}}" class="profile-pic img-responsive" alt="{{profile.name}}" title="{{profile.name}}">
 
         <div class="caption">
           {{#if profile.location}}
@@ -40,6 +95,10 @@
           {{/if}}
         </div>
       </div>
+
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#contactform">
+        <i class="fa fa-envelope"></i> Contact Me
+      </button>
 
       {{#if @WidgetCollection.leftsidebar}}
         {{#list @WidgetCollection.leftsidebar}}{{/list}}
@@ -73,87 +132,21 @@
         </div>
       {{/if}}
 
-      <ul class="nav nav-tabs nav-justified" style="margin-bottom: 20px;">
-        <li {{#ifCond myposts.length '>' 0}}class="active"{{/ifCond}}>
-          <a href="#myposts" data-toggle="tab">
-            <span class="glyphicon glyphicon-list-alt"></span> 
-            Posts
-          </a>
-        </li>
-
-        <li {{#ifCond myposts.length '==' 0}}class="active"{{/ifCond}}>
-          <a href="#contactform" data-toggle="tab">
-            <span class="glyphicon glyphicon-envelope"></span>
-            Contact Me
-          </a>
-        </li>
-      </ul>
+      {{#ifCond myposts.length '>' 0}}
+      <br>
+      <h4>Posts by {{profile.name}}</h4>
       <!-- Tab panes -->
-      <div class="tab-content">
-        <div class="tab-pane {{#ifCond myposts.length '>' 0}}active{{/ifCond}}" id="myposts">
-        {{#ifCond myposts.length '>' 0}}
-          <dl class="dl-horizontal"> 
-          {{#each myposts}}
-            {{#if published}}
-            <dt style="width:90px">
-              {{#parseDate published_at 'DD-MM-YYYY'}}{{/parseDate}}
-            </dt>
-            <dd><a href="/blog/{{slug}}">{{title}}</a></dd>
-            {{/if}}
-          {{/each}}
-          </dl>
-        {{/ifCond}}
-        </div>
-
-        <div class="tab-pane {{#ifCond myposts.length '==' 0}}active{{/ifCond}}" id="contactform">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              Contact Form
-            </div>
-            <div class="panel-body">
-              <form class="form-horizontal" id="signup-form" action="/contact" method="POST"  >
-                <input type="hidden" name="_csrf" value="{{_csrf}}" />
-                <input type="hidden" name="_email" value="{{profile.email}}" />
-                <input type="hidden" name="subject" value="Message from your NodeZA profile page" />
-                {{#if user}}
-                  <input type="hidden" name="name" value="{{user.name}}" />
-                  <input type="hidden" name="email" value="{{user.email}}" />
-                {{else}}
-                <div class="form-group">
-                  <label class="col-sm-3 control-label" for="name">Name:</label>
-                  <div class="col-sm-7">
-                    <input class="form-control" type="text" name="name" id="name" placeholder="Your name" required="">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label" for="email">
-                    Email:
-                  </label>
-                  <div class="col-sm-7">
-                    <input class="form-control" type="email" name="email" id="email" placeholder="Your email address" required="">
-                  </div>
-                </div>
-                {{/if}}
-                <div class="form-group">
-                  <label class="col-sm-3 control-label" for="message">
-                    Message
-                  </label>
-                  <div class="col-sm-7">
-                    <textarea class="form-control" rows="5" name="message" id="message" required=""></textarea>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-3 col-sm-7">
-                    <button class="btn btn-success" type="submit">
-                      <span class="glyphicon glyphicon-check"></span> Submit
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+        <dl class="dl-horizontal"> 
+        {{#each myposts}}
+          {{#if published}}
+          <dt style="width:90px">
+            {{#parseDate published_at 'DD/MM/YY'}}{{/parseDate}}
+          </dt>
+          <dd><a href="/blog/{{slug}}">{{title}}</a></dd>
+          {{/if}}
+        {{/each}}
+        </dl>
+      {{/ifCond}}
     </div>
   </div>
 </div>

@@ -11,4 +11,5 @@ module.exports = function (app, UsersController) {
   app.post('/users/edit', auth.isUserAdmin, UsersController.postEditUser);
   app.get('/users/delete/:id', auth.isUserAdmin, UsersController.getDeleteUser);
   app.get('/devs/:slug', UsersController.getProfile);
+  app.get('/devs', UsersController.getDevs);
 };

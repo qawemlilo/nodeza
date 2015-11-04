@@ -11,7 +11,8 @@
     "/meetups", 
     "/events",
     "/about",
-    "/privacy"
+    "/privacy",
+    "/devs"
   ],
   "description": "Latest posts",
   "author": "Qawelesizwe Mlilo",

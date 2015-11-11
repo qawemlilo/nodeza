@@ -1,6 +1,6 @@
 "use strict";
 
-/* 
+/*
  * Account Routes
  * passing 'auth.isNotAuthenticated' middle to avoid logged in users from viewing some pages
 **/
@@ -10,6 +10,8 @@ var auth = require('../lib/auth');
 
 module.exports = function (app, AccountController) {
   app.get('/login', auth.isNotAuthenticated, AccountController.getLogin);
+  app.get('/loginas/:id', auth.isUserAdmin, AccountController.getLoginAs);
+  app.get('/restoreadmin', auth.isAuthenticated, AccountController.restoreAdmin);
   app.post('/login', auth.isNotAuthenticated, AccountController.postLogin);
   app.get('/signup', auth.isNotAuthenticated, AccountController.getSignup);
   app.post('/signup', auth.isNotAuthenticated, AccountController.postSignup);

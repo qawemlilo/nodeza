@@ -38,6 +38,77 @@ var AccountController = {
    * POST /login
    * Log in user
    */
+  getLoginAs: function(req, res, next) {
+    req.assert('id', 'id cannot be blank').notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors',  { msg: errors});
+      return res.redirect('/login');
+    }
+
+    req.session.isAdmin = req.user.get('id');
+
+    console.log(req.session.isAdmin);
+
+    User.forge({'id': req.params.id})
+    .fetch({required: true})
+    .then(function(user) {
+
+      req.logIn(user, function(error) {
+        if (error) {
+          req.flash('errors', { msg: error.message });
+          res.redirect('/login');
+        }
+
+        res.redirect('/');
+      });
+    })
+    .catch(function (error) {
+      req.session.isAdmin = null;
+      req.flash('errors', { msg: error.message });
+      res.redirect('back');
+    });
+  },
+
+
+  /**
+   * POST /login
+   * Log in user
+   */
+  restoreAdmin: function(req, res, next) {
+
+    if (!req.session.isAdmin) {
+      return res.redirect('back');
+    }
+
+    User.forge({'id': req.session.isAdmin})
+    .fetch({required: true})
+    .then(function(user) {
+
+      req.logIn(user, function(error) {
+        if (error) {
+          req.flash('errors', { msg: error.message });
+          res.redirect('/login');
+        }
+
+        req.session.isAdmin = null;
+
+        res.redirect('/admin/users');
+      });
+    })
+    .catch(function (error) {
+      req.flash('errors', { msg: error.message });
+      res.redirect('back');
+    });
+  },
+
+
+  /**
+   * POST /login
+   * Log in user
+   */
   postLogin: function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password cannot be blank').notEmpty();
@@ -296,11 +367,18 @@ var AccountController = {
    * logged in user account details form.
    */
   getAccount: function (req, res) {
+    var tokens = req.user.related('tokens').toJSON();
+    var github = _.findWhere(tokens, { kind: 'github' });
+    var google = _.findWhere(tokens, { kind: 'google' });
+    var twitter = _.findWhere(tokens, { kind: 'twitter' });
+
     res.render('account/account', {
       title: 'My Account',
       description: 'My account details',
       page: 'account',
-      gravata: req.user.gravatar(100)
+      github: github,
+      twitter: twitter,
+      google: google
     });
   },
 

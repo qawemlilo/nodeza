@@ -206,7 +206,7 @@
     },
     "compression": {
       "version": "1.6.0",
-      "from": "compression@>=1.0.1 <2.0.0",
+      "from": "compression@1.6.0",
       "resolved": "https://registry.npmjs.org/compression/-/compression-1.6.0.tgz",
       "dependencies": {
         "accepts": {
@@ -244,9 +244,9 @@
           "resolved": "https://registry.npmjs.org/compressible/-/compressible-2.0.6.tgz",
           "dependencies": {
             "mime-db": {
-              "version": "1.19.0",
+              "version": "1.20.0",
               "from": "mime-db@>=1.19.0 <2.0.0",
-              "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.19.0.tgz"
+              "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.20.0.tgz"
             }
           }
         },
@@ -465,25 +465,6 @@
               "version": "2.1.1",
               "from": "es6-promise@2.1.1",
               "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-2.1.1.tgz"
-            }
-          }
-        }
-      }
-    },
-    "connect-redis": {
-      "version": "2.5.1",
-      "from": "connect-redis@>=2.1.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/connect-redis/-/connect-redis-2.5.1.tgz",
-      "dependencies": {
-        "debug": {
-          "version": "1.0.4",
-          "from": "debug@>=1.0.4 <2.0.0",
-          "resolved": "https://registry.npmjs.org/debug/-/debug-1.0.4.tgz",
-          "dependencies": {
-            "ms": {
-              "version": "0.6.2",
-              "from": "ms@0.6.2",
-              "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
             }
           }
         }

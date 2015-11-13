@@ -113,7 +113,7 @@
       <h1 class="blog-post-title">{{profile.name}}</h1>
 
       
-      <div class="bs-callout bs-callout-info">
+      <div class="bs-callout bs-callout-danger">
         {{#if profile.about}}
           <p>{{{profile.about}}}</p>
         {{else}}
@@ -123,18 +123,15 @@
       
 
       {{#if tweets}}
-        <div class="row" style="margin-bottom:20px">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="box">
-                <div class="info">
-                {{#each tweets}}
-                  <p class="text-center">{{#richHTML text}}{{/richHTML}}</p>
-                {{/each}}
-                  <div class="twitter-timeline"><a href="{{profile.twitter_url}}" target="_blank" width="500">Recent tweets by @ {{profile.name}}</a> &middot; <a href="#" class="tiny-tweet prev">&laquo; prev</a> | <a href="#" class="tiny-tweet next">next &raquo;</a></div>
-                </div>
-            </div>
-          </div>
+      <div class="bs-callout bs-callout-info box">
+        <p class="text-center" style="font-size:24px"><span class="fa fa-twitter text-primary">&nbsp;</span></p>
+        <div class="info">
+        {{#each tweets}}
+          <p class="text-center">{{#richHTML text}}{{/richHTML}}</p>
+        {{/each}}
         </div>
+        <div class="twitter-timeline"><a href="{{profile.twitter_url}}" target="_blank" width="500">Recent tweets by @ {{profile.name}}</a> &middot; <a href="#" class="tiny-tweet prev">&laquo; prev</a> | <a href="#" class="tiny-tweet next">next &raquo;</a></div>
+      </div>
       {{/if}}
 
       {{#ifCond myposts.length '>' 0}}

@@ -52,9 +52,9 @@ module.exports = {
   },
   twitter: {
     consumerKey: env_vars.TWITTER_KEY || config.twitter.consumerKey,
-    consumerSecret: env_vars.TWITTER_KEY || config.twitter.consumerSecret,
-    accessTokenKey: env_vars.TWITTER_TOKEN || config.twitter.accessTokenKey,
-    accessTokenSecret: env_vars.TWITTER_SECRET || config.twitter.accessTokenSecret,
+    consumerSecret: env_vars.TWITTER_SECRET || config.twitter.consumerSecret,
+    accessTokenKey: env_vars.TWITTER_TOKEN_KEY || config.twitter.accessTokenKey,
+    accessTokenSecret: env_vars.TWITTER_TOKEN_SECRET || config.twitter.accessTokenSecret,
     callbackURL: config.twitter.callbackURL,
     passReqToCallback: config.twitter.passReqToCallback
   },

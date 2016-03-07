@@ -41,6 +41,8 @@
     "twitter": {
         "consumerKey": "6NNBDyJ2TavL407A3lWxPFKBI",
         "consumerSecret": "ZHaYyK3DQCqv49Z9ofsYdqiUgeoICyh6uoBgFfu7OeYC7wTQKa",
+        "accessTokenKey": "",
+        "accessTokenSecret": "",
         "callbackURL": "/auth/twitter/callback",
         "passReqToCallback": true
     },

@@ -10,17 +10,17 @@
     <h1>Events</h1>
   </div>
 </div>
-{{/extend}} 
+{{/extend}}
 
 <div class="col-sm-9 blog-main">
   {{> flash}}
 
   <div class="container-fluid">
 
-    <div class="row" id="eventVenue" style="height: 250px;background-color:#F5F5F5">  
+    <div class="row" id="eventVenue" style="height: 250px;background-color:#F5F5F5">
     </div>
 
-    <div class="row" style="margin-bottom: 40px;">  
+    <div class="row" style="margin-bottom: 40px;">
       <div class="event panel panel-default">
         <div class="panel-body">
           <h2 class="blog-post-title">
@@ -29,14 +29,14 @@
           <p class="blog-post-meta">
             <span class="glyphicon glyphicon-map-marker"></span>
             <a href="{{myEvent.url}}" target="_blank">
-              {{myEvent.address}}
+              map
             </a> | 
-            <span class="glyphicon glyphicon-tag"></span> 
+            <span class="glyphicon glyphicon-tag"></span>
             {{myEvent.city}}
             {{#if myEvent.website}}
-             | <span class="glyphicon glyphicon-globe"></span> 
-             <a href="{{myEvent.website}}" target="_blank">{{myEvent.website}}</a>
-            {{/if}} 
+             | <span class="glyphicon glyphicon-globe"></span>
+             <a href="{{myEvent.website}}" target="_blank">website</a>
+            {{/if}}
             {{#eventLabel myEvent.dt}}{{/eventLabel}}
           </p>
 
@@ -80,7 +80,7 @@
     lat: "{{myEvent.lat}}",
     lng: "{{myEvent.lng}}"
   });
-    
+
   map.addMarker({
     lat: {{myEvent.lat}},
     lng: {{myEvent.lng}},

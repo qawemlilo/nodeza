@@ -12,7 +12,7 @@
     <p>Checkout upcoming Node.js events<p>
   </div>
 </div>
-{{/extend}} 
+{{/extend}}
 
 <div class="col-sm-9 blog-main">
   {{> flash}}
@@ -41,9 +41,9 @@
           </a>
       </div>
     </div>
-    
+
     {{#each myEvents}}
-    <div class="row" style="margin-top:10px;">  
+    <div class="row" style="margin-top:10px;">
       <div class="panel panel-default">
         <div class="panel-body">
           <h2 class="blog-post-title" style="margin-top:0px;">
@@ -52,9 +52,9 @@
             <p class="blog-post-meta">
               <span class="glyphicon glyphicon-map-marker"></span>
               <a href="{{url}}" target="_blank">
-                {{address}}
-              </a> | 
-              <span class="glyphicon glyphicon-tag"></span> 
+                map
+              </a> |
+              <span class="glyphicon glyphicon-tag"></span>
               {{city}}
               {{#eventLabel dt}}{{/eventLabel}}
             </p>
@@ -63,20 +63,20 @@
         <div class="panel-footer">
           <div class="row">
             <div class="col-md-6" style="text-align: left">
-              <span class="glyphicon glyphicon-calendar text-danger"></span> 
+              <span class="glyphicon glyphicon-calendar text-danger"></span>
               {{#parseDate dt ''}}{{/parseDate}}
             </div>
             <div class="col-md-6" style="text-align: right">
               <span class="glyphicon glyphicon-time text-danger"></span>
-              {{#myTime start_time}}{{/myTime}} 
+              {{#myTime start_time}}{{/myTime}}
             </div>
-            
+
           </div>
         </div>
       </div>
     </div>
     {{/each}}
-  
+
     {{> pagination}}
   </div>
 </div>

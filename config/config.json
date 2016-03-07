@@ -1,0 +1,79 @@
+{
+    "site": {
+        "siteName": "NodeZA",
+        "title": "Welcome to NodeZA, a Node.js information portal for developers in South Africa",
+        "description": "NodeZA is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa",
+        "keywords": "node, node.js, events, tutorials, jobs, companies, news, south africa, meetups",
+        "baseUrl": "",
+        "cache": true,
+        "maxAge": 7,
+        "activateCSRF": true,
+        "csrfWhitelist": [
+            "/this-url-will-bypass-csrf"
+        ],
+        "port": 3000,
+        "sessionSecret": "msdisdvyjh5jd8bajas7wern",
+        "twitter_url": "http://twitter.com/nodeza",
+        "github_url": "http://github.com/nodeza",
+        "email": "info@nodeza.co.za"
+    },
+    "mysql": {
+        "host": "localhost",
+        "db": "",
+        "user": "nodeza",
+        "password": "H1tchH1k3r",
+        "charset": "utf8",
+        "database": "nodeza"
+    },
+    "mongodb": {
+        "url": "mongodb://localhost:27017/nodeza"
+    },
+    "mailgun": {
+        "login": "postmaster@sandbox697fcddc09814c6b83718b9fd5d4e5dc.mailgun.org",
+        "password": "29eldds1uri6"
+    },
+    "github": {
+        "clientID": "cb448b1d4f0c743a1e36",
+        "clientSecret": "815aa4606f476444691c5f1c16b9c70da6714dc6",
+        "callbackURL": "/auth/github/callback",
+        "passReqToCallback": true
+    },
+    "twitter": {
+        "consumerKey": "6NNBDyJ2TavL407A3lWxPFKBI",
+        "consumerSecret": "ZHaYyK3DQCqv49Z9ofsYdqiUgeoICyh6uoBgFfu7OeYC7wTQKa",
+        "callbackURL": "/auth/twitter/callback",
+        "passReqToCallback": true
+    },
+    "google": {
+        "clientID": "828110519058.apps.googleusercontent.com",
+        "clientSecret": "JdZsIaWhUFIchmC1a_IZzOHb",
+        "callbackURL": "/auth/google/callback",
+        "passReqToCallback": true
+    },
+    "blog": {
+        "postsPerPage": 5,
+        "showAuthor": true,
+        "showTags": true,
+        "showDate": true,
+        "showComments": true
+    },
+    "events": {
+        "eventsPerPage": 2,
+        "showTags": true,
+        "showDate": true,
+        "showComments": true
+    },
+    "meetups": {
+        "meetupsPerPage": 4,
+        "showAuthor": true,
+        "showDate": true,
+        "showComments": true
+    },
+    "widget": {
+        "whitelist": [
+            "when",
+            "lodash",
+            "./config.json"
+        ]
+    }
+}

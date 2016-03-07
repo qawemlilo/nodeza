@@ -4,14 +4,14 @@ var App = require('../app');
 var _ = require('lodash');
 var path = require('path');
 var fs = require('fs');
-var secrets = require('../config/secrets.json');
+var secrets = require('../config/config.json');
 
 
 
 
 function updateConfig(configs) {
 
-  var filepath = path.resolve(__dirname, '../config/secrets.json');
+  var filepath = path.resolve(__dirname, '../config/config.json');
 
   _.each(configs, function (val, key) {
     if(secrets[key]) {

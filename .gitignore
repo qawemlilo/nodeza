@@ -9,7 +9,6 @@
 *.docx
 *.log
 Procfile~
-secrets.json
 *~
 *.gitignore~
 *.secret
@@ -19,4 +18,5 @@ temp/
 public/img/120/
 public/img/320/
 public/img/48/
-env/
+.env.production.js
+.env.development.js

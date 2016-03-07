@@ -2,7 +2,7 @@
   {
     "user_id": 1,
     "title": "Node.js Cape Town",
-    "short_desc": "We try to meet each month on the third week. Each month we'll have a group discussion on a particular aspect of NodeJS, using it to build apps and any tools or workflows based on it.",
+    "short_desc": "We try to meet each month on the third week.",
     "markdown": "Thanks to the brilliant work of Ryan Dahl, we have node.js, a beautiful and elegant server-side framework built on top of Google's V8 Javascript engine. This opens up a whole new world of possibility for developing web apps, APIs, and lightweight HTTP servers.\n\nWe try to meet each month on the third week. Each month we'll have a group discussion on a particular aspect of NodeJS, using it to build apps and any tools or workflows based on it.\n\nIf you'd like to present, please send a note with your topic. If you have a suggestion for a topic, feel free to submit it.\n\nWe are always looking for spaces to use for the meetups. If you'd like to offer a space for us to use, please reach out to us.",
     "province": "Western Cape",
     "image_url": "image_1406633822178.jpeg",
@@ -15,7 +15,7 @@
     "url": "",
     "meetings": "Last week of the month",
     "email": "none@none.com",
-    "website": "http://www.meetup.com/nodecpt" 
+    "website": "http://www.meetup.com/nodecpt"
   },
   {
     "user_id": 1,
@@ -33,6 +33,6 @@
     "url": "",
     "meetings": "Last week of the month",
     "email": "none@none.com",
-    "website": "http://www.meetup.com/nodecpt" 
+    "website": "http://www.meetup.com/nodecpt"
   }
 ]

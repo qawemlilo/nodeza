@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var secrets = require('./data/secrets.json');
+var config = require('./data/config.json');
 var Prompt = require('simple-prompt');
 var chalk = require('chalk');
 
@@ -26,13 +26,13 @@ var dbSetup = new Prompt(questions);
 dbSetup.create()
 .then(function (err, answers) {
 
-  secrets.mysql.host = answers.Host;
-  secrets.mysql.user = answers.DatabaseUser;
-  secrets.mysql.password = answers.Password;
-  secrets.mysql.database = answers.MySQLDatabase;
+  config.mysql.host = answers.Host;
+  config.mysql.user = answers.DatabaseUser;
+  config.mysql.password = answers.Password;
+  config.mysql.database = answers.MySQLDatabase;
 
-  var filepath = path.resolve(__dirname, '../config/secrets.json');
-  var data = JSON.stringify(secrets, null, 4);
+  var filepath = path.resolve(__dirname, '../config/config.json');
+  var data = JSON.stringify(config, null, 4);
 
   fs.writeFileSync(filepath, data, 'utf8');
 

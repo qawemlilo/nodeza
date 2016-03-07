@@ -1,113 +1,97 @@
 "use strict";
 
-var secrets;
+var config = require('./config.json');
 var env = process.env.NODE_ENV || 'development';
-
-switch (env) {
-  case 'production':
-    secrets = require('../env/production/secrets.json');
-  break;
-
-  case 'development':
-    secrets = require('../env/dev/secrets.json');
-  break;
-
-  case 'testing':
-    secrets = require('../env/testing/secrets.json');
-  break;
-
-  case 'staging':
-    secrets = require('../env/staging/secrets.json');
-  break;
-}
+var env_file = '../.' + 'env.' + env + '.js';
+var env_vars = require(env_file);
 
 
 module.exports = {
   site: {
-    siteName: secrets.site.siteName || '',
-    title: secrets.site.title || '',
-    description: secrets.site.description || '',
-    keywords: secrets.site.keywords || '',
-    twitter_url: secrets.site.twitter_url || '',
-    github_url: secrets.site.github_url || '',
-    port: secrets.site.port,
-    ipAddress: secrets.site.ipAddress,
-    maxAge: secrets.site.maxAge || 7,
-    rssLimit: secrets.site.rssLimit || 10,
-    email: secrets.site.email,
-    baseUrl: secrets.site.baseUrl,
-    activateCSRF: secrets.site.activateCSRF || true,
-    csrfWhitelist: secrets.site.csrfWhitelist || [],
-    sessionSecret: secrets.site.sessionSecret,
-    domain: secrets.site.domain
+    siteName: config.site.siteName || '',
+    title: config.site.title || '',
+    description: config.site.description || '',
+    keywords: config.site.keywords || '',
+    twitter_url: config.site.twitter_url || '',
+    github_url: config.site.github_url || '',
+    port: config.site.port,
+    ipAddress: config.site.ipAddress,
+    maxAge: config.site.maxAge || 7,
+    rssLimit: config.site.rssLimit || 10,
+    email: config.site.email,
+    baseUrl: config.site.baseUrl,
+    activateCSRF: config.site.activateCSRF || true,
+    csrfWhitelist: config.site.csrfWhitelist || [],
+    sessionSecret: config.site.sessionSecret,
+    domain: config.site.domain
   },
   mongodb: {
-    url: secrets.mongodb.url
+    url: config.mongodb.url
   },
   mysql: {
-    host: secrets.mysql.host,
-    port: null,
-    user: secrets.mysql.user,
-    password: secrets.mysql.password,
-    database: secrets.mysql.database,
-    charset: secrets.mysql.charset || 'utf8'
+    host: env_vars.MYSQL_HOST || config.mysql.host,
+    port: env_vars.MYSQL_PORT || null,
+    user: env_vars.MYSQL_USER || config.mysql.user,
+    password: env_vars.MYSQL_PASSWORD || onfig.mysql.password,
+    database: env_vars.MYSQL_DATABASE || config.mysql.database,
+    charset: config.mysql.charset || 'utf8'
   },
   mailgun: {
-    login: secrets.mailgun.login,
-    password: secrets.mailgun.password,
-    apiKey: secrets.mailgun.apiKey,
-    email: secrets.mailgun.email,
-    newsletterEmail: secrets.mailgun.newsletterEmail,
-    domain: secrets.mailgun.domain
+    login: env_vars.MAILGUN_USER || config.mailgun.login,
+    password: env_vars.MAILGUN_PASSWORD || config.mailgun.password,
+    apiKey: env_vars.MAILGUN_KEY || config.mailgun.apiKey,
+    email: env_vars.MAILGUN_EMAIL || config.mailgun.email,
+    newsletterEmail: env_vars.MAILGUN_NEWSLETTER || config.mailgun.newsletterEmail,
+    domain: env_vars.MAILGUN_DOMAIN || config.mailgun.domain
   },
   github: {
-    clientID: secrets.github.clientID,
-    clientSecret: secrets.github.clientSecret,
-    callbackURL: secrets.github.callbackURL,
-    passReqToCallback: secrets.github.passReqToCallback
+    clientID: env_vars.GITHUB_CLIENTID || config.github.clientID,
+    clientSecret: env_vars.GITHUB_SECRET || config.github.clientSecret,
+    callbackURL: config.github.callbackURL,
+    passReqToCallback: config.github.passReqToCallback
   },
   twitter: {
-    consumerKey: secrets.twitter.consumerKey,
-    consumerSecret: secrets.twitter.consumerSecret,
-    accessTokenKey: secrets.twitter.accessTokenKey,
-    accessTokenSecret: secrets.twitter.accessTokenSecret,
-    callbackURL: secrets.twitter.callbackURL,
-    passReqToCallback: secrets.twitter.passReqToCallback
+    consumerKey: env_vars.TWITTER_KEY || config.twitter.consumerKey,
+    consumerSecret: env_vars.TWITTER_KEY || config.twitter.consumerSecret,
+    accessTokenKey: env_vars.TWITTER_TOKEN || config.twitter.accessTokenKey,
+    accessTokenSecret: env_vars.TWITTER_SECRET || config.twitter.accessTokenSecret,
+    callbackURL: config.twitter.callbackURL,
+    passReqToCallback: config.twitter.passReqToCallback
   },
   google: {
-    clientID: secrets.google.clientID,
-    clientSecret: secrets.google.clientSecret,
-    callbackURL: secrets.google.callbackURL,
-    passReqToCallback: secrets.google.passReqToCallback
+    clientID: env_vars.GOOGLE_CLIENTID || config.google.clientID,
+    clientSecret: env_vars.GOOGLE_SECRET || config.google.clientSecret,
+    callbackURL: config.google.callbackURL,
+    passReqToCallback: config.google.passReqToCallback
   },
   widget: {
-    whitelist: secrets.widget.whitelist || [],
+    whitelist: config.widget.whitelist || [],
     cache: true
   },
   blog: {
-    postsPerPage: parseInt(secrets.blog.postsPerPage, 10),
-    showAuthor: secrets.blog.showAuthor,
-    showTags: secrets.blog.showTags,
-    showDate: secrets.blog.showDate,
-    showComments: secrets.blog.showComments || false,
-    title: secrets.blog.title,
-    showShareButtons: secrets.blog.showShareButtons,
-    description: secrets.blog.description
+    postsPerPage: parseInt(config.blog.postsPerPage, 10),
+    showAuthor: config.blog.showAuthor,
+    showTags: config.blog.showTags,
+    showDate: config.blog.showDate,
+    showComments: config.blog.showComments || false,
+    title: config.blog.title,
+    showShareButtons: config.blog.showShareButtons,
+    description: config.blog.description
   },
   meetups: {
-    meetupsPerPage: parseInt(secrets.meetups.meetupsPerPage, 10),
-    showTags: secrets.meetups.showTags,
-    showDate: secrets.meetups.showDate,
-    title: secrets.meetups.title,
-    showComments: secrets.meetups.showComments || false,
-    description: secrets.meetups.description || ""
+    meetupsPerPage: parseInt(config.meetups.meetupsPerPage, 10),
+    showTags: config.meetups.showTags,
+    showDate: config.meetups.showDate,
+    title: config.meetups.title,
+    showComments: config.meetups.showComments || false,
+    description: config.meetups.description || ""
   },
   events: {
-    eventsPerPage: secrets.events.eventsPerPage || 2,
-    showTags: secrets.events.showTags || true,
-    showDate: secrets.events.showDate || true,
-    showComments: secrets.events.showComments || false,
-    title: secrets.events.showComments || "",
-    description: secrets.events.description || ""
+    eventsPerPage: config.events.eventsPerPage || 2,
+    showTags: config.events.showTags || true,
+    showDate: config.events.showDate || true,
+    showComments: config.events.showComments || false,
+    title: config.events.showComments || "",
+    description: config.events.description || ""
   }
 };

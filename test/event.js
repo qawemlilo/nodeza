@@ -1,6 +1,6 @@
 
 var should = require('chai').should();
-var nodeEvent = require('../models/event');
+var NodeEvent = require('../models/event');
 var eventsData = require('../sql/data/events');
 var moment = require('moment');
 
@@ -8,7 +8,7 @@ var moment = require('moment');
 describe('Event', function(){
 
   var eventData = eventsData[0];
-  var event = new nodeEvent();
+  var event = new NodeEvent();
 
 
   describe('#set #save', function() {

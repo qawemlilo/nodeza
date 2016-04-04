@@ -69,7 +69,7 @@
     "superagent": "1.4.0",
     "twitter": "1.2.5",
     "unidecode": "0.1.7",
-    "validator": "3.43.0",
+    "validator": "5.2.0",
     "when": "3.7.4"
   },
   "devDependencies": {

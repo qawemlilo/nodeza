@@ -1,5 +1,6 @@
 
 var when = require('when');
+var _ = require('lodash');
 var config = require('./config.json');
 
 
@@ -7,11 +8,14 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
+  //console.log(_.keys(App));
+
   if (App.cacheExists('featuredevents')) {
     return when(App.getCache('featuredevents'));
   }
 
-  var events = new App.getCollection('Events');
+  var events = App.getCollection('Events');
+
   var deferred = when.defer();
 
   return events.fetchBy('dt', {

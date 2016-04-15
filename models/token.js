@@ -5,7 +5,7 @@
  */
 
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var when  = require('when');
 
 

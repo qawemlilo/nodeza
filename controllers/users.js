@@ -1,20 +1,19 @@
 
-var App = require('../app');
-var Users = require('../collections/users');
-var Roles = require('../collections/roles');
-var Role = require('../models/roles');
-var User = require('../models/user');
+
+var App = require('../cms');
 var twitter = require('../lib/twitter');
 
 
-var UsersController = {
+var UsersController = App.Controller.extend({
 
   /*
    * GET /devs/:id
    * loads an event by id
    */
   getProfile: function (req, res, next) {
-    var profile;
+    let profile;
+    let User = this.getModel('User');
+    let twitter = this.App.getLib('twitter');
 
     User.forge({slug: req.params.slug})
     .fetch({withRelated: ['posts', 'events']})
@@ -67,7 +66,9 @@ var UsersController = {
    * Load user edit form
   **/
   getEditUser: function (req, res, next) {
-    var roles;
+    let roles;
+    let Roles = this.getCollection('Roles');
+    let User = this.getModel('User');
 
     Roles.forge()
     .fetch()
@@ -98,10 +99,11 @@ var UsersController = {
    * get all users
    */
   getDevs: function (req, res) {
-    var users = new Users();
-    var page = parseInt(req.query.p, 10);
-    var currentpage = page || 1;
-    var opts = {
+    let Users = this.getCollection('Users');
+    let users = new Users();
+    let page = parseInt(req.query.p, 10);
+    let currentpage = page || 1;
+    let opts = {
       limit: 5,
       page: currentpage,
       order: "asc",
@@ -135,10 +137,11 @@ var UsersController = {
    * get all users
    */
   getUsers: function (req, res) {
-    var users = new Users();
-    var page = parseInt(req.query.p, 10);
-    var currentpage = page || 1;
-    var opts = {
+    let Users = this.getCollection('Users');
+    let users = new Users();
+    let page = parseInt(req.query.p, 10);
+    let currentpage = page || 1;
+    let opts = {
       limit: 10,
       page: currentpage,
       order: "asc",
@@ -171,14 +174,15 @@ var UsersController = {
     req.assert('name', 'Name must be at least 3 characters long').len(3);
     req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
-    var errors = req.validationErrors();
+    let errors = req.validationErrors();
 
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
 
-    var details = {
+    let User = this.getModel('User');
+    let details = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
@@ -205,14 +209,15 @@ var UsersController = {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('name', 'Name must be at least 3 characters long').len(3);
 
-    var errors = req.validationErrors();
+    let errors = req.validationErrors();
 
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
 
-    var details = {
+    let User = this.getModel('User');
+    let details = {
       name: req.body.name,
       email: req.body.email,
       github_url: req.body.github_url,
@@ -250,7 +255,8 @@ var UsersController = {
    * Delete user account.
   */
   getDeleteUser: function(req, res, next) {
-    var user = new User();
+    let User = this.getModel('User');
+    let user = new User();
 
     user.deleteAccount(req.params.id)
     .then(function (msg) {

@@ -4,7 +4,8 @@
  * Blog categories collection
 **/
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
+
 var Category = require('../models/category');
 
 

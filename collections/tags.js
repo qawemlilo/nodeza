@@ -4,7 +4,7 @@
  * Blog tags collection
 **/
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var Tag = require('../models/tag');
 
 
@@ -16,15 +16,15 @@ var Tags = Base.Collection.extend({
 
   limit: 5,
 
-  
+
   /**
    * Fetches featured front page posts
   */
   fetchTags: function (limit, options) {
-    
+
     var self = this;
     var tags = Tags.forge();
-    
+
     return tags.query(function (query) {
       query.limit(limit || self.limit);
     })

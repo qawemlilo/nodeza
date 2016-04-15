@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-var Base  = require('./base');
+var App = require('../cms');
 
 
-var Company =  Base.Model.extend({
+var Company =  App.Model.extend({
 
   tableName: 'companies',
 
@@ -16,19 +16,19 @@ var Company =  Base.Model.extend({
 
   saving: function () {
     /*jshint unused:false*/
-    var self = this;
-    var desc = self.get('desc');
+    let desc = this.get('desc');
 
-    if (self.hasChanged('desc') || self.isNew()) {
+    if (this.hasChanged('desc') || this.isNew()) {
       desc = desc.replace(/\n\n\n/g, '<br>');
       desc = desc.replace(/\n\n/g, '<br>');
       desc = desc.replace(/\n/g, '<br>');
-      self.set({desc: desc});
+
+      this.set({desc: desc});
     }
-    
-    return Base.Model.prototype.saving.call(self);
+
+    return App.Model.prototype.saving.call(this);
   }
 });
 
 
-module.exports = Base.model('Company', Company);
+module.exports = App.addModel('Company', Company);

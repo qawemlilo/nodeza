@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
 **/
-var Base  = require('./base');
+var App = require('../cms');
 var when  = require('when');
 var markdown = require('markdown-it')();
 var _ = require('lodash');
@@ -15,19 +15,18 @@ var Tags  = require('../collections/tags');
 
 
 
-var Post = Base.Model.extend({
+var Post = App.Model.extend({
 
   tableName: 'posts',
 
 
   initialize: function () {
-    var self = this;
 
-    Base.Model.prototype.initialize.apply(this, arguments);
+    App.Model.prototype.initialize.apply(this, arguments);
 
-    this.on('saved', function (model, attributes, options) {
+    this.on('saved', (model, attributes, options) => {
       if (options.updateTags) {
-        self.updateTags(model, attributes, options);
+        this.updateTags(model, attributes, options);
       }
     });
   },
@@ -52,29 +51,28 @@ var Post = Base.Model.extend({
 
 
   publishingDate: function (fmt) {
-    var dt = this.get('published_at');
+    let dt = this.get('published_at');
 
     return moment(dt).format(fmt || 'MMMM D, YYYY');
   },
 
 
   saving: function (model, attr, options) {
-    var self = this;
-    var html = markdown.render(self.get('markdown'));
+    let html = markdown.render(this.get('markdown'));
 
     html = html.replace(/&amp;/gi, '&');
 
-    self.set('html', html);
-    self.set('title', self.get('title').trim());
+    this.set('html', html);
+    this.set('title', this.get('title').trim());
 
     // set publishing date if published and notExists
-    if (self.hasChanged('published') && self.get('published')) {
-      if (!self.get('published_at')) {
-        self.set('published_at', new Date());
+    if (this.hasChanged('published') && this.get('published')) {
+      if (!this.get('published_at')) {
+        this.set('published_at', new Date());
       }
     }
 
-    return Base.Model.prototype.saving.apply(self, _.toArray(arguments));
+    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 
@@ -93,33 +91,33 @@ var Post = Base.Model.extend({
 
     options = options || {};
 
-    self.myTags = options.updateTags || [];
+    this.myTags = options.updateTags || [];
 
 
     return Post.forge({id: newPost.id})
     .fetch({withRelated: ['tags'], transacting: options.transacting})
-    .then(function (post) {
-      var tagOps = [];
+    .then( (post) => {
+      let tagOps = [];
 
       // remove all existing tags from the post
       // _.omit(options, 'query') is a fix for using bookshelf 0.6.8
       // (https://github.com/tgriesser/bookshelf/issues/294)
       tagOps.push(post.tags().detach(null, _.omit(options, 'query')));
 
-      if (_.isEmpty(self.myTags)) {
+      if (_.isEmpty(this.myTags)) {
         return when.all(tagOps);
       }
 
       return Tags.forge()
-      .query('whereIn', 'name', _.pluck(self.myTags, 'name'))
+      .query('whereIn', 'name', _.pluck(this.myTags, 'name'))
       .fetch(options)
-      .then(function (existingTags) {
-        var doNotExist = [];
-        var createAndAttachOperation;
+      .then( (existingTags) => {
+        let doNotExist = [];
+        let createAndAttachOperation;
 
         existingTags = existingTags.toJSON();
 
-        doNotExist = _.reject(self.myTags, function (tag) {
+        doNotExist = _.reject(this.myTags, function (tag) {
           return _.any(existingTags, function (existingTag) {
               return existingTag.name === tag.name;
           });
@@ -176,8 +174,8 @@ var Post = Base.Model.extend({
     return Post.forge({id: id})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
-      var published = post.get('published') ? false : true;
-      var opts = {};
+      let published = post.get('published') ? false : true;
+      let opts = {};
 
       opts.published = published;
 
@@ -191,4 +189,4 @@ var Post = Base.Model.extend({
 
 });
 
-module.exports = Base.model('Post', Post);
+module.exports = App.addModel('Post', Post);

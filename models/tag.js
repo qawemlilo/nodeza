@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var knex  = Base.knex;
 
 
@@ -15,7 +15,7 @@ var Tag =  Base.Model.extend({
   // hack for pagination of /blog/tags/:slug
   paginationLimit: 10,
 
-  
+
   // hack for pagination of /blog/tags/:slug
   limit: 5,
 

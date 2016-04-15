@@ -5,11 +5,11 @@
  */
 
 
-var Base  = require('./base');
+var App = require('../cms');
 
 
-var LinkModel = Base.Model.extend({
-	
+var LinkModel = App.Bookshelf.Model.extend({
+
   tableName: 'links',
 
 
@@ -26,4 +26,5 @@ var LinkModel = Base.Model.extend({
   }
 });
 
-module.exports = Base.model('Link', LinkModel);
+//module.exports = Base.model('Link', LinkModel);
+module.exports = App.addModel('Link', LinkModel);

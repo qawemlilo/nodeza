@@ -1,6 +1,6 @@
 "use strict";
 
-var App = require('../app');
+var App = require('../cms');
 var site = App.getConfig('site');
 var rss = require('./rss');
 var mailGun = require('../lib/mailgun');
@@ -40,7 +40,7 @@ var SiteController = {
       res.writeHead(200, {
         'Content-Type': 'application/xml; charset=utf-8'
       });
-      
+
       res.end(feed);
     });
   },
@@ -138,4 +138,3 @@ var SiteController = {
 };
 
 module.exports = App.controller('Site', SiteController);
-

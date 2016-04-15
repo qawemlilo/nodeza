@@ -5,11 +5,11 @@
  */
 
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 
 
 var Role = Base.Model.extend({
-	
+
   tableName: 'roles',
 
 

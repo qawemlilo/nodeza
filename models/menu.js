@@ -5,11 +5,11 @@
  */
 
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 
 
 var Menu = Base.Model.extend({
-	
+
   tableName: 'menus',
 
 

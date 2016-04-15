@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
 **/
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var when = require('when');

@@ -4,7 +4,7 @@
  * Blog posts collection
 **/
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var Post = require('../models/post');
 
 var Posts = Base.Collection.extend({
@@ -16,7 +16,7 @@ var Posts = Base.Collection.extend({
 
 
   whereQuery: ['published', '=', 1],
-  
+
 
   /**
    * Fetches featured front page posts
@@ -24,10 +24,10 @@ var Posts = Base.Collection.extend({
   featured: function (limit, options) {
 
     options = options || {};
-    
+
     var self = this;
     var posts = Posts.forge();
-    
+
     return posts.query(function (query) {
       query.limit(limit || self.limit);
       query.where('featured', '=', 1);

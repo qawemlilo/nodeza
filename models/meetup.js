@@ -3,12 +3,12 @@
 /**
  * Module dependencies.
  */
-var Base  = require('./base');
+var App = require('../cms');
 var markdown = require('markdown-it')();
 var _ = require('lodash');
 
 
-var Meetup =  Base.Model.extend({
+var Meetup =  App.Model.extend({
 
   tableName: 'meetups',
 
@@ -21,8 +21,8 @@ var Meetup =  Base.Model.extend({
     this.set('html', markdown.render(this.get('markdown')));
     this.set('title', this.get('title').trim());
 
-    return Base.Model.prototype.saving.apply(this, _.toArray(arguments));
+    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   }
 });
 
-module.exports = Base.model('Meetup', Meetup);
+module.exports = App.addModel('Meetup', Meetup);

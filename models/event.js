@@ -4,13 +4,13 @@
  * Module dependencies.
  */
 
-var Base  = require('./base');
+var App = require('../cms');
 var moment = require('moment');
 var markdown = require('markdown-it')();
 var _ = require('lodash');
 
 
-var nodeEvent = Base.Model.extend({
+var nodeEvent = App.Model.extend({
 
   tableName: 'events',
 
@@ -49,4 +49,4 @@ var nodeEvent = Base.Model.extend({
 
 
 
-module.exports = Base.model('Event', nodeEvent);
+module.exports = App.addModel('Event', nodeEvent);

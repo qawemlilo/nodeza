@@ -4,7 +4,7 @@
  * Blog categories collection
 **/
 
-var Bookshelf  = require('../app').bookshelf;
+var Bookshelf = require('../cms').Bookshelf;
 var Route = require('../models/route');
 
 var Routes = Bookshelf.Collection.extend({

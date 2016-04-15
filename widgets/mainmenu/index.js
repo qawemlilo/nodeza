@@ -22,7 +22,7 @@ module.exports.exec = function (App) {
     }
 
     App.getCache('mainmenu', collection);
-    
+
     return collection;
   });
 };

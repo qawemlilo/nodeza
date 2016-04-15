@@ -335,5 +335,3 @@ App.widgetAPI = function () {
 
 
 module.exports = App;
-
-

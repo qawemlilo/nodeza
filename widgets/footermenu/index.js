@@ -12,7 +12,7 @@ module.exports.exec = function (App) {
   }
 
   var site = App.getConfig('site');
-  var menu = App.getModel('Menu', {name: 'Footer Menu'});
+  var menu = App.getModel('Menu');
 
   // add some properties to the config object
   config.twitter = site.twitter_url;
@@ -27,7 +27,7 @@ module.exports.exec = function (App) {
     }
 
     App.setCache('footermenu', collection);
-    
+
     return collection;
   });
 };

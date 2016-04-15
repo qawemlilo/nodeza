@@ -4,7 +4,7 @@
  * Users collection
 **/
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var Role = require('../models/roles');
 
 

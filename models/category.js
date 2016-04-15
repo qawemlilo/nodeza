@@ -3,11 +3,11 @@
 /**
  * Module dependencies.
  */
- 
-var Base  = require('./base');
+
+var App = require('../cms');
 
 
-var Category =  Base.Model.extend({
+var Category =  App.Model.extend({
 
   tableName: 'categories',
 
@@ -21,4 +21,4 @@ var Category =  Base.Model.extend({
 });
 
 
-module.exports = Base.model('Category', Category);
+module.exports = App.addModel('Category', Category);

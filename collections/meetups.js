@@ -4,7 +4,7 @@
  * Meetups collection
  */
 
-var Base  = require('./base');
+var Base = require('../cms').Bookshelf;
 var Meetup = require('../models/meetup');
 
 

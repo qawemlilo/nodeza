@@ -1,15 +1,16 @@
 "use strict";
 
-var auth = require('../lib/auth');
+var App = require('../cms');
+var UsersController = App.getController('Users');
 
+App.get('/admin/users', UsersController.getUsers);
+App.get('/users/new', UsersController.getNewUser);
+App.get('/users/edit/:id', UsersController.getEditUser);
+App.post('/users/new', UsersController.postUser);
+App.post('/users/edit', UsersController.postEditUser);
+App.get('/users/delete/:id', UsersController.getDeleteUser);
+App.get('/devs/:slug', UsersController.getProfile);
+App.get('/devs', UsersController.getDevs);
+App.get('/devs', UsersController.getDevs);
 
-module.exports = function (app, UsersController) {
-  app.get('/admin/users', auth.isUserAdmin, UsersController.getUsers);
-  app.get('/users/new', auth.isUserAdmin, UsersController.getNewUser);
-  app.get('/users/edit/:id', auth.isUserAdmin, UsersController.getEditUser);
-  app.post('/users/new', auth.isUserAdmin, UsersController.postUser);
-  app.post('/users/edit', auth.isUserAdmin, UsersController.postEditUser);
-  app.get('/users/delete/:id', auth.isUserAdmin, UsersController.getDeleteUser);
-  app.get('/devs/:slug', UsersController.getProfile);
-  app.get('/devs', UsersController.getDevs);
-};
+module.exports = {};

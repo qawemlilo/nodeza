@@ -76,6 +76,21 @@ Bootstrap.loadControllers = function (config) {
 };
 
 
+Bootstrap.loadPlugins = function (config) {
+  console.log("✔ Loading plugins...");
+
+  let pluginsDir = path.join(config.rootDir, 'cms', 'plugins');
+  let plugins = {};
+
+  fs.existsSync(pluginsDir) && fs.readdirSync(pluginsDir).forEach( (m) => {
+    let plugin = require(`${pluginsDir}/${m}`)(config);
+    plugins[plugin.name] = plugin;
+  });
+
+  return plugins;
+};
+
+
 Bootstrap.loadRoutes = function (config) {
   console.log("✔ Loading routes...");
 

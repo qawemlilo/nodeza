@@ -5,13 +5,16 @@
    Set user model from the onset
 */
 
-var _ = require('lodash');
-var bootstrap = require('./bootstrap');
-var EventEmitter = require('events').EventEmitter;
+const _ = require('lodash');
+const bootstrap = require('./bootstrap');
+const EventEmitter = require('events').EventEmitter;
 var Controllers = {};
 
+var emitter = new EventEmitter();
 
-function App() {}
+function App() {
+  EventEmitter.call(this);
+}
 
 
 _.extend(App.prototype, EventEmitter, {
@@ -44,6 +47,10 @@ _.extend(App.prototype, EventEmitter, {
     this.Cache = require('./core/cache');
     this.Controller = require('./core/controller')(this);
 
+    this.Plugins = bootstrap.loadPlugins(config);
+    bootstrap.loadControllers(config);
+    bootstrap.loadRoutes(config);
+
     let widgetMiddleware = bootstrap.initWidgets(this);
 
     // add widget middleware
@@ -56,7 +63,6 @@ _.extend(App.prototype, EventEmitter, {
       console.info("✔ Express server listening on port %d in %s mode", this.server.get('port'), this.server.get('env'));
     });
   },
-
 
   addCollection: function () {
     let args = Array.prototype.slice.call(arguments);
@@ -71,17 +77,31 @@ _.extend(App.prototype, EventEmitter, {
 
 
   controller: function (name, val) {
-    Controllers[name] = val;
+    this._controllers = this._controllers || Object.create(null);
+
+    if (this._controllers[name]) throw new Error(name + ' is already defined in the registry');
+
+    this._controllers[name] = val;
 
     return val;
   },
 
 
   getController: function (name) {
-    if (Controllers[name]) {
-      let Controller = Controllers[name];
+    if (this._controllers[name]) {
+      return new this._controllers[name]();
+    }
+    else {
+      return null;
+    }
+  },
 
-      return new Controller();
+
+  getPlugin: function (name) {
+    if (this.Plugins[name]) {
+      let plugin = this.Plugins[name];
+
+      return plugin;
     }
     else {
       return null;

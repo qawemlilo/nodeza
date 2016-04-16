@@ -1,7 +1,7 @@
 
+"use strict";
 
 var App = require('../cms');
-var twitter = require('../lib/twitter');
 
 
 var UsersController = App.Controller.extend({
@@ -12,11 +12,10 @@ var UsersController = App.Controller.extend({
    */
   getProfile: function (req, res, next) {
     let profile;
-    let User = this.getModel('User');
-    let twitter = this.App.getLib('twitter');
+    let User = App.getModel('User', {slug: req.params.slug});
+    let twitter = App.getPlugin('twitter');
 
-    User.forge({slug: req.params.slug})
-    .fetch({withRelated: ['posts', 'events']})
+    User.fetch({withRelated: ['posts', 'events']})
     .then(function (user) {
       profile = user;
 
@@ -43,7 +42,7 @@ var UsersController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error[0].message});
-      res.redirect('back');
+      next(error);
     });
   },
 
@@ -67,8 +66,8 @@ var UsersController = App.Controller.extend({
   **/
   getEditUser: function (req, res, next) {
     let roles;
-    let Roles = this.getCollection('Roles');
-    let User = this.getModel('User');
+    let Roles = App.getCollection('Roles');
+    let User = App.getModel('User');
 
     Roles.forge()
     .fetch()
@@ -99,8 +98,7 @@ var UsersController = App.Controller.extend({
    * get all users
    */
   getDevs: function (req, res) {
-    let Users = this.getCollection('Users');
-    let users = new Users();
+    let users = App.getCollection('Users');
     let page = parseInt(req.query.p, 10);
     let currentpage = page || 1;
     let opts = {
@@ -137,7 +135,7 @@ var UsersController = App.Controller.extend({
    * get all users
    */
   getUsers: function (req, res) {
-    let Users = this.getCollection('Users');
+    let Users = App.getCollection('Users');
     let users = new Users();
     let page = parseInt(req.query.p, 10);
     let currentpage = page || 1;
@@ -181,7 +179,7 @@ var UsersController = App.Controller.extend({
       return res.redirect('back');
     }
 
-    let User = this.getModel('User');
+    let User = App.getModel('User');
     let details = {
       name: req.body.name,
       email: req.body.email,
@@ -216,7 +214,7 @@ var UsersController = App.Controller.extend({
       return res.redirect('back');
     }
 
-    let User = this.getModel('User');
+    let User = App.getModel('User');
     let details = {
       name: req.body.name,
       email: req.body.email,
@@ -255,7 +253,7 @@ var UsersController = App.Controller.extend({
    * Delete user account.
   */
   getDeleteUser: function(req, res, next) {
-    let User = this.getModel('User');
+    let User = App.getModel('User');
     let user = new User();
 
     user.deleteAccount(req.params.id)
@@ -269,7 +267,7 @@ var UsersController = App.Controller.extend({
       res.redirect('/admin/users');
     });
   }
-};
+});
 
 
 module.exports = App.controller('Users', UsersController);

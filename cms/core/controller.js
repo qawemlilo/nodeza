@@ -28,9 +28,9 @@ module.exports = function (app) {
   };
 
   Controller.extend = utils.extend;
-  Controller.App = app;
+
 
   controllerInstance = Controller;
 
-  return controllerInstance
+  return Controller
 };

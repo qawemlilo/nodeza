@@ -104,7 +104,7 @@ module.exports = function (config) {
   server.use(middleware.csrf({whitelist: config.site.csrfWhitelist}));
 
 
-  server.use(middleware.sessionHistory());
+  //server.use(middleware.sessionHistory());
 
   server.use(middleware.returnTo());
 

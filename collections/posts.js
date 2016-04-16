@@ -4,7 +4,7 @@
  * Blog posts collection
 **/
 
-var Base = require('../cms').Bookshelf;
+var Base = require('widget-cms').Bookshelf;
 var Post = require('../models/post');
 
 var Posts = Base.Collection.extend({

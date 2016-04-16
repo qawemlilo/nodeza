@@ -5,7 +5,7 @@
  */
 
 
-var Base = require('../cms').Bookshelf;
+var Base = require('widget-cms').Bookshelf;
 
 
 var Route = Base.Model.extend({

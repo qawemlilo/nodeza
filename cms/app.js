@@ -8,6 +8,8 @@
 const _ = require('lodash');
 const bootstrap = require('./bootstrap');
 const EventEmitter = require('events').EventEmitter;
+const util = require('util');
+
 var Controllers = {};
 
 var emitter = new EventEmitter();
@@ -16,8 +18,9 @@ function App() {
   EventEmitter.call(this);
 }
 
+util.inherits(App, EventEmitter);
 
-_.extend(App.prototype, EventEmitter, {
+_.extend(App.prototype, {
 
   init: function (config) {
 
@@ -49,14 +52,14 @@ _.extend(App.prototype, EventEmitter, {
 
     this.Plugins = bootstrap.loadPlugins(config);
     bootstrap.loadControllers(config);
-    bootstrap.loadRoutes(config);
 
     let widgetMiddleware = bootstrap.initWidgets(this);
 
     // add widget middleware
     this.server.use(widgetMiddleware);
 
-    this.Route = require('./core/route')(this);
+    //this.Route = require('./core/route')(this);
+    bootstrap.loadRoutes(config);
 
     // start server
     this.server.listen(this.server.get('port'), this.server.get('ipAddress'), () => {

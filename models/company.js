@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var App = require('../cms');
+var App = require('widget-cms');
 
 
 var Company =  App.Model.extend({

@@ -5,7 +5,7 @@
  */
 
 
-var App = require('../cms');
+var App = require('widget-cms');
 
 
 var LinkModel = App.Bookshelf.Model.extend({

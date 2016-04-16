@@ -9,6 +9,6 @@ var config = require('./config');
 
 config.rootDir = config.appDir = process.cwd();
 
-var app = require('./cms/app');
+var app = require('widget-cms');
 
 app.init(config);

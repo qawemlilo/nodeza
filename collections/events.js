@@ -3,7 +3,7 @@
 /**
  * Events collection
 **/
-var Base = require('../cms').Bookshelf;
+var Base = require('widget-cms').Bookshelf;
 var nodeEvent = require('../models/event');
 var moment = require('moment');
 

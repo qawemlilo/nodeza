@@ -4,7 +4,7 @@
  * Blog categories collection
 **/
 
-var Base = require('../cms').Bookshelf;
+var Base = require('widget-cms').Bookshelf;
 
 var Category = require('../models/category');
 

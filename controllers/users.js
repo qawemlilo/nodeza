@@ -1,7 +1,7 @@
 
 "use strict";
 
-var App = require('../cms');
+var App = require('widget-cms');
 
 
 var UsersController = App.Controller.extend({

@@ -1,6 +1,7 @@
 "use strict";
 
 
+const _ = require('lodash');
 let utils = require('../lib/utils');
 let controllerInstance = null;
 
@@ -11,24 +12,25 @@ module.exports = function (app) {
     return controllerInstance;
   }
 
-  let Controller = function () {
-    this.initialize.apply(this, Array.prototype.slice.call(arguments));
+  function Controller() {
+    this.initialize.apply(this, arguments);
   };
 
-  Controller.prototype.initialize = function () {};
+  _.extend(Controller.prototype, {
+    initialize: function () {},
 
-  Controller.prototype.getModel = function () {
-    let args = Array.prototype.slice.call(arguments);
-    return app.Bookshelf.model.apply(app.Bookshelf, args);
-  };
+    getModel: function () {
+      let args = Array.prototype.slice.call(arguments);
+      return app.Bookshelf.model.apply(app.Bookshelf, args);
+    },
 
-  Controller.prototype.getCollection = function () {
-    let args = Array.prototype.slice.call(arguments);
-    return app.Bookshelf.collection.apply(app.Bookshelf, args);
-  };
+    getCollection: function () {
+      let args = Array.prototype.slice.call(arguments);
+      return app.Bookshelf.collection.apply(app.Bookshelf, args);
+    }
+  });
 
   Controller.extend = utils.extend;
-
 
   controllerInstance = Controller;
 

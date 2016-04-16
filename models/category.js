@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var App = require('../cms');
+var App = require('widget-cms');
 
 
 var Category =  App.Model.extend({

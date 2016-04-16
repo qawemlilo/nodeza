@@ -4,7 +4,7 @@
  * Users collection
 **/
 
-var Base = require('../cms').Bookshelf;
+var Base = require('widget-cms').Bookshelf;
 var User = require('../models/user');
 
 

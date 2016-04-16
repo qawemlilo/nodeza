@@ -4,7 +4,7 @@
  * Blog categories collection
 **/
 
-var Bookshelf = require('../cms').Bookshelf;
+var Bookshelf = require('widget-cms').Bookshelf;
 var Menu = require('../models/menu');
 
 var Menus = Bookshelf.Collection.extend({

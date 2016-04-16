@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var App = require('../cms');
+var App = require('widget-cms');
 var markdown = require('markdown-it')();
 var _ = require('lodash');
 

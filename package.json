@@ -63,7 +63,7 @@
     "passport-oauth": "1.0.0",
     "passport-twitter": "1.0.3",
     "redis": "0.12.1",
-    "request": "2.65.0",
+    "request": "2.72.0",
     "rss": "0.3.2",
     "simple-prompt": "^0.2.1",
     "superagent": "1.4.0",

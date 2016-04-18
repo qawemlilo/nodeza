@@ -51,7 +51,7 @@
     "mailgun-js": "0.7.3",
     "markdown-it": "5.0.0",
     "method-override": "1.0.2",
-    "moment": "2.10.6",
+    "moment": "2.13.0",
     "mongoose": "3.8.23",
     "morgan": "1.6.1",
     "multer": "0.1.3",

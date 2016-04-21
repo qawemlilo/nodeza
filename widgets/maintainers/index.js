@@ -7,11 +7,8 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  if (App.cacheExists('maintainers')) {
-    return when(App.getCache('maintainers'));
-  }
-
-  var users = new App.getCollection('Users');
+  var Users = App.getCollection('Users');
+  var users = new Users();
   var deferred = when.defer();
 
   return users.fetchBy('id', {
@@ -20,9 +17,9 @@ module.exports.exec = function (App) {
     order: 'asc',
     noPagination: true
   })
-  .then(function (collection) { 
+  .then(function (collection) {
     // if the collection has less than 4 items
-    /*
+
     var maintainers = collection.map(function (model) {
       return {
         slug: model.get('slug'),
@@ -30,9 +27,7 @@ module.exports.exec = function (App) {
         name: model.get('name'),
         twitter_url: model.get('twitter_url')
       };
-    });*/
-
-    App.setCache('maintainers', collection);
+    });
 
     return collection;
   });

@@ -8,14 +8,8 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  //console.log(_.keys(App));
-
-  if (App.cacheExists('featuredevents')) {
-    return when(App.getCache('featuredevents'));
-  }
-
-  var events = App.getCollection('Events');
-
+  var Events = App.getCollection('Events');
+  var events = new Events();
   var deferred = when.defer();
 
   return events.fetchBy('dt', {
@@ -40,13 +34,9 @@ module.exports.exec = function (App) {
           collection.push(model);
         });
 
-        App.setCache('featuredevents', collection);
-
         return collection;
       });
     }
-
-    App.setCache('featuredevents', collection);
 
     return collection;
   });

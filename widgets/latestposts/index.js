@@ -7,17 +7,14 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  if (App.cacheExists('latestposts')) {
-    return when(App.getCache('latestposts'));
-  }
+  var Posts = App.getCollection('Posts');
+  var posts = new Posts();
 
-  var posts = App.getCollection('Posts');
-
-  return posts.fetchBy('published_at', {limit: 5, noPagination: true})
+  return posts.fetchBy('published_at', {
+    limit: 5,
+    noPagination: true
+  })
   .then(function (collection) {
-
-    App.setCache('latestposts', collection);
-    
     return collection;
   });
 };

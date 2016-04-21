@@ -12,23 +12,18 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  if (App.cacheExists('recentevents')) {
-    return when(App.getCache('recentevents'));
-  }
-
-  var events = App.getCollection('Events');
+  var Events = App.getCollection('Events');
+  var events = new Events();
 
   return events.fetchBy('dt', {
     limit: 3,
     noPagination: true,
     where: ['dt', '<', datetime()]
-  }, 
-    {columns: ['slug', 'title']
+  },
+  {
+    columns: ['slug', 'title']
   })
   .then(function (collection) {
-    
-    App.setCache('recentevents', collection);
-
     return collection;
   });
 };

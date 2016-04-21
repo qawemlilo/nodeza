@@ -11,8 +11,8 @@ var SiteController = App.Controller.extend({
   */
   getIndex: function (req, res, next) {
     res.render('site/index',{
-      title: App.config.site.title,
-      description: App.config.site.description,
+      title: App._config.site.title,
+      description: App._config.site.description,
       page: 'home'
     });
   },
@@ -20,8 +20,8 @@ var SiteController = App.Controller.extend({
 
   getAbout: function (req, res, next) {
     res.render('site/about', {
-      title: App.config.site.title,
-      description: App.config.site.description,
+      title: App._config.site.title,
+      description: App._config.site.description,
       page: 'about'
     });
   },
@@ -124,4 +124,4 @@ var SiteController = App.Controller.extend({
   }
 });
 
-module.exports = App.controller('Site', SiteController);
+module.exports = App.addController('Site', SiteController);

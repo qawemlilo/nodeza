@@ -1,21 +1,21 @@
 "use strict";
 
-var when = require('when');
-var Twitter = require('twitter');
-var Plugin  = null;
+const when = require('when');
+const Twitter = require('twitter');
+const config = require('../config');
 
+let Plugin  = null;
+let client = new Twitter({
+  consumer_key: config.twitter.consumerKey,
+  consumer_secret: config.twitter.consumerSecret,
+  access_token_key: config.twitter.accessTokenKey,
+  access_token_secret: config.twitter.accessTokenSecret
+});
 
-module.exports = function (config) {
+module.exports = function () {
   if (Plugin) {
     return Plugin;
   }
-
-  let client = new Twitter({
-    consumer_key: config.twitter.consumerKey,
-    consumer_secret: config.twitter.consumerSecret,
-    access_token_key: config.twitter.accessTokenKey,
-    access_token_secret: config.twitter.accessTokenSecret
-  });
 
   Plugin  = {
     name: 'twitter'

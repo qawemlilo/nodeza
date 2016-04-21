@@ -6,17 +6,13 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-	if (App.cacheExists('featuredposts')) {
-		return when(App.getCache('featuredposts'));
-	}
+  var Posts = App.getCollection('Posts');
+  var posts = new Posts();
 
-  var posts = App.getCollection('Posts');
-
-  return posts.featured(2, {columns: ['slug', 'title', 'published_at', 'html']})
+  return posts.featured(2, {
+    columns: ['slug', 'title', 'published_at', 'html']
+  })
   .then(function (collection) {
-    
-    App.setCache('featuredposts', collection);
-
     return collection;
   });
 };

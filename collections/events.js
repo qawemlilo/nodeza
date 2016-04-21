@@ -3,12 +3,12 @@
 /**
  * Events collection
 **/
-var Base = require('widget-cms').Bookshelf;
-var nodeEvent = require('../models/event');
-var moment = require('moment');
+const App = require('widget-cms');
+const nodeEvent = require('../models/event');
+const moment = require('moment');
 
 
-var Events = Base.Collection.extend({
+let Events = App.Collection.extend({
 
   model: nodeEvent,
 
@@ -70,4 +70,4 @@ var Events = Base.Collection.extend({
 });
 
 
-module.exports = Base.collection('Events', Events);
+module.exports = App.addCollection('Events', Events);

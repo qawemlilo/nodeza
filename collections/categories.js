@@ -4,15 +4,14 @@
  * Blog categories collection
 **/
 
-var Base = require('widget-cms').Bookshelf;
+const App = require('widget-cms');
+const Category = require('../models/category');
 
-var Category = require('../models/category');
 
-
-var Categories = Base.Collection.extend({
+let Categories = App.Collection.extend({
 
   model: Category
 
 });
 
-module.exports = Base.collection('Categories', Categories);
+module.exports = App.addCollection('Categories', Categories);

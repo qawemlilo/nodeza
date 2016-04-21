@@ -3,6 +3,7 @@
 var App = require('widget-cms');
 var UsersController = App.getController('Users');
 
+
 App.get('/admin/users', UsersController.getUsers);
 App.get('/users/new', UsersController.getNewUser);
 App.get('/users/edit/:id', UsersController.getEditUser);

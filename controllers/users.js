@@ -12,10 +12,11 @@ var UsersController = App.Controller.extend({
    */
   getProfile: function (req, res, next) {
     let profile;
-    let User = App.getModel('User', {slug: req.params.slug});
+    let User = App.getModel('User');
     let twitter = App.getPlugin('twitter');
 
-    User.fetch({withRelated: ['posts', 'events']})
+    User.forge({slug: req.params.slug})
+    .fetch({withRelated: ['posts', 'events']})
     .then(function (user) {
       profile = user;
 
@@ -23,7 +24,7 @@ var UsersController = App.Controller.extend({
         return twitter.getTweets(user.twitterHandle());
       }
       else {
-        return false;
+        return twitter.getTweets('ragingflameblog');
       }
     })
     .then(function (tweets) {
@@ -110,7 +111,8 @@ var UsersController = App.Controller.extend({
 
     users.base = '/devs';
 
-    users.fetchBy('id', opts, {withRelated: ['role']})
+    users.forge()
+    .fetchBy('id', opts, {withRelated: ['role']})
     .then(function (collection) {
       res.render('users/devs', {
         title: 'Developers',
@@ -270,4 +272,4 @@ var UsersController = App.Controller.extend({
 });
 
 
-module.exports = App.controller('Users', UsersController);
+module.exports = App.addController('Users', UsersController);

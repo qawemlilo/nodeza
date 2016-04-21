@@ -7,26 +7,23 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  if (App.cacheExists('footermenu')) {
-    return when(App.getCache('footermenu'));
-  }
-
   var site = App.getConfig('site');
-  var menu = App.getModel('Menu');
+  var Menu = App.getModel('Menu');
+  var menu = new Menu({name: 'Footer Menu'});
 
   // add some properties to the config object
   config.twitter = site.twitter_url;
   config.github = site.github_url;
 
-  return menu.fetch({withRelated: ['links', 'links.route']})
+  return menu.fetch({
+    withRelated: ['links', 'links.route']
+  })
   .then(function (model) {
     var collection = model.related('links');
 
     if (!collection.length) {
       collection = null;
     }
-
-    App.setCache('footermenu', collection);
 
     return collection;
   });

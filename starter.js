@@ -12,6 +12,8 @@ const app = require('widget-cms');
 app.config(_.extend({
   port: 3000, // default 3000
 
+  secret: 'my_ninja_cat',
+
   db: {
     client: 'mysql', // pg
     connection: config.mysql
@@ -26,9 +28,10 @@ app.config(_.extend({
   rootDir: process.cwd(),
 
   middleware: {
-    forms: true,
-    csrf: true,
-    sessions: true
+    enableForms: true,
+    enableCSRF: true,
+    inputValidation: true,
+    enableSessions: true
   }
 }, config));
 

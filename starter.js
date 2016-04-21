@@ -4,10 +4,9 @@
 /*
  *  Application point of entry
 **/
-
-var config = require('./config');
-var _ = require('lodash');
-var app = require('widget-cms');
+const config = require('./config');
+const _ = require('lodash');
+const app = require('widget-cms');
 
 
 app.config(_.extend({

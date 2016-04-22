@@ -5,10 +5,10 @@
  */
 
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 
 
-var Menu = Base.Model.extend({
+var Menu = App.Model.extend({
 
   tableName: 'menus',
 
@@ -26,4 +26,4 @@ var Menu = Base.Model.extend({
   }
 });
 
-module.exports = Base.model('Menu', Menu);
+module.exports = App.addModel('Menu', Menu);

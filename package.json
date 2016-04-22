@@ -51,7 +51,7 @@
     "unidecode": "0.1.7",
     "validator": "3.43.0",
     "when": "3.7.4",
-    "widget-cms": "^0.2.1"
+    "widget-cms": "^0.2.2"
   },
   "devDependencies": {
     "chai": "^3.4.0",

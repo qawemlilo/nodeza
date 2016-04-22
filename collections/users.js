@@ -4,11 +4,11 @@
  * Users collection
 **/
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var User = require('../models/user');
 
 
-var Users = Base.Collection.extend({
+var Users = App.Collection.extend({
 
   model: User,
 
@@ -18,4 +18,4 @@ var Users = Base.Collection.extend({
 });
 
 
-module.exports = Base.collection('Users', Users);
+module.exports = App.addCollection('Users', Users);

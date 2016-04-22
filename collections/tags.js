@@ -4,12 +4,12 @@
  * Blog tags collection
 **/
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var Tag = require('../models/tag');
 
 
 
-var Tags = Base.Collection.extend({
+var Tags = App.Collection.extend({
 
   model: Tag,
 
@@ -37,4 +37,4 @@ var Tags = Base.Collection.extend({
 });
 
 
-module.exports = Base.collection('Tags', Tags);
+module.exports = App.addCollection('Tags', Tags);

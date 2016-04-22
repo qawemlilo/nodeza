@@ -64,7 +64,7 @@ let MeetupsController = App.Controller.extend({
    * GET /meetups/:slug
    * loads a meetup by slug
    */
-  getMeetup: function (req, res) {
+  getMeetup: function (req, res, next) {
     let slug = req.params.slug;
     let settings = App.getConfig('meetups');
 
@@ -90,7 +90,7 @@ let MeetupsController = App.Controller.extend({
   /*
    * GET /meetups/edit/:id
    */
-  getEdit: function (req, res) {
+  getEdit: function (req, res, next) {
     let id = req.params.id;
     let meetup = new Meetup({id: id});
 

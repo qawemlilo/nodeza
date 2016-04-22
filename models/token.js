@@ -5,11 +5,11 @@
  */
 
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var when  = require('when');
 
 
-var Token = Base.Model.extend({
+var Token = App.Model.extend({
 
   tableName: 'tokens',
 
@@ -29,4 +29,4 @@ var Token = Base.Model.extend({
 });
 
 
-module.exports = Base.model('Token', Token);
+module.exports = App.addModel('Token', Token);

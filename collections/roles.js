@@ -4,15 +4,15 @@
  * Users collection
 **/
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var Role = require('../models/roles');
 
 
-var Roles = Base.Collection.extend({
+var Roles = App.Collection.extend({
 
   model: Role
 
 });
 
 
-module.exports = Base.collection('Roles', Roles);
+module.exports = App.addCollection('Roles', Roles);

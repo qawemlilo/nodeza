@@ -4,13 +4,13 @@
  * Blog categories collection
 **/
 
-var Bookshelf = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var Menu = require('../models/menu');
 
-var Menus = Bookshelf.Collection.extend({
+var Menus = App.Collection.extend({
 
   model: Menu
 
 });
 
-module.exports = Bookshelf.collection('Menus', Menus);
+module.exports = App.addCollection('Menus', Menus);

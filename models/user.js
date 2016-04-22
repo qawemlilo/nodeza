@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
 **/
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var when = require('when');
@@ -12,7 +12,7 @@ var _ = require('lodash');
 var Tokens = require('./token');
 
 
-var User = Base.Model.extend({
+var User = App.Model.extend({
 
   tableName: 'users',
 
@@ -173,4 +173,4 @@ var User = Base.Model.extend({
 });
 
 
-module.exports = Base.model('User', User);
+module.exports = App.addModel('User', User);

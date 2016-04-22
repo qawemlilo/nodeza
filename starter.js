@@ -29,12 +29,11 @@ app.config(_.extend({
 
   middleware: {
     enableForms: true,
-    enableCSRF: true,
+    enableCSRF: false,
     inputValidation: true,
     enableSessions: true
   }
 }, config));
-
 
 
 app.start();

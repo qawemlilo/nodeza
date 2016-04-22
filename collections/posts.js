@@ -4,10 +4,10 @@
  * Blog posts collection
 **/
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var Post = require('../models/post');
 
-var Posts = Base.Collection.extend({
+var Posts = App.Collection.extend({
 
   model: Post,
 
@@ -42,4 +42,4 @@ var Posts = Base.Collection.extend({
 });
 
 
-module.exports = Base.collection('Posts', Posts);
+module.exports = App.addCollection('Posts', Posts);

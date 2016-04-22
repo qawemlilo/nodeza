@@ -4,12 +4,12 @@
  * Meetups collection
  */
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var Meetup = require('../models/meetup');
 
 
 
-var Meetups = Base.Collection.extend({
+var Meetups = App.Collection.extend({
 
   model: Meetup,
 
@@ -18,4 +18,4 @@ var Meetups = Base.Collection.extend({
 });
 
 
-module.exports = Base.collection('Meetups', Meetups);
+module.exports = App.addCollection('Meetups', Meetups);

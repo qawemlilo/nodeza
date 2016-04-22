@@ -5,10 +5,10 @@
  */
 
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 
 
-var Route = Base.Model.extend({
+var Route = App.Model.extend({
 
   tableName: 'routes',
 
@@ -26,4 +26,4 @@ var Route = Base.Model.extend({
   }
 });
 
-module.exports = Base.model('Route', Route);
+module.exports = App.addModel('Route', Route);

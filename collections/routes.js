@@ -4,13 +4,13 @@
  * Blog categories collection
 **/
 
-var Bookshelf = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var Route = require('../models/route');
 
-var Routes = Bookshelf.Collection.extend({
+var Routes = App.Collection.extend({
 
   model: Route
 
 });
 
-module.exports = Bookshelf.collection('Routes', Routes);
+module.exports = App.addCollection('Routes', Routes);

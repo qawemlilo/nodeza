@@ -4,13 +4,13 @@
  * Blog categories collection
 **/
 
-var Bookshelf = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 var LinkModel = require('../models/link');
 
-var Links = Bookshelf.Collection.extend({
+var Links = App.Collection.extend({
 
   model: LinkModel
 
 });
 
-module.exports = Bookshelf.collection('Links', Links);
+module.exports = App.addCollection('Links', Links);

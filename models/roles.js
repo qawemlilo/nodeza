@@ -5,10 +5,10 @@
  */
 
 
-var Base = require('widget-cms').Bookshelf;
+var App = require('widget-cms');
 
 
-var Role = Base.Model.extend({
+var Role = App.Model.extend({
 
   tableName: 'roles',
 
@@ -26,4 +26,4 @@ var Role = Base.Model.extend({
   }
 });
 
-module.exports = Base.model('Role', Role);
+module.exports = App.addModel('Role', Role);

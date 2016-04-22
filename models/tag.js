@@ -3,11 +3,11 @@
 /**
  * Module dependencies.
  */
-var Base = require('widget-cms').Bookshelf;
-var knex  = Base.knex;
+var App = require('widget-cms');
+var knex  = App.Bookshelf.knex;
 
 
-var Tag =  Base.Model.extend({
+var Tag =  App.Model.extend({
 
   tableName: 'tags',
 
@@ -43,4 +43,4 @@ var Tag =  Base.Model.extend({
 });
 
 
-module.exports = Base.model('Tag', Tag);
+module.exports = App.addModel('Tag', Tag);

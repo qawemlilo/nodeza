@@ -23,7 +23,7 @@ var nodeEvent = App.Model.extend({
     this.set('html', markdown.render(this.get('markdown')));
     this.set('title', this.get('title').trim());
 
-    return Base.Model.prototype.saving.apply(this, _.toArray(arguments));
+    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 

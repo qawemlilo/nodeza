@@ -5,9 +5,54 @@ const User = App.getModel('User');
 const mailGun = require('../lib/mailgun');
 const when = require('when');
 const crypto = require('crypto');
-const passport = require('passport');
+const passport = App.server.get('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const _ = require('lodash');
 
+
+passport.serializeUser(function(user, done) {
+  done(null, user.get('id'));
+});
+
+
+passport.deserializeUser(function(id, done) {
+  User.forge({id: id})
+  .fetch({withRelated: ['role', 'tokens']})
+  .then(function(user) {
+    done(false, user);
+  })
+  .catch(function (error) {
+    done(error);
+  });
+});
+
+
+// Sign in using Email and Password.
+passport.use(new LocalStrategy({ usernameField: 'email' },
+  function(email, password, done) {
+    User.forge({email: email})
+    .fetch()
+    .then(function(user) {
+      if (!user) {
+        return done(null, false, { message: 'Email ' + email + ' not found'});
+      }
+
+      user.comparePassword(password)
+      .then(function(isMatch) {
+        if (isMatch) {
+          done(null, user);
+        } else {
+          done(null, false, { message: 'Invalid password.' });
+        }
+      })
+      .catch(function (error) {
+        done(null, false, { message: error.message });
+      });
+    })
+    .catch(function (error) {
+      done(null, false, {message: error.message});
+    });
+}));
 
 /**
  * Converts date in milliseconds to MySQL datetime format
@@ -110,32 +155,18 @@ let AccountController = App.Controller.extend({
    * Log in user
    */
   postLogin: function(req, res, next) {
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('password', 'Password cannot be blank').notEmpty();
-
-    let errors = req.validationErrors();
-
-    if (errors) {
-      req.flash('errors',  { msg: errors});
-      return res.redirect('/login');
-    }
-
-    passport.authenticate('local', function(err, user, info) {
-      if (err) {
-        return next(err);
-      }
-
-      if (!user) {
-        req.flash('errors', { msg: info.message });
+    passport.authenticate('local', function(error, user, info) {
+      if (error) {
+        console.error(error.stack);
+        req.flash('errors', { msg: err.message });
         return res.redirect('/login');
       }
 
-      console.log(user);
-
-      req.logIn(user, function(err) {
-        if (err) {
-          req.flash('errors', { msg: err.message });
-          next(err);
+      req.logIn(user, function(error) {
+        if (error) {
+          console.error(error.stack);
+          req.flash('errors', { msg: error.message });
+          return res.redirect('/login');
         }
 
         res.redirect(req.session.returnTo || '/');
@@ -483,7 +514,7 @@ let AccountController = App.Controller.extend({
       })
       .catch(function (error) {
         req.flash('error', {msg: error.message});
-        res.redirect('/admin/account');
+        next(error);
       });
     })
     .catch(function (error) {

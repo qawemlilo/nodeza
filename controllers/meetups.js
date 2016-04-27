@@ -4,24 +4,7 @@ const App = require('widget-cms');
 const Meetups = App.getCollection('Meetups');
 const Meetup = App.getModel('Meetup');
 const moment = require('moment');
-const path =  require('path');
-const imgProcessorFile = path.resolve(__dirname, '../process-images.js');
-
-
-function processMyImg (url) {
-  let imgProcessor = require('child_process').fork(imgProcessorFile);
-
-  imgProcessor.on('message', function(message) {
-    if (message === 'complete') {
-      console.log(message);
-    }
-    else {
-      console.log(message.stack);
-    }
-  });
-
-  imgProcessor.send(url);
-}
+const path = require('path');
 
 
 let MeetupsController = App.Controller.extend({
@@ -206,10 +189,8 @@ let MeetupsController = App.Controller.extend({
       meetupData.id = req.body.meetup_id;
     }
 
-    if (req.files.image_url) {
-      meetupData.image_url = req.files.image_url.name;
-
-      processMyImg('public/temp/' + meetupData.image_url);
+    if (req.files.length) {
+      meetupData.image_url = req.files[0].filename;
     }
 
     meetupData.user_id = user.get('id');
@@ -246,8 +227,9 @@ let MeetupsController = App.Controller.extend({
    * POST /meetups/edit
    * create an meetup
    */
-  postEdit: function (req, res) {
-    req.assert('title', 'Name must be at least 4 characters long').len(4);
+  postEdit: function (req, res, next) {
+
+    req.assert('title', 'Title must be at least 4 characters long').len(4);
     req.assert('short_desc', 'Short description must be at lest 12 characters').len(12);
     req.assert('markdown', 'Details must be at least 12 characters long').len(12);
     req.assert('email', 'Starting cannot be blank').isEmail();
@@ -277,10 +259,8 @@ let MeetupsController = App.Controller.extend({
     meetupData.number = req.body.number;
     meetupData.meetings = req.body.meetings;
 
-    if (req.files.image_url) {
-      meetupData.image_url = req.files.image_url.name;
-
-      processMyImg('public/temp/' + meetupData.image_url);
+    if (req.files.length) {
+      meetupData.image_url = req.files[0].filename;
     }
 
     let meetup = new Meetup({id: meetupData.id});
@@ -294,12 +274,12 @@ let MeetupsController = App.Controller.extend({
       })
       .catch(function (error) {
         req.flash('errors', {'msg': error.message});
-        res.redirect('/admin/meetups');
+        next(error);
       });
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/meetups');
+      rnext(error);
     });
   }
 });

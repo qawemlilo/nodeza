@@ -1,9 +1,8 @@
 "use strict";
 
-const App = require('widget-cms');
-const AccountController = App.getController('Account');
-const auth = require('../lib/auth');
-const passport = require('passport');
+let App = require('widget-cms');
+let AccountController = App.getController('Account');
+let auth = require('../lib/auth');
 
 /*
  * Account Routes
@@ -13,11 +12,7 @@ const passport = require('passport');
 App.get('/login', auth.isNotAuthenticated, AccountController.getLogin);
 App.get('/loginas/:id', auth.isUserAdmin, AccountController.getLoginAs);
 App.get('/restoreadmin', auth.isAuthenticated, AccountController.restoreAdmin);
-App.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+App.post('/login', AccountController.postLogin);
 
 App.get('/signup', auth.isNotAuthenticated, AccountController.getSignup);
 App.post('/signup', auth.isNotAuthenticated, AccountController.postSignup);

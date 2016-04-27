@@ -111,11 +111,11 @@ var User = App.Model.extend({
       .then(function (hash) {
         self.set({password: hash});
 
-        return Base.Model.prototype.saving.apply(self, _.toArray(arguments));
+        return App.Model.prototype.saving.apply(self, _.toArray(arguments));
       });
     }
 
-    return Base.Model.prototype.saving.apply(self, _.toArray(arguments));
+    return App.Model.prototype.saving.apply(self, _.toArray(arguments));
   },
 
 

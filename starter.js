@@ -27,6 +27,8 @@ app.config(_.extend({
 
   rootDir: process.cwd(),
 
+  uploadsDir: '',
+
   middleware: {
     enableForms: true,
     enableCSRF: false,

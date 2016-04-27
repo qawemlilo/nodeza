@@ -48,10 +48,11 @@
     "rss": "0.3.2",
     "simple-prompt": "^0.2.1",
     "superagent": "1.4.0",
+    "type-is": "^1.6.12",
     "unidecode": "0.1.7",
     "validator": "3.43.0",
     "when": "3.7.4",
-    "widget-cms": "^0.2.2"
+    "widget-cms": "^0.2.3"
   },
   "devDependencies": {
     "chai": "^3.4.0",

@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var Category =  App.Model.extend({
+let Category =  App.Model.extend({
 
   tableName: 'categories',
 

@@ -4,11 +4,11 @@
  * Users collection
 **/
 
-var App = require('widget-cms');
-var User = require('../models/user');
+const App = require('widget-cms');
+const User = App.getModel('User');
 
 
-var Users = App.Collection.extend({
+let Users = App.Collection.extend({
 
   model: User,
 

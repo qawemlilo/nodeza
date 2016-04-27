@@ -5,10 +5,10 @@
  */
 
 
-var App = require('widget-cms');
+let App = require('widget-cms');
 
 
-var Route = App.Model.extend({
+let Route = App.Model.extend({
 
   tableName: 'routes',
 

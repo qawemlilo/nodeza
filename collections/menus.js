@@ -4,10 +4,10 @@
  * Blog categories collection
 **/
 
-var App = require('widget-cms');
-var Menu = require('../models/menu');
+const App = require('widget-cms');
+const Menu = App.getModel('Menu');
 
-var Menus = App.Collection.extend({
+let Menus = App.Collection.extend({
 
   model: Menu
 

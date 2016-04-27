@@ -3,19 +3,14 @@
 /**
  * Module dependencies.
 **/
-var App = require('widget-cms');
-var when  = require('when');
-var markdown = require('markdown-it')();
-var _ = require('lodash');
-var moment = require('moment');
-var Tag  = require('./tag');
-var Tags  = require('../collections/tags');
+const App = require('widget-cms');
+const when  = require('when');
+const markdown = require('markdown-it')();
+const _ = require('lodash');
+const moment = require('moment');
 
 
-
-
-
-var Post = App.Model.extend({
+let Post = App.Model.extend({
 
   tableName: 'posts',
 
@@ -87,7 +82,9 @@ var Post = App.Model.extend({
    * @return {Promise(ghostBookshelf.Models.Post)} Updated Post model
   **/
   updateTags: function (newPost, attr, options) {
-    var self = this;
+    let self = this;
+    let Tags  = App.getCollection('Tags');
+    let Tag  = App.getModel('Tag');
 
     options = options || {};
 

@@ -3,16 +3,15 @@
 /**
  * Module dependencies.
 **/
-var App = require('widget-cms');
-var bcrypt = require('bcrypt-nodejs');
-var crypto = require('crypto');
-var when = require('when');
-var node = require('when/node');
-var _ = require('lodash');
-var Tokens = require('./token');
+const App = require('widget-cms');
+const bcrypt = require('bcrypt-nodejs');
+const crypto = require('crypto');
+const when = require('when');
+const node = require('when/node');
+const _ = require('lodash');
 
 
-var User = App.Model.extend({
+let User = App.Model.extend({
 
   tableName: 'users',
 
@@ -61,7 +60,7 @@ var User = App.Model.extend({
 
 
   comparePassword: function(candidatePassword) {
-    var password = this.get('password');
+    let password = this.get('password');
 
     return when.promise(function(resolve, reject, notify) {
       bcrypt.compare(candidatePassword, password, function(err, isMatch) {
@@ -81,18 +80,18 @@ var User = App.Model.extend({
     defaults = defaults || 'retro';
 
     if (!this.get('email')) {
-      return 'https://gravatar.com/avatar/?s=' + size + '&d=' + defaults;
+      return `https://gravatar.com/avatar/?s=${size}&d=${defaults}`;
     }
 
-    var md5 = crypto.createHash('md5').update(this.get('email'));
+    let md5 = crypto.createHash('md5').update(this.get('email'));
 
-    return 'https://gravatar.com/avatar/' + md5.digest('hex').toString() + '?s=' + size + '&d=' + defaults;
+    return `https://gravatar.com/avatar/${md5.digest('hex').toString()}?s=${size}&d=${defaults}`;
   },
 
 
   twitterHandle: function() {
-    var handle = false;
-    var twitter_url = this.get('twitter_url');
+    let handle = false;
+    let twitter_url = this.get('twitter_url');
 
     if (twitter_url) {
       handle = twitter_url.substring(twitter_url.lastIndexOf('/') + 1);
@@ -104,18 +103,16 @@ var User = App.Model.extend({
 
 
   saving: function (newObj, attr, options) {
-    var self = this;
+    if (this.isNew() || this.hasChanged('password')) {
+      return this.generatePasswordHash(this.get('password'))
+      .then((hash) => {
+        this.set({password: hash});
 
-    if (self.isNew() || self.hasChanged('password')) {
-      return self.generatePasswordHash(self.get('password'))
-      .then(function (hash) {
-        self.set({password: hash});
-
-        return App.Model.prototype.saving.apply(self, _.toArray(arguments));
+        return App.Model.prototype.saving.apply(this, _.toArray(arguments));
       });
     }
 
-    return App.Model.prototype.saving.apply(self, _.toArray(arguments));
+    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 
@@ -124,11 +121,11 @@ var User = App.Model.extend({
    * delete post
   **/
   deleteAccount: function(userId) {
-    var user = new User({id: userId});
+    let user = new User({id: userId});
 
     return user.fetch({withRelated: ['tokens'], require: true})
     .then(function (model) {
-      var tokens = model.related('tokens');
+      let tokens = model.related('tokens');
 
       if (tokens.length > 0) {
         model.tokens().detach();
@@ -147,8 +144,9 @@ var User = App.Model.extend({
    * Unlink an auth account
    */
   unlink: function(provider) {
-    var tokens = this.related('tokens').toJSON();
-    var token = _.findWhere(tokens, {kind: provider});
+    let tokens = this.related('tokens').toJSON();
+    let token = _.findWhere(tokens, {kind: provider});
+    let Tokens = App.getCollection('Tokens');
 
     if (token) {
       if (token.kind === 'github') {

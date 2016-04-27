@@ -5,7 +5,7 @@
 **/
 
 var App = require('widget-cms');
-var Route = require('../models/route');
+var Route = App.getModel('Route');
 
 var Routes = App.Collection.extend({
 

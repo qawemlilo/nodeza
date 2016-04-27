@@ -4,11 +4,11 @@
  * Users collection
 **/
 
-var App = require('widget-cms');
-var Role = require('../models/roles');
+const App = require('widget-cms');
+const Role = App.getModel('Role');
 
 
-var Roles = App.Collection.extend({
+let Roles = App.Collection.extend({
 
   model: Role
 

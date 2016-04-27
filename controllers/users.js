@@ -1,10 +1,10 @@
 
 "use strict";
 
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var UsersController = App.Controller.extend({
+let UsersController = App.Controller.extend({
 
   /*
    * GET /devs/:id
@@ -38,11 +38,9 @@ var UsersController = App.Controller.extend({
         page: 'profile',
         tweets: tweets || []
       });
-
-      profile.viewed();
     })
     .catch(function (error) {
-      req.flash('errors', {'msg': error[0].message});
+      req.flash('errors', {'msg': error.message});
       next(error);
     });
   },
@@ -197,7 +195,7 @@ var UsersController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('errors', {msg: error.message});
-      res.redirect('/admin/users');
+      next(error);
     });
   },
 
@@ -245,7 +243,7 @@ var UsersController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('error', {msg: error.message});
-      res.redirect('/admin/users');
+      next(error);
     });
   },
 
@@ -266,7 +264,7 @@ var UsersController = App.Controller.extend({
     .catch(function (error) {
       console.log(error.stack);
       req.flash('error', { msg: error.message });
-      res.redirect('/admin/users');
+      next(error);
     });
   }
 });

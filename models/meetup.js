@@ -3,12 +3,12 @@
 /**
  * Module dependencies.
  */
-var App = require('widget-cms');
-var markdown = require('markdown-it')();
-var _ = require('lodash');
+const App = require('widget-cms');
+const markdown = require('markdown-it')();
+const _ = require('lodash');
 
 
-var Meetup =  App.Model.extend({
+let Meetup =  App.Model.extend({
 
   tableName: 'meetups',
 

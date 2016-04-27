@@ -5,11 +5,11 @@
  */
 
 
-var App = require('widget-cms');
-var when  = require('when');
+const App = require('widget-cms');
+const when  = require('when');
 
 
-var Token = App.Model.extend({
+let Token = App.Model.extend({
 
   tableName: 'tokens',
 

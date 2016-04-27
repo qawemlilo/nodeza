@@ -4,13 +4,13 @@
  * Module dependencies.
  */
 
-var App = require('widget-cms');
-var moment = require('moment');
-var markdown = require('markdown-it')();
-var _ = require('lodash');
+const App = require('widget-cms');
+const moment = require('moment');
+const markdown = require('markdown-it')();
+const _ = require('lodash');
 
 
-var nodeEvent = App.Model.extend({
+let nodeEvent = App.Model.extend({
 
   tableName: 'events',
 
@@ -31,7 +31,7 @@ var nodeEvent = App.Model.extend({
    * parses date
    */
   parseDate: function (fmt) {
-  	var dt = this.get('dt');
+  	let dt = this.get('dt');
 
     return moment(dt).format(fmt || 'ddd MMM D YYYY');
   },
@@ -41,7 +41,7 @@ var nodeEvent = App.Model.extend({
    * parses time
    */
   parseTime: function (fmt) {
-  	var ts = this.get('start_time');
+  	let ts = this.get('start_time');
 
     return moment(ts, 'HH:mm:ss').format(fmt || 'HH:mm');
   }

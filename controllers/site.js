@@ -1,9 +1,9 @@
 "use strict";
 
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var SiteController = App.Controller.extend({
+let SiteController = App.Controller.extend({
 
   /**
    * Get /
@@ -67,7 +67,7 @@ var SiteController = App.Controller.extend({
 
 
   postSubscribe: function (req, res) {
-    var opts = {
+    let opts = {
       name: req.body.name,
       email: req.body.email,
       host: req.headers.host
@@ -85,7 +85,7 @@ var SiteController = App.Controller.extend({
 
 
   getConfirmSubscription: function (req, res) {
-    var opts = {
+    let opts = {
       email: req.params.email,
       subscribed: 'yes',
       host: req.headers.host
@@ -93,7 +93,7 @@ var SiteController = App.Controller.extend({
 
     mailGun.confirmSubscription(opts, function (error, message) {
       if (error) {
-        console.log(error);
+        console.error(error);
         req.flash('errors',  { msg: 'An error occured, subscription not confirmed :('});
         return res.redirect('/');
       }
@@ -105,7 +105,7 @@ var SiteController = App.Controller.extend({
 
 
   unSubscribe: function (req, res) {
-    var opts = {
+    let opts = {
       email: req.params.email,
       subscribed: 'no',
       host: req.headers.host
@@ -113,7 +113,7 @@ var SiteController = App.Controller.extend({
 
     mailGun.confirmSubscription(opts, function (error, message) {
       if (error) {
-        console.log(error);
+        console.error(error);
         req.flash('errors',  { msg: 'An error occured, please try again or contact us :('});
         return res.redirect('/');
       }

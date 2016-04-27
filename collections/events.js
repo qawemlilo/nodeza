@@ -4,7 +4,7 @@
  * Events collection
 **/
 const App = require('widget-cms');
-const nodeEvent = require('../models/event');
+const nodeEvent = App.getModel('Event');
 const moment = require('moment');
 
 

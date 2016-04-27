@@ -5,10 +5,10 @@
  */
 
 
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var Menu = App.Model.extend({
+let Menu = App.Model.extend({
 
   tableName: 'menus',
 

@@ -5,10 +5,10 @@
  */
 
 
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var Role = App.Model.extend({
+let Role = App.Model.extend({
 
   tableName: 'roles',
 

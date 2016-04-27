@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var Company =  App.Model.extend({
+let Company =  App.Model.extend({
 
   tableName: 'companies',
 

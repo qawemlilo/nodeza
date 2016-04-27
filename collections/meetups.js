@@ -4,12 +4,12 @@
  * Meetups collection
  */
 
-var App = require('widget-cms');
-var Meetup = require('../models/meetup');
+const App = require('widget-cms');
+const Meetup = App.getModel('Meetup');
 
 
 
-var Meetups = App.Collection.extend({
+let Meetups = App.Collection.extend({
 
   model: Meetup,
 

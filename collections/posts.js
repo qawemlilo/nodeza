@@ -4,10 +4,10 @@
  * Blog posts collection
 **/
 
-var App = require('widget-cms');
-var Post = require('../models/post');
+const App = require('widget-cms');
+const Post = App.getModel('Post');
 
-var Posts = App.Collection.extend({
+let Posts = App.Collection.extend({
 
   model: Post,
 
@@ -25,11 +25,10 @@ var Posts = App.Collection.extend({
 
     options = options || {};
 
-    var self = this;
-    var posts = Posts.forge();
+    let posts = Posts.forge();
 
-    return posts.query(function (query) {
-      query.limit(limit || self.limit);
+    return posts.query((query) => {
+      query.limit(limit || this.limit);
       query.where('featured', '=', 1);
       query.andWhere('published', '=', 1);
       query.orderBy('published_at', 'desc');

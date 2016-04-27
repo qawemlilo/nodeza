@@ -8,17 +8,6 @@ const Category = App.getModel('Category');
 const moment = require('moment');
 const path =  require('path');
 const _ = require('lodash');
-const imgProcessorFile = path.resolve(__dirname, '../process-images.js');
-
-function processMyImg (url) {
-  let imgProcessor = require('child_process').fork(imgProcessorFile);
-
-  imgProcessor.on('message', function(message) {
-    console.log(message);
-  });
-
-  imgProcessor.send(url);
-}
 
 
 function processTags(tags) {
@@ -308,10 +297,8 @@ let PostsController = App.Controller.extend({
       featured: !!req.body.featured
     };
 
-    if (req.files.image_url) {
-      postData.image_url = req.files.image_url.name;
-
-      processMyImg('public/temp/' + postData.image_url);
+    if (req.files.length) {
+      postData.image_url = req.files[0].filename;
     }
 
     let tags = processTags(req.body.tags);
@@ -358,10 +345,8 @@ let PostsController = App.Controller.extend({
     let options = {method: 'update'};
     let post = new Post({id: postData.id});
 
-    if (req.files.image_url) {
-      postData.image_url = req.files.image_url.name;
-
-      processMyImg('public/temp/' + postData.image_url);
+    if (req.files.length) {
+      postData.image_url = req.files[0].filename;
     }
 
     if (req.body.tags) {

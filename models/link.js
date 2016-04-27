@@ -5,10 +5,10 @@
  */
 
 
-var App = require('widget-cms');
+const App = require('widget-cms');
 
 
-var LinkModel = App.Bookshelf.Model.extend({
+let LinkModel = App.Bookshelf.Model.extend({
 
   tableName: 'links',
 

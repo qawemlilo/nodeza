@@ -3,11 +3,11 @@
 /**
  * Module dependencies.
  */
-var App = require('widget-cms');
-var knex  = App.Bookshelf.knex;
+const App = require('widget-cms');
+const knex  = App.Bookshelf.knex;
 
 
-var Tag =  App.Model.extend({
+let Tag =  App.Model.extend({
 
   tableName: 'tags',
 

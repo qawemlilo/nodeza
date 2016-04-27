@@ -4,10 +4,10 @@
  * Blog categories collection
 **/
 
-var App = require('widget-cms');
-var LinkModel = require('../models/link');
+const App = require('widget-cms');
+const LinkModel = App.getModel('Link');
 
-var Links = App.Collection.extend({
+let Links = App.Collection.extend({
 
   model: LinkModel
 

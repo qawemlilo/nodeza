@@ -4,12 +4,12 @@
  * Blog tags collection
 **/
 
-var App = require('widget-cms');
-var Tag = require('../models/tag');
+const App = require('widget-cms');
+const Tag = App.getModel('Tag');
 
 
 
-var Tags = App.Collection.extend({
+let Tags = App.Collection.extend({
 
   model: Tag,
 
@@ -22,11 +22,10 @@ var Tags = App.Collection.extend({
   */
   fetchTags: function (limit, options) {
 
-    var self = this;
-    var tags = Tags.forge();
+    let tags = Tags.forge();
 
-    return tags.query(function (query) {
-      query.limit(limit || self.limit);
+    return tags.query((query) => {
+      query.limit(limit || this.limit);
     })
     .fetch(options || {})
     .then(function (collection) {

@@ -1,7 +1,7 @@
 "use strict";
 
-var App = require('widget-cms');
-var UsersController = App.getController('Users');
+const App = require('widget-cms');
+const UsersController = App.getController('Users');
 
 
 App.get('/admin/users', UsersController.getUsers);

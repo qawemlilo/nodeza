@@ -1,8 +1,8 @@
 
 
-var App = require('widget-cms');
-var RolesController = App.getController('Roles');
-var auth = require('../lib/auth');
+const App = require('widget-cms');
+const RolesController = App.getController('Roles');
+const auth = require('../lib/auth');
 
 
 App.get('/admin/users/roles', auth.isUserAdmin, RolesController.getRoles);

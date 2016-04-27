@@ -1,8 +1,8 @@
 "use strict";
 
-var App = require('widget-cms');
-var PostsController = App.getController('Posts');
-var auth = require('../lib/auth');
+const App = require('widget-cms');
+const PostsController = App.getController('Posts');
+const auth = require('../lib/auth');
 
 
 //private

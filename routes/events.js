@@ -1,8 +1,8 @@
 "use strict";
 
-var App = require('widget-cms');
-var EventsController = App.getController('Events');
-var auth = require('../lib/auth');
+const App = require('widget-cms');
+const EventsController = App.getController('Events');
+const auth = require('../lib/auth');
 
 
 App.get('/admin/events', auth.isAuthenticated, EventsController.getAdmin);

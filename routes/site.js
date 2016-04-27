@@ -1,7 +1,7 @@
 "use strict";
 
-var App = require('widget-cms');
-var SiteController = App.getController('Site');
+const App = require('widget-cms');
+const SiteController = App.getController('Site');
 
 
 App.get('/', SiteController.getIndex);

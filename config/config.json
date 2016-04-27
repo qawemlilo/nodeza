@@ -53,11 +53,14 @@
         "passReqToCallback": true
     },
     "blog": {
-        "postsPerPage": 5,
+        "postsPerPage": "5",
         "showAuthor": true,
         "showTags": true,
         "showDate": true,
-        "showComments": true
+        "showComments": true,
+        "title": "NodeZA",
+        "showShareButtons": false,
+        "description": "Node.js information portal."
     },
     "events": {
         "eventsPerPage": 2,

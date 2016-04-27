@@ -1,8 +1,8 @@
 "use strict";
 
-let App = require('widget-cms');
-let AccountController = App.getController('Account');
-let auth = require('../lib/auth');
+const App = require('widget-cms');
+const AccountController = App.getController('Account');
+const auth = require('../lib/auth');
 
 /*
  * Account Routes

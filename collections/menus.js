@@ -7,7 +7,7 @@
 const App = require('widget-cms');
 const Menu = App.getModel('Menu');
 
-let Menus = App.Collection.extend({
+const Menus = App.Collection.extend({
 
   model: Menu
 

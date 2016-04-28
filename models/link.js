@@ -8,7 +8,7 @@
 const App = require('widget-cms');
 
 
-let LinkModel = App.Bookshelf.Model.extend({
+const LinkModel = App.Bookshelf.Model.extend({
 
   tableName: 'links',
 

@@ -8,7 +8,7 @@ const App = require('widget-cms');
 const User = App.getModel('User');
 
 
-let Users = App.Collection.extend({
+const Users = App.Collection.extend({
 
   model: User,
 

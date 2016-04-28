@@ -4,7 +4,7 @@
 const App = require('widget-cms');
 
 
-let UsersController = App.Controller.extend({
+const UsersController = App.Controller.extend({
 
   /*
    * GET /devs/:id

@@ -8,7 +8,7 @@
 const App = require('widget-cms');
 
 
-let Role = App.Model.extend({
+const Role = App.Model.extend({
 
   tableName: 'roles',
 

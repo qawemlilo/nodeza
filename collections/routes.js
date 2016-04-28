@@ -4,10 +4,10 @@
  * Blog categories collection
 **/
 
-var App = require('widget-cms');
-var Route = App.getModel('Route');
+const App = require('widget-cms');
+const Route = App.getModel('Route');
 
-var Routes = App.Collection.extend({
+const Routes = App.Collection.extend({
 
   model: Route
 

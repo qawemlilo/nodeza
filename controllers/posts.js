@@ -25,7 +25,7 @@ function processTags(tags) {
 }
 
 
-let PostsController = App.Controller.extend({
+const PostsController = App.Controller.extend({
 
   getSettings: function (req, res) {
     res.render('posts/config', {

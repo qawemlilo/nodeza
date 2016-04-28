@@ -8,7 +8,7 @@ const App = require('widget-cms');
 const Category = App.getModel('Category');
 
 
-let Categories = App.Collection.extend({
+const Categories = App.Collection.extend({
 
   model: Category
 

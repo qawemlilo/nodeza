@@ -7,7 +7,7 @@
 const App = require('widget-cms');
 const Post = App.getModel('Post');
 
-let Posts = App.Collection.extend({
+const Posts = App.Collection.extend({
 
   model: Post,
 

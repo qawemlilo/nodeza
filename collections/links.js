@@ -7,7 +7,7 @@
 const App = require('widget-cms');
 const LinkModel = App.getModel('Link');
 
-let Links = App.Collection.extend({
+const Links = App.Collection.extend({
 
   model: LinkModel
 

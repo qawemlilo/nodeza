@@ -9,7 +9,7 @@ const Tag = App.getModel('Tag');
 
 
 
-let Tags = App.Collection.extend({
+const Tags = App.Collection.extend({
 
   model: Tag,
 

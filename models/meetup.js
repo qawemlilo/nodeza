@@ -8,7 +8,7 @@ const markdown = require('markdown-it')();
 const _ = require('lodash');
 
 
-let Meetup =  App.Model.extend({
+const Meetup =  App.Model.extend({
 
   tableName: 'meetups',
 

@@ -13,5 +13,3 @@ App.get('/users/delete/:id', UsersController.getDeleteUser);
 App.get('/devs/:slug', UsersController.getProfile);
 App.get('/devs', UsersController.getDevs);
 App.get('/devs', UsersController.getDevs);
-
-module.exports = {};

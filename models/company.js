@@ -6,7 +6,7 @@
 const App = require('widget-cms');
 
 
-let Company =  App.Model.extend({
+const Company =  App.Model.extend({
 
   tableName: 'companies',
 

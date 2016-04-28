@@ -7,7 +7,7 @@ const App = require('widget-cms');
 const knex  = App.Bookshelf.knex;
 
 
-let Tag =  App.Model.extend({
+const Tag =  App.Model.extend({
 
   tableName: 'tags',
 

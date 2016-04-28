@@ -3,14 +3,14 @@
 const when = require('when');
 const Twitter = require('twitter');
 const config = require('../config');
-
-let Plugin  = null;
-let client = new Twitter({
+const client = new Twitter({
   consumer_key: config.twitter.consumerKey,
   consumer_secret: config.twitter.consumerSecret,
   access_token_key: config.twitter.accessTokenKey,
   access_token_secret: config.twitter.accessTokenSecret
 });
+
+let Plugin  = null;
 
 module.exports = function () {
   if (Plugin) {
@@ -23,7 +23,7 @@ module.exports = function () {
 
   Plugin.getTweets = function (twitterHandle, limit) {
     return when.promise(function(resolve, reject, notify) {
-      var params = {
+      let params = {
         screen_name: twitterHandle,
         limit: limit || 10
       };

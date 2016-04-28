@@ -64,7 +64,7 @@ function datetime(ts) {
 }
 
 
-let AccountController = App.Controller.extend({
+const AccountController = App.Controller.extend({
 
   /**
    * GET /login

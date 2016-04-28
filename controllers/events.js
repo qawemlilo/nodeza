@@ -1,13 +1,13 @@
 "use strict";
 
 
-var App = require('widget-cms');
-var Events = App.getCollection('Events');
-var nodeEvent = App.getModel('Event');
-var moment = require('moment');
+const App = require('widget-cms');
+const Events = App.getCollection('Events');
+const nodeEvent = App.getModel('Event');
+const moment = require('moment');
 
 
-var EventsController = App.Controller.extend({
+const EventsController = App.Controller.extend({
 
   /*
    * GET /events/new
@@ -46,9 +46,9 @@ var EventsController = App.Controller.extend({
    * loads an event by id
    */
   getEvent: function (req, res, next) {
-    var slug = req.params.slug;
-    var event = new nodeEvent({slug: slug});
-    var settings = App.getConfig('events');
+    let slug = req.params.slug;
+    let event = new nodeEvent({slug: slug});
+    let settings = App.getConfig('events');
 
     event.fetch()
     .then(function (event) {
@@ -74,7 +74,7 @@ var EventsController = App.Controller.extend({
    * GET /events/edit/:id
    */
   getEdit: function (req, res) {
-    var event = new nodeEvent({id: req.params.id});
+    let event = new nodeEvent({id: req.params.id});
 
     event.fetch()
     .then(function (model) {
@@ -98,18 +98,18 @@ var EventsController = App.Controller.extend({
    * get upcoming events
    */
   getEvents: function (req, res, next) {
-    var events = new Events();
+    let events = new Events();
 
     res.locals._page = 'events';
 
-    var page = parseInt(req.query.p, 10);
-    var query = {};
-    var currentpage = page || 1;
-    var limit = req.session.elimit || 2;
-    var history = req.session.history;
-    var month = req.query.month || '';
-    var monthObj;
-    var where = ['created_at', '<', new Date()];
+    let page = parseInt(req.query.p, 10);
+    let query = {};
+    let currentpage = page || 1;
+    let limit = req.session.elimit || 2;
+    let history = req.session.history;
+    let month = req.query.month || '';
+    let monthObj;
+    let where = ['created_at', '<', new Date()];
 
     query.limit = limit;
     query.month = month;
@@ -127,7 +127,7 @@ var EventsController = App.Controller.extend({
       }
     }
 
-    var fetchQuery = {
+    let fetchQuery = {
       limit: limit,
       order: 'desc',
       page: currentpage,
@@ -170,15 +170,15 @@ var EventsController = App.Controller.extend({
    * get upcoming events
    */
   getEventsByCity: function (req, res, next) {
-    var events = new Events();
+    let events = new Events();
 
-    var page = parseInt(req.query.p, 10);
-    var query = {};
-    var currentpage = page || 1;
-    var limit = req.session.elimit || 2;
-    var city = req.params.city || '';
-    var month = req.query.month || '';
-    var monthObj;
+    let page = parseInt(req.query.p, 10);
+    let query = {};
+    let currentpage = page || 1;
+    let limit = req.session.elimit || 2;
+    let city = req.params.city || '';
+    let month = req.query.month || '';
+    let monthObj;
 
     query.limit = limit;
     query.month = month;
@@ -187,7 +187,7 @@ var EventsController = App.Controller.extend({
       res.redirect('/events');
     }
 
-    var fetchQuery = {
+    let fetchQuery = {
       limit: limit,
       order: 'asc',
       page: currentpage,
@@ -227,13 +227,13 @@ var EventsController = App.Controller.extend({
    * get events admin
    */
   getAdmin: function (req, res, next) {
-    var events = new Events();
+    let events = new Events();
 
-    var page = parseInt(req.query.p, 10);
-    var query = {};
-    var currentpage = page || 1;
-    var limit = 10;
-    var opts = {
+    let page = parseInt(req.query.p, 10);
+    let query = {};
+    let currentpage = page || 1;
+    let limit = 10;
+    let opts = {
       limit: limit,
       order: 'desc',
       page: currentpage,
@@ -279,9 +279,9 @@ var EventsController = App.Controller.extend({
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
 
-    var errors = req.validationErrors();
-    var eventData = {};
-    var cleanDate = (req.body.date).split('/').join(' ');
+    let errors = req.validationErrors();
+    let eventData = {};
+    let cleanDate = (req.body.date).split('/').join(' ');
 
     if (errors) {
       req.flash('errors', errors);
@@ -313,7 +313,7 @@ var EventsController = App.Controller.extend({
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = new nodeEvent(eventData);
+    let event = new nodeEvent(eventData);
 
     event.save()
     .then(function (model) {
@@ -338,10 +338,10 @@ var EventsController = App.Controller.extend({
     req.assert('start_time', 'Starting cannot be blank').notEmpty();
     req.assert('email', 'Starting cannot be blank').isEmail();
 
-    var errors = req.validationErrors();
-    var eventData = {};
-    var user = req.user;
-    var cleanDate = (req.body.date).split('/').join(' ');
+    let errors = req.validationErrors();
+    let eventData = {};
+    let user = req.user;
+    let cleanDate = (req.body.date).split('/').join(' ');
 
     if (errors) {
       req.flash('errors', errors);
@@ -373,7 +373,7 @@ var EventsController = App.Controller.extend({
     eventData.email = req.body.email;
     eventData.number = req.body.number;
 
-    var event = new nodeEvent({id: eventData.id});
+    let event = new nodeEvent({id: eventData.id});
 
     event.fetch()
     .then(function (model) {
@@ -396,7 +396,7 @@ var EventsController = App.Controller.extend({
    * delete event
   **/
   getDelete: function(req, res) {
-    var event = new nodeEvent({id: req.params.id});
+    let event = new nodeEvent({id: req.params.id});
 
     event.fetch()
     .then(function (event) {

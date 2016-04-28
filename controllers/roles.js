@@ -5,7 +5,7 @@ const Roles = App.getCollection('Roles');
 const Role = App.getModel('Role');
 
 
-let RolesController = App.Controller.extend({
+const RolesController = App.Controller.extend({
 
   /*
    * GET /roles/new

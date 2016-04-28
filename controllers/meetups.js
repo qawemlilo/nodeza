@@ -7,7 +7,7 @@ const moment = require('moment');
 const path = require('path');
 
 
-let MeetupsController = App.Controller.extend({
+const MeetupsController = App.Controller.extend({
 
   getSettings: function (req, res) {
     res.render('meetups/config', {

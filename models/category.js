@@ -7,7 +7,7 @@
 const App = require('widget-cms');
 
 
-let Category =  App.Model.extend({
+const Category =  App.Model.extend({
 
   tableName: 'categories',
 

@@ -33,7 +33,7 @@ function updateConfig(configs) {
 }
 
 
-let AdminController = App.Controller.extend({
+const AdminController = App.Controller.extend({
 
   getAdmin: function (req, res) {
     res.render('admin/admin', {

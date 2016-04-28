@@ -8,7 +8,7 @@ const nodeEvent = App.getModel('Event');
 const moment = require('moment');
 
 
-let Events = App.Collection.extend({
+const Events = App.Collection.extend({
 
   model: nodeEvent,
 

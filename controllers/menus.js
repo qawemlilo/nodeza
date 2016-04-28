@@ -7,7 +7,7 @@ const Menu = App.getModel('Menu');
 
 
 
-let MenusController = App.Controller.extend({
+const MenusController = App.Controller.extend({
 
   /*
    * GET /menus/new

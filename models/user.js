@@ -11,7 +11,7 @@ const node = require('when/node');
 const _ = require('lodash');
 
 
-let User = App.Model.extend({
+const User = App.Model.extend({
 
   tableName: 'users',
 

@@ -10,7 +10,7 @@ const markdown = require('markdown-it')();
 const _ = require('lodash');
 
 
-let nodeEvent = App.Model.extend({
+const nodeEvent = App.Model.extend({
 
   tableName: 'events',
 

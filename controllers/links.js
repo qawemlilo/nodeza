@@ -7,7 +7,7 @@ const LinkModel = App.getModel('Link');
 const Links = App.getCollection('Links');
 
 
-let LinksController = App.Controller.extend({
+const LinksController = App.Controller.extend({
 
   /*
    * GET /links/new

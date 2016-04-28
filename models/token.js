@@ -9,7 +9,7 @@ const App = require('widget-cms');
 const when  = require('when');
 
 
-let Token = App.Model.extend({
+const Token = App.Model.extend({
 
   tableName: 'tokens',
 

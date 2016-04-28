@@ -10,7 +10,7 @@ const _ = require('lodash');
 const moment = require('moment');
 
 
-let Post = App.Model.extend({
+const Post = App.Model.extend({
 
   tableName: 'posts',
 

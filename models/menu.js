@@ -8,7 +8,7 @@
 const App = require('widget-cms');
 
 
-let Menu = App.Model.extend({
+const Menu = App.Model.extend({
 
   tableName: 'menus',
 

@@ -9,7 +9,7 @@ const Meetup = App.getModel('Meetup');
 
 
 
-let Meetups = App.Collection.extend({
+const Meetups = App.Collection.extend({
 
   model: Meetup,
 

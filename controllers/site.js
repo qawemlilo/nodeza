@@ -3,7 +3,7 @@
 const App = require('widget-cms');
 
 
-let SiteController = App.Controller.extend({
+const SiteController = App.Controller.extend({
 
   /**
    * Get /

@@ -8,6 +8,7 @@ App.get('/', SiteController.getIndex);
 App.get('/about', SiteController.getAbout);
 App.get('/developers', SiteController.getDevelopers);
 App.get('/contact', SiteController.getContact);
+App.post('/contact', SiteController.postContact);
 App.get('/privacy', SiteController.getPrivacy);
 App.get('/rss', SiteController.getRSS);
 App.post('/subscribe', SiteController.postSubscribe);

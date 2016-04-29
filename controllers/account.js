@@ -5,15 +5,9 @@ const User = App.getModel('User');
 const mailGun = require('../lib/mailgun');
 const when = require('when');
 const crypto = require('crypto');
-const passport = App.server.get('passport');
+const passport = App.passport();
 const LocalStrategy = require('passport-local').Strategy;
 const _ = require('lodash');
-
-
-passport.serializeUser(function(user, done) {
-  done(null, user.get('id'));
-});
-
 
 passport.deserializeUser(function(id, done) {
   User.forge({id: id})
@@ -25,6 +19,16 @@ passport.deserializeUser(function(id, done) {
     done(error);
   });
 });
+
+passport.serializeUser(function(user, done) {
+  if(user) {
+    done(null, user.get('id'));
+  }
+  else {
+    done(new Error('User account not found'));
+  }
+});
+
 
 
 // Sign in using Email and Password.
@@ -46,7 +50,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
         }
       })
       .catch(function (error) {
-        done(null, false, { message: error.message });
+        done(null, false, { message: 'Invalid credentials' });
       });
     })
     .catch(function (error) {
@@ -216,18 +220,21 @@ const AccountController = App.Controller.extend({
     }
 
     userData.name = req.body.name;
+    userData.last_name = '';
     userData.email = req.body.email;
     userData.password = req.body.password;
     userData.role_id = 1;
+    userData.updated_by = 1;
 
     User.forge(userData)
     .save()
     .then(function (model) {
       req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
-      req.logIn(model, function(err) {
-        if (err) {
-          return next(err);
+      req.logIn(model, function(error) {
+        if (error) {
+          req.flash('errors', {'msg': error.message});
+          res.redirect('back');
         }
 
         res.redirect('/admin/account');
@@ -235,7 +242,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      next({'errors': {msg: error.message}});
+      res.redirect('back');
     });
   },
 
@@ -267,7 +274,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('errors', { msg: error.message });
-      next({'errors': {msg: error.message}});
+      res.redirect('/forgot');
     });
   },
 
@@ -315,7 +322,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('error', {msg: error.message});
-      next({'errors': {msg: error.message}});
+      res.redirect('back');
     });
   },
 
@@ -389,7 +396,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('errors', {msg: error.message});
-      next({'errors': {msg: error.message}});
+      res.redirect('back');
     });
   },
 
@@ -471,7 +478,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('error', { msg: error.message });
-      next({'errors': {msg: error.message}});
+      next(error);
     });
   },
 
@@ -519,7 +526,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('error', {msg: error.message});
-      next({'errors': {msg: error.message}});
+      next(error);
     });
   },
 
@@ -538,7 +545,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('error', { msg: error.message });
-      next({'errors': {msg: error.message}});
+      next(error);
     });
   },
 
@@ -557,7 +564,7 @@ const AccountController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('error', {msg: error.message});
-      next({'errors': {msg: error.message}});
+      next(error);
     });
   }
 });

@@ -97,7 +97,8 @@ const UsersController = App.Controller.extend({
    * get all users
    */
   getDevs: function (req, res) {
-    let users = App.getCollection('Users');
+    let Users = App.getCollection('Users');
+    let users = new Users();
     let page = parseInt(req.query.p, 10);
     let currentpage = page || 1;
     let opts = {
@@ -109,8 +110,7 @@ const UsersController = App.Controller.extend({
 
     users.base = '/devs';
 
-    users.forge()
-    .fetchBy('id', opts, {withRelated: ['role']})
+    users.fetchBy('id', opts, {withRelated: ['role']})
     .then(function (collection) {
       res.render('users/devs', {
         title: 'Developers',

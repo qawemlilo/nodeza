@@ -12,6 +12,7 @@ Procfile~
 *~
 *.gitignore~
 *.secret
+*.sql
 node_modules/
 build/
 temp/

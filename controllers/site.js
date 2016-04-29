@@ -2,6 +2,7 @@
 
 const App = require('widget-cms');
 const mailGun = require('../lib/mailgun');
+const RSS = require('rss');
 
 
 const SiteController = App.Controller.extend({
@@ -29,13 +30,45 @@ const SiteController = App.Controller.extend({
 
 
   getRSS: function (req, res, next) {
-    rss(req, res)
-    .then(function (feed) {
-      res.writeHead(200, {
-        'Content-Type': 'application/xml; charset=utf-8'
+    let config = App.getConfig('site');
+    let Posts = App.getCollection('Posts');
+
+    config.baseUrl = config.baseUrl || 'http://' + req.headers.host;
+
+    let feed = new RSS({
+      title: config.siteName,
+      description: config.description,
+      feed_url: config.baseUrl + '/rss',
+      site_url: config.baseUrl,
+      language: 'en',
+      author: config.siteName
+    });
+
+    Posts.forge()
+    .fetchBy('published_at', {
+      page: 1,
+      limit: config.rssLimit
+    }, {
+      columns: ['id', 'slug', 'title', 'user_id', 'meta_description', 'published_at'],
+      withRelated: ['created_by']
+    })
+    .then(function (collection) {
+
+      collection.forEach(function (post) {
+        feed.item({
+          guid: post.get('id'),
+          title: post.get('title'),
+          description: post.get('meta_description'),
+          url: config.baseUrl + '/blog/' + post.get('slug'),
+          author: post.related('created_by').get('name'),
+          date: post.get('published_at')
+        });
       });
 
-      res.end(feed);
+      res.end(feed.xml());
+    })
+    .catch(function (error) {
+      next(error);
     });
   },
 

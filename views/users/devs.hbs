@@ -20,7 +20,7 @@
 
   {{> flash}}
 
-  <div class="container-fluid">  
+  <div class="container-fluid">
     <div class="row row-margin-bottom">
       {{#each users}}
         <div class="col-md-12 no-padding">
@@ -33,9 +33,9 @@
               </div>
               <div class="col-md-10">
                 <div class="lib-row lib-header">
-                  
+
                   <h3 style="margin-top:0px;"><a href="/devs/{{slug}}">{{name}}</a></h3>
-                  
+
                   <p class="blog-post-meta">
                     {{#if twitter_url}}
                       <a href="{{#parseUrl twitter_url}}{{/parseUrl}}" target="_blank" style="margin-right:4px"><span class="fa fa-twitter text-primary"></span> twitter</a>
@@ -57,7 +57,7 @@
         </div>
       {{/each}}
     </div>
-  
+
     {{> pagination}}
   </div>
 </div>

@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "1.14.1",
+    "body-parser": "1.15.1",
     "bookshelf": "0.8.2",
     "compression": "1.6.0",
     "connect-assets": "3.0.2",

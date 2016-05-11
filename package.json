@@ -43,7 +43,7 @@
     "github-api": "0.7.0",
     "gulp": "3.9.0",
     "gulp-image-resize": "0.6.0",
-    "gulp-imagemin": "2.3.0",
+    "gulp-imagemin": "3.0.1",
     "hbs": "3.1.1",
     "knex": "0.8.6",
     "lodash": "2.4.2",

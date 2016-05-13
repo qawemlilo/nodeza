@@ -32,7 +32,7 @@
     "bookshelf": "0.8.2",
     "compression": "1.6.0",
     "connect-assets": "3.0.2",
-    "connect-mongo": "0.8.2",
+    "connect-mongo": "1.2.0",
     "cookie-parser": "1.4.0",
     "errorhandler": "1.4.2",
     "express": "4.13.3",

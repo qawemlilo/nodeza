@@ -27,6 +27,22 @@ const Post = App.Model.extend({
   },
 
 
+  saving: function (newObj, attr, options) {
+
+    // if only updating views field
+    if ((this.hasChanged('views') && !this.isNew()) || this.hasChanged('resetPasswordToken')) {
+      return;
+    }
+
+    // if updating and has updated_by feild, set it to current user
+    if (this.has('updated_by')) {
+      self.set('updated_by', user.get('id'));
+    }
+
+    App.Model.prototype.saving.apply(this, arguments);
+  },
+
+
   hasTimestamps: true,
 
 

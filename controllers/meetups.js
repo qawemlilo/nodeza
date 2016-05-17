@@ -218,7 +218,7 @@ const MeetupsController = App.Controller.extend({
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      res.redirect('/admin/meetups');
+      res.redirect('back');
     });
   },
 
@@ -274,12 +274,12 @@ const MeetupsController = App.Controller.extend({
       })
       .catch(function (error) {
         req.flash('errors', {'msg': error.message});
-        next(error);
+        res.redirect('back');
       });
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
-      rnext(error);
+      res.redirect('back');
     });
   }
 });

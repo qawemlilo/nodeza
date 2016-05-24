@@ -11,7 +11,7 @@ const app = require('widget-cms');
 
 
 app.config(_.defaults({
-  port: 3030, // default 3000
+  port: 3080, // default 3000
 
   secret: 'my_ninja_cat',
 

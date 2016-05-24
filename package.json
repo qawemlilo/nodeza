@@ -26,29 +26,22 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "bookshelf": "^0.9.5",
     "feed": "0.2.6",
     "github-api": "0.7.0",
-    "knex": "^0.11.3",
     "lodash": "2.4.2",
     "mailgun-js": "0.7.3",
     "markdown-it": "5.0.0",
     "moment": "^2.10.6",
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
-    "passport-google-oauth": "0.2.0",
     "passport-local": "1.0.0",
-    "passport-oauth": "1.0.0",
-    "passport-twitter": "1.0.3",
     "request": "2.65.0",
     "rss": "0.3.2",
-    "simple-prompt": "^0.2.1",
-    "superagent": "1.4.0",
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
     "when": "3.7.4",
-    "widget-cms": "^0.2.9"
+    "widget-cms": "^0.2.10"
   },
   "devDependencies": {
     "chai": "^3.4.0",
@@ -57,6 +50,7 @@
     "jshint": "^2.8.0",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",
+    "superagent": "1.4.0",
     "supertest": "^1.1.0",
     "uglify-js": "^2.5.0"
   },

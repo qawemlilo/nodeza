@@ -27,22 +27,6 @@ const Post = App.Model.extend({
   },
 
 
-  saving: function (newObj, attr, options) {
-
-    // if only updating views field
-    if ((this.hasChanged('views') && !this.isNew()) || this.hasChanged('resetPasswordToken')) {
-      return;
-    }
-
-    // if updating and has updated_by feild, set it to current user
-    if (this.has('updated_by')) {
-      self.set('updated_by', user.get('id'));
-    }
-
-    App.Model.prototype.saving.apply(this, arguments);
-  },
-
-
   hasTimestamps: true,
 
 
@@ -69,12 +53,28 @@ const Post = App.Model.extend({
 
 
   saving: function (model, attr, options) {
+    if ((this.hasChanged('views') && !this.isNew())) {
+      return;
+    }
+
     let html = markdown.render(this.get('markdown'));
 
     html = html.replace(/&amp;/gi, '&');
 
     this.set('html', html);
     this.set('title', this.get('title').trim());
+
+    if (this.get('updated_by') && options.context && options.context.user_id) {
+      this.set('updated_by', options.context.user_id);
+    }
+
+    // if is new or slug has changed and has slug field - generate new slug
+    if (!this.get('slug') || this.hasChanged('slug')) {
+      return this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
+        .then( (slug) => {
+          this.set({slug: slug});
+        });
+    }
 
     // set publishing date if published and notExists
     if (this.hasChanged('published') && this.get('published')) {
@@ -122,7 +122,7 @@ const Post = App.Model.extend({
       }
 
       return Tags.forge()
-      .query('whereIn', 'name', _.pluck(this.myTags, 'name'))
+      .query('whereIn', 'name', _.map(this.myTags, 'name'))
       .fetch(options)
       .then( (existingTags) => {
         let doNotExist = [];
@@ -198,6 +198,13 @@ const Post = App.Model.extend({
 
       return post.save(opts, {patch: true});
     });
+  },
+
+
+  viewed: function () {
+    let views = this.get('views') || 0;
+
+    return this.save({'views': views + 1}, {patch: true});
   }
 
 });

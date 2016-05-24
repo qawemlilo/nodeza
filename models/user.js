@@ -103,6 +103,10 @@ const User = App.Model.extend({
 
 
   saving: function (newObj, attr, options) {
+    if ((this.hasChanged('views') && !this.isNew()) || this.hasChanged('resetPasswordToken')) {
+      return;
+    }
+    
     if (this.isNew() || this.hasChanged('password')) {
       return this.generatePasswordHash(this.get('password'))
       .then((hash) => {
@@ -167,6 +171,13 @@ const User = App.Model.extend({
     else {
       return when.resolve();
     }
+  },
+
+
+  viewed: function () {
+    let views = this.get('views') || 0;
+
+    return this.save({'views': views + 1}, {patch: true});
   }
 });
 

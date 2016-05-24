@@ -63,7 +63,7 @@ const PostsController = App.Controller.extend({
         author: author,
         category: post.related('category').toJSON(),
         url: 'http://' + req.headers.host + '/blog/' + slug,
-        keywords: _.pluck(post.related('tags').toJSON(), 'name'),
+        keywords: _.map(post.related('tags').toJSON(), 'name'),
         post: post.toJSON()
       });
     })
@@ -303,15 +303,21 @@ const PostsController = App.Controller.extend({
 
     let tags = processTags(req.body.tags);
 
-    post.save(postData, {updateTags: tags})
+    post.save(postData, {
+      context: {
+        user_id: req.user.get('id')
+      },
+      updateTags: tags
+    })
     .then(function(model) {
       req.flash('success', { msg: 'Post successfully created.' });
       req.session.clearCache = true;
       res.redirect('/blog/edit/' + model.get('id'));
     })
     .catch(function (error) {
-      req.flash('error', {msg: next.message});
-      next(error);
+      console.error(error.stack);
+      req.flash('error', {msg: 'Database error, post not saved.'});
+      res.redirect('back');
     });
   },
 
@@ -354,6 +360,10 @@ const PostsController = App.Controller.extend({
       options.updateTags = processTags(req.body.tags);
     }
 
+    options.context = {
+      user_id: req.user.get('id')
+    };
+
     post.fetch()
     .then(function (model) {
       model.save(postData, options)
@@ -367,8 +377,9 @@ const PostsController = App.Controller.extend({
       });
     })
     .catch(function (error) {
-      req.flash('error', {msg: error.message});
-      next(error);
+      console.error(error.stack);
+      req.flash('error', 'Database error, post not saved.');
+      res.redirect('back');
     });
   },
 

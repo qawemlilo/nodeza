@@ -61,6 +61,8 @@ const EventsController = App.Controller.extend({
         description: event.get('title'),
         page: 'events'
       });
+
+      event.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
@@ -315,12 +317,17 @@ const EventsController = App.Controller.extend({
 
     let event = new nodeEvent(eventData);
 
-    event.save()
+    event.save(null, {
+      context: {
+        user_id: req.user.get('id')
+      }
+    })
     .then(function (model) {
       req.flash('success', { msg: 'Event successfully created!' });
       res.redirect('back');
     })
     .catch(function (error) {
+      console.error(error.stack);
       req.flash('errors', {'msg': 'Database error. Event not created.'});
       res.redirect('/events/new');
     });

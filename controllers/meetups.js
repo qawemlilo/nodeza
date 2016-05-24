@@ -211,7 +211,11 @@ const MeetupsController = App.Controller.extend({
     meetupData.meetings = req.body.meetings;
 
     Meetup.forge(meetupData)
-    .save({}, {user: user.get('id')})
+    .save(null, {
+      context: {
+        user_id: req.user.get('id')
+      }
+    })
     .then(function (model) {
       req.flash('success', { msg: successMsg});
       res.redirect('back');

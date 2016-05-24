@@ -6,6 +6,7 @@
 **/
 const config = require('./config');
 const _ = require('lodash');
+const path = require('path');
 const app = require('widget-cms');
 
 
@@ -27,7 +28,7 @@ app.config(_.extend({
 
   rootDir: process.cwd(),
 
-  uploadsDir: '',
+  uploadsDir: path.join(process.cwd(), 'public', 'uploads'),
 
   middleware: {
     enableForms: true,

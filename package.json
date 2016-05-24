@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "bookshelf": "^0.9.5",
     "feed": "0.2.6",
     "github-api": "0.7.0",
+    "knex": "^0.11.3",
     "lodash": "2.4.2",
     "mailgun-js": "0.7.3",
     "markdown-it": "5.0.0",
@@ -46,7 +48,7 @@
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
     "when": "3.7.4",
-    "widget-cms": "^0.2.4"
+    "widget-cms": "^0.2.7"
   },
   "devDependencies": {
     "chai": "^3.4.0",

@@ -19,6 +19,7 @@ temp/
 public/img/120/
 public/img/320/
 public/img/48/
+public/uploads/
 .env.production.js
 .env.development.js
 .env.testing.js

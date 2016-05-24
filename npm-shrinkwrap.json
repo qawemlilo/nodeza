@@ -689,11 +689,6 @@
       "from": "node-uuid@>=1.4.3 <1.5.0",
       "resolved": "https://registry.npmjs.org/node-uuid/-/node-uuid-1.4.7.tgz"
     },
-    "normalize-path": {
-      "version": "1.0.0",
-      "from": "normalize-path@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/normalize-path/-/normalize-path-1.0.0.tgz"
-    },
     "oauth": {
       "version": "0.9.14",
       "from": "oauth@>=0.9.0 <0.10.0",

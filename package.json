@@ -46,7 +46,6 @@
   "devDependencies": {
     "chai": "^3.4.0",
     "chalk": "^1.1.1",
-    "husky": "^0.10.1",
     "jshint": "^2.8.0",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",

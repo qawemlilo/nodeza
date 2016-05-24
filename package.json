@@ -1,6 +1,6 @@
 {
   "name": "nodeza",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Node.js portal for developers in South Africa",
   "main": "index.js",
   "scripts": {

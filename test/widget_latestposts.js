@@ -1,7 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var LatestPosts = require('../widgets/latestposts');
-var App = require('../app');
+const should = require('chai').should();
+const LatestPosts = require('../widgets/latestposts');
+const App = require('widget-cms');
 
 
 

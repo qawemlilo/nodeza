@@ -1,8 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var FeaturedMeetups = require('../widgets/featuredmeetups');
-var App = require('../app');
-
+const should = require('chai').should();
+const FeaturedMeetups = require('../widgets/featuredmeetups');
+const App = require('widget-cms');
 
 
 describe('Featured Meetups Widget', function(){

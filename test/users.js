@@ -1,7 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var Users = require('../collections/users');
-
+const should = require('chai').should();
+const app = require('widget-cms');
+const Users = app.getCollection('Users');
 
 
 
@@ -9,7 +10,7 @@ describe('Users', function(){
 
   describe('#fetch', function() {
     it('should fetch all users', function(done){
-      var users = new Users();
+      let users = new Users();
 
       users.fetch()
       .then(function(collection) {

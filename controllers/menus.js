@@ -118,6 +118,8 @@ const MenusController = App.Controller.extend({
     })
     .save()
     .then(function(model) {
+      App.clearCache();
+
       req.flash('success', { msg: 'Menu successfully created.' });
       res.redirect('/admin/menus');
     })
@@ -152,6 +154,8 @@ const MenusController = App.Controller.extend({
     })
     .save()
     .then(function(model) {
+      App.clearCache();
+
       req.flash('success', { msg: 'Menu successfully updated.' });
       res.redirect('/menus/edit/' + model.get('id'));
     })

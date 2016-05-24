@@ -1,7 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var Menu = require('../models/menu');
-
+const should = require('chai').should();
+const app = require('widget-cms');
+const Menu = app.getModel('Menu');
 
 
 describe('Menu', function(){
@@ -25,7 +26,7 @@ describe('Menu', function(){
   });
 
   describe('#destroy', function() {
-    var menu;
+    let menu;
 
     beforeEach(function (done) {
       Menu.forge({name: 'Test'})

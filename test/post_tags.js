@@ -1,15 +1,17 @@
+"use strict";
 
-var should = require('chai').should();
-var Post = require('../models/post');
-var postID;
+const should = require('chai').should();
+const app = require('widget-cms');
+const Post = app.getModel('Post');
+let postID;
 
 
 
 function blogData() {
-  var introPost = 'NodeZA, pronounced as Node Z A, is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js developers under one roof and promote Node as a technology.\n';
+  let introPost = 'NodeZA, pronounced as Node Z A, is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js developers under one roof and promote Node as a technology.\n';
   introPost += 'NodeZA is a portal for Node.js developers in South Africa. It was created out of the need to connect Node.js deveoplers under one roof and promote Node as a technology.';
 
-  var data = {
+  let data = {
     title: 'Welcome to My Country',
     category_id: 1,
     user_id: 1,
@@ -26,13 +28,13 @@ function blogData() {
 
 describe('Post', function(){
 
-  var data = blogData();
+  let data = blogData();
 
 
 
   describe('#set #save', function() {
     it('should create a new post', function(done){
-      var post = new Post();
+      let post = new Post();
 
       post.save(data, {updateTags: [{name: 'qawe'},{name: 'test'}]})
       .then(function (model) {
@@ -53,8 +55,8 @@ describe('Post', function(){
       Post.forge({id: postID})
       .fetch({withRelated: ['category', 'created_by', 'tags']})
       .then(function (post) {
-        var category = post.related('category').toJSON();
-        var created_by = post.related('created_by').toJSON();
+        let category = post.related('category').toJSON();
+        let created_by = post.related('created_by').toJSON();
 
         created_by.id.should.be.equal(1);
         category.id.should.be.equal(1);
@@ -69,10 +71,10 @@ describe('Post', function(){
 
 
   describe('#destroy', function() {
-    var post;
+    let post;
 
     beforeEach(function (done) {
-      var posts = new Post({id: postID});
+      let posts = new Post({id: postID});
 
       posts.fetch({withRelated: ['tags']})
       .then(function (model) {

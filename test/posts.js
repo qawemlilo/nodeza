@@ -1,15 +1,16 @@
+"use strict";
 
-var should = require('chai').should();
-var Posts = require('../collections/posts');
-var postsData = require('../sql/data/posts');
-
+const should = require('chai').should();
+const app = require('widget-cms');
+const Posts = app.getCollection('Posts');
+let postsData = require('../sql/data/posts');
 
 describe('Posts', function(){
 
-  var newposts;
+  let newposts;
 
   before(function (done) {
-    var postsArr = [];
+    let postsArr = [];
 
     postsData.forEach(function (item) {
       postsArr.push(item.data);
@@ -27,7 +28,7 @@ describe('Posts', function(){
 
   describe('#fetchBy views', function() {
     it('should fetch posts and order by views', function(done){
-      var posts = new Posts();
+      let posts = new Posts();
 
       posts.fetchBy('views', {
         limit: 2
@@ -44,7 +45,7 @@ describe('Posts', function(){
 
   describe('#fetchBy created_at', function() {
     it('should fetch posts and order by created_at', function(done){
-      var posts = new Posts();
+      let posts = new Posts();
 
       posts.fetchBy('created_at', {
         limit: 2

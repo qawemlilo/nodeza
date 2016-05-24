@@ -1,14 +1,16 @@
+"use strict";
 
-var should = require('chai').should();
-var Meetup = require('../models/meetup');
-var meetupsData = require('../sql/data/meetups');
+const should = require('chai').should();
+const app = require('widget-cms');
+const Meetup = app.getModel('Meetup');
+const meetupsData = require('../sql/data/meetups');
 
 
 
 describe('Meetup', function(){
 
-  var meetupData = meetupsData[0];
-  var meetup = new Meetup();
+  let meetupData = meetupsData[0];
+  let meetup = new Meetup();
 
 
   describe('#set #save', function() {

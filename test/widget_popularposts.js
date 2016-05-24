@@ -1,7 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var PopularPosts = require('../widgets/popularposts');
-var App = require('../app');
+const should = require('chai').should();
+const PopularPosts = require('../widgets/popularposts');
+const App = require('widget-cms');
 
 
 

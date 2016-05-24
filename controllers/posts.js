@@ -66,6 +66,8 @@ const PostsController = App.Controller.extend({
         keywords: _.map(post.related('tags').toJSON(), 'name'),
         post: post.toJSON()
       });
+
+      post.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
@@ -310,8 +312,9 @@ const PostsController = App.Controller.extend({
       updateTags: tags
     })
     .then(function(model) {
+      App.clearCache();
+
       req.flash('success', { msg: 'Post successfully created.' });
-      req.session.clearCache = true;
       res.redirect('/blog/edit/' + model.get('id'));
     })
     .catch(function (error) {
@@ -367,7 +370,9 @@ const PostsController = App.Controller.extend({
     post.fetch()
     .then(function (model) {
       model.save(postData, options)
-      .then(function() {
+      .then(function(post) {
+        App.clearCache();
+
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
       })
@@ -394,8 +399,9 @@ const PostsController = App.Controller.extend({
 
     post.remove(req.params.id)
     .then(function () {
+      App.clearCache();
+
       req.flash('success', {msg: 'Post successfully deleted.'});
-      req.session.clearCache = true;
       res.redirect('back');
     })
     .catch(function (error) {

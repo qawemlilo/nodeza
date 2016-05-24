@@ -10,8 +10,8 @@ const path = require('path');
 const app = require('widget-cms');
 
 
-app.config(_.extend({
-  port: 3000, // default 3000
+app.config(_.defaults({
+  port: 3030, // default 3000
 
   secret: 'my_ninja_cat',
 
@@ -22,7 +22,7 @@ app.config(_.extend({
 
   cache: true,
 
-  redis: {expire: 60 * 5}, // assumes localhost, port 6379
+  redis: {expire: 60 * 60 * 5}, // assumes localhost, port 6379
 
   log: true,
 

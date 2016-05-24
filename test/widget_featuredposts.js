@@ -1,7 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var FeaturedPosts = require('../widgets/featuredposts');
-var App = require('../app');
+const should = require('chai').should();
+const FeaturedPosts = require('../widgets/featuredposts');
+const App = require('widget-cms');
 
 
 describe('Featured Posts Widget', function(){

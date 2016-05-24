@@ -1,8 +1,10 @@
+"use strict";
 
-var should = require('chai').should();
-var NodeEvent = require('../models/event');
-var eventsData = require('../sql/data/events');
-var moment = require('moment');
+const should = require('chai').should();
+const app = require('widget-cms');
+const NodeEvent = app.getModel('Event');
+const eventsData = require('../sql/data/events');
+const moment = require('moment');
 
 
 describe('Event', function(){

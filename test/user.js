@@ -1,11 +1,12 @@
+"use strict";
 
-var should = require('chai').should();
-var User = require('../models/user');
-
+const should = require('chai').should();
+const app = require('widget-cms');
+const User = app.getModel('User');
 
 
 function createFakeUser() {
-  var user = {};
+  let user = {};
 
   user.name = 'John Doe';
   user.email = 'user_' + Date.now() + '@none.com';
@@ -18,7 +19,7 @@ function createFakeUser() {
 
 describe('User', function(){
 
-  var fakeUser = createFakeUser();
+  let fakeUser = createFakeUser();
 
   describe('#forge #save', function() {
     it('should create a new user', function(done){

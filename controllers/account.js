@@ -229,6 +229,8 @@ const AccountController = App.Controller.extend({
     User.forge(userData)
     .save()
     .then(function (model) {
+      App.clearCache();
+
       req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
       req.logIn(model, function(error) {
@@ -516,6 +518,8 @@ const AccountController = App.Controller.extend({
     .then(function (user) {
       user.save(details)
       .then(function() {
+        App.clearCache();
+
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/admin/account');
       })
@@ -540,6 +544,8 @@ const AccountController = App.Controller.extend({
 
     user.deleteAccount(user.get('id'))
     .then(function () {
+      App.clearCache();
+
       req.logout();
       res.redirect('/');
     })

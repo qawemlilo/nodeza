@@ -1,8 +1,8 @@
+"use strict";
 
-var should = require('chai').should();
-var User = require('../models/user');
-
-
+const should = require('chai').should();
+const app = require('widget-cms');
+const User = app.getModel('User');
 
 describe('Roles', function(){
 
@@ -11,7 +11,7 @@ describe('Roles', function(){
       User.forge({id: 1})
       .fetch({withRelated: ['role']})
       .then(function(user) {
-        var role = user.related('role');
+        let role = user.related('role');
 
         role.get('id').should.equal(3);
         role.get('name').should.equal('Super Administrator');

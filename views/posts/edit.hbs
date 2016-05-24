@@ -10,62 +10,62 @@
   {{> flash}}
 
   <div class="panel panel-default">
-  
+
     <div class="panel-heading">
       <span class="glyphicon glyphicon-list-alt"></span> Edit Post
       <a href="/admin/blog" class="close pull-right text-danger">&times;</a>
     </div>
-  
+
     <div class="panel-body">
     <form id="edit-form" action="/blog/edit" method="post" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="{{_csrf}}" />
       <input type="hidden" name="id" value="{{post.id}}" />
       <input type="hidden" name="catid" value="{{post.category_id}}" />
       <input type="hidden" name="meta_title" value="{{post.meta_title}}" />
-  
+
       <div class="row">
         <div class="col-sm-5 col-md-5">
           <div class="form-group">
             <label class="control-label" for="title">
               Title <span class="text-danger">*</span>
             </label>
-  
+
             <input class="form-control" type="text" name="title" id="title" value="{{post.title}}" />
           </div>
-  
+
           <div class="form-group">
             <label class="control-label" for="category">
               Category <span class="text-danger">*</span>
             </label>
-  
+
             <select name="category" class="form-control" id="category">
               {{#selectedCat categories post.category_id}}{{/selectedCat}}
             </select>
           </div>
-  
+
           <div class="form-group">
             <label class="control-label" for="tags">Tags</label>
             <input class="form-control" type="text" name="tags" id="tags" value="{{#fillTags tags}}{{/fillTags}}" required="" />
           </div>
-  
+
           <div class="form-group">
             <label class="control-label" for="meta_description">
               Meta Description
             </label>
             <input class="form-control" type="text" name="meta_description" id="meta_description" value="{{post.meta_description}}" required="" />
           </div>
-  
+
           <div class="form-group">
             <input type='file' id="image_url" name="image_url" />
-  
+
             {{#if post.image_url}}
-              <img id="imagepreview" src="/img/120/{{post.image_url}}" style="width: 120px; height: 120px" onerror="this.src='/temp/{{post.image_url}}'" />
+              <img id="imagepreview" src="/img/120/{{post.image_url}}" style="width: 120px; height: 120px" />
             {{else}}
               <p class="help-block">Upload an image to be used with your post</p>
               <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
             {{/if}}
           </div>
-  
+
           <div class="form-group">
             <div class="checkbox-inline">
               <label>
@@ -79,19 +79,19 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-sm-7 col-md-7">
           <div class="form-group">
             <label class="control-label" for="markdown">
               Post <span class="text-danger">*</span>
             </label>
-  
+
             <div id="epiceditor" style="height: 520px; padding: 0px;" class="form-control">
               <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
             </div>
           </div>
         </div>
-      
+
         <div class="col-sm-12 col-md-12">
           <div class="form-group">
             <div class="pull-right">
@@ -120,19 +120,19 @@
 <script src="/js/epiceditor/js/epiceditor.js"></script>
 <script>
  (function ($) {
-  
+
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-  
+
       reader.onload = function (e) {
           $('#imagepreview').attr('src', e.target.result).fadeIn();
       }
-  
+
       reader.readAsDataURL(input.files[0]);
     }
   }
-  
+
   var editor = new EpicEditor({
     textarea: 'markdown',
     basePath: '/js/epiceditor',
@@ -142,7 +142,7 @@
       editor: '/themes/editor/epic-light.css'
     }
   }).load();
-  
+
   $("#image_url").change(function(){
     readURL(this);
   });

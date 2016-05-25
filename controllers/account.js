@@ -173,6 +173,8 @@ const AccountController = App.Controller.extend({
           return res.redirect('/login');
         }
 
+        App.clearCache();
+
         res.redirect(req.session.returnTo || '/');
       });
     })(req, res, next);
@@ -185,6 +187,7 @@ const AccountController = App.Controller.extend({
    */
   logout: function(req, res) {
     req.logout();
+    App.clearCache();
     res.redirect('/');
   },
 

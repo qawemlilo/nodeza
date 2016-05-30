@@ -4,7 +4,7 @@ const App = require('widget-cms');
 const MeetupsController = App.getController('Meetups');
 const auth = require('../lib/auth');
 
-App.get('/admin/meetups', auth.isUserAdmin, MeetupsController.getAdmin);
+App.get('/admin/meetups', auth.isAuthenticated, MeetupsController.getAdmin);
 App.get('/admin/meetups/settings', auth.isUserAdmin, MeetupsController.getSettings);
 App.get('/meetups/new', auth.isAuthenticated, MeetupsController.getNew);
 App.get('/meetups/edit/:id', auth.isAuthenticated, MeetupsController.getEdit);

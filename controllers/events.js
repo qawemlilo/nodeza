@@ -386,7 +386,9 @@ const EventsController = App.Controller.extend({
     .then(function (model) {
       model.save(eventData, {method: 'update'})
       .then(function () {
-        App.clearCache();
+        if (App.getConfig('cache')) {
+          App.clearCache();
+        }
 
         req.flash('success', { msg: 'Event successfully updated!' });
         res.redirect('back');

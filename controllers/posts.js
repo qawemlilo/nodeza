@@ -312,7 +312,9 @@ const PostsController = App.Controller.extend({
       updateTags: tags
     })
     .then(function(model) {
-      App.clearCache();
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
 
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/blog/edit/' + model.get('id'));
@@ -371,7 +373,9 @@ const PostsController = App.Controller.extend({
     .then(function (model) {
       model.save(postData, options)
       .then(function(post) {
-        App.clearCache();
+        if (App.getConfig('cache')) {
+          App.clearCache();
+        }
 
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
@@ -399,7 +403,9 @@ const PostsController = App.Controller.extend({
 
     post.remove(req.params.id)
     .then(function () {
-      App.clearCache();
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
 
       req.flash('success', {msg: 'Post successfully deleted.'});
       res.redirect('back');

@@ -17,7 +17,8 @@ app.config(_.defaults({
 
   db: {
     client: 'mysql', // pg
-    connection: config.mysql
+    connection: config.mysql,
+    useNullAsDefault: true
   },
 
   cache: true,

@@ -50,11 +50,13 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
         }
       })
       .catch(function (error) {
+        console.console.error(error);
         done(null, false, { message: 'Invalid credentials' });
       });
     })
     .catch(function (error) {
-      done(null, false, {message: error.message});
+      console.error(error);
+      done(null, false, { message: 'Invalid credentials' });
     });
 }));
 
@@ -148,8 +150,9 @@ const AccountController = App.Controller.extend({
       });
     })
     .catch(function (error) {
+      console.error(error);
       req.flash('errors', { msg: error.message });
-      next({'errors': {msg: error.message}});
+      res.redirect('/admin/users');
     });
   },
 
@@ -173,7 +176,9 @@ const AccountController = App.Controller.extend({
           return res.redirect('/login');
         }
 
-        App.clearCache();
+        if (App.getConfig('cache')) {
+          App.clearCache();
+        }
 
         res.redirect(req.session.returnTo || '/');
       });
@@ -187,7 +192,11 @@ const AccountController = App.Controller.extend({
    */
   logout: function(req, res) {
     req.logout();
-    App.clearCache();
+
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
+
     res.redirect('/');
   },
 
@@ -232,7 +241,9 @@ const AccountController = App.Controller.extend({
     User.forge(userData)
     .save()
     .then(function (model) {
-      App.clearCache();
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
 
       req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
@@ -521,7 +532,9 @@ const AccountController = App.Controller.extend({
     .then(function (user) {
       user.save(details)
       .then(function() {
-        App.clearCache();
+        if (App.getConfig('cache')) {
+          App.clearCache();
+        }
 
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/admin/account');
@@ -547,7 +560,9 @@ const AccountController = App.Controller.extend({
 
     user.deleteAccount(user.get('id'))
     .then(function () {
-      App.clearCache();
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
 
       req.logout();
       res.redirect('/');

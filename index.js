@@ -1,3 +1,4 @@
+require("babel-register");
 
 "use strict";
 
@@ -11,7 +12,7 @@ const app = require('widget-cms');
 
 
 app.config(_.defaults({
-  port: 3080, // default 3000
+  port: config.site.port, // default 3000
 
   secret: 'my_ninja_cat',
 

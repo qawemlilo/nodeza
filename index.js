@@ -22,7 +22,7 @@ app.config(_.defaults({
     useNullAsDefault: true
   },
 
-  cache: true,
+  cache: false,
 
   redis: {expire: 60 * 60 * 5}, // assumes localhost, port 6379
 

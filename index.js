@@ -13,7 +13,7 @@ const app = require('widget-cms');
 app.config(_.defaults({
   port: 3080, // default 3000
 
-  secret: 'my_ninja_cat',
+  secret: config.site.sessionSecret,
 
   db: {
     client: 'mysql', // pg
@@ -21,7 +21,7 @@ app.config(_.defaults({
     useNullAsDefault: true
   },
 
-  cache: true,
+  cache: false,
 
   redis: {expire: 60 * 60 * 5}, // assumes localhost, port 6379
 

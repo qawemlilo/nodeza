@@ -249,7 +249,7 @@ const AccountController = App.Controller.extend({
 
       req.logIn(model, function(error) {
         if (error) {
-          req.flash('errors', {'msg': error.message});
+          req.flash('errors', {'msg': 'An error occured, account not created.'});
           res.redirect('back');
         }
 
@@ -257,7 +257,7 @@ const AccountController = App.Controller.extend({
       });
     })
     .catch(function (error) {
-      req.flash('errors', {'msg': error.message});
+      req.flash('errors', {'msg': 'An error occured, account not created.'});
       res.redirect('back');
     });
   },
@@ -289,7 +289,7 @@ const AccountController = App.Controller.extend({
       });
     })
     .catch(function (error) {
-      req.flash('errors', { msg: error.message });
+      req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
       res.redirect('/forgot');
     });
   },
@@ -337,7 +337,7 @@ const AccountController = App.Controller.extend({
       });
     })
     .catch(function (error) {
-      req.flash('error', {msg: error.message});
+      req.flash('error', {msg: 'An error has occured, account not updated.'});
       res.redirect('back');
     });
   },
@@ -411,7 +411,7 @@ const AccountController = App.Controller.extend({
       res.redirect('/forgot');
     })
     .catch(function (error) {
-      req.flash('errors', {msg: error.message});
+      req.flash('errors', {msg: 'Error occured'});
       res.redirect('back');
     });
   },
@@ -493,7 +493,7 @@ const AccountController = App.Controller.extend({
       res.redirect('/admin/account/password');
     })
     .catch(function (error) {
-      req.flash('error', { msg: error.message });
+      req.flash('error', { msg: 'Error occured, password not saved.' });
       next(error);
     });
   },

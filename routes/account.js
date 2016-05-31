@@ -9,7 +9,7 @@ const auth = require('../lib/auth');
  * passing 'auth.isNotAuthenticated' middle to avoid logged in users from viewing some pages
 **/
 
-App.get('/login', [auth.dontCache, auth.isNotAuthenticated], AccountController.getLogin);
+App.get('/login', auth.isNotAuthenticated, AccountController.getLogin);
 App.get('/loginas/:id', auth.isUserAdmin, AccountController.getLoginAs);
 App.get('/restoreadmin', auth.isAuthenticated, AccountController.restoreAdmin);
 App.post('/login', auth.dontCache, AccountController.postLogin);

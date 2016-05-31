@@ -11,17 +11,19 @@ const app = require('widget-cms');
 
 
 app.config(_.defaults({
-  port: 3080, // default 3000
+  port: config.site.port,
 
   secret: config.site.sessionSecret,
 
   db: {
-    client: 'mysql', // pg
+    client: 'mysql',
     connection: config.mysql,
     useNullAsDefault: true
   },
 
-  cache: false,
+  cache: true,
+
+  redis: {expire: 60 * 60 * 5},
 
   log: true,
 
@@ -36,6 +38,20 @@ app.config(_.defaults({
     enableSessions: true
   }
 }, config));
+
+
+app.registerMiddleware(function (req, res, next) {
+  // don't cache if user is logged in
+  if (req.isAuthenticated()) {
+    res.use_express_redis_cache = false;
+  }
+
+  if (req.flash) {
+    app.clearCache();
+  }
+
+  next();
+});
 
 
 app.start();

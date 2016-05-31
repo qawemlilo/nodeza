@@ -23,8 +23,6 @@ app.config(_.defaults({
 
   cache: false,
 
-  redis: {expire: 60 * 60 * 5}, // assumes localhost, port 6379
-
   log: true,
 
   rootDir: process.cwd(),

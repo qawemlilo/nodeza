@@ -13,11 +13,29 @@ const Meetup =  App.Model.extend({
   tableName: 'meetups',
 
 
+  initialize: function () {
+
+    App.Model.prototype.initialize.apply(this, arguments);
+
+    this.on('saved', (model, attributes, options) => {
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
+    });
+
+    this.on('updated', (model, attributes, options) => {
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
+    });
+  },
+
+
   hasTimestamps: true,
 
 
   saving: function (model, attr, options) {
-    
+
     if ((this.hasChanged('views') && !this.isNew())) {
       return;
     }

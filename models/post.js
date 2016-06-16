@@ -23,6 +23,16 @@ const Post = App.Model.extend({
       if (options.updateTags) {
         this.updateTags(model, attributes, options);
       }
+
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
+    });
+
+    this.on('updated', (model, attributes, options) => {
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
     });
   },
 

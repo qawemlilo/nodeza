@@ -219,10 +219,6 @@ const MeetupsController = App.Controller.extend({
       }
     })
     .then(function (model) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', { msg: successMsg});
       res.redirect('back');
     })
@@ -279,10 +275,6 @@ const MeetupsController = App.Controller.extend({
     .then(function (model) {
       model.save(meetupData, {method: 'update'})
       .then(function () {
-        if (App.getConfig('cache')) {
-          App.clearCache();
-        }
-
         req.flash('success', { msg: 'Meetup successfully updated!'});
         res.redirect('back');
       })

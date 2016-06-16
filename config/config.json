@@ -13,8 +13,8 @@
         ],
         "port": 3080,
         "sessionSecret": "msdisdvyjh5jd8bajas7wern",
-        "twitter_url": "http://twitter.com/nodeza",
-        "github_url": "http://github.com/nodeza",
+        "twitter_url": "https://twitter.com/node_za",
+        "github_url": "https://github.com/nodeza",
         "email": "info@nodeza.co.za"
     },
     "mysql": {

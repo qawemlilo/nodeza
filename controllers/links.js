@@ -160,10 +160,6 @@ const LinksController = App.Controller.extend({
     LinkModel.forge(inputs)
     .save()
     .then(function(model) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', { msg: 'LinkModel successfully created.' });
       res.redirect('/admin/links');
     })
@@ -206,10 +202,6 @@ const LinksController = App.Controller.extend({
     LinkModel.forge(inputs)
     .save()
     .then(function(model) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', { msg: 'LinkModel successfully updated.' });
       res.redirect('/links/edit/' + model.get('id'));
     })

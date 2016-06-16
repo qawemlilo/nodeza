@@ -132,10 +132,6 @@ const RoutesController = App.Controller.extend({
     Route.forge(inputs)
     .save()
     .then(function(model) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', { msg: 'Route successfully created.' });
       res.redirect('/admin/routes');
     })
@@ -180,8 +176,6 @@ const RoutesController = App.Controller.extend({
     Route.forge(inputs)
     .save()
     .then(function(model) {
-      App.clearCache();
-
       req.flash('success', { msg: 'Route successfully updated.' });
       res.redirect('back');
     })

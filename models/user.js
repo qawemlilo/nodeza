@@ -16,6 +16,24 @@ const User = App.Model.extend({
   tableName: 'users',
 
 
+  initialize: function () {
+
+    App.Model.prototype.initialize.apply(this, arguments);
+
+    this.on('saved', (model, attributes, options) => {
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
+    });
+
+    this.on('updated', (model, attributes, options) => {
+      if (App.getConfig('cache')) {
+        App.clearCache();
+      }
+    });
+  },
+
+
   hasTimestamps: true,
 
 
@@ -106,7 +124,7 @@ const User = App.Model.extend({
     if ((this.hasChanged('views') && !this.isNew()) || this.hasChanged('resetPasswordToken')) {
       return;
     }
-    
+
     if (this.isNew() || this.hasChanged('password')) {
       return this.generatePasswordHash(this.get('password'))
       .then((hash) => {

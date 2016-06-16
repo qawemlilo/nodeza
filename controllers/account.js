@@ -176,10 +176,6 @@ const AccountController = App.Controller.extend({
           return res.redirect('/login');
         }
 
-        if (App.getConfig('cache')) {
-          App.clearCache();
-        }
-
         res.redirect(req.session.returnTo || '/');
       });
     })(req, res, next);
@@ -192,10 +188,6 @@ const AccountController = App.Controller.extend({
    */
   logout: function(req, res) {
     req.logout();
-
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
 
     res.redirect('/');
   },
@@ -241,9 +233,6 @@ const AccountController = App.Controller.extend({
     User.forge(userData)
     .save()
     .then(function (model) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
 
       req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
@@ -532,9 +521,6 @@ const AccountController = App.Controller.extend({
     .then(function (user) {
       user.save(details)
       .then(function() {
-        if (App.getConfig('cache')) {
-          App.clearCache();
-        }
 
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/admin/account');
@@ -560,10 +546,6 @@ const AccountController = App.Controller.extend({
 
     user.deleteAccount(user.get('id'))
     .then(function () {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.logout();
       res.redirect('/');
     })

@@ -190,10 +190,6 @@ const UsersController = App.Controller.extend({
     User.forge(details)
     .save()
     .then(function (user) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', {msg: 'User account created'});
       res.redirect('/admin/users');
     })
@@ -242,10 +238,6 @@ const UsersController = App.Controller.extend({
       return user.save(details);
     })
     .then(function(model) {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', {msg: 'User information updated.'});
       res.redirect('/users/edit/' + model.get('id'));
     })

@@ -80,10 +80,6 @@ const RolesController = App.Controller.extend({
     .then(function (role) {
       role.save({name: req.body.name})
       .then(function () {
-        if (App.getConfig('cache')) {
-          App.clearCache();
-        }
-
         req.flash('success', {msg: 'Role updated'});
         res.redirect('back');
       })
@@ -113,10 +109,6 @@ const RolesController = App.Controller.extend({
     Role.forge({name: req.body.name})
     .save()
     .then(function () {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-
       req.flash('success', {msg: 'New user role created'});
       res.redirect('back');
     })

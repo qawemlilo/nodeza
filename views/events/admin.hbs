@@ -13,11 +13,11 @@
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
     <li class="active">
       <a href="/admin/events">
-        <span class="glyphicon glyphicon-calendar"></span> Meetups
+        <span class="glyphicon glyphicon-calendar"></span> Events
       </a>
     </li>
     <a role="button" href="/events/new" class="btn btn-danger pull-right">
-     <span class="glyphicon glyphicon-calendar"></span> Create a meetup
+     <span class="glyphicon glyphicon-calendar"></span> Create new event
     </a>
   </ul>
 
@@ -46,7 +46,7 @@
             </th>
           </tr>
         </thead>
-  
+
         <tbody>
           {{#each myEvents}}
             <tr>
@@ -54,7 +54,7 @@
                 {{id}}
               </td>
               <td>
-                <a href="/events/edit/{{id}}">{{title}}</a> 
+                <a href="/events/edit/{{id}}">{{title}}</a>
                 <a href="/events/{{slug}}" target="_blank">
                   <small>
                     <span class="glyphicon glyphicon-new-window text-danger"></span>
@@ -67,19 +67,19 @@
               <td style="text-align:center">
                 <a href="/events/edit/{{id}}" data-toggle="tooltip" data-placement="top" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
-                </a> 
+                </a>
               </td>
               <td style="text-align:center">
                 <a href="/events/delete/{{id}}" data-toggle="tooltip" data-placement="top" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger" title="Delete">
-                  <span class="glyphicon glyphicon-trash"></span> 
-                </a> 
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
               </td>
               <td style="text-align:center">
                 {{views}}
               </td>
             </tr>
           {{/each}}
-          
+
         </tbody>
       </table>
       {{/ifCond}}
@@ -93,9 +93,9 @@
         </div>
       {{/ifCond}}
     </div>
-  
+
     {{> pagination}}
-  
+
   </div>
 </div>
 

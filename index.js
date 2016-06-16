@@ -8,6 +8,7 @@ const config = require('./config');
 const _ = require('lodash');
 const path = require('path');
 const app = require('widget-cms');
+const helpers = require('./lib/helpers');
 
 
 app.config(_.defaults({
@@ -51,6 +52,10 @@ app.registerMiddleware(function (req, res, next) {
   }
 
   next();
+});
+
+app.registerHelper(function (hbs) {
+  helpers.setup(hbs);
 });
 
 

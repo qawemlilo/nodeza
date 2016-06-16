@@ -21,7 +21,7 @@ app.config(_.defaults({
     useNullAsDefault: true
   },
 
-  cache: false,
+  cache: true,
 
   redis: {expire: 60 * 60 * 5},
 

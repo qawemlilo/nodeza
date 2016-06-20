@@ -129,7 +129,16 @@ const User = App.Model.extend({
       return this.generatePasswordHash(this.get('password'))
       .then((hash) => {
         this.set({password: hash});
-
+      })
+      .then(() => {
+        if (!this.get('slug')) {
+          return this.generateSlug(this.get('name'))
+          .then((slug) => {
+            this.set({slug: slug});
+          });
+        }
+      })
+      .then(function () {
         return App.Model.prototype.saving.apply(this, _.toArray(arguments));
       });
     }

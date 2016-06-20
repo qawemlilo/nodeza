@@ -246,6 +246,7 @@ const AccountController = App.Controller.extend({
       });
     })
     .catch(function (error) {
+      console.error(error)
       req.flash('errors', {'msg': 'An error occured, account not created.'});
       res.redirect('back');
     });

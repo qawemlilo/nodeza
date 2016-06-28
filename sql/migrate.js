@@ -5,9 +5,10 @@ const App = require('widget-cms');
 const path = require('path');
 
 App.config({
-  port: 3002,
 
-  secret: 'hjhadsas',
+  secret: 'my_secret',
+
+  serverless: true,
 
   db: {
     client: 'mysql',
@@ -15,9 +16,18 @@ App.config({
     useNullAsDefault: true
   },
 
-  modelsDir: path.resolve('../', 'models'),
+  middleware: {
+    enableForms: false,
+    enableCSRF: false,
+    inputValidation: false,
+    enableSessions: true
+  },
 
-  collectionsDir: path.resolve('../', 'collections')
+  rootDir: process.cwd(),
+
+  modelsDir: path.join(process.cwd(), 'models'),
+
+  collectionsDir: path.join(process.cwd(), 'collections')
 });
 
 App.start();

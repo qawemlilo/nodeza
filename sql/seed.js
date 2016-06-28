@@ -7,24 +7,6 @@ const config = require('../config');
 const App = require('widget-cms');
 const path = require('path');
 
-App.config({
-  port: 3002,
-
-  secret: 'hjhadsas',
-
-  db: {
-    client: 'mysql',
-    connection: config.mysql,
-    useNullAsDefault: true
-  },
-
-  modelsDir: path.resolve('../', 'models'),
-
-  collectionsDir: path.resolve('../', 'collections')
-});
-
-App.start();
-
 const Role = App.getModel('Role');
 const Category = App.getModel('Category');
 const nodeEvent = App.getModel('Event');

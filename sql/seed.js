@@ -1,43 +1,66 @@
 "use strict";
 
-var _ = require('lodash');
-var sequence = require('when/sequence');
-var chalk = require('chalk');
+const _ = require('lodash');
+const sequence = require('when/sequence');
+const chalk = require('chalk');
+const config = require('../config');
+const App = require('widget-cms');
+const path = require('path');
 
-var Role = require('../models/roles');
-var Category = require('../models/category');
-var nodeEvent = require('../models/event');
-var Meetup = require('../models/meetup');
-var Post = require('../models/post');
-var Route = require('../models/route');
-var Link = require('../models/link');
-var Menu = require('../models/menu');
+App.config({
+  port: 3002,
 
-var eventsData = require('./data/events');
-var meetupsData = require('./data/meetups');
-var postsData = require('./data/posts');
-var menusData = require('./data/menus');
-var routesData = require('./data/routes');
-var linksData = require('./data/links');
+  secret: 'hjhadsas',
 
-var operations =  [];
+  db: {
+    client: 'mysql',
+    connection: config.mysql,
+    useNullAsDefault: true
+  },
+
+  modelsDir: path.resolve('../', 'models'),
+
+  collectionsDir: path.resolve('../', 'collections')
+});
+
+App.start();
+
+const Role = App.getModel('Role');
+const Category = App.getModel('Category');
+const nodeEvent = App.getModel('Event');
+const Meetup = App.getModel('Meetup');
+const Post = App.getModel('Post');
+const Route = App.getModel('Role');
+const Link = App.getModel('Link');
+const Menu = App.getModel('Menu');
+
+const eventsData = require('./data/events');
+const meetupsData = require('./data/meetups');
+const postsData = require('./data/posts');
+const menusData = require('./data/menus');
+const routesData = require('./data/routes');
+const linksData = require('./data/links');
+
+let operations =  [];
 
 
 function unpackCollection (collection) {
   _.each(collection.data, function (data) {
     operations.push(function () {
-      var props;
+      let props;
 
       // if its posts
-      if (data.data)
+      if (data.data) {
         props = [data.data, {updateTags: data.tags}];
-      else
+      }
+      else {
         props = [data, {}];
+      }
 
       return collection.model.forge()
       .save(props[0], props[1])
       .then(function(model) {
-        var res = model.tableName + ' entry id: ' + model.get('id') + ' created';
+        let res = model.tableName + ' entry id: ' + model.get('id') + ' created';
         console.log(chalk.green(' > ') + res);
         return res;
       })
@@ -53,13 +76,13 @@ module.exports.firstBatch  = function () {
   // reset operations
   operations =  [];
 
-  var rolesData = [
+  let rolesData = [
     {name: 'Registered'},
     {name: 'Editor'},
     {name: 'Super Administrator'},
     {name: 'Public'}
   ];
-  var catsData = [
+  let catsData = [
     {name: 'Articles', description: 'General content'},
     {name: 'Interviews', description: 'Companies using Node'},
     {name: 'Tutorials', description: 'Node.js Tutorials'},

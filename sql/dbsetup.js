@@ -13,29 +13,6 @@ const questions = [
   {question: 'Password', required: true}
 ];
 
-const env_data = `
-module.exports = {
-  MYSQL_HOST: 'localhost',
-  MYSQL_PORT: null,
-  MYSQL_USER: '',
-  MYSQL_PASSWORD: '',
-  MYSQL_DATABASE: '',
-  MAILGUN_USER: '',
-  MAILGUN_PASSWORD: '',
-  MAILGUN_KEY: '',
-  MAILGUN_EMAIL: '',
-  MAILGUN_NEWSLETTER: '',
-  MAILGUN_DOMAIN: '',
-  GITHUB_CLIENTID: '',
-  GITHUB_SECRET: '',
-  TWITTER_KEY: '',
-  TWITTER_SECRET: '',
-  TWITTER_TOKEN_KEY: '',
-  TWITTER_TOKEN_SECRET: '',
-  GOOGLE_CLIENTID: '',
-  GOOGLE_SECRET: ''
-};`;
-
 
 
 console.log(chalk.yellow('----------------------------------------------------------------------------'));
@@ -59,9 +36,31 @@ dbSetup.create()
   let prod_env = path.resolve(__dirname, '../.env.production.js');
   let test_env = path.resolve(__dirname, '../.env.testing.js');
 
-  let data = JSON.stringify(config, null, 4);
+  let config_data = JSON.stringify(config, null, 4);
+  let env_data = `
+  module.exports = {
+    MYSQL_HOST: '${config.mysql.host}',
+    MYSQL_PORT: null,
+    MYSQL_USER: '${config.mysql.user}',
+    MYSQL_PASSWORD: '${config.mysql.password}',
+    MYSQL_DATABASE: '${config.mysql.database}',
+    MAILGUN_USER: '',
+    MAILGUN_PASSWORD: '',
+    MAILGUN_KEY: '',
+    MAILGUN_EMAIL: '',
+    MAILGUN_NEWSLETTER: '',
+    MAILGUN_DOMAIN: '',
+    GITHUB_CLIENTID: '',
+    GITHUB_SECRET: '',
+    TWITTER_KEY: '',
+    TWITTER_SECRET: '',
+    TWITTER_TOKEN_KEY: '',
+    TWITTER_TOKEN_SECRET: '',
+    GOOGLE_CLIENTID: '',
+    GOOGLE_SECRET: ''
+  };`;
 
-  fs.writeFileSync(config_filepath, data, 'utf8');
+  fs.writeFileSync(config_filepath, config_data, 'utf8');
   fs.writeFileSync(dev_env, env_data, 'utf8');
   fs.writeFileSync(prod_env, env_data, 'utf8');
   fs.writeFileSync(test_env, env_data, 'utf8');

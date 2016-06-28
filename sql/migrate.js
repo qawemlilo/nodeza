@@ -1,19 +1,39 @@
 "use strict";
 
-var config = require('../config');
-var Bookshelf = require('../dbconnect')(config);
-var knex = Bookshelf.knex;
+const config = require('../config');
+const App = require('widget-cms');
+const path = require('path');
 
-var _ = require('lodash');
-var when = require('when');
-var sequence = require('when/sequence');
-var seed = require('./seed');
-var User = require('../models/user');
-var schema = require('./schema');
-var schemaTables = _.keys(schema);
-var Prompt = require('simple-prompt');
-var chalk = require('chalk');
-var questions = [
+App.config({
+  port: 3002,
+
+  secret: 'hjhadsas',
+
+  db: {
+    client: 'mysql',
+    connection: config.mysql,
+    useNullAsDefault: true
+  },
+
+  modelsDir: path.resolve('../', 'models'),
+
+  collectionsDir: path.resolve('../', 'collections')
+});
+
+App.start();
+
+const knex = App.Bookshelf.knex;
+
+const _ = require('lodash');
+const when = require('when');
+const sequence = require('when/sequence');
+const seed = require('./seed');
+const User = App.getModel('User');
+const schema = require('./schema');
+const schemaTables = _.keys(schema);
+const Prompt = require('simple-prompt');
+const chalk = require('chalk');
+const questions = [
   {
     question: 'Name',
     required: true,
@@ -42,7 +62,7 @@ function createTable(table) {
   console.log(chalk.green(' > ') + 'Creating ' + table + ' table....');
 
   return knex.schema.createTable(table, function (t) {
-    var columnKeys = _.keys(schema[table]);
+    let columnKeys = _.keys(schema[table]);
 
     _.each(columnKeys, function (column) {
       return addTableColumn(table, t, column);
@@ -52,8 +72,8 @@ function createTable(table) {
 
 
 function addTableColumn(tablename, table, columnname) {
-    var column;
-    var columnSpec = schema[tablename][columnname];
+    let column;
+    let columnSpec = schema[tablename][columnname];
 
     // creation distinguishes between text with fieldtype, string with maxlength and all others
     if (columnSpec.type === 'text' && columnSpec.hasOwnProperty('fieldtype')) {
@@ -130,8 +150,8 @@ var migrate = {
    * create database
   **/
   init: function () {
-    var deferred = when.defer();
-    var profile = new Prompt(questions);
+    let deferred = when.defer();
+    let profile = new Prompt(questions);
 
     createDB()
     .then(function () {
@@ -179,7 +199,7 @@ var migrate = {
    * Delete all tables from the database in reverse order
   **/
   reset: function () {
-    var tables = [];
+    let tables = [];
 
     tables = _.map(schemaTables, function (table) {
       return function () {
@@ -206,7 +226,7 @@ migrate.reset()
     process.exit(0);
   })
   .catch(function (err) {
-    console.log(err);
+    console.error(err);
     process.exit(1);
   });
 });

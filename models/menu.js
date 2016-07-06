@@ -13,21 +13,17 @@ const Menu = App.Model.extend({
   tableName: 'menus',
 
 
-  initialize: function () {
+  updated: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
+  },
 
-    App.Model.prototype.initialize.apply(this, arguments);
 
-    this.on('saved', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
-
-    this.on('updated', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
+  saved: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
   },
 
 

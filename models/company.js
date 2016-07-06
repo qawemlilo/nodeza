@@ -11,21 +11,17 @@ const Company =  App.Model.extend({
   tableName: 'companies',
 
 
-  initialize: function () {
+  updated: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
+  },
 
-    App.Model.prototype.initialize.apply(this, arguments);
 
-    this.on('saved', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
-
-    this.on('updated', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
+  saved: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
   },
 
 
@@ -43,8 +39,6 @@ const Company =  App.Model.extend({
 
       this.set({desc: desc});
     }
-
-    return App.Model.prototype.saving.call(this);
   }
 });
 

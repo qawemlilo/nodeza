@@ -13,45 +13,38 @@ const Meetup =  App.Model.extend({
   tableName: 'meetups',
 
 
-  initialize: function () {
+  updated: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
+  },
 
-    App.Model.prototype.initialize.apply(this, arguments);
 
-    this.on('saved', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
-
-    this.on('updated', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
+  saved: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
   },
 
 
   hasTimestamps: true,
 
 
-  saving: function (model, attr, options) {
-
-    if ((this.hasChanged('views') && !this.isNew())) {
-      return;
-    }
+  creating: function (model, attr, options) {
 
     if (this.get('updated_by') && options.context && options.context.user_id) {
       this.set('updated_by', options.context.user_id);
     }
     // if is new or slug has changed and has slug field - generate new slug
     if (!this.get('slug') || this.hasChanged('slug')) {
-      return this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
+        this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
         .then( (slug) => {
           this.set({slug: slug});
+        })
+        .catch(function (err) {
+          console.error(err);
         });
     }
-
-    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 

@@ -101,8 +101,6 @@ const AccountController = App.Controller.extend({
 
     req.session.isAdmin = req.user.get('id');
 
-    console.log(req.session.isAdmin);
-
     User.forge({'id': req.params.id})
     .fetch({required: true})
     .then(function(user) {

@@ -15,25 +15,21 @@ const Post = App.Model.extend({
   tableName: 'posts',
 
 
-  initialize: function () {
+  updated: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
+  },
 
-    App.Model.prototype.initialize.apply(this, arguments);
 
-    this.on('saved', (model, attributes, options) => {
-      if (options.updateTags) {
-        this.updateTags(model, attributes, options);
-      }
+  saved: function(model, attributes, options) {
+    if (options.updateTags) {
+      this.updateTags(model, attributes, options);
+    }
 
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
-
-    this.on('updated', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
   },
 
 
@@ -80,9 +76,12 @@ const Post = App.Model.extend({
 
     // if is new or slug has changed and has slug field - generate new slug
     if (!this.get('slug') || this.hasChanged('slug')) {
-      return this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
+        this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
         .then( (slug) => {
           this.set({slug: slug});
+        })
+        .catch(function (err) {
+          console.error(err);
         });
     }
 
@@ -92,8 +91,6 @@ const Post = App.Model.extend({
         this.set('published_at', new Date());
       }
     }
-
-    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 

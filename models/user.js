@@ -16,25 +16,21 @@ const User = App.Model.extend({
   tableName: 'users',
 
 
-  initialize: function () {
+  hasTimestamps: true,
 
-    App.Model.prototype.initialize.apply(this, arguments);
 
-    this.on('saved', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
-
-    this.on('updated', (model, attributes, options) => {
-      if (App.getConfig('cache')) {
-        App.clearCache();
-      }
-    });
+  updated: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
   },
 
 
-  hasTimestamps: true,
+  saved: function(model, attributes, options) {
+    if (App.getConfig('cache')) {
+      App.clearCache();
+    }
+  },
 
 
   tokens: function() {
@@ -120,30 +116,52 @@ const User = App.Model.extend({
 
 
 
-  saving: function (newObj, attr, options) {
-    if ((this.hasChanged('views') && !this.isNew()) || this.hasChanged('resetPasswordToken')) {
-      return;
-    }
+  creating: function (newObj, attr, options) {
+    return this.generatePasswordHash(this.get('password'))
+    .then((hash) => {
+      this.set({password: hash});
+    })
+    .then(() => {
+      if (!this.get('slug')) {
+        return this.generateSlug(this.get('name'))
+        .then((slug) => {
+          console.log('creating', slug)
+          this.set({slug: slug});
+        });
+      }
+    });
+  },
 
-    if (this.isNew() || this.hasChanged('password')) {
+
+
+  saving: function (newObj, attr, options) {
+    return this.generatePasswordHash(this.get('password'))
+    .then((hash) => {
+      this.set({password: hash});
+    })
+    .then(() => {
+      if (!this.get('slug')) {
+        return this.generateSlug(this.get('name'))
+        .then((slug) => {
+          console.log('creating', slug)
+          this.set({slug: slug});
+        });
+      }
+    });
+  },
+
+
+
+  updating: function (newObj, attr, options) {
+    if (this.hasChanged('password')) {
       return this.generatePasswordHash(this.get('password'))
       .then((hash) => {
         this.set({password: hash});
       })
-      .then(() => {
-        if (!this.get('slug')) {
-          return this.generateSlug(this.get('name'))
-          .then((slug) => {
-            this.set({slug: slug});
-          });
-        }
-      })
-      .then(function () {
-        return App.Model.prototype.saving.apply(this, _.toArray(arguments));
+      .catch(function (err) {
+        console.error(err);
       });
     }
-
-    return App.Model.prototype.saving.apply(this, _.toArray(arguments));
   },
 
 

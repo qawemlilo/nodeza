@@ -32,7 +32,7 @@
     "lodash": "2.4.2",
     "mailgun-js": "0.7.3",
     "markdown-it": "5.0.0",
-    "moment": "^2.10.6",
+    "moment": "^2.14.1",
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
     "passport-local": "1.0.0",

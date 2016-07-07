@@ -74,6 +74,13 @@ const Post = App.Model.extend({
       this.set('updated_by', options.context.user_id);
     }
 
+    // set publishing date if published and notExists
+    if (this.hasChanged('published') && this.get('published')) {
+      if (!this.get('published_at')) {
+        this.set('published_at', new Date());
+      }
+    }
+
     // if is new or slug has changed and has slug field - generate new slug
     if (!this.get('slug') || this.hasChanged('slug')) {
         this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
@@ -112,7 +119,6 @@ const Post = App.Model.extend({
     options = options || {};
 
     this.myTags = options.updateTags || [];
-
 
     return Post.forge({id: newPost.id})
     .fetch({withRelated: ['tags'], transacting: options.transacting})

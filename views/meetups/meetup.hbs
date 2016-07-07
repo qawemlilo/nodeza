@@ -60,13 +60,13 @@
     <h1>{{meetup.title}}</h1>
   </div>
 </div>
-{{/extend}} 
+{{/extend}}
 
 <div class="col-sm-9 blog-main">
   {{> flash}}
 
   <div class="container-fluid">
-    <div class="row" id="meetupVenue" style="height: 250px;background-color:#F5F5F5">  
+    <div class="row" id="meetupVenue" style="height: 250px;background-color:#F5F5F5">
     </div>
 
     <div class="row" style="margin-bottom: 40px;">
@@ -75,28 +75,28 @@
           <div class="col-md-8">
             <h3>{{{meetup.title}}}</h3>
             <p class="blog-post-meta" style="padding-right:10px">
-              <span class="glyphicon glyphicon-tag"></span> 
+              <span class="glyphicon glyphicon-tag"></span>
               {{meetup.city}}
             </p>
           </div>
           <div class="col-md-8">
             <p>
             {{#if meetup.website}}
-              <strong>Website:</strong> 
+              <strong>Website:</strong>
               <a href="{{meetup.website}}" target="_blank">
                 {{meetup.website}}
               </a><br>
             {{/if}}
-  
+
             <strong>Organiser:</strong> {{meetup.organiser}}
             <br>
             <strong>When?</strong> {{meetup.meetings}}
             <br>
             <strong>Location:</strong> <a href="{{meetup.url}}" target="_blank">{{meetup.address}}</a>
           </p>
-  
+
           </div>
-  
+
           <div class="col-md-4">
             <p>
               <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal">
@@ -109,7 +109,7 @@
             </p>
             {{/if}}
           </div>
-  
+
           <div class="col-md-12">
             <p>{{{meetup.html}}}</p>
           </div>
@@ -132,7 +132,7 @@
 
 
 {{#extend "scripts"}}
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDgznfZ1jpCB3oE0djY4vj1wKZs6QXDcNQ"></script>
 <script src="/js/jquery.geocomplete.min.js"></script>
 <script src="/js/maps.js"></script>
 <script>
@@ -141,7 +141,7 @@
     lng: "{{meetup.lng}}",
     lat: "{{meetup.lat}}"
   });
-    
+
   map.addMarker({
     lat: {{meetup.lat}},
     lng: {{meetup.lng}},

@@ -24,7 +24,7 @@ const UsersController = App.Controller.extend({
         return twitter.getTweets(user.twitterHandle());
       }
       else {
-        return twitter.getTweets('ragingflameblog');
+        return false;
       }
     })
     .then(function (tweets) {
@@ -38,6 +38,8 @@ const UsersController = App.Controller.extend({
         page: 'profile',
         tweets: tweets || []
       });
+
+      profile.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});

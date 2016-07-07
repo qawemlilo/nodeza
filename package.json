@@ -25,6 +25,7 @@
     "url": "https://github.com/nodeza/nodeza/issues"
   },
   "dependencies": {
+    "babel-register": "^6.9.0",
     "bcrypt-nodejs": "0.0.3",
     "feed": "0.2.6",
     "github-api": "0.7.0",

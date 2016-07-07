@@ -1,3 +1,4 @@
+require("babel-register");
 
 "use strict";
 
@@ -12,6 +13,7 @@ const helpers = require('./lib/helpers');
 
 
 app.config(_.defaults({
+
   port: config.site.port,
 
   secret: config.site.sessionSecret,
@@ -22,7 +24,7 @@ app.config(_.defaults({
     useNullAsDefault: true
   },
 
-  cache: true,
+  cache: false,
 
   redis: {expire: 60 * 60 * 5},
 

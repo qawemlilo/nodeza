@@ -42,7 +42,6 @@ app.config(_.defaults({
   }
 }, config));
 
-
 app.registerMiddleware(function (req, res, next) {
   // don't cache if user is logged in
   if (req.isAuthenticated()) {

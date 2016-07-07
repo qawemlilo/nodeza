@@ -42,7 +42,7 @@
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
     "when": "3.7.4",
-    "widget-cms": "^0.3.4"
+    "widget-cms": "^0.3.5"
   },
   "devDependencies": {
     "chai": "^3.4.0",

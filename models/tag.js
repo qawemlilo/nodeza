@@ -32,8 +32,8 @@ const Tag =  App.Model.extend({
     }
 
     // if is new or slug has changed and has slug field - generate new slug
-    if (!this.get('slug') || this.hasChanged('slug')) {
-        this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
+    if (!this.get('slug') || this.hasChanged('title')) {
+        return this.generateSlug(this.get('title'))
         .then( (slug) => {
           this.set({slug: slug});
         })

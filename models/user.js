@@ -122,13 +122,11 @@ const User = App.Model.extend({
       this.set({password: hash});
     })
     .then(() => {
-      if (!this.get('slug')) {
         return this.generateSlug(this.get('name'))
         .then((slug) => {
           console.log('creating', slug)
           this.set({slug: slug});
         });
-      }
     });
   },
 
@@ -137,31 +135,18 @@ const User = App.Model.extend({
   saving: function (newObj, attr, options) {
     return this.generatePasswordHash(this.get('password'))
     .then((hash) => {
-      this.set({password: hash});
+      if (this.hasChanged('password')) {
+        this.set({password: hash});
+      }
     })
     .then(() => {
-      if (!this.get('slug')) {
+      if (this.hasChanged('name')) {
         return this.generateSlug(this.get('name'))
         .then((slug) => {
-          console.log('creating', slug)
           this.set({slug: slug});
         });
       }
     });
-  },
-
-
-
-  updating: function (newObj, attr, options) {
-    if (this.hasChanged('password')) {
-      return this.generatePasswordHash(this.get('password'))
-      .then((hash) => {
-        this.set({password: hash});
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-    }
   },
 
 

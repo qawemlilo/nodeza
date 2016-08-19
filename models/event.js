@@ -32,7 +32,7 @@ const nodeEvent = App.Model.extend({
   hasTimestamps: true,
 
 
-  creating: function (model, attr, options) {
+  saving: function (model, attr, options) {
 
     this.set('html', markdown.render(this.get('markdown')));
     this.set('title', this.get('title').trim());
@@ -41,8 +41,8 @@ const nodeEvent = App.Model.extend({
       this.set('updated_by', options.context.user_id);
     }
     // if is new or slug has changed and has slug field - generate new slug
-    if (!this.get('slug') || this.hasChanged('slug')) {
-        this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
+    if (!this.get('slug') || this.hasChanged('title')) {
+        return this.generateSlug(this.get('title'))
         .then( (slug) => {
           this.set({slug: slug});
         })

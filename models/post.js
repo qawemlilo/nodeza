@@ -81,22 +81,22 @@ const Post = App.Model.extend({
       }
     }
 
+    // set publishing date if published and notExists
+    if (this.hasChanged('published') && this.get('published')) {
+      if (!this.get('published_at')) {
+        this.set('published_at', new Date());
+      }
+    }
+
     // if is new or slug has changed and has slug field - generate new slug
-    if (!this.get('slug') || this.hasChanged('slug')) {
-        this.generateSlug(this.get('slug') || this.get('name') || this.get('title'))
+    if (!this.get('slug') || this.hasChanged('title')) {
+        return this.generateSlug(this.get('title'))
         .then( (slug) => {
           this.set({slug: slug});
         })
         .catch(function (err) {
           console.error(err);
         });
-    }
-
-    // set publishing date if published and notExists
-    if (this.hasChanged('published') && this.get('published')) {
-      if (!this.get('published_at')) {
-        this.set('published_at', new Date());
-      }
     }
   },
 

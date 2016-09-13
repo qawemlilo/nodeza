@@ -52,7 +52,7 @@
     "simple-prompt": "^0.2.1",
     "superagent": "1.4.0",
     "supertest": "^1.1.0",
-    "uglify-js": "^2.5.0"
+    "uglify-js": "^2.6.3"
   },
   "engines": {
     "node": "0.10.x",

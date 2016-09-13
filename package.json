@@ -7,7 +7,6 @@
     "start": "env NODE_ENV=development node index.js",
     "dev": "env NODE_ENV=development nodemon index.js",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
-    "jshint": "jshint models collections controllers lib sql routes widgets test app.js dbconnect.js server.js index.js lib/auth.js",
     "test": "./node_modules/mocha/bin/mocha test",
     "setup": "node sql/dbsetup.js && node sql/migrate.js",
     "postmerge": "npm install"
@@ -28,9 +27,9 @@
     "bcrypt-nodejs": "0.0.3",
     "feed": "0.2.6",
     "github-api": "0.7.0",
-    "lodash": "4.15.0",
+    "lodash": "^4.15.0",
     "mailgun-js": "0.7.3",
-    "markdown-it": "7.0.1",
+    "markdown-it": "^7.0.1",
     "moment": "^2.15.0",
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
@@ -46,15 +45,13 @@
   "devDependencies": {
     "chai": "^3.4.0",
     "chalk": "^1.1.1",
-    "jshint": "^2.9.3",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",
     "superagent": "2.2.0",
-    "supertest": "^1.1.0",
-    "uglify-js": "^2.5.0"
+    "supertest": "^1.1.0"
   },
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.3.x"
+    "node": "16.4.x",
+    "npm": "3.10.x"
   }
 }

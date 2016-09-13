@@ -30,7 +30,7 @@
     "feed": "0.2.6",
     "github-api": "0.7.0",
     "lodash": "2.4.2",
-    "mailgun-js": "0.7.3",
+    "mailgun-js": "0.7.10",
     "markdown-it": "5.0.0",
     "moment": "^2.15.0",
     "passport": "^0.2.2",

@@ -28,7 +28,7 @@
     "babel-register": "^6.9.0",
     "bcrypt-nodejs": "0.0.3",
     "feed": "0.2.6",
-    "github-api": "0.7.0",
+    "github-api": "1.2.0",
     "lodash": "2.4.2",
     "mailgun-js": "0.7.3",
     "markdown-it": "5.0.0",

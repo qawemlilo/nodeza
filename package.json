@@ -34,7 +34,7 @@
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
     "passport-local": "1.0.0",
-    "request": "2.65.0",
+    "request": "2.73.0",
     "rss": "0.3.2",
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",

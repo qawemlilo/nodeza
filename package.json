@@ -36,7 +36,7 @@
     "passport-local": "1.0.0",
     "request": "2.75.0",
     "rss": "0.3.2",
-    "twitter": "^1.2.5",
+    "twitter": "^1.4.0",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
     "when": "3.7.4",

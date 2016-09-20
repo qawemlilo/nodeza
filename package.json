@@ -47,7 +47,7 @@
     "chalk": "^1.1.1",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",
-    "superagent": "2.2.0",
+    "superagent": "2.3.0",
     "supertest": "^1.1.0"
   },
   "engines": {

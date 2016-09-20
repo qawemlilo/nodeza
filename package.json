@@ -27,7 +27,7 @@
     "bcrypt-nodejs": "0.0.3",
     "feed": "0.2.6",
     "github-api": "0.7.0",
-    "lodash": "^4.15.0",
+    "lodash": "^4.16.1",
     "mailgun-js": "0.7.3",
     "markdown-it": "^8.0.0",
     "moment": "^2.15.0",

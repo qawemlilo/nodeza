@@ -4,6 +4,13 @@
 NodeZA, pronounced 'Node Z A', is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
 NodeZA is built using [WidGet CMS](https://github.com/NodeZA/widget-cms) - a highly modular Node.js framework for building database driven web applications.
 
+### How to set up?
+
+  1. git clone https://github.com/qawemlilo/nodeza.git
+  2. cd nodeza && npm install
+  3. npm run migrate
+  4. npm run dev
+
 
 License
 -------

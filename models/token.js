@@ -6,7 +6,6 @@
 
 
 const App = require('widget-cms');
-const when  = require('when');
 
 
 const Token = App.Model.extend({

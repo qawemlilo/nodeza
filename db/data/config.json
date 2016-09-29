@@ -71,7 +71,7 @@
     "widget": {
         "whitelist": [
             "when",
-            "lodash",
+            "bluebird",
             "./config.json"
         ]
     }

@@ -1,6 +1,6 @@
+"use strict";
 
-var when = require('when');
-var config = require('./config.json');
+const config = require('./config.json');
 
 
 function datetime(ts) {
@@ -12,8 +12,8 @@ module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  var Events = App.getCollection('Events');
-  var events = new Events();
+  let Events = App.getCollection('Events');
+  let events = new Events();
 
   return events.fetchBy('dt', {
     limit: 3,

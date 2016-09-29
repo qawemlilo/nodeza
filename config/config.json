@@ -11,19 +11,19 @@
         "csrfWhitelist": [
             "/this-url-will-bypass-csrf"
         ],
-        "port": 3080,
-        "sessionSecret": "msdisdvyjh5jd8bajas7wern",
-        "twitter_url": "https://twitter.com/node_za",
-        "github_url": "https://github.com/nodeza",
+        "port": 3000,
+        "sessionSecret": "secret_1475173921414",
+        "twitter_url": "http://twitter.com/nodeza",
+        "github_url": "http://github.com/nodeza",
         "email": "info@nodeza.co.za"
     },
     "mysql": {
         "host": "localhost",
         "db": "",
-        "user": "",
-        "password": "",
+        "user": "root",
+        "password": "H1tchH1k3r",
         "charset": "utf8",
-        "database": ""
+        "database": "nodeza"
     },
     "mongodb": {
         "url": "mongodb://localhost:27017/nodeza"
@@ -41,8 +41,6 @@
     "twitter": {
         "consumerKey": "",
         "consumerSecret": "",
-        "accessTokenKey": "",
-        "accessTokenSecret": "",
         "callbackURL": "/auth/twitter/callback",
         "passReqToCallback": true
     },
@@ -53,14 +51,11 @@
         "passReqToCallback": true
     },
     "blog": {
-        "postsPerPage": "5",
+        "postsPerPage": 5,
         "showAuthor": true,
         "showTags": true,
         "showDate": true,
-        "showComments": true,
-        "title": "NodeZA",
-        "showShareButtons": false,
-        "description": "Node.js information portal."
+        "showComments": true
     },
     "events": {
         "eventsPerPage": 2,
@@ -76,7 +71,7 @@
     },
     "widget": {
         "whitelist": [
-            "when",
+            "bluebird",
             "lodash",
             "./config.json"
         ]

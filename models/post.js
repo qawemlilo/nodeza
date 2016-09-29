@@ -4,7 +4,7 @@
  * Module dependencies.
 **/
 const App = require('widget-cms');
-const when  = require('when');
+const Promise  = require('bluebird');
 const markdown = require('markdown-it')();
 const _ = require('lodash');
 const moment = require('moment');
@@ -131,7 +131,7 @@ const Post = App.Model.extend({
       tagOps.push(post.tags().detach(null, _.omit(options, 'query')));
 
       if (_.isEmpty(this.myTags)) {
-        return when.all(tagOps);
+        return Promise.all(tagOps);
       }
 
       return Tags.forge()
@@ -169,7 +169,7 @@ const Post = App.Model.extend({
           tagOps.push(post.tags().attach(tag.id, _.omit(options, 'query')));
         });
 
-        return when.all(tagOps);
+        return Promise.all(tagOps);
       });
     });
   },

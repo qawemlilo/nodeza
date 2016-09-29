@@ -1,16 +1,15 @@
+"use strict";
 
-var when = require('when');
-var _ = require('lodash');
-var config = require('./config.json');
+const _ = require('lodash');
+const config = require('./config.json');
 
 
 module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  var Events = App.getCollection('Events');
-  var events = new Events();
-  var deferred = when.defer();
+  let Events = App.getCollection('Events');
+  let events = new Events();
 
   return events.fetchBy('dt', {
     limit: 4,
@@ -21,7 +20,7 @@ module.exports.exec = function (App) {
   .then(function (collection) {
     // if the collection has less than 4 items
     if (collection.length < 4) {
-      var diff = 4 - collection.length;
+      let diff = 4 - collection.length;
 
       return events.fetchBy('dt', {
         limit: diff,

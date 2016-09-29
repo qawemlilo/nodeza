@@ -1,11 +1,7 @@
 # NodeZA
 > A Node.js information portal and social platform for developers in South Africa.
 
-Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.
-
-NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
-The long term goal is to become an information repository for all things that are related to Node.js in South Africa.
-
+NodeZA, pronounced 'Node Z A', is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.
 NodeZA is built using [WidGet CMS](https://github.com/NodeZA/widget-cms) - a highly modular Node.js framework for building database driven web applications.
 
 

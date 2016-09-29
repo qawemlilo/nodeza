@@ -1,6 +1,6 @@
 "use strict";
 
-const when = require('when');
+const Promise = require('bluebird');
 const Twitter = require('twitter');
 const config = require('../config');
 const client = new Twitter({
@@ -22,7 +22,7 @@ module.exports = function () {
   };
 
   Plugin.getTweets = function (twitterHandle, limit) {
-    return when.promise(function(resolve, reject, notify) {
+    return new Promise(function(resolve, reject) {
       let params = {
         screen_name: twitterHandle,
         limit: limit || 10

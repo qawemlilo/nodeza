@@ -6,37 +6,33 @@ const config = require('./data/config.json');
 const Prompt = require('simple-prompt');
 const chalk = require('chalk');
 
-const questions = [
+const Questions = new Prompt([
   {question: 'Host', required: true},
-  {question: 'MySQL Database', required: true},
+  {question: 'Database Name', required: true},
   {question: 'Database User', required: true},
   {question: 'Password', required: true}
-];
-
-
+]);
 
 console.log(chalk.yellow('----------------------------------------------------------------------------'));
 console.log(chalk.yellow('\tHi there, lets start by setting up a connection to your MySQL database'));
 console.log(chalk.yellow('----------------------------------------------------------------------------'));
 console.log();
 
-
-let dbSetup = new Prompt(questions);
-
-dbSetup.create()
+Questions.create()
 .then(function (err, answers) {
-
   config.mysql.host = answers.Host;
   config.mysql.user = answers.DatabaseUser;
   config.mysql.password = answers.Password;
-  config.mysql.database = answers.MySQLDatabase;
+  config.mysql.database = answers.DatabaseName;
+  config.mysql.charset = 'utf8';
+  config.site.sessionSecret = 'secret_' + Date.now();
 
   let config_filepath = path.resolve(__dirname, '../config/config.json');
   let dev_env = path.resolve(__dirname, '../.env.development.js');
   let prod_env = path.resolve(__dirname, '../.env.production.js');
   let test_env = path.resolve(__dirname, '../.env.testing.js');
-
   let config_data = JSON.stringify(config, null, 4);
+  
   let env_data = `
   module.exports = {
     MYSQL_HOST: '${config.mysql.host}',

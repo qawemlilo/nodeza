@@ -3,11 +3,12 @@
 const App = require('widget-cms');
 const User = App.getModel('User');
 const mailGun = require('../lib/mailgun');
-const when = require('when');
+const auth = require('../lib/auth');
+const Promise = require('bluebird');
 const crypto = require('crypto');
 const passport = App.passport();
-const LocalStrategy = require('passport-local').Strategy;
 const _ = require('lodash');
+
 
 passport.deserializeUser(function(id, done) {
   User.forge({id: id})
@@ -30,35 +31,11 @@ passport.serializeUser(function(user, done) {
 });
 
 
+auth.useLocalStrategy(passport);
 
-// Sign in using Email and Password.
-passport.use(new LocalStrategy({ usernameField: 'email' },
-  function(email, password, done) {
-    User.forge({email: email})
-    .fetch()
-    .then(function(user) {
-      if (!user) {
-        return done(null, false, { message: 'Email ' + email + ' not found'});
-      }
+let githubConfig = App.getConfig('github');
+auth.useGithubStrategy(githubConfig);
 
-      user.comparePassword(password)
-      .then(function(isMatch) {
-        if (isMatch) {
-          done(null, user);
-        } else {
-          done(null, false, { message: 'Invalid password.' });
-        }
-      })
-      .catch(function (error) {
-        console.console.error(error);
-        done(null, false, { message: 'Invalid credentials' });
-      });
-    })
-    .catch(function (error) {
-      console.error(error);
-      done(null, false, { message: 'Invalid credentials' });
-    });
-}));
 
 /**
  * Converts date in milliseconds to MySQL datetime format
@@ -364,7 +341,7 @@ const AccountController = App.Controller.extend({
     .then(function(userModel) {
       user = userModel;
 
-      return when.promise(function(resolve, reject, notify) {
+      return new Promise(function(resolve, reject) {
         crypto.randomBytes(16, function (err, buf) {
           if(err) {
             reject(err);
@@ -411,9 +388,9 @@ const AccountController = App.Controller.extend({
    */
   getAccount: function (req, res) {
     let tokens = req.user.related('tokens').toJSON();
-    let github = _.findWhere(tokens, { kind: 'github' });
-    let google = _.findWhere(tokens, { kind: 'google' });
-    let twitter = _.findWhere(tokens, { kind: 'twitter' });
+    let github = _.find(tokens, { kind: 'github' });
+    let google = _.find(tokens, { kind: 'google' });
+    let twitter = _.find(tokens, { kind: 'twitter' });
 
     res.render('account/account', {
       title: 'My Account',
@@ -445,9 +422,9 @@ const AccountController = App.Controller.extend({
    */
   getLinkedAccounts: function (req, res) {
     let tokens = req.user.related('tokens').toJSON();
-    let github = _.findWhere(tokens, { kind: 'github' });
-    let google = _.findWhere(tokens, { kind: 'google' });
-    let twitter = _.findWhere(tokens, { kind: 'twitter' });
+    let github = _.find(tokens, { kind: 'github' });
+    let google = _.find(tokens, { kind: 'google' });
+    let twitter = _.find(tokens, { kind: 'twitter' });
 
     res.render('account/linked', {
       title: 'Linked Accounts',

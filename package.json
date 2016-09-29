@@ -4,11 +4,12 @@
   "description": "Node.js portal for developers in South Africa",
   "main": "index.js",
   "scripts": {
-    "start": "env NODE_ENV=development node index.js",
-    "dev": "env NODE_ENV=development nodemon index.js",
+    "migrate": "knex migrate:latest && knex seed:run",
+    "start": "export NODE_ENV=production node index.js",
+    "dev": "export NODE_ENV=development && nodemon",
     "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
     "test": "./node_modules/mocha/bin/mocha test",
-    "setup": "node sql/dbsetup.js && node sql/migrate.js",
+    "setup": "node sql/dbsetup.js",
     "postmerge": "npm install"
   },
   "repository": {
@@ -25,12 +26,15 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.4.6",
     "feed": "0.2.6",
     "github-api": "0.7.0",
+    "knex": "^0.12.1",
     "lodash": "^4.15.0",
     "mailgun-js": "0.7.3",
     "markdown-it": "^7.0.1",
     "moment": "^2.15.0",
+    "mysql": "^2.11.1",
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
     "passport-local": "1.0.0",
@@ -39,14 +43,15 @@
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
-    "when": "3.7.4",
-    "widget-cms": "^0.3.5"
+    "widget-cms": "^0.3.5",
+    "widget-knex-schema": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",
     "chalk": "^1.1.1",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",
+    "sqlite3": "^3.1.4",
     "superagent": "2.2.0",
     "supertest": "^1.1.0"
   },

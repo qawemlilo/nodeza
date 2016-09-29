@@ -1,10 +1,11 @@
+"use strict";
 
-var config = require('./config.json');
-var when = require('when');
+const config = require('./config.json');
+const Promise = require('bluebird');
 
 
 module.exports.config = config;
 
 module.exports.exec = function () {
-  return when(null);
+  return Promise.resolve(null);
 };

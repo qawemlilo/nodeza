@@ -6,8 +6,7 @@
 const App = require('widget-cms');
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
-const when = require('when');
-const node = require('when/node');
+const Promise = require('bluebird');
 const _ = require('lodash');
 
 
@@ -55,15 +54,15 @@ const User = App.Model.extend({
 
 
   generatePasswordHash: function (password) {
-    return when.promise(function(resolve, reject, notify) {
+    return new Promise(function(resolve, reject) {
       bcrypt.genSalt(5, function(err, salt) {
         if (err) {
-          reject(err);
+          return reject(err);
         }
 
         bcrypt.hash(password, salt, null, function(err, hash) {
           if (err) {
-            reject(err);
+            return reject(err);
           }
 
           resolve(hash);
@@ -76,7 +75,7 @@ const User = App.Model.extend({
   comparePassword: function(candidatePassword) {
     let password = this.get('password');
 
-    return when.promise(function(resolve, reject, notify) {
+    return new Promise(function(resolve, reject) {
       bcrypt.compare(candidatePassword, password, function(err, isMatch) {
         if (err) {
           reject(err);
@@ -199,7 +198,7 @@ const User = App.Model.extend({
       });
     }
     else {
-      return when.resolve();
+      return Promise.resolve(null);
     }
   },
 

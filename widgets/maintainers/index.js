@@ -1,15 +1,14 @@
+"use strict";
 
-var when = require('when');
-var config = require('./config.json');
+let config = require('./config.json');
 
 
 module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  var Users = App.getCollection('Users');
-  var users = new Users();
-  var deferred = when.defer();
+  let Users = App.getCollection('Users');
+  let users = new Users();
 
   return users.fetchBy('id', {
     limit: 10,
@@ -20,7 +19,7 @@ module.exports.exec = function (App) {
   .then(function (collection) {
     // if the collection has less than 4 items
 
-    var maintainers = collection.map(function (model) {
+    let maintainers = collection.map(function (model) {
       return {
         slug: model.get('slug'),
         gravatar: model.gravatar(48),

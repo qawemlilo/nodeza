@@ -1,15 +1,15 @@
+"use strict";
 
-var config = require('./config.json');
-var when = require('when');
+const config = require('./config.json');
 
 // this makes the module config properties available in our template
 module.exports.config = config;
 
 module.exports.exec = function (App) {
 
-  var site = App.getConfig('site');
-  var Menu = App.getModel('Menu');
-  var menu = new Menu({name: 'Footer Menu'});
+  let site = App.getConfig('site');
+  let Menu = App.getModel('Menu');
+  let menu = new Menu({name: 'Footer Menu'});
 
   // add some properties to the config object
   config.twitter = site.twitter_url;
@@ -19,7 +19,7 @@ module.exports.exec = function (App) {
     withRelated: ['links', 'links.route']
   })
   .then(function (model) {
-    var collection = model.related('links');
+    let collection = model.related('links');
 
     if (!collection.length) {
       collection = null;

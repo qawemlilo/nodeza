@@ -30,7 +30,7 @@
     "feed": "0.2.6",
     "github-api": "0.7.0",
     "knex": "^0.12.1",
-    "lodash": "^4.15.0",
+    "lodash": "^4.16.4",
     "mailgun-js": "0.7.3",
     "markdown-it": "^8.0.0",
     "moment": "^2.15.0",

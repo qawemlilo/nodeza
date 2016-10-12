@@ -226,7 +226,7 @@ const PostsController = App.Controller.extend({
       opts.where = ['user_id', '=', req.user.get('id')];
     }
     else {
-      opts.where = ['created_at', '<', new Date()];
+      opts.where = null;
     }
 
     posts.fetchBy('id', opts, {withRelated: ['category']})

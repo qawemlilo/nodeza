@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "migrate": "knex migrate:latest && knex seed:run",
-    "start": "export NODE_ENV=production node index.js",
+    "start": "export NODE_ENV=production && node index.js",
     "dev": "export NODE_ENV=development && nodemon",
-    "cleanup": "find . -type f -name '*~' -exec rm -f {} ;",
     "test": "./node_modules/mocha/bin/mocha test",
-    "setup": "node sql/dbsetup.js",
+    "setup": "node db/init.js",
     "postmerge": "npm install"
   },
   "repository": {
@@ -38,12 +37,11 @@
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
     "passport-local": "1.0.0",
-    "request": "2.75.0",
     "rss": "0.3.2",
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
-    "widget-cms": "^0.3.5",
+    "widget-cms": "^1.0.1",
     "widget-knex-schema": "^1.0.0"
   },
   "devDependencies": {

@@ -13,8 +13,7 @@ module.exports.exec = function (App) {
   .fetchBy('id', {
     limit: 2,
     noPagination: true,
-    order: 'asc',
-    where: ['created_at', '<', new Date()]
+    order: 'asc'
   },{
     columns: ['title', 'short_desc', 'slug', 'image_url']
   })

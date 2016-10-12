@@ -12,21 +12,30 @@
             "/this-url-will-bypass-csrf"
         ],
         "port": 3000,
-        "sessionSecret": "secret_1475173921414",
+        "sessionSecret": "secret_1475724952049",
         "twitter_url": "http://twitter.com/nodeza",
         "github_url": "http://github.com/nodeza",
         "email": "info@nodeza.co.za"
     },
-    "mysql": {
-        "host": "localhost",
-        "db": "",
-        "user": "root",
-        "password": "H1tchH1k3r",
-        "charset": "utf8",
-        "database": "nodeza"
-    },
-    "mongodb": {
-        "url": "mongodb://localhost:27017/nodeza"
+    "db": {
+        "production": {
+            "client": "mysql",
+            "connection": {
+                "host": "localhost",
+                "db": "",
+                "user": "",
+                "password": "",
+                "charset": "utf8"
+            },
+            "useNullAsDefault": true
+        },
+        "development": {
+            "client": "sqlite3",
+            "connection": {
+                "filename": "./development.sqlite"
+            },
+            "useNullAsDefault": true
+        }
     },
     "mailgun": {
         "login": "",
@@ -71,9 +80,11 @@
     },
     "widget": {
         "whitelist": [
-            "bluebird",
+            "when",
             "lodash",
-            "./config.json"
+            "bluebird",
+            "./config.json",
+            "config.json"
         ]
     }
 }

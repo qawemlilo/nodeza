@@ -7,5 +7,5 @@ module.exports = {
   cover: {type: 'string', maxlength: 200, nullable: true},
   cover_directory: {type: 'string', maxlength: 200, nullable: true},
   description: {type: 'string', maxlength: 200, nullable: true},
-  updated_by: {type: 'integer', nullable: true, unsigned: true, defaultTo: null},
+  updated_by: {type: 'integer', nullable: true, unsigned: true, defaultTo: null}
 };

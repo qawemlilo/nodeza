@@ -5,41 +5,50 @@ const path = require('path');
 const config = require('./data/config.json');
 const Prompt = require('simple-prompt');
 const chalk = require('chalk');
+const NODE_ENV = process.env.NODE_ENV;
 
-const Questions = new Prompt([
-  {question: 'Host', required: true},
-  {question: 'Database Name', required: true},
-  {question: 'Database User', required: true},
-  {question: 'Password', required: true}
-]);
+config.site.sessionSecret = 'secret_' + Date.now();
 
-console.log(chalk.yellow('----------------------------------------------------------------------------'));
-console.log(chalk.yellow('\tHi there, lets start by setting up a connection to your MySQL database'));
-console.log(chalk.yellow('----------------------------------------------------------------------------'));
-console.log();
+if (NODE_ENV === 'production' || NODE_ENV === 'staging') {
+  console.log(chalk.red(' \u26A0 WARNING: This action will destroy all the information in your database! \n'));
+}
 
-Questions.create()
-.then(function (err, answers) {
-  config.mysql.host = answers.Host;
-  config.mysql.user = answers.DatabaseUser;
-  config.mysql.password = answers.Password;
-  config.mysql.database = answers.DatabaseName;
-  config.mysql.charset = 'utf8';
-  config.site.sessionSecret = 'secret_' + Date.now();
+if (process.argv.length > 2 && process.argv[2] === 'mysql') {
+  console.log(chalk.yellow('----------------------------------------------------------------------------'));
+  console.log(chalk.yellow('\tHi there, lets start by setting up a connection to your MySQL database'));
+  console.log(chalk.yellow('----------------------------------------------------------------------------'));
+  console.log();
 
+  const Questions = new Prompt([
+    {question: 'Host', required: true},
+    {question: 'Database Name', required: true},
+    {question: 'Database User', required: true},
+    {question: 'Password', required: true}
+  ]);
+
+  Questions.create()
+  .then(function (err, answers) {
+    config.db[NODE_ENV].host = answers.Host;
+    config.db[NODE_ENV].user = answers.DatabaseUser;
+    config.db[NODE_ENV].password = answers.Password;
+    config.db[NODE_ENV].database = answers.DatabaseName;
+
+    createFiles(config);
+  });
+}
+else {
+  createFiles(config);
+}
+
+
+
+function createFiles(configObj) {
   let config_filepath = path.resolve(__dirname, '../config/config.json');
-  let dev_env = path.resolve(__dirname, '../.env.development.js');
-  let prod_env = path.resolve(__dirname, '../.env.production.js');
-  let test_env = path.resolve(__dirname, '../.env.testing.js');
-  let config_data = JSON.stringify(config, null, 4);
-  
+  let envVars = path.resolve(__dirname, '../.env.js');
+
+  let config_data = JSON.stringify(configObj, null, 4);
   let env_data = `
   module.exports = {
-    MYSQL_HOST: '${config.mysql.host}',
-    MYSQL_PORT: null,
-    MYSQL_USER: '${config.mysql.user}',
-    MYSQL_PASSWORD: '${config.mysql.password}',
-    MYSQL_DATABASE: '${config.mysql.database}',
     MAILGUN_USER: '',
     MAILGUN_PASSWORD: '',
     MAILGUN_KEY: '',
@@ -57,11 +66,9 @@ Questions.create()
   };`;
 
   fs.writeFileSync(config_filepath, config_data, 'utf8');
-  fs.writeFileSync(dev_env, env_data, 'utf8');
-  fs.writeFileSync(prod_env, env_data, 'utf8');
-  fs.writeFileSync(test_env, env_data, 'utf8');
+  fs.writeFileSync(envVars, env_data, 'utf8');
 
   console.log();
   console.log(chalk.green(' > ') + ' MySQL details saved!');
   console.log();
-});
+}

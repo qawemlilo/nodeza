@@ -17,15 +17,25 @@
       "github_url": "http://github.com/nodeza",
       "email": "info@nodeza.co.za"
     },
-    "mysql": {
-        "host": "localhost",
-        "db": "",
-        "user": "",
-        "password": "",
-        "charset": "utf8"
-    },
-    "mongodb": {
-        "url": "mongodb://localhost:27017/nodeza"
+    "db": {
+      "production": {
+        "client": "mysql",
+        "connection": {
+            "host": "localhost",
+            "db": "",
+            "user": "",
+            "password": "",
+            "charset": "utf8"
+        },
+        "useNullAsDefault": true
+      },
+      "development": {
+        "client": "sqlite3",
+        "connection": {
+            "filename": "./development.sqlite"
+        },
+        "useNullAsDefault": true
+      }
     },
     "mailgun": {
         "login": "",
@@ -71,6 +81,7 @@
     "widget": {
         "whitelist": [
             "when",
+            "lodash",
             "bluebird",
             "./config.json"
         ]

@@ -240,20 +240,21 @@ const EventsController = App.Controller.extend({
       order: 'desc',
       page: currentpage,
       where: ['user_id', '=', req.user.get('id')],
-      andWhere: [],
       base: '/admin/events'
     };
+
 
     if (currentpage < 1) {
       res.redirect('/admin/events');
     }
 
     if (req.user.related('role').get('name') === 'Super Administrator') {
-      opts.where = ['created_at', '<', new Date()];
+      opts.where = null;
     }
 
     events.fetchBy('dt', opts)
     .then(function (collection) {
+      console.log(collection.toJSON())
       res.render('events/admin', {
         title: 'Events',
         pagination: events.pages,

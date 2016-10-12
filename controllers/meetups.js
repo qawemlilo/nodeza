@@ -143,7 +143,7 @@ const MeetupsController = App.Controller.extend({
     let opts = {where: ['user_id', '=', req.user.get('id')]};
 
     if (role.name === 'Super Administrator') {
-      opts.where = ['created_at', '<', new Date()];
+      opts.where = null;
     }
 
     meetups.fetchBy('id', opts)

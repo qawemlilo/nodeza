@@ -6,7 +6,7 @@ module.exports = {
   image_id: {type: 'integer', nullable: true, unsigned: true, references: 'images.id'},
   title: {type: 'string', maxlength: 200, nullable: false},
   slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
-  email: {type: 'string', maxlength: 254, nullable: false, validations: {'isEmail': true}},
+  email: {type: 'string', maxlength: 254, nullable: true},
   number: {type: 'string', maxlength: 24, nullable: true},
   short_desc: {type: 'string', maxlength: 254, nullable: true},
   markdown: {type: 'text', fieldtype: 'medium', nullable: true, defaultTo: ''},

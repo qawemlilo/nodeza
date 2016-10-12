@@ -1,7 +1,8 @@
 "use strict";
 
-var os = require('os');
-var cluster = require('cluster');
+const os = require('os');
+const cluster = require('cluster');
+
 
 cluster.setupMaster({
   exec: 'index.js'
@@ -12,6 +13,6 @@ cluster.on('exit', function(worker) {
   cluster.fork();
 });
 
-for (var i = 0; i < os.cpus().length; i++) {
+for (let i = 0; i < os.cpus().length; i++) {
   cluster.fork();
 }

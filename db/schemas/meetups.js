@@ -7,7 +7,7 @@ module.exports = {
   organiser: {type: 'string', maxlength: 254, nullable: true},
   title: {type: 'string', maxlength: 150, nullable: false},
   slug: {type: 'string', maxlength: 254, nullable: false, unique: true},
-  email: {type: 'string', maxlength: 254, nullable: false, validations: {'isEmail': true}},
+  email: {type: 'string', maxlength: 254, nullable: true},
   number: {type: 'string', maxlength: 24, nullable: true},
   short_desc: {type: 'string', maxlength: 254, nullable: true},
   markdown: {type: 'text', fieldtype: 'medium', nullable: true},

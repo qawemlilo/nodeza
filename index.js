@@ -16,11 +16,7 @@ app.config(_.defaults({
 
   secret: config.site.sessionSecret,
 
-  db: {
-    client: 'mysql',
-    connection: config.mysql,
-    useNullAsDefault: true
-  },
+  db: config.db,
 
   cache: false,
 

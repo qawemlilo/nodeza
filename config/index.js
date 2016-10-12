@@ -1,9 +1,8 @@
 "use strict";
 
-var config = require('./config.json');
-var env = process.env.NODE_ENV || 'development';
-var env_file = '../.' + 'env.' + env + '.js';
-var env_vars = require(env_file);
+const config = require('./config.json');
+const env = process.env.NODE_ENV || 'development';
+const env_vars = require('../.env.js');
 
 
 module.exports = {
@@ -25,17 +24,7 @@ module.exports = {
     sessionSecret: config.site.sessionSecret,
     domain: config.site.domain
   },
-  mongodb: {
-    url: config.mongodb.url
-  },
-  mysql: {
-    host: env_vars.MYSQL_HOST || config.mysql.host,
-    port: env_vars.MYSQL_PORT || null,
-    user: env_vars.MYSQL_USER || config.mysql.user,
-    password: env_vars.MYSQL_PASSWORD || onfig.mysql.password,
-    database: env_vars.MYSQL_DATABASE || config.mysql.database,
-    charset: config.mysql.charset || 'utf8'
-  },
+  db: config.db[env],
   mailgun: {
     login: env_vars.MAILGUN_USER || config.mailgun.login,
     password: env_vars.MAILGUN_PASSWORD || config.mailgun.password,

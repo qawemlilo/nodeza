@@ -28,7 +28,7 @@
     "bluebird": "^3.4.6",
     "feed": "0.2.6",
     "github-api": "0.7.0",
-    "knex": "^0.12.1",
+    "knex": "^0.12.4",
     "lodash": "^4.15.0",
     "mailgun-js": "0.7.3",
     "markdown-it": "^8.0.0",

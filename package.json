@@ -42,7 +42,7 @@
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
     "widget-cms": "^1.0.1",
-    "widget-knex-schema": "^1.0.0"
+    "widget-knex-schema": "^1.0.5"
   },
   "devDependencies": {
     "chai": "^3.4.0",

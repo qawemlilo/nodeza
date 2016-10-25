@@ -10,12 +10,12 @@ const NODE_ENV = process.env.NODE_ENV;
 config.site.sessionSecret = 'secret_' + Date.now();
 
 if (NODE_ENV === 'production' || NODE_ENV === 'staging') {
-  console.log(chalk.red(' \u26A0 WARNING: This action will destroy all the information in your database! \n'));
+  //console.log(chalk.red(' \u26A0 WARNING: This action will destroy all the information in your database! \n'));
 }
 
-if (process.argv.length > 2 && process.argv[2] === 'mysql') {
+if (NODE_ENV && process.argv.length > 2 && (process.argv[2] === 'mysql' || process.argv[2] === 'pg')) {
   console.log(chalk.yellow('----------------------------------------------------------------------------'));
-  console.log(chalk.yellow('\tHi there, lets start by setting up a connection to your MySQL database'));
+  console.log(chalk.yellow('\tHi there, lets start by setting up a connection to your %s database'), process.argv[2]);
   console.log(chalk.yellow('----------------------------------------------------------------------------'));
   console.log();
 
@@ -28,10 +28,11 @@ if (process.argv.length > 2 && process.argv[2] === 'mysql') {
 
   Questions.create()
   .then(function (err, answers) {
-    config.db[NODE_ENV].host = answers.Host;
-    config.db[NODE_ENV].user = answers.DatabaseUser;
-    config.db[NODE_ENV].password = answers.Password;
-    config.db[NODE_ENV].database = answers.DatabaseName;
+    config.db[NODE_ENV].client = process.argv[2];
+    config.db[NODE_ENV].connection.host = answers.Host;
+    config.db[NODE_ENV].connection.user = answers.DatabaseUser;
+    config.db[NODE_ENV].connection.password = answers.Password;
+    config.db[NODE_ENV].connection.database = answers.DatabaseName;
 
     createFiles(config);
   });
@@ -69,6 +70,6 @@ function createFiles(configObj) {
   fs.writeFileSync(envVars, env_data, 'utf8');
 
   console.log();
-  console.log(chalk.green(' > ') + ' MySQL details saved!');
+  console.log(chalk.green(' > ') + ' Database details saved!');
   console.log();
 }

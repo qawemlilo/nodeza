@@ -39,7 +39,7 @@ const UsersController = App.Controller.extend({
         tweets: tweets || []
       });
 
-      profile.viewed();
+      return profile.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});
@@ -106,8 +106,7 @@ const UsersController = App.Controller.extend({
     let opts = {
       limit: 5,
       page: currentpage,
-      order: "asc",
-      where: ['created_at', '<', new Date()]
+      order: "asc"
     };
 
     users.base = '/devs';
@@ -144,8 +143,7 @@ const UsersController = App.Controller.extend({
     let opts = {
       limit: 10,
       page: currentpage,
-      order: "asc",
-      where: ['created_at', '<', new Date()]
+      order: "asc"
     };
 
     users.fetchBy('id', opts, {withRelated: ['role']})

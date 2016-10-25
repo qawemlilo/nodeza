@@ -75,7 +75,6 @@ const MenusController = App.Controller.extend({
       limit: 10,
       page: currentpage,
       base: '/admin/menus',
-      where: ['created_at', '<', new Date()],
       order: "asc"
     };
 

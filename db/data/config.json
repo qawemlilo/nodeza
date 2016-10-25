@@ -29,6 +29,17 @@
         },
         "useNullAsDefault": true
       },
+      "staging": {
+        "client": "mysql",
+        "connection": {
+            "host": "localhost",
+            "db": "",
+            "user": "",
+            "password": "",
+            "charset": "utf8"
+        },
+        "useNullAsDefault": true
+      },
       "development": {
         "client": "sqlite3",
         "connection": {

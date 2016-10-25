@@ -12,13 +12,24 @@
             "/this-url-will-bypass-csrf"
         ],
         "port": 3000,
-        "sessionSecret": "secret_1475724952049",
+        "sessionSecret": "secret_1476389762324",
         "twitter_url": "http://twitter.com/nodeza",
         "github_url": "http://github.com/nodeza",
         "email": "info@nodeza.co.za"
     },
     "db": {
         "production": {
+            "client": "mysql",
+            "connection": {
+                "host": "localhost",
+                "db": "",
+                "user": "",
+                "password": "",
+                "charset": "utf8"
+            },
+            "useNullAsDefault": true
+        },
+        "staging": {
             "client": "mysql",
             "connection": {
                 "host": "localhost",
@@ -60,11 +71,14 @@
         "passReqToCallback": true
     },
     "blog": {
-        "postsPerPage": 5,
+        "postsPerPage": "5",
         "showAuthor": true,
         "showTags": true,
         "showDate": true,
-        "showComments": true
+        "showComments": true,
+        "title": "NodeZA",
+        "showShareButtons": false,
+        "description": "NodeZA"
     },
     "events": {
         "eventsPerPage": 2,
@@ -83,8 +97,7 @@
             "when",
             "lodash",
             "bluebird",
-            "./config.json",
-            "config.json"
+            "./config.json"
         ]
     }
 }

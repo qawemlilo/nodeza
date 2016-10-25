@@ -226,6 +226,34 @@ exports.seed = function(knex, Promise) {
     })
     .catch(function (error) {
       console.log(error)
+    }),
+
+    knex('posts').del()
+    .then(function () {
+      return Promise.all([
+        // Inserts seed entries
+        knex('posts').insert({
+          "title": "Welcome to NodeZA",
+          "category_id": 1,
+          "user_id": 1,
+          "meta_description": "Welcome to NodeZA",
+          "markdown": "Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.\n\nNodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.\n\nThe long term goal is to become an information repository for all Node.js related content in South Africa.",
+          "html": "<p>Node.js is an exciting new technology that is changing the programming landscape. Being a new technology, it has been very hard to find companies or developers who also use Node.js in South Africa.</p><p>NodeZA, pronounced as Node Z A, is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.</p><p>The long term goal is to become an information repository for all Node.js related content in South Africa.</p>",
+          "slug": "welcome-to-nodeza"
+        }),
+        knex('posts').insert({
+          "title": "Controllers",
+          "category_id": 2,
+          "user_id": 1,
+          "meta_description": "Application Controllers",
+          "markdown": "Controllers contain the logical parts that work as a glue between views and models. They accept a request and response object, load data from a model or collection, pass the data to a view template and then render the view.\n\nEach path base should have its own controller, e.g, the route /events should have a controller named events.js.\n\nAll controllers are located in the controllers directory.",
+          "html": "<p>Controllers contain the logical parts that work as a glue between views and models. They accept a request and response object, load data from a model or collection, pass the data to a view template and then render the view.</p><p>Each path base should have its own controller, e.g, the route /events should have a controller named events.js.</p><p>All controllers are located in the controllers directory.</p>",
+          "slug": "controllers"
+        })
+      ])
+    })
+    .catch(function (error) {
+      console.log(error)
     })
   ], function (results) {
     return results;

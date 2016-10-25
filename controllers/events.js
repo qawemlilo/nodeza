@@ -62,7 +62,7 @@ const EventsController = App.Controller.extend({
         page: 'events'
       });
 
-      event.viewed();
+      return event.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});

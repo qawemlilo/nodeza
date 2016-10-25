@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "migrate": "knex migrate:latest && knex seed:run",
-    "start": "export NODE_ENV=production && node index.js",
+    "start": "export NODE_ENV=development && nodemon",
+    "production": "export NODE_ENV=production && pm2 start index.js",
     "dev": "export NODE_ENV=development && nodemon",
-    "test": "./node_modules/mocha/bin/mocha test",
+    "staging": "export NODE_ENV=staging && nodemon",
+    "test": "export NODE_ENV=testing && ./node_modules/mocha/bin/mocha test",
     "setup": "node db/init.js",
     "postmerge": "npm install"
   },
@@ -26,35 +28,34 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.6",
-    "feed": "0.2.6",
-    "github-api": "0.7.0",
+    "express-validator": "latest",
     "knex": "^0.12.1",
     "lodash": "^4.15.0",
-    "mailgun-js": "0.7.3",
+    "mailgun-js": "latest",
     "markdown-it": "^8.0.0",
-    "moment": "^2.15.0",
+    "moment": "^2.15.2",
     "mysql": "^2.11.1",
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
     "passport-local": "1.0.0",
     "rss": "0.3.2",
+    "sqlite3": "^3.1.7",
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
-    "widget-cms": "^1.0.1",
-    "widget-knex-schema": "^1.0.0"
+    "widget-cms": "latest",
+    "widget-knex-schema": "latest",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.3.1"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
     "chalk": "^1.1.1",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",
-    "sqlite3": "^3.1.4",
-    "superagent": "2.2.0",
     "supertest": "^1.1.0"
   },
   "engines": {
-    "node": "16.4.x",
-    "npm": "3.10.x"
+    "node": ">= 4.0.0",
+    "npm": ">= 2.0.0"
   }
 }

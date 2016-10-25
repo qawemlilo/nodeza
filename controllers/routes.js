@@ -77,7 +77,6 @@ const RoutesController = App.Controller.extend({
       limit: 10,
       page: currentpage,
       base: '/admin/routes',
-      where: ['created_at', '<', new Date()],
       order: "asc"
     };
 

@@ -8,6 +8,7 @@ const _ = require('lodash');
 const path = require('path');
 const app = require('widget-cms');
 const helpers = require('./lib/helpers');
+const middleware = require('./lib/middleware');
 
 
 app.config(_.defaults({
@@ -17,6 +18,8 @@ app.config(_.defaults({
   secret: config.site.sessionSecret,
 
   db: config.db,
+
+  saveLogs: true,
 
   cache: false,
 
@@ -48,6 +51,8 @@ app.registerMiddleware(function (req, res, next) {
 
   next();
 });
+
+app.registerMiddleware(middleware.returnTo());
 
 app.registerHelper(function (hbs) {
   helpers.setup(hbs);

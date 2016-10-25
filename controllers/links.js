@@ -107,7 +107,6 @@ const LinksController = App.Controller.extend({
       limit: 10,
       page: currentpage,
       base: '/admin/links',
-      where: ['created_at', '<', new Date()],
       order: "asc"
     };
 

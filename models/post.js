@@ -141,10 +141,10 @@ const Post = App.Model.extend({
         let doNotExist = [];
         let createAndAttachOperation;
 
-        existingTags = existingTags.toJSON();
+        existingTags = existingTags.toJSON() || [];
 
         doNotExist = _.reject(this.myTags, function (tag) {
-          return _.any(existingTags, function (existingTag) {
+          return existingTags.some(function (existingTag) {
               return existingTag.name === tag.name;
           });
         });

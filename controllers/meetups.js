@@ -62,7 +62,7 @@ const MeetupsController = App.Controller.extend({
         meetup: meetup.toJSON()
       });
 
-      meetup.viewed();
+      return meetup.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});

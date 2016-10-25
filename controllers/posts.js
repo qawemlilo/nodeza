@@ -67,7 +67,7 @@ const PostsController = App.Controller.extend({
         post: post.toJSON()
       });
 
-      post.viewed();
+      return post.viewed();
     })
     .catch(function (error) {
       req.flash('errors', {'msg': error.message});

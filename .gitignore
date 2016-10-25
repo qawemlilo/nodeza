@@ -8,6 +8,8 @@
 *.css~
 *.docx
 *.log
+*.pem
+*.secret
 Procfile~
 *~
 *.gitignore~

@@ -6,10 +6,31 @@ NodeZA is built using [WidGet CMS](https://github.com/NodeZA/widget-cms) - a hig
 
 ### How to set up?
 
+### Development
   1. git clone https://github.com/qawemlilo/nodeza.git
   2. cd nodeza && npm install
-  3. npm run migrate
-  4. npm run dev
+  3. npm run setup
+  4. npm run migrate
+  5. npm run dev
+
+### Staging
+  1. git clone https://github.com/qawemlilo/nodeza.git
+  2. cd nodeza && npm install
+  3. export NODE_ENV=staging && npm run setup pg/mysql
+  4. npm run migrate
+  5. npm run staging
+
+### Production
+  1. git clone https://github.com/qawemlilo/nodeza.git
+  2. cd nodeza && npm install
+  3. export NODE_ENV=production && npm run setup pg/mysql
+  4. npm run migrate
+  5. npm run production
+
+
+### Software Requirements
+  - MySQL/Postgres if you are running on staging or production
+  - Global npm modules - `pm2`, `nodemon`, `knex`.
 
 
 License

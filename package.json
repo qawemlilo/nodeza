@@ -45,7 +45,7 @@
     "widget-knex-schema": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
+    "chai": "^3.5.0",
     "chalk": "^1.1.1",
     "mocha": "^2.3.3",
     "simple-prompt": "^0.2.1",

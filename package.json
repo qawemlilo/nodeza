@@ -41,7 +41,7 @@
     "rss": "0.3.2",
     "sqlite3": "^3.1.7",
     "twitter": "^1.2.5",
-    "type-is": "^1.6.12",
+    "type-is": "^1.6.14",
     "unidecode": "0.1.7",
     "widget-cms": "latest",
     "widget-knex-schema": "latest",

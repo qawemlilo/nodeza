@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "chalk": "^1.1.1",
-    "mocha": "^2.3.3",
+    "mocha": "^3.2.0",
     "simple-prompt": "^0.2.1",
     "supertest": "^1.1.0"
   },

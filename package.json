@@ -32,7 +32,7 @@
     "knex": "^0.12.1",
     "lodash": "^4.15.0",
     "mailgun-js": "latest",
-    "markdown-it": "^8.0.0",
+    "markdown-it": "^8.2.1",
     "moment": "^2.15.2",
     "mysql": "^2.11.1",
     "passport": "^0.2.2",

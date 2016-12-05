@@ -12,20 +12,6 @@ const Tag =  App.Model.extend({
   tableName: 'tags',
 
 
-  updated: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
-  saved: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
   saving: function (model, attr, options) {
     if (this.get('updated_by') && options.context && options.context.user_id) {
       this.set('updated_by', options.context.user_id);

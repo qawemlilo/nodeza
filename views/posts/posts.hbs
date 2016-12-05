@@ -14,7 +14,7 @@
     </p>
   </div>
 </div>
-{{/extend}} 
+{{/extend}}
 
 <div class="col-sm-9 blog-main">
 
@@ -31,12 +31,12 @@
         <span class="glyphicon glyphicon-tags text-danger"></span>  {{tag}}
       </div>
     {{/if}}
-  
+
     {{#each posts}}
     <div class="row box-shadow" style="margin-bottom: 20px">
       <div class="media">
         <a href="/blog/{{slug}}" class="pull-left">
-          <img class="media-object" title="Post" {{#if image_url}}src="/img/120/{{#makeItJpg image_url}}{{/makeItJpg}}"{{else}}data-src="holder.js/120x120"{{/if}} alt="{{title}}" style="width:120px;height:120px">
+          <img class="media-object" title="Post" {{#if image.filename}}src="/uploads/{{image.filename}}"{{else}}data-src="holder.js/120x120"{{/if}} alt="{{title}}" style="width:120px;height:120px">
         </a>
         <div class="media-body">
           <h3 class="media-heading" style="margin-top:5px">
@@ -45,18 +45,18 @@
             </a>
           </h3>
           <p class="blog-post-meta">
-            {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}} | 
-            <span class="glyphicon glyphicon-tag text-danger"></span> 
+            {{#parseDate published_at 'MMMM D, YYYY'}}{{/parseDate}} |
+            <span class="glyphicon glyphicon-tag text-danger"></span>
             <a href="/blog/category/{{category.slug}}" class="text-primary">{{category.name}}</a>
           </p>
-  
+
           {{#htmlSummary html}}{{/htmlSummary}}
           <a href="/blog/{{slug}}" class="text-danger">read more &raquo;</a>
         </div>
       </div>
     </div>
     {{/each}}
-  
+
     {{> pagination}}
   </div>
 </div>

@@ -17,11 +17,11 @@ const Events = App.Collection.extend({
 
 
   parseMonth: function(mon) {
-    var date = new Date();
-    var lastday;
-    var firstday;
-    var year = date.getFullYear();
-    var Months = {
+    let date = new Date();
+    let lastday;
+    let firstday;
+    let year = date.getFullYear();
+    let Months = {
       jan: {firstday: '01', month: '01', lastday: '31'},
       feb: {firstday: '01', month: '02', lastday: '28'},
       mar: {firstday: '01', month: '03', lastday: '31'},
@@ -36,7 +36,7 @@ const Events = App.Collection.extend({
       dec: {firstday: '01', month: '12', lastday: '31'}
     };
 
-    var dateObj = Months[mon];
+    let dateObj = Months[mon];
 
     firstday = year + '-' + dateObj.month + '-' +  dateObj.firstday;
     lastday = year + '-' + dateObj.month + '-' +  dateObj.lastday;
@@ -52,8 +52,8 @@ const Events = App.Collection.extend({
 
 
   fetchMonth: function (month, options, fetchOptions) {
-    var self = this;
-    var monthObj = self.parseMonth(month);
+    let self = this;
+    let monthObj = self.parseMonth(month);
 
     options = options || {};
 

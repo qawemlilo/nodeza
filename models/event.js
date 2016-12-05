@@ -15,20 +15,6 @@ const nodeEvent = App.Model.extend({
   tableName: 'events',
 
 
-  updated: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
-  saved: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
   hasTimestamps: true,
 
 

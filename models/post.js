@@ -15,20 +15,9 @@ const Post = App.Model.extend({
   tableName: 'posts',
 
 
-  updated: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
   saved: function(model, attributes, options) {
     if (options.updateTags) {
-      this.updateTags(model, attributes, options);
-    }
-
-    if (App.getConfig('cache')) {
-      App.clearCache();
+      return this.updateTags(model, attributes, options);
     }
   },
 
@@ -43,6 +32,11 @@ const Post = App.Model.extend({
 
   created_by: function () {
     return this.belongsTo('User');
+  },
+
+
+  image: function () {
+    return this.belongsTo('Image', 'image_id');
   },
 
 
@@ -62,6 +56,7 @@ const Post = App.Model.extend({
     if ((this.hasChanged('views') && !this.isNew())) {
       return;
     }
+
 
     let html = markdown.render(this.get('markdown'));
 
@@ -92,12 +87,38 @@ const Post = App.Model.extend({
     if (!this.get('slug') || this.hasChanged('title')) {
         return this.generateSlug(this.get('title'))
         .then( (slug) => {
-          this.set({slug: slug});
+          return this.set({slug: slug});
+        })
+        .then(() => {
+          // save article image
+          if (options.saveImage) {
+            return this.saveImage(options.saveImage)
+            .then((img) => {
+              return this.set({image_id: img.get('id')});
+            });
+          }
         })
         .catch(function (err) {
           console.error(err);
         });
     }
+    else if (options.saveImage) {
+      return this.saveImage(options.saveImage)
+      .then((img) => {
+        return this.set({image_id: img.get('id')});
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+    }
+  },
+
+
+  saveImage: function (opts) {
+    let Image = App.getModel('Image');
+    let img = new Image(opts);
+
+    return img.save();
   },
 
 

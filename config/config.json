@@ -53,10 +53,16 @@
         "password": ""
     },
     "github": {
-        "clientID": "",
-        "clientSecret": "",
+        "clientID": "455439633ad348f76e56",
+        "clientSecret": "dcb76a33a8f819c1a257c414ba404a1d4da3504f",
         "callbackURL": "/auth/github/callback",
-        "passReqToCallback": true
+        "passReqToCallback": true,
+        "authorizationURL": "https://github.com/login/oauth/authorize",
+        "tokenURL": "https://github.com/login/oauth/access_token",
+        "scopeSeparator": ",",
+        "customHeaders": {
+            "User-Agent": "passport-github"
+        }
     },
     "twitter": {
         "consumerKey": "",
@@ -65,8 +71,8 @@
         "passReqToCallback": true
     },
     "google": {
-        "clientID": "",
-        "clientSecret": "",
+        "clientID": "120319527086-gmesiqv48vf9u4ja51fb6m92f1p2b8ko.apps.googleusercontent.com",
+        "clientSecret": "120319527086-gmesiqv48vf9u4ja51fb6m92f1p2b8ko@developer.gserviceaccount.com",
         "callbackURL": "/auth/google/callback",
         "passReqToCallback": true
     },

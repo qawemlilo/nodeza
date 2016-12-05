@@ -17,21 +17,6 @@ const User = App.Model.extend({
 
   hasTimestamps: true,
 
-
-  updated: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
-  saved: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
   tokens: function() {
     return this.hasMany('Token');
   },
@@ -50,7 +35,6 @@ const User = App.Model.extend({
   posts: function() {
     return this.hasMany('Posts');
   },
-
 
 
   generatePasswordHash: function (password) {

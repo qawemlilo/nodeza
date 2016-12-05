@@ -9,6 +9,8 @@ const path = require('path');
 const app = require('widget-cms');
 const helpers = require('./lib/helpers');
 const middleware = require('./lib/middleware');
+const widgetLoader = require('widget-loader');
+const widgetsDir = path.join(process.cwd(), 'widgets');
 
 
 app.config(_.defaults({
@@ -21,7 +23,7 @@ app.config(_.defaults({
 
   saveLogs: true,
 
-  cache: false,
+  cache: true,
 
   redis: {expire: 60 * 60 * 5},
 
@@ -39,13 +41,18 @@ app.config(_.defaults({
   }
 }, config));
 
+// load widgets
+app.registerMiddleware(widgetLoader(app, {
+  widgetDirectory: widgetsDir
+}));
+
+// don't cache if user is logged in
 app.registerMiddleware(function (req, res, next) {
-  // don't cache if user is logged in
   if (req.isAuthenticated()) {
     res.use_express_redis_cache = false;
   }
 
-  if (req.flash) {
+  if (req.flash && res.locals.messages && res.locals.messages.errors) {
     app.clearCache();
   }
 

@@ -106,11 +106,9 @@ const MeetupsController = App.Controller.extend({
     let settings = App.getConfig('meetups');
 
     meetups.fetchBy('id', {
-      where: ['created_at', '<', new Date()],
       limit: settings.meetupsPerPage,
       page: page || 1,
-      order: 'asc',
-      andWhere: []
+      order: 'asc'
     }, {
       columns: ['title', 'short_desc', 'city', 'slug', 'image_url']
     })

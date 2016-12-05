@@ -108,10 +108,8 @@ const EventsController = App.Controller.extend({
     let query = {};
     let currentpage = page || 1;
     let limit = req.session.elimit || 2;
-    let history = req.session.history;
     let month = req.query.month || '';
     let monthObj;
-    let where = ['created_at', '<', new Date()];
 
     query.limit = limit;
     query.month = month;
@@ -120,31 +118,11 @@ const EventsController = App.Controller.extend({
       res.redirect('/events');
     }
 
-    if (history) {
-      if(history === 'upcoming') {
-        where = ['dt', '>', events.today()];
-      }
-      if(history === 'archived') {
-        where = ['dt', '<', events.today()];
-      }
-    }
-
     let fetchQuery = {
       limit: limit,
       order: 'desc',
-      page: currentpage,
-      where: where
+      page: currentpage
     };
-
-    if (month) {
-      monthObj = events.parseMonth(month.trim());
-
-      fetchQuery.where = ['dt', '>', monthObj.firstday];
-      fetchQuery.andWhere = ['dt', '<', monthObj.lastday];
-
-      req.session.history = "";
-      res.locals.sessionHistory = "";
-    }
 
     events.fetchBy('dt', fetchQuery, {
       columns: ['slug', 'title', 'url', 'city', 'short_desc', 'dt', 'start_time', 'address']
@@ -324,6 +302,7 @@ const EventsController = App.Controller.extend({
       }
     })
     .then(function (model) {
+      App.clearCache();
       req.flash('success', { msg: 'Event successfully created!' });
       res.redirect('back');
     })

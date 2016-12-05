@@ -217,6 +217,8 @@ const AccountController = App.Controller.extend({
           res.redirect('back');
         }
 
+        App.clearCache();
+
         res.redirect('/admin/account');
       });
     })
@@ -497,7 +499,7 @@ const AccountController = App.Controller.extend({
     .then(function (user) {
       user.save(details)
       .then(function() {
-
+        App.clearCache();
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/admin/account');
       })
@@ -522,6 +524,7 @@ const AccountController = App.Controller.extend({
 
     user.deleteAccount(user.get('id'))
     .then(function () {
+      App.clearCache();
       req.logout();
       res.redirect('/');
     })

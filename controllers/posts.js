@@ -88,14 +88,14 @@ const PostsController = App.Controller.extend({
     categories.fetch()
     .then(function (cats) {
       Post.forge({id: id})
-      .fetch({withRelated: ['tags']})
+      .fetch({withRelated: ['tags','image']})
       .then(function (post) {
+
         res.render('posts/edit', {
           page: 'postedit',
           title: 'Post edit',
           description: 'Post edit',
           categories: cats.toJSON(),
-          tags: post.related('tags').toJSON(),
           post: post.toJSON()
         });
       })
@@ -116,8 +116,7 @@ const PostsController = App.Controller.extend({
    */
   getBlog: function (req, res, next) {
     let posts = new Posts();
-    let page = parseInt(req.query.p, 10);
-    let currentpage = page || 1;
+    let currentpage = req.query.p ? parseInt(req.query.p, 10) : 1;
     let settings = App.getConfig('blog');
 
     res.locals._page = 'blog';
@@ -130,8 +129,8 @@ const PostsController = App.Controller.extend({
       page: currentpage,
       limit: settings.postsPerPage
     }, {
-      columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
-      withRelated: ['category']
+      columns: ['slug', 'html', 'image_id', 'title', 'category_id', 'published_at'],
+      withRelated: ['category','image']
     })
     .then(function (collection) {
       res.render('posts/posts', {
@@ -289,6 +288,8 @@ const PostsController = App.Controller.extend({
     }
 
     let post = new Post();
+    let imagesDir = App.getConfig('imagesDir');
+
     let postData = {
       user_id: req.user.get('id'),
       title: req.body.title,
@@ -298,6 +299,9 @@ const PostsController = App.Controller.extend({
       published: !!req.body.published,
       featured: !!req.body.featured
     };
+
+
+    console.log(req.files);
 
     if (req.files.length) {
       postData.image_url = req.files[0].filename;
@@ -309,9 +313,17 @@ const PostsController = App.Controller.extend({
       context: {
         user_id: req.user.get('id')
       },
-      updateTags: tags
+      updateTags: tags,
+      saveImage: {
+        album_id: 3,
+        title: req.body.title,
+        filename: req.files[0].filename,
+        directory: req.files[0].destination,
+        type: req.files[0].mimetype
+      }
     })
     .then(function(model) {
+      App.clearCache();
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/blog/edit/' + model.get('id'));
     })
@@ -352,8 +364,17 @@ const PostsController = App.Controller.extend({
     let options = {method: 'update'};
     let post = new Post({id: postData.id});
 
+    console.log(req.files);
+
     if (req.files.length) {
       postData.image_url = req.files[0].filename;
+      options.saveImage = {
+        album_id: 3,
+        title: req.body.title,
+        filename: req.files[0].filename,
+        directory: req.files[0].destination,
+        type: req.files[0].mimetype
+      }
     }
 
     if (req.body.tags) {
@@ -363,12 +384,13 @@ const PostsController = App.Controller.extend({
 
     options.context = {
       user_id: req.user.get('id')
-    };
+    }
 
     post.fetch()
     .then(function (model) {
       model.save(postData, options)
       .then(function(post) {
+        App.clearCache();
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
       })
@@ -395,6 +417,7 @@ const PostsController = App.Controller.extend({
 
     post.remove(req.params.id)
     .then(function () {
+      App.clearCache();
       req.flash('success', {msg: 'Post successfully deleted.'});
       res.redirect('back');
     })
@@ -415,6 +438,7 @@ const PostsController = App.Controller.extend({
 
     post.togglePublisher(req.params.id)
     .then(function (post) {
+      App.clearCache();
       let msg = post.get('published') ? 'published' : 'unpublished';
 
       req.flash('success', {msg: 'Post successfully ' + msg});

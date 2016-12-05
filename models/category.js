@@ -13,20 +13,6 @@ const Category =  App.Model.extend({
   tableName: 'categories',
 
 
-  updated: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
-  saved: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
   saving: function (model, attr, options) {
     // if is new or slug has changed and has slug field - generate new slug
     if (!this.get('slug') || this.hasChanged('slug')) {

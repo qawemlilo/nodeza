@@ -11,20 +11,6 @@ const Company =  App.Model.extend({
   tableName: 'companies',
 
 
-  updated: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
-  saved: function(model, attributes, options) {
-    if (App.getConfig('cache')) {
-      App.clearCache();
-    }
-  },
-
-
   hasTimestamps: true,
 
 

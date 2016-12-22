@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.4.7",
     "express-redis-cache": "^0.5.0",
     "express-validator": "latest",
     "knex": "^0.12.1",

@@ -60,7 +60,7 @@
             </th>
           </tr>
         </thead>
-  
+
         <tbody>
           {{#each posts}}
             <tr>
@@ -79,22 +79,22 @@
               <td style="text-align:center">
                 <a href="/blog/edit/{{id}}" data-toggle="tooltip" data-placement="top" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
-                </a> 
+                </a>
               </td>
               <td style="text-align:center">
                 {{#isPublished published id}}{{/isPublished}}
               </td>
               <td style="text-align:center">
                 <a href="/blog/delete/{{id}}" data-toggle="tooltip" data-placement="top" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
-                  <span class="glyphicon glyphicon-trash"></span> 
-                </a> 
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
               </td>
               <td style="text-align:center">
                 {{views}}
               </td>
             </tr>
           {{/each}}
-          
+
         </tbody>
       </table>
       {{/ifCond}}
@@ -109,9 +109,9 @@
         </div>
       {{/ifCond}}
     </div>
-  
+
     {{> pagination}}
-  
+
   </div>
 </div>
 

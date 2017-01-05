@@ -15,7 +15,7 @@ const Posts = App.Collection.extend({
   base: '/blog',
 
 
-  whereQuery: ['published', '=', 1],
+  whereQuery: [],
 
 
   /**

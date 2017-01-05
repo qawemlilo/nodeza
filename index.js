@@ -23,9 +23,7 @@ app.config(_.defaults({
 
   saveLogs: true,
 
-  cache: true,
-
-  redis: {expire: 60 * 60 * 5},
+  cache: false,
 
   log: true,
 

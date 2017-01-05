@@ -127,7 +127,8 @@ const PostsController = App.Controller.extend({
 
     posts.fetchBy('published_at', {
       page: currentpage,
-      limit: settings.postsPerPage
+      limit: settings.postsPerPage,
+      where: ['published_at', '<', new Date()]
     }, {
       columns: ['slug', 'html', 'image_id', 'title', 'category_id', 'published_at'],
       withRelated: ['category','image']
@@ -172,13 +173,14 @@ const PostsController = App.Controller.extend({
     .then(function (model) {
       let categoryName  = model.get('name');
 
-      posts.fetchBy('created_at', {
+      return posts.fetchBy('created_at', {
         limit: settings.postsPerPage,
         page: currentpage,
         andWhere: ['category_id', '=', model.get('id')],
         base:'/blog/category/' + slug
-      }, {
-        columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
+      },
+      {
+        columns: ['slug', 'html', 'title', 'category_id', 'published_at'],
         withRelated: ['category']
       })
       .then(function (collection) {
@@ -300,27 +302,13 @@ const PostsController = App.Controller.extend({
       featured: !!req.body.featured
     };
 
-
-    console.log(req.files);
-
-    if (req.files.length) {
-      postData.image_url = req.files[0].filename;
-    }
-
     let tags = processTags(req.body.tags);
 
     post.save(postData, {
       context: {
         user_id: req.user.get('id')
       },
-      updateTags: tags,
-      saveImage: {
-        album_id: 3,
-        title: req.body.title,
-        filename: req.files[0].filename,
-        directory: req.files[0].destination,
-        type: req.files[0].mimetype
-      }
+      updateTags: tags
     })
     .then(function(model) {
       App.clearCache();
@@ -363,19 +351,6 @@ const PostsController = App.Controller.extend({
 
     let options = {method: 'update'};
     let post = new Post({id: postData.id});
-
-    console.log(req.files);
-
-    if (req.files.length) {
-      postData.image_url = req.files[0].filename;
-      options.saveImage = {
-        album_id: 3,
-        title: req.body.title,
-        filename: req.files[0].filename,
-        directory: req.files[0].destination,
-        type: req.files[0].mimetype
-      }
-    }
 
     if (req.body.tags) {
       // specify explicitly if you want to update tags
@@ -438,7 +413,7 @@ const PostsController = App.Controller.extend({
 
     post.togglePublisher(req.params.id)
     .then(function (post) {
-      App.clearCache();
+
       let msg = post.get('published') ? 'published' : 'unpublished';
 
       req.flash('success', {msg: 'Post successfully ' + msg});

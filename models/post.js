@@ -46,7 +46,7 @@ const Post = App.Model.extend({
 
 
   publishingDate: function (fmt) {
-    let dt = this.get('published_at');
+    let dt = this.get('_at');
 
     return moment(dt).format(fmt || 'MMMM D, YYYY');
   },
@@ -221,14 +221,10 @@ const Post = App.Model.extend({
     return Post.forge({id: id})
     .fetch({withRelated: ['tags']})
     .then(function (post) {
-      let published = post.get('published') ? false : true;
+      let published = post.get('published') ? 0 : 1;
       let opts = {};
 
       opts.published = published;
-
-      if(published && !post.get('published_at')) {
-        opts.published_at = new Date();
-      }
 
       return post.save(opts, {patch: true});
     });

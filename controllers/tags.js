@@ -33,7 +33,7 @@ const TagsController = App.Controller.extend({
         let pagination = Posts.prototype.makePages.call(tag, result[0].total);
         let tagname = tag.get('name');
 
-        tag.posts()
+        return tag.posts()
         .fetch({
           columns: ['slug', 'html', 'image_url', 'title', 'category_id', 'published_at'],
           withRelated: ['category'],

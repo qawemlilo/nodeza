@@ -21,8 +21,6 @@ app.config(_.defaults({
 
   db: config.db,
 
-  saveLogs: true,
-
   cache: false,
 
   log: true,
@@ -44,19 +42,7 @@ app.registerMiddleware(widgetLoader(app, {
   widgetDirectory: widgetsDir
 }));
 
-// don't cache if user is logged in
-app.registerMiddleware(function (req, res, next) {
-  if (req.isAuthenticated()) {
-    res.use_express_redis_cache = false;
-  }
-
-  if (req.flash && res.locals.messages && res.locals.messages.errors) {
-    app.clearCache();
-  }
-
-  next();
-});
-
+// return-to middleware
 app.registerMiddleware(middleware.returnTo());
 
 app.registerHelper(function (hbs) {

@@ -27,3 +27,4 @@ public/uploads/
 .env.development.js
 .env.testing.js
 .env.js
+ecosystem.config.js

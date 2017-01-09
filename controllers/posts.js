@@ -12,7 +12,7 @@ const _ = require('lodash');
 
 function processTags(tags) {
   if (!tags) {
-    return false;
+    return [{name: 'uncategorised'}];
   }
 
   tags = tags.split(',');
@@ -44,10 +44,16 @@ const PostsController = App.Controller.extend({
   getPost: function (req, res, next) {
     let slug = req.params.slug;
     let settings = App.getConfig('blog');
+    let opts = {slug: slug};
 
-    return Post.forge({slug: slug, published: 1})
+    if (!req.isAuthenticated()) {
+      opts.published = 1;
+    }
+
+    return Post.forge(opts)
     .fetch({
-      withRelated: ['created_by', 'tags', 'category']
+      withRelated: ['created_by', 'tags', 'category'],
+      require: true
     })
     .then(function (post) {
       let author = post.related('created_by').getJSON(['slug', 'name', 'about']);
@@ -279,7 +285,6 @@ const PostsController = App.Controller.extend({
   */
   postNew: function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
-    req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
     let errors = req.validationErrors();
@@ -417,6 +422,29 @@ const PostsController = App.Controller.extend({
       let msg = post.get('published') ? 'published' : 'unpublished';
 
       req.flash('success', {msg: 'Post successfully ' + msg});
+      res.redirect('back');
+    })
+    .catch(function (error) {
+      req.flash('info', {msg: error.message});
+      next(error);
+    });
+  },
+
+
+
+  /**
+   * Get /blog/featured/:id
+   * (un)publish post
+  */
+  isFeatured: function(req, res, next) {
+    Post.forge({id: req.params.id})
+    .fetch()
+    .then(function (post) {
+      console.log('feature %s', post.get('featured'));
+      return post.save({featured: !(!!post.featured)});
+    })
+    .then(function () {
+      req.flash('success', {msg: 'Post successfully updated'});
       res.redirect('back');
     })
     .catch(function (error) {

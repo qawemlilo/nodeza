@@ -50,6 +50,9 @@
               Category
             </th>
             <th>
+              Featured
+            </th>
+            <th>
             </th>
             <th>
             </th>
@@ -75,6 +78,9 @@
               </td>
               <td>
                 {{category.name}}
+              </td>
+              <td style="text-align:center">
+                {{#isFeatured featured id}}{{/isFeatured}}
               </td>
               <td style="text-align:center">
                 <a href="/blog/edit/{{id}}" data-toggle="tooltip" data-placement="top" title="Edit">

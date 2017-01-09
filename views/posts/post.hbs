@@ -10,33 +10,34 @@
 {{/extend}}
 
 
-<div class="col-sm-9 blog-main box-shadow nodeza-blog-post" style="padding-top:10px;padding-bottom:10px">
+<div class="col-sm-9 blog-main box-shadow nodeza-blog-post" style="padding-top:20px;padding-bottom:20px">
   {{> flash}}
 
   {{#if post}}
-    <div class="blog-main-body">  
+    <div class="blog-main-body">
+
       <h1 class="blog-post-title">
         {{post.title}}
       </h1>
       <p class="blog-post-meta" style="padding-right:10px">
       {{#if config.showDate}}
-        {{#parseDate post.published_at 'MMMM D, YYYY'}}{{/parseDate}} 
+        {{#parseDate post.published_at 'MMMM D, YYYY'}}{{/parseDate}}
       {{/if}}
       {{#if config.showAuthor}}
-        by 
-        <a href="/devs/{{author.slug}}">{{author.name}}</a> 
+        by
+        <a href="/devs/{{author.slug}}">{{author.name}}</a>
       {{/if}}
-        
-      {{#if config.showTags}} 
+
+      {{#if config.showTags}}
         |
         <span class="glyphicon glyphicon-tag"></span>
         <a href="/blog/category/{{category.slug}}" class="text-danger">{{category.name}}</a>
         {{#each post.tags}}
-          <a href="/blog/tags/{{slug}}">{{name}}</a> 
+          <a href="/blog/tags/{{slug}}">{{name}}</a>
         {{/each}}
       {{/if}}
       {{#if config.showShareButtons}}
-        <a target="_blank" data-toggle="tooltip" data-placement="top" href="http://www.facebook.com/share.php?u={{url}}" class="share share-fb" title="Share on Facebook"> 
+        <a target="_blank" data-toggle="tooltip" data-placement="top" href="http://www.facebook.com/share.php?u={{url}}" class="share share-fb" title="Share on Facebook">
           &nbsp;
         </a>
         <a target="_blank" data-toggle="tooltip" data-placement="top" href="http://twitter.com/home?status={{url}}" class="share share-twitter" title="Share on Twitter">
@@ -48,15 +49,15 @@
         <a target="_blank" data-toggle="tooltip" data-placement="top" href="http://www.linkedin.com/shareArticle?mini=true&url={{url}}" class="share share-linkedin" title="Share on LinkedIn">
           &nbsp;
         </a>
-  
-        <span class="pull-right">Share</span> 
+
+        <span class="pull-right">Share</span>
       {{/if}}
       </p>
-  
+
       {{{post.html}}}
-      
+
     </div>
-   
+
     {{#if config.showAuthor}}
       {{#list @WidgetCollection.belowpost author}}{{/list}}
     {{/if}}
@@ -83,31 +84,31 @@
 
     function addClassNames() {
         var pre = document.getElementsByTagName('pre'), i;
-    
+
         for (i = 0; i < pre.length; i++) {
             pre[i].className = "prettyprint linenums";
         }
     }
-    
-    
+
+
     function inspectLinks() {
-        var links = document.getElementsByTagName('a'), 
+        var links = document.getElementsByTagName('a'),
             i, href, isInternalLink,
             mysite = window.location.href;
-        
+
         isInternalLink = function (href, link) {
             var hrefParser = document.createElement('a'),
                 linkParser = document.createElement('a');
-        
+
             hrefParser.href = href;
             linkParser.href = link;
-        
+
             return hrefParser.hostname === linkParser.hostname;
         };
-    
+
         for (i = 0; i < links.length; i++) {
             href = links[i].href;
-            
+
             if (!isInternalLink(mysite, href)) {
                 links[i].target = '_blank';
             }

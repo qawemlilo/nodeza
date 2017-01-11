@@ -39,7 +39,7 @@
     "passport": "^0.2.2",
     "passport-github": "1.0.0",
     "passport-local": "1.0.0",
-    "rss": "0.3.2",
+    "rss": "1.2.2",
     "sqlite3": "^3.1.8",
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",

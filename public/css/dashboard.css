@@ -1,0 +1,243 @@
+/*
+ * Base structure
+ */
+ body {
+   font-family: Georgia, "Times New Roman", Times, serif;
+   color: #555;
+   padding-top: 0px;
+   font-size: 16px;
+ }
+
+ h1, .h1,
+ h2, .h2,
+ h3, .h3,
+ h4, .h4,
+ h5, .h5,
+ h6, .h6 {
+   margin-top: 0;
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-weight: normal;
+   color: #333;
+ }
+
+
+ h1, .h1 {
+   font-size: 32px;
+   margin-left: 0px;
+ }
+
+ h3 a, h1.blog-post-title a, h4 a, h2 a {
+   color: #333;
+ }
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+  background-color: #f5f5f5;
+  border-right: 1px solid #d7d7d7;
+}
+
+.sidebar .dashboard-header {
+  color: #555;
+  font-size: 22px;
+  line-height: 25px;
+}
+
+.sidebar .dashboard-header {
+  margin-bottom:20px;
+  background-color:#e8e8e8;
+  padding:14px 10px;
+  border-bottom:1px solid #d7d7d7;
+  text-align: center;
+}
+
+.sidebar .dashboard-header a {
+  color: #555;
+  font-size: 22px;
+  line-height: 25px;
+}
+
+.sidebar .dashboard-header a:hover {
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 0px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    /*box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;*/
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -11px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -10px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.nav-pills > li > a {
+  border-radius: 0px;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:hover,
+.nav-pills>li.active>a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 0px;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+#post-form .post-title {
+  font-size: 24px;
+  border: 0;
+  box-shadow: none;
+  color: #000;
+  padding: 0px;
+}
+
+#epiceditor {
+  border: 0;
+  box-shadow: none;
+  border: 1px solid #e7e7e7;
+  border-radius: 0px;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 0px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 0;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.dl-horizontal dt {
+  width: auto;
+
+}
+
+.dl-horizontal dd {
+  margin-left: 80px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 28px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

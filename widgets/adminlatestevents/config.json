@@ -1,0 +1,13 @@
+{
+  "name": "adminlatestevents",
+  "title": "Latest Posts",
+  "version": "0.0.1",
+  "routes": ["/dashboard"],
+  "description": "Latest Events",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "content",
+  "order": 3,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza.git"
+}

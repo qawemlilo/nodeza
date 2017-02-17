@@ -1,0 +1,13 @@
+{
+  "name": "letestmembers",
+  "title": "Latest Members",
+  "version": "0.0.1",
+  "routes": ["/dashboard"],
+  "description": "Latest Members",
+  "author": "Qawelesizwe Mlilo",
+  "authorEmail": "qawemlilo@gmail.com",
+  "position": "content",
+  "order": 2,
+  "active": true,
+  "repo": "git://github.com/nodeza/nodeza.git"
+}

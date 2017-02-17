@@ -1,0 +1,209 @@
+
+
+<div class="col-sm-12 blog-main" style="margin-top: 10px">
+
+  {{> flash}}
+
+  <!--
+  <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li class="active">
+      <a href="/admin/account">
+        <span class="glyphicon glyphicon-user"></span> Profile Information
+      </a>
+    </li>
+    <li>
+      <a href="/admin/account/password">
+        <span class="fa fa-keyboard-o"></span> Change Password
+      </a>
+    </li>
+    {{#ifCond user.role.name '==' 'Super Administrator'}}
+    <li>
+      <a href="/admin/settings/account">
+        <span class="glyphicon glyphicon-cog"></span> Settings
+      </a>
+    </li>
+    {{/ifCond}}
+  </ul>
+  -->
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+       Settings - Account
+    </div>
+
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/dashboard/settings/account" method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+        <input type="hidden" name="id" value="{{user.id}}" />
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="name">Name</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="name" id="name"   placeholder="Name" value="{{user.name}}" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="last_name">Last Name</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" name="last_name" id="last_name"   placeholder="Name" value="{{user.last_name}}" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="email">Email</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="email" name="email" id="email" value="{{user.email}}" placeholder="Email" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="gender">Gender</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input type="radio" {{#ifCond user.gender '==' 'male'}}checked="checked"{{/ifCond}} name="gender" value="male" data-toggle="radio">
+                Male
+              </label>
+
+              <label class="radio-inline">
+                <input type="radio" {{#ifCond user.gender '==' 'female'}}checked="checked"{{/ifCond}}  name="gender" value="female" data-toggle="radio">
+                Female
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="location">Location</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" value="{{user.location}}"   name="location" id="location" placeholder="Location">
+              <span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="website">Website</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" value="{{user.website}}"   name="website" id="website" placeholder="Website">
+              <span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="github_url">GitHub</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" value="{{user.github_url}}"   name="github_url" id="github_url" placeholder="Your github url">
+              <span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="twitter_url">Twitter</label>
+            <div class="col-sm-7">
+              <input class="form-control" type="text" value="{{user.twitter_url}}"   name="twitter_url" id="twitter_url" placeholder="Your twitter url">
+              <span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="about">About Me</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" rows="5" name="about" id="about" placeholder="Write   something about yourself...">{{user.about}}</textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="gravatar">Gravatar</label>
+            <div class="col-sm-7">
+              <img class="profile" height="100" width="100" src="{{#gravatar user.email '100'}}{{/gravatar}}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+              <button class="btn btn-success" type="submit">
+                <i class="fa fa-check"></i> Update Profile
+              </button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Linked Accounts
+    </div>
+
+    <div class="panel-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <p class="text-muted">
+              <span class="glyphicon glyphicon-bell"></span>
+              Linking your account provides easy logins and updates some your profile informations.
+            </p>
+
+            <p>
+            {{#if github}}
+              <span class="glyphicon glyphicon-remove"></span>
+              <a class="text-danger" href="/account/unlink/github">
+               Unlink your <i class="fa fa-github"></i> GitHub account</a>
+            {{else}}
+              <span class="glyphicon glyphicon-hand-right"></span>
+              <a class="text-primary" href="/auth/github">
+               Link your <i class="fa fa-github"></i> GitHub account</a>
+            {{/if}}
+            </p>
+            <!--
+            <p>
+            {{#if twitter}}
+              <span class="glyphicon glyphicon-remove"></span>
+              <a class="text-danger" href="/account/unlink/twitter">
+              Unlink your <i class="fa fa-twitter"></i> Twitter account</a>
+            {{else}}
+              <span class="glyphicon glyphicon-hand-right"></span>
+              <a class="text-primary" href="/auth/twitter">
+               Link your <i class="fa fa-twitter"></i> Twitter account</a>
+            {{/if}}
+            </p>
+
+            <p>
+            {{#if google}}
+              <span class="glyphicon glyphicon-remove"></span>
+              <a class="text-danger" href="/account/unlink/google">
+               Unlink your <i class="fa fa-google-plus"></i>oogle account</a>
+            {{else}}
+              <span class="glyphicon glyphicon-hand-right"></span>
+              <a class="text-primary" href="/auth/google">
+               Link your <i class="fa fa-google-plus"></i>oogle account</a>
+            {{/if}}
+            </p>
+            -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Delete Account
+    </div>
+
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/account/delete"   onsubmit="return confirm('Are you sure you want to delete your account forever?')"   method="POST">
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+
+        <div class="form-group">
+          <div class="col-sm-4 col-sm-offset-4">
+            <a id="delete">&nbsp;</a>
+            <button class="btn btn-block btn-danger" type="submit">
+              <i class="fa fa-trash-o"></i> Delete my account
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

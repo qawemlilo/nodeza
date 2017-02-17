@@ -1,0 +1,20 @@
+
+
+<div class="col-sm-3 col-md-2 sidebar">
+  <div class="dashboard-header">
+    <a href="/dashboard"><i class="fa fa-home"></i> Dashboard</a>
+  </div>
+
+
+  <ul class="nav nav-pills nav-stacked">
+    <li class="{{#ifCond 'dashboard' '==' page}}active{{/ifCond}}"><a href="/dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+    <li class="{{#ifCond 'posts' '==' page}}active{{/ifCond}}"><a href="/dashboard/posts"><span class="glyphicon glyphicon-list-alt"></span> Posts</a></li>
+    <li class="{{#ifCond 'settings' '==' page}}active{{/ifCond}}">
+      <a href="/dashboard/settings/account"><span class="glyphicon glyphicon-wrench"></span> Settings</a>
+
+      <ul>
+        <li><a href="/dashboard/settings/account">Account</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

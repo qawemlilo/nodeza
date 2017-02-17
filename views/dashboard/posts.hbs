@@ -1,0 +1,113 @@
+
+
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container">
+    <!--
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">NodeZA<sup class="text-danger"><i>beta</i></sup></a>
+    </div>
+    -->
+    <div class="navbar-collapse collapse">
+      <a role="button" class="btn btn-success" href="/dashboard/posts/new" style="margin-top:10px"><span class="glyphicon glyphicon-list-alt"></span> New Post</a>
+
+      <ul class="nav navbar-nav navbar-right">
+      {{#if user}}
+        <li class="{{#activeMenu 'admin' page}}{{/activeMenu}}">
+          <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="{{#gravatar user.email '24'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle"> {{user.name}}
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/dashboard">Dashboard</a>
+            </li>
+            <li>
+              <a href="/admin/account">Account</a>
+            </li>
+
+            {{#ifCond user.role.name '==' 'Super Administrator'}}
+              <li><a href="/admin/users">Users</a></li>
+            {{/ifCond}}
+
+            <li class="divider"></li>
+            <li><a href="/devs/{{user.slug}}">View Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="/"><span class="glyphicon glyphicon-lock"></span> Go to main site</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/logout"><span class="glyphicon glyphicon-lock"></span> Logout</a>
+        </li>
+      {{else}}
+        <li class="{{#activeMenu 'login' page}}{{/activeMenu}}">
+          <a href="/login">Log In</a>
+        </li>
+        <li class="{{#activeMenu 'signup' page}}{{/activeMenu}}">
+          <a href="/signup">Sign Up</a>
+        </li>
+      {{/if}}
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+
+<div class="col-sm-9 blog-main">
+
+  {{> flash}}
+
+  <div class="container-fluid">
+    {{#if category}}
+      <div class="well well-sm bg-info row filter-tags">
+        <span class="glyphicon glyphicon-tag text-danger"></span> {{category}}
+      </div>
+    {{/if}}
+    {{#if tag}}
+      <div class="well well-sm bg-info row filter-tags">
+        <span class="glyphicon glyphicon-tags text-danger"></span>  {{tag}}
+      </div>
+    {{/if}}
+
+    {{#each posts}}
+    <div class="row box-shadow" style="margin-bottom: 10px">
+      <div class="media">
+        <a target="_blank" href="/blog/{{slug}}" class="pull-left">
+          {{#if published_at}}
+            <img class="media-object" title="Post" {{#if image.filename}}src="/uploads/{{image.filename}}"{{else}}data-src="holder.js/120x120?text={{#parseDate published_at 'D MMM YY'}}{{/parseDate}}"{{/if}} alt="{{title}}" style="width:120px;height:120px">
+          {{else}}
+            <img class="media-object" title="Post" {{#if image.filename}}src="/uploads/{{image.filename}}"{{else}}data-src="holder.js/120x120?text=Draft"{{/if}} alt="{{title}}" style="width:120px;height:120px">
+          {{/if}}
+
+        </a>
+        <div class="media-body">
+          <h3 class="media-heading" style="margin-top:5px">
+            <a target="_blank" href="/blog/{{slug}}">
+              {{title}}
+            </a>
+          </h3>
+          <p class="blog-post-meta">
+            {{#if published_at}}
+              Published at {{#parseDate published_at 'hh:mm:ss D MMMM, YYYY'}}{{/parseDate}}
+            {{else}}
+              <span class="text-danger">Draft</span>
+            {{/if}}
+
+            <a href="/dashboard/posts/edit/{{id}}" title="Edit" class="text-danger"><span class="glyphicon glyphicon-edit"></span></a>
+          </p>
+
+          {{#htmlSummary html}}{{/htmlSummary}}
+
+        </div>
+      </div>
+    </div>
+    {{/each}}
+
+    {{> pagination}}
+  </div>
+</div>

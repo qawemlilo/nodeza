@@ -10,31 +10,7 @@ const passport = App.passport();
 const _ = require('lodash');
 
 
-passport.deserializeUser(function(id, done) {
-  User.forge({id: id})
-  .fetch({withRelated: ['role', 'tokens']})
-  .then(function(user) {
-    done(false, user);
-  })
-  .catch(function (error) {
-    done(error);
-  });
-});
 
-passport.serializeUser(function(user, done) {
-  if(user) {
-    done(null, user.get('id'));
-  }
-  else {
-    done(new Error('User account not found'));
-  }
-});
-
-
-auth.useLocalStrategy(passport);
-
-let githubConfig = App.getConfig('github');
-auth.useGithubStrategy(githubConfig);
 
 
 /**
@@ -151,7 +127,7 @@ const AccountController = App.Controller.extend({
           return res.redirect('/login');
         }
 
-        res.redirect(req.session.returnTo || '/');
+        res.redirect(req.session.returnTo || '/dashboard');
       });
     })(req, res, next);
   },
@@ -497,9 +473,8 @@ const AccountController = App.Controller.extend({
     User.forge({id: req.body.id})
     .fetch()
     .then(function (user) {
-      user.save(details)
+      return user.save(details)
       .then(function() {
-        App.clearCache();
         req.flash('success', {msg: 'Account information updated.'});
         res.redirect('/admin/account');
       })

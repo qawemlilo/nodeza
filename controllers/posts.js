@@ -285,7 +285,7 @@ const PostsController = App.Controller.extend({
   */
   postNew: function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
-    req.assert('markdown', 'Post must be at least 32 characters long').len(32);
+    req.assert('markdown', 'Post must be at least 16 characters long').len(16);
 
     let errors = req.validationErrors();
 
@@ -335,7 +335,7 @@ const PostsController = App.Controller.extend({
   postEdit: function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
     req.assert('tags', 'Tags must not be empty').notEmpty();
-    req.assert('markdown', 'Post must be at least 32 characters long').len(32);
+    req.assert('markdown', 'Post must be at least 16 characters long').len(16);
 
     let errors = req.validationErrors();
 
@@ -440,8 +440,9 @@ const PostsController = App.Controller.extend({
     Post.forge({id: req.params.id})
     .fetch()
     .then(function (post) {
-      console.log('feature %s', post.get('featured'));
-      return post.save({featured: !(!!post.featured)});
+      let featured = post.get('featured') === 0 ? 1 : 0;
+
+      return post.save({featured: featured});
     })
     .then(function () {
       req.flash('success', {msg: 'Post successfully updated'});

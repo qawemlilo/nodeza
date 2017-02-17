@@ -1,0 +1,23 @@
+
+{{#if collection}}
+<div class="col-sm-4 col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Latest Members</h3>
+    </div>
+    <div class="panel-body">
+      <ul class="list-unstyled">
+      {{#each collection}}
+        <li style="margin-bottom:10px">
+          <div class="placeholder">
+            <img src="{{#gravatar email '48'}}{{/gravatar}}" width="48" height="48" class="img-responsive text-left" alt="Generic placeholder thumbnail">
+            <a href="/devs/{{slug}}" target="_blank">{{name}}</a>
+            <small>{{location}}</small>
+          </div>
+        </li>
+      {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
+{{/if}}

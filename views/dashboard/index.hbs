@@ -1,7 +1,9 @@
 
-<!-- Static navbar -->
+
+
 <div class="navbar navbar-default navbar-static-top" role="navigation">
   <div class="container">
+    <!--
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -11,18 +13,15 @@
       </button>
       <a class="navbar-brand" href="/">NodeZA<sup class="text-danger"><i>beta</i></sup></a>
     </div>
+    -->
     <div class="navbar-collapse collapse">
-
-      <ul class="nav navbar-nav">
-        {{#mainMenu collection page}}
-        {{/mainMenu}}
-      </ul>
+      <a role="button" class="btn btn-success" href="/dashboard/posts/new" style="margin-top:10px"><span class="glyphicon glyphicon-list-alt"></span> New Post</a>
 
       <ul class="nav navbar-nav navbar-right">
       {{#if user}}
         <li class="{{#activeMenu 'admin' page}}{{/activeMenu}}">
           <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="{{#gravatar user.email '14'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle" style="margin:0px;line-height:0;"> {{user.name}}
+            <img src="{{#gravatar user.email '24'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle"> {{user.name}}
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -38,7 +37,8 @@
             {{/ifCond}}
 
             <li class="divider"></li>
-            <li><a href="/devs/{{user.slug}}">View Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="/"><i class="fa fa-home"></i> Go to main site</a></li>
           </ul>
         </li>
         <li>
@@ -56,3 +56,11 @@
     </div><!--/.nav-collapse -->
   </div>
 </div>
+
+{{#if @WidgetCollection.abovecontent}}
+  {{#list @WidgetCollection.abovecontent page}}{{/list}}
+{{/if}}
+
+{{#if @WidgetCollection.content}}
+  {{#list @WidgetCollection.content page}}{{/list}}
+{{/if}}

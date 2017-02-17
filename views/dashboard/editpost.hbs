@@ -1,0 +1,133 @@
+
+
+<div class="col-sm-12 blog-main" style="margin-top: 10px">
+
+  {{> flash}}
+
+
+    <form id="post-form" action="/dashboard/posts/edit" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{_csrf}}" />
+      <input type="hidden" name="id" value="{{post.id}}" />
+      <input type="hidden" name="catid" value="{{post.category_id}}" />
+      <input type="hidden" name="meta_title" value="{{post.meta_title}}" />
+
+      <div class="row">
+        <div class="col-sm-9 col-md-9">
+          <div class="form-group">
+            <input class="form-control post-title" type="text" name="title" id="title" value="{{post.title}}" placeholder="Post Title..." required="" autofocus />
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-3">
+          <div class="form-group">
+            <button class="btn btn-success" type="submit">
+              <i class="fa fa-check"></i> Save
+            </button>
+
+            <a href="/dashboard" class="btn btn-default">
+                <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-sm-9 col-md-9">
+
+          <div class="form-group">
+            <div id="epiceditor" style="height: 600px; padding: 0px;" class="form-control">
+              <textarea style="display:none" class="form-control" rows="15" placeholder="Start typing..." name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3 col-md-3">
+
+          <div class="form-group">
+            <label class="control-label" for="category">
+              Category <span class="text-danger">*</span>
+            </label>
+            <select name="category" class="form-control" id="category">
+              <option>Select category</option>
+              {{#selectedCat categories post.category_id}}{{/selectedCat}}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="tags">Tags <span class="text-danger">*</span></label>
+            <input class="form-control" type="text" name="tags" value="{{#fillTags post.tags}}{{/fillTags}}" id="tags" placeholder="comma, seperated" />
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="meta_description">
+              Meta Description
+            </label>
+            <input class="form-control" type="text" name="meta_description" id="meta_description" value="{{post.meta_description}}" placeholder="meta data for page description" />
+          </div>
+
+          <!--
+          <div class="form-group">
+            <input type='file' id="image_url" name="image_url" />
+            <p class="help-block">Please upload an image to be used with your post</p>
+            <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
+          </div>
+          -->
+
+          <div class="form-group">
+              <label class="control-label" for="published">
+                Published
+              </label>
+              <div class="checkbox-inline" style="padding-left:0px">
+                <label class="switch">
+                  <input type="checkbox" name="published" {{#if post.published_at}}checked="true"{{/if}}>
+                  <div class="slider round"></div>
+              </div>
+
+              {{#ifCond user.role.role '==' 'Super Administrator'}}
+              <div class="checkbox-inline">
+                <label>
+                  <input type="checkbox" name="featured"> Featured
+                </label>
+              </div>
+              {{/ifCond}}
+          </div>
+        </div>
+
+      </div>
+    </form>
+</div>
+
+
+{{#extend "scripts"}}
+<script src="/js/epiceditor/js/epiceditor.min.js"></script>
+<script>
+(function () {
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+          $('#imagepreview').attr('src', e.target.result).fadeIn();
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  var editor = new EpicEditor({
+    textarea: 'markdown',
+    basePath: '/js/epiceditor',
+    clientSideStorage: false,
+    theme: {
+      base: '/themes/base/epiceditor.css',
+      preview: '/themes/preview/github.css',
+      editor: '/themes/editor/epic-light.css'
+    }
+  }).load();
+
+  $("#image_url").change(function(){
+    readURL(this);
+  });
+}());
+</script>
+{{/extend}}

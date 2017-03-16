@@ -44,7 +44,7 @@
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",
-    "widget-cms": "^1.2.3",
+    "widget-cms": "^1.3.2",
     "widget-knex-schema": "latest",
     "widget-loader": "^1.0.1"
   },

@@ -1,4 +1,6 @@
 # NodeZA
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/qawemlilo/nodeza.svg)](https://greenkeeper.io/)
 > A Node.js information portal and social platform for developers in South Africa.
 
 NodeZA, pronounced 'Node Z A', is a platform that aims to make it easy to find information about Node.js, learn, share, and connect with other Node users in South Africa.

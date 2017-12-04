@@ -136,7 +136,7 @@ const PostsController = App.Controller.extend({
       limit: settings.postsPerPage,
       where: ['published_at', '<', new Date()]
     }, {
-      columns: ['slug', 'html', 'title', 'category_id', 'published_at'],
+      columns: ['slug', 'html', 'title', 'category_id', 'published_at','image_url'],
       withRelated: ['category']
     })
     .then(function (collection) {

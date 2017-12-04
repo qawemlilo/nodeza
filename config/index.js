@@ -24,7 +24,17 @@ module.exports = {
     sessionSecret: config.site.sessionSecret,
     domain: config.site.domain
   },
-  db: config.db[env],
+  db: {
+    client: 'mysql',
+    connection: {
+      host: env_vars.MYSQL_HOST,
+      db: env_vars.MYSQL_DATABASE,
+      user: env_vars.MYSQL_USER,
+      password: env_vars.MYSQL_PASSWORD,
+      charset: "utf8"
+    },
+    "useNullAsDefault": true
+  },
   mailgun: {
     login: env_vars.MAILGUN_USER || config.mailgun.login,
     password: env_vars.MAILGUN_PASSWORD || config.mailgun.password,

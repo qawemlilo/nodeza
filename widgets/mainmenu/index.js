@@ -11,7 +11,7 @@ module.exports.exec = function (App) {
   let menu = new Menu({name: 'Main Menu'});
 
   return menu.fetch({
-    withRelated: ['links', 'links.route']
+    withRelated: [{links: function(query) { query.orderBy('created_at', 'desc') }}, 'links.route']
   })
   .then(function (model) {
     let collection = model.related('links');

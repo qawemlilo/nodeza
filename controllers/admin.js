@@ -39,8 +39,7 @@ const AdminController = App.Controller.extend({
     res.render('admin/admin', {
       title: 'NodeZA Admin',
       description: 'NodeZA Admin',
-      page: 'admin',
-      layout: 'admin-layout.hbs'
+      page: 'admin'
     });
   },
 

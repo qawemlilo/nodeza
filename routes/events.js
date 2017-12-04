@@ -16,5 +16,3 @@ App.post('/events/edit', auth.isAuthenticated, EventsController.postEdit);
 App.get('/events', EventsController.getEvents);
 App.get('/events/city/:city', EventsController.getEventsByCity);
 App.get('/events/:slug', EventsController.getEvent);
-App.post('/events/limit', EventsController.setLimit);
-App.post('/events/history', EventsController.setHistory);

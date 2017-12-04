@@ -1,13 +1,17 @@
 
 
-<div class="panel panel-default">
+<div class="panel panel-success">
   <div class="panel-heading">
-    {{config.title}}
+    <img src="{{#gravatar user.email '24'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle" style="margin:0px;line-height:0;"> {{user.name}}
   </div>
   <ul class="list-group">
     <li class="list-group-item {{#activeAdminMenu 'account' page}}{{/activeAdminMenu}}">
       <span class="glyphicon glyphicon-user"></span> <a href="/admin/account">Account</a>
     </li>
+    <li class="list-group-item {{#activeAdminMenu 'password' page}}{{/activeAdminMenu}}">
+      <span class="fa fa-keyboard-o"></span> <a href="/admin/account/password">Change password</a>
+    </li>
+    {{#ifCond user.role.name '==' 'Super Administrator'}}
     <li class="list-group-item {{#activeAdminMenu 'events' page}}{{/activeAdminMenu}}">
       <span class="glyphicon glyphicon-calendar"></span> <a href="/admin/events">Events</a>
     </li>
@@ -17,5 +21,6 @@
     <li class="list-group-item {{#activeAdminMenu 'blog' page}}{{/activeAdminMenu}}">
       <span class="glyphicon glyphicon-list-alt"></span> <a href="/admin/blog">Blog</a>
     </li>
+    {{/ifCond}}
   </ul>
 </div>

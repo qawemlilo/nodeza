@@ -72,13 +72,13 @@
         <div class="caption">
           {{#if profile.location}}
           <p>
-            <span class="glyphicon glyphicon-map-marker text-danger"></span> 
+            <span class="glyphicon glyphicon-map-marker text-danger"></span>
             {{profile.location}}
           </p>
           {{/if}}
           {{#if profile.website}}
           <p>
-            <span class="glyphicon glyphicon-globe"></span> 
+            <span class="glyphicon glyphicon-globe"></span>
             <a href="{{#parseUrl profile.website}}{{/parseUrl}}" target="_blank">Website</a>
           </p>
           {{/if}}
@@ -86,18 +86,18 @@
           <p>
             <span class="fa fa-twitter text-primary"></span>
             <a href="{{#parseUrl profile.twitter_url}}{{/parseUrl}}" target="_blank">Twitter</a>
-          </p> 
+          </p>
           {{/if}}
           {{#if profile.github_url}}
           <p>
             <span class="fa fa-github"></span>
             <a href="{{#parseUrl profile.github_url}}{{/parseUrl}}" target="_blank">Github</a>
-          </p> 
+          </p>
           {{/if}}
         </div>
       </div>
 
-      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#contactform">
+      <button class="btn btn-success btn-block" data-toggle="modal" data-target="#contactform">
         <i class="fa fa-envelope"></i> Contact Me
       </button>
 
@@ -112,7 +112,7 @@
 
       <h1 class="blog-post-title">{{profile.name}}</h1>
 
-      
+
       <div class="bs-callout bs-callout-danger">
         {{#if profile.about}}
           <p>{{{profile.about}}}</p>
@@ -120,7 +120,7 @@
           <p class="text-center"><em>{{profile.name}}'s profile is empty</em></p>
         {{/if}}
       </div>
-      
+
 
       {{#if tweets}}
       <div class="bs-callout bs-callout-info box">
@@ -138,7 +138,7 @@
       <br>
       <h4><i class="glyphicon glyphicon-list-alt"></i> Posts by {{profile.name}}</h4>
       <!-- Tab panes -->
-        <dl class="dl-horizontal"> 
+        <dl class="dl-horizontal">
         {{#each myposts}}
           {{#if published}}
           <dt style="width:90px">
@@ -169,7 +169,7 @@
       e.preventDefault();
 
       var visibleTweet = jQuery('.box .info > p:visible:first');
-      
+
       if (visibleTweet.prev('p').length) {
         visibleTweet.hide().prev('p').show();
       }
@@ -177,7 +177,7 @@
         visibleTweet.hide();
         jQuery('.box .info > p:last').show();
       }
-      
+
     });
 
     jQuery('.box a.next').on('click', function (e) {

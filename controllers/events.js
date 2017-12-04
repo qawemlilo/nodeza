@@ -23,25 +23,6 @@ const EventsController = App.Controller.extend({
 
 
   /*
-   * Post /events/limit
-   * sets the limit for the number of events per page
-   */
-  setLimit: function (req, res) {
-    req.session.elimit = parseInt(req.body.limit, 10);
-    res.redirect('back');
-  },
-
-
-  /*
-   * Post /events/history
-   */
-  setHistory: function (req, res) {
-    req.session.history = req.body.history;
-    res.redirect('back');
-  },
-
-
-  /*
    * GET /events/:id
    * loads an event by id
    */
@@ -107,7 +88,7 @@ const EventsController = App.Controller.extend({
     let page = parseInt(req.query.p, 10);
     let query = {};
     let currentpage = page || 1;
-    let limit = req.session.elimit || 2;
+    let limit = 2;
     let month = req.query.month || '';
     let monthObj;
 
@@ -155,7 +136,7 @@ const EventsController = App.Controller.extend({
     let page = parseInt(req.query.p, 10);
     let query = {};
     let currentpage = page || 1;
-    let limit = req.session.elimit || 2;
+    let limit = 2;
     let city = req.params.city || '';
     let month = req.query.month || '';
     let monthObj;

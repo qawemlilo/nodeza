@@ -8,14 +8,14 @@
 <div class="col-sm-12">
   {{> flash}}
 
-  <div class="panel panel-default">
+  <div class="panel panel-success">
     <div class="panel-heading">
       <i class="fa fa-envelope"></i> Contact Us
     </div>
-    
+
     <div class="panel-body">
       <form class="form-horizontal" id="signup-form" action="/contact" method="POST">
-    
+
         <input type="hidden" name="_csrf" value="{{_csrf}}" />
          <input type="hidden" name="_email" value="info@nodeza.co.za" />
          <input type="hidden" name="subject" value="Message from NodeZA contact page" />
@@ -42,18 +42,18 @@
           <textarea class="form-control" rows="5" name="message" id="message" required=""></textarea>
         </div>
       </div>
-  
+
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-7">
             <button class="btn btn-primary" type="submit">
               <span class="fa fa-envelope"></span> Send
-            </button> 
+            </button>
           </div>
         </div>
       </form>
     </div>
   </div>
-</div> 
+</div>
 
 {{#extend "footer"}}
   {{> footer}}

@@ -18,33 +18,10 @@
   {{> flash}}
 
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-8 no-padding">
-      <ul class="list-inline">
-        <li>
-          <form action="/events/limit" name="eventslimit" method="post">
-            <input type="hidden" name="_csrf" value="{{_csrf}}" />
-            <strong>Limit #</strong> <select name="limit" class="ddown limit">
-                <option value="2" {{#ifCond query.limit '==' 2}}selected{{/ifCond}}>2</option>
-                <option value="5" {{#ifCond query.limit '==' 5}}selected{{/ifCond}}>5</option>
-                <option value="10" {{#ifCond query.limit '==' 10}}selected{{/ifCond}}>10</option>
-                <option value="20" {{#ifCond query.limit '==' 20}}selected{{/ifCond}}>20</option>
-                <option value="50" {{#ifCond query.limit '==' 50}}selected{{/ifCond}}>50</option>
-                <option value="100" {{#ifCond query.limit '==' 100}}selected{{/ifCond}}>100</option>
-              </select>
-          </form>
-        </li>
-      </div>
-      <div class="col-sm-4 no-padding" style="text-align:right">
-          <a href="/events/new" class="btn btn-danger">
-            <span class="glyphicon glyphicon-calendar"></span> Add An Event
-          </a>
-      </div>
-    </div>
 
     {{#each myEvents}}
-    <div class="row" style="margin-top:10px;">
-      <div class="panel panel-default">
+    <div class="row">
+      <div class="panel panel-success">
         <div class="panel-body">
           <h2 class="blog-post-title" style="margin-top:0px;">
             <a href="/events/{{slug}}">{{title}}</a>

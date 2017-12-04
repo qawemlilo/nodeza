@@ -8,42 +8,42 @@
 <div class="col-sm-12">
   {{> flash}}
 
-  <div class="panel panel-default">
+  <div class="panel panel-success">
     <div class="panel-heading">
       <i class="fa fa-unlock-alt"></i> Sign In
     </div>
-    
+
     <div class="panel-body">
       <form class="form-horizontal" id="signup-form" action="/login" method="POST">
-    
+
         <input type="hidden" name="_csrf" value="{{_csrf}}" />
-    
+
         <div class="form-group">
           <label class="col-sm-3 control-label" for="email">Email</label>
           <div class="col-sm-7">
             <input class="form-control" type="email" name="email" id="email" placeholder="Email" required="" autofocus />
           </div>
         </div>
-        
+
         <div class="form-group">
           <label class="col-sm-3 control-label" for="password">Password</label>
           <div class="col-sm-7">
             <input class="form-control" type="password" name="password"   id="password" placeholder="Password" required="">
           </div>
         </div>
-  
+
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-7">
             <button class="btn btn-primary" type="submit">
               <i class="fa fa-unlock-alt"></i> Login
-            </button> 
+            </button>
             <a class="btn btn-link" href="/forgot"> Forgot your password?</a> Or
             <a class="btn btn-link" href="/signup"> Create an account</a>
           </div>
         </div>
-        
+
         <hr />
-  
+
         <div class="form-group">
           <label class="col-sm-3 control-label" for="email">&nbsp;</label>
           <div class="col-sm-7">

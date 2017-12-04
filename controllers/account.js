@@ -389,7 +389,7 @@ const AccountController = App.Controller.extend({
     res.render('account/password', {
       title: 'Change Password',
       description: 'Change your password',
-      page: 'changepassword'
+      page: 'password'
     });
   },
 

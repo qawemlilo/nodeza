@@ -2,7 +2,7 @@
 
 
 {{#ifCond user.role.name '==' 'Super Administrator'}}
-  <div class="panel panel-default">
+  <div class="panel panel-success">
     <div class="panel-heading">
       {{config.title}}
     </div>
@@ -11,19 +11,19 @@
         <span class="glyphicon glyphicon-user"></span> <a href="/admin/users">Users</a>
       </li>
       <li class="list-group-item {{#activeAdminMenu 'menus' page}}{{/activeAdminMenu}}">
-        <span class="glyphicon glyphicon-folder-open"></span> 
+        <span class="glyphicon glyphicon-folder-open"></span>
         <a href="/admin/menus">Menus</a>
       </li>
       <li class="list-group-item {{#activeAdminMenu 'links' page}}{{/activeAdminMenu}}">
-        <span class="glyphicon glyphicon-link"></span> 
+        <span class="glyphicon glyphicon-link"></span>
         <a href="/admin/links">Links</a>
       </li>
       <li class="list-group-item {{#activeAdminMenu 'routes' page}}{{/activeAdminMenu}}">
-        <span class="glyphicon glyphicon-road"></span> 
+        <span class="glyphicon glyphicon-road"></span>
         <a href="/admin/routes">Routes</a>
       </li>
       <li class="list-group-item {{#activeAdminMenu 'globalconfig' page}}{{/activeAdminMenu}}">
-        <span class="glyphicon glyphicon-wrench"></span> 
+        <span class="glyphicon glyphicon-wrench"></span>
         <a href="/admin/settings">Settings</a>
       </li>
     </ul>

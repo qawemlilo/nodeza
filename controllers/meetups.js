@@ -119,7 +119,7 @@ const MeetupsController = App.Controller.extend({
         meetups: collection.toJSON(),
         query: {},
         description: 'Find a meetup group in South Africa',
-        page: 'meetups',
+        page: 'meetupgroups',
         config: settings
       });
     })

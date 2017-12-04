@@ -94,7 +94,7 @@ const PostsController = App.Controller.extend({
     categories.fetch()
     .then(function (cats) {
       Post.forge({id: id})
-      .fetch({withRelated: ['tags','image']})
+      .fetch({withRelated: ['tags']})
       .then(function (post) {
 
         res.render('posts/edit', {
@@ -136,8 +136,8 @@ const PostsController = App.Controller.extend({
       limit: settings.postsPerPage,
       where: ['published_at', '<', new Date()]
     }, {
-      columns: ['slug', 'html', 'image_id', 'title', 'category_id', 'published_at'],
-      withRelated: ['category','image']
+      columns: ['slug', 'html', 'title', 'category_id', 'published_at'],
+      withRelated: ['category']
     })
     .then(function (collection) {
       res.render('posts/posts', {

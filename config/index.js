@@ -28,7 +28,7 @@ module.exports = {
     client: 'mysql',
     connection: {
       host: env_vars.MYSQL_HOST,
-      db: env_vars.MYSQL_DATABASE,
+      database: env_vars.MYSQL_DATABASE,
       user: env_vars.MYSQL_USER,
       password: env_vars.MYSQL_PASSWORD,
       charset: "utf8"

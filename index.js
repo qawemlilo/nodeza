@@ -12,6 +12,29 @@ const middleware = require('./lib/middleware');
 const widgetLoader = require('widget-loader');
 const widgetsDir = path.join(process.cwd(), 'widgets');
 
+console.log(_.defaults({
+
+  port: config.site.port,
+
+  secret: config.site.sessionSecret,
+
+  db: config.db,
+
+  cache: false,
+
+  log: true,
+
+  rootDir: process.cwd(),
+
+  uploadsDir: path.join(process.cwd(), 'public', 'uploads'),
+
+  middleware: {
+    enableForms: true,
+    enableCSRF: false,
+    inputValidation: true,
+    enableSessions: true
+  }
+}, config))
 
 app.config(_.defaults({
 

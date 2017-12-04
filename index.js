@@ -15,7 +15,7 @@ const widgetsDir = path.join(process.cwd(), 'widgets');
 
 app.config(_.defaults({
 
-  port: 3080,
+  port: config.site.port,
 
   secret: config.site.sessionSecret,
 

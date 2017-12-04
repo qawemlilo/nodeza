@@ -13,12 +13,12 @@
       <span class="glyphicon glyphicon-link"></span> New Link
       <a href="/admin/links" class="close pull-right text-danger">&times;</a>
     </div>
-    
+
     <div class="panel-body">
       <form class="form-horizontal" id="signup-form" action="/links/edit" method="POST">
         <input type="hidden" name="_csrf" value="{{_csrf}}" />
         <input type="hidden" name="id" value="{{link.id}}" />
-          
+
         <div class="form-group">
           <label class="col-sm-3 control-label" for="inner_text">
             Text <span class="text-danger">*</span>
@@ -70,7 +70,7 @@
 
         <div class="form-group">
           <label class="col-sm-3 control-label" for="title">
-            Title Attribute 
+            Title Attribute
           </label>
           <div class="col-sm-7">
             <input class="form-control" type="text" name="title" id="title" value="{{link.title}}">
@@ -88,7 +88,7 @@
 
         <div class="form-group">
           <label class="col-sm-3 control-label" for="class_attr">
-            Class Attribute 
+            Class Attribute
           </label>
           <div class="col-sm-7">
             <input class="form-control" type="text" name="class_attr" id="class_attr" value="{{link.class_attr}}">
@@ -117,11 +117,11 @@
             </select>
           </div>
         </div>
-  
+
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-7">
             <button class="btn btn-success" type="submit">
-              <i class="fa fa-check"></i> Create Link
+              <i class="fa fa-check"></i> Update Link
             </button>
             <a href="/admin/links" class="btn btn-default">
               <span class="glyphicon glyphicon-remove"></span> Close

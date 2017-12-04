@@ -11,7 +11,7 @@
         "csrfWhitelist": [
             "/this-url-will-bypass-csrf"
         ],
-        "port": 3000,
+        "port": 3080,
         "sessionSecret": "secret_1476389762324",
         "twitter_url": "http://twitter.com/nodeza",
         "github_url": "http://github.com/nodeza",

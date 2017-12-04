@@ -120,21 +120,34 @@ ul.styled-lists li:before {
   padding-bottom:80px;
 }
 
+#jumbotron.jozi-node-js {
+  background: url(../img/jozi.jpg) no-repeat center center;
+  padding-top:80px;
+  padding-bottom:80px;
+}
+
 #jumbotron.events {
-  padding-top:20px;
-  padding-bottom:20px;
+  background: url(../img/map.jpg) no-repeat center center;
+  padding-top:80px;
+  padding-bottom:80px;
 }
 
 #jumbotron.meetups {
-  background: url(../img/banner_io.jpg) no-repeat center center;
-  padding-top:20px;
-  padding-bottom:20px;
+  background: url(../img/meetup_jozi.jpg) no-repeat center center;
+  padding-top:80px;
+  padding-bottom:80px;
 }
 
 #jumbotron.blog {
   background: url(../img/intro-bg.jpg) no-repeat center center;
-  padding-top:20px;
-  padding-bottom:20px;
+  padding-top:80px;
+  padding-bottom:80px;
+}
+
+#jumbotron.devs {
+  background: url(../img/banner_io.jpg) no-repeat center center;
+  padding-top:80px;
+  padding-bottom:80px;
 }
 
 .dl-horizontal dd {

@@ -190,7 +190,7 @@ const AccountController = App.Controller.extend({
       let mailOptions = {
         to: 'qawemlilo@gmail.com',
         subject: 'New NodeZA user has registered',
-        body: 'https://nodeza.co.za/devs/' + model.get('slug');
+        body: 'https://nodeza.co.za/devs/' + model.get('slug')
       };
 
       return mailGun.sendEmail(mailOptions)

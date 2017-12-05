@@ -38,7 +38,7 @@
             class="media-object"
             title=""
             {{#if image_url}}
-              src="/img/320/{{image_url}}"
+              src="/img/120/{{#makeItJpg image_url}}{{/makeItJpg}}"
             {{else}}
               data-src="holder.js/120x120?bg=#dff0d8&fg=#3c763d&text=NodeZA"
             {{/if}}

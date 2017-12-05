@@ -187,6 +187,20 @@ const AccountController = App.Controller.extend({
 
       req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
+      let mailOptions = {
+        to: 'qawemlilo@gmail.com',
+        subject: 'New NodeZA user has registered',
+        body: 'https://nodeza.co.za/devs/' + model.get('slug');
+      };
+
+      return mailGun.sendEmail(mailOptions)
+      .then(function () {
+        console.info('Registration email sent');
+      })
+      .catch(function (error) {
+        console.error('Registration email error: %s', error.message);
+      });
+
       req.logIn(model, function(error) {
         if (error) {
           req.flash('errors', {'msg': 'An error occured, account not created.'});

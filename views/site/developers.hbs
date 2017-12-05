@@ -15,27 +15,27 @@ h3, p {
 <div class="col-sm-9 box-shadow" style="padding-top:10px;padding-bottom:10px">
 
 <h1>Developers</h1>
-<p>The NodeZA platform is an express application that uses handlebars for templating, MySQL as the main application database, Bookshelf.js ORM, and MongoDB for session storage. It has a custom plugin system responsible for displaying content snippets, the plugins are called <code>widgets</code>.  </p>
+<p>The NodeZA platform is an express application that uses handlebars for templating, MySQL as the main application database, Bookshelf.js ORM, and Redis for session storage. It has a custom plugin system responsible for displaying content snippets, the plugins are called <code>widgets</code>.  </p>
 
 <h3>Software Requirements</h3>
 
 <ul>
-	<li>Node.js(with npm) 10.x</li>
+	<li>Node.js v^6.10.0</li>
 	<li>MySQL (Application database)</li>
-	<li>MongoDB (session store)</li>
+	<li>Redis (session store)</li>
 	<li>GraphicsMagick or ImageMagick</li>
 </ul>
 
 <h3>Dependencies</h3>
 
-<p>Some of the major dependencies are <code>express</code>, <code>mysql</code>, <code>knex</code>, <code>bookshelf</code>, and <code>mongoose</code>. Please checkout <a href="https://github.com/qawemlilo/nodeza/blob/master/docs/dependencies.md">the dependencies page</a> for a complete list.</p>
+<p>Some of the major dependencies are <code>express</code>, <code>mysql</code>, <code>knex</code>, <code>bookshelf</code>, and <code>connect-redis</code>. Please checkout <a href="https://github.com/qawemlilo/nodeza/blob/master/docs/dependencies.md">the dependencies page</a> for a complete list.</p>
 
 <h3>Getting started</h3>
 
 <p>Clone this repo to your local machine and install dependencies.</p>
 
 <p><code>
-git clone https://github.com/nodeza/nodeza.git &amp;&amp; 
+git clone https://github.com/nodeza/nodeza.git &amp;&amp;
 cd nodeza &amp;&amp; npm install
 </code></p>
 
@@ -53,7 +53,7 @@ cd nodeza &amp;&amp; npm install
    controllers/
    views/
    widgets/
-   routes.js</code></pre>
+   routes/</code></pre>
 
 <p>The descriptions below are guidelines that have been used in the NodeZA project and should be followed as closely as possible.</p>
 
@@ -100,7 +100,11 @@ npm test
 
 <h3>To-Do</h3>
 
-<ol><li>Create application Admin</li><li>Create company profiles section</li><li>Create Jobs section</li><li>Remove tests against database and use stubs</li><li>Fix UI and graphics</li><li>Create content</li><li>Add newsletter functionality</li><li>Add rss feed</li><li>Add Google SEO configs</li></ol>
+<ol>
+  <li>Create company profiles section</li>
+  <li>Create Jobs section</li>
+  <li>Create content</li>
+</ol>
 
 <h3>Contributing</h3>
 

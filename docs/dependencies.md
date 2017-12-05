@@ -4,7 +4,7 @@
 | ------------------------------- |:-------------:|
 | async                           | Utility library that provides asynchronous control flow. |
 | bcrypt-nodejs                   | Library for hashing and salting user passwords. |
-| connect-mongo                   | MongoDB session store for Express. |
+| connect-redis                   | Redis session store for Express. |
 | express                         | Node.js web framework. |
 | body-parser                     | Express 4.0 middleware. |
 | cookie-parser                   | Express 4.0 middleware. |

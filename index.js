@@ -19,13 +19,7 @@ app.config(_.defaults({
 
   secret: config.site.sessionSecret,
 
-  db: {
-    "client": "sqlite3",
-    "connection": {
-        "filename": "./development.sqlite"
-    },
-    "useNullAsDefault": true
-  },
+  db: config.db,
 
   cache: false,
 

@@ -193,7 +193,7 @@ const AccountController = App.Controller.extend({
         body: 'https://nodeza.co.za/devs/' + model.get('slug')
       };
 
-      return mailGun.sendEmail(mailOptions)
+      mailGun.sendEmail(mailOptions)
       .then(function () {
         console.info('Registration email sent');
       })

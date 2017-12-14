@@ -93,7 +93,7 @@
         "showComments": true
     },
     "meetups": {
-        "meetupsPerPage": 4,
+        "meetupsPerPage": 10,
         "showAuthor": true,
         "showDate": true,
         "showComments": true

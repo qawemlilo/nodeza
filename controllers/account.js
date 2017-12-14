@@ -6,7 +6,7 @@ const mailGun = require('../lib/mailgun');
 const auth = require('../lib/auth');
 const Promise = require('bluebird');
 const crypto = require('crypto');
-const passport = App.passport();
+const passport = App.passport;
 const _ = require('lodash');
 
 
@@ -206,8 +206,6 @@ const AccountController = App.Controller.extend({
           req.flash('errors', {'msg': 'An error occured, account not created.'});
           res.redirect('back');
         }
-
-        App.clearCache();
 
         res.redirect('/admin/account');
       });
@@ -513,7 +511,6 @@ const AccountController = App.Controller.extend({
 
     user.deleteAccount(user.get('id'))
     .then(function () {
-      App.clearCache();
       req.logout();
       res.redirect('/');
     })

@@ -157,7 +157,6 @@ const DashboardController = App.Controller.extend({
       updateTags: tags
     })
     .then(function(model) {
-      App.clearCache();
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/dashboard/posts/edit/' + model.get('id'));
     })
@@ -211,7 +210,6 @@ const DashboardController = App.Controller.extend({
     .then(function (model) {
       return model.save(postData, options)
       .then(function(post) {
-        App.clearCache();
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
       })

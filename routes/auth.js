@@ -2,7 +2,7 @@
 
 const App = require('widget-cms');
 const auth = require('../lib/auth');
-const passport = App.passport();
+const passport = App.passport;
 
 
 function authCallback(req, res) {

@@ -283,7 +283,6 @@ const EventsController = App.Controller.extend({
       }
     })
     .then(function (model) {
-      App.clearCache();
       req.flash('success', { msg: 'Event successfully created!' });
       res.redirect('back');
     })

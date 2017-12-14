@@ -1,11 +1,26 @@
 
 
-{{#extend "navigation"}}
-  {{> navigation}}
+{{#extend "stylesheets"}}
+<style>
+.btn-default.btn-on.active{background-color: #5BB75B;color: white;}
+.btn-default.btn-off.active{background-color: #DA4F49;color: white;}
+
+.btn-default.btn-on-1.active{background-color: #006FFC;color: white;}
+.btn-default.btn-off-1.active{background-color: #DA4F49;color: white;}
+
+.btn-default.btn-on-2.active{background-color: #00D590;color: white;}
+.btn-default.btn-off-2.active{background-color: #A7A7A7;color: white;}
+
+.btn-default.btn-on-3.active{color: #5BB75B;font-weight:bolder;}
+.btn-default.btn-off-3.active{color: #DA4F49;font-weight:bolder;}
+
+.btn-default.btn-on-4.active{background-color: #006FFC;color: #5BB75B;}
+.btn-default.btn-off-4.active{background-color: #DA4F49;color: #DA4F49;}
+</style>
 {{/extend}}
 
-
-<div class="col-sm-12 blog-main">
+{{#extend "editor"}}
+<div class="col-sm-12" style="margin-top:15px;">
 
   {{> flash}}
 
@@ -24,7 +39,7 @@
       <input type="hidden" name="meta_title" value="{{post.meta_title}}" />
 
       <div class="row">
-        <div class="col-sm-5 col-md-5">
+        <div class="col-sm-8 col-md-8">
           <div class="form-group">
             <label class="control-label" for="title">
               Title <span class="text-danger">*</span>
@@ -32,7 +47,36 @@
 
             <input class="form-control" type="text" name="title" id="title" value="{{post.title}}" />
           </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <div class="form-group">
+            <label class="control-label" for="title">&nbsp;</label>
 
+            <div style="text-align:right">
+              <button class="btn btn-success" type="submit">
+                <span class="glyphicon glyphicon-ok"></span> Update
+              </button>
+              <a href="/admin/blog" class="btn btn-default">
+                  <span class="glyphicon glyphicon-remove"></span> Close
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-8 col-md-8">
+          <div class="form-group">
+            <label class="control-label" for="markdown">
+              Post <span class="text-danger">*</span>
+            </label>
+
+            <div id="epiceditor" style="height: 520px; padding: 0px;" class="form-control">
+              <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
           <div class="form-group">
             <label class="control-label" for="category">
               Category <span class="text-danger">*</span>
@@ -55,7 +99,7 @@
             <input class="form-control" type="text" name="meta_description" id="meta_description" value="{{post.meta_description}}" required="" />
           </div>
 
-          <!--
+
           <div class="form-group">
             <input type='file' id="image_url" name="image_url" />
 
@@ -66,51 +110,38 @@
               <img id="imagepreview" src="#" style="display:none; width: 120px; height: 120px" />
             {{/if}}
           </div>
-          -->
 
-          <div class="form-group">
-            <div class="checkbox-inline">
-              <label>
-                <input type="checkbox" name="published" {{#if post.published}}checked="true"{{/if}} > Published
-              </label>
-            </div>
-            <div class="checkbox-inline">
-              <label>
-                <input type="checkbox" name="featured" {{#if post.featured}}checked="true"{{/if}}> Featured
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-7 col-md-7">
-          <div class="form-group">
-            <label class="control-label" for="markdown">
-              Post <span class="text-danger">*</span>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="control-label" for="published">
+             Published
             </label>
+            <br>
+            <label class="btn btn-default btn-on {{#if post.published}}active{{/if}}">
+            <input type="radio" value="1" name="published" {{#if post.published}}checked="checked"{{/if}}>Yes</label>
+            <label class="btn btn-default btn-off {{#if post.published}} {{else}}active{{/if}}">
+            <input type="radio" value="0" name="published" {{#if post.published}} {{else}}checked="checked"{{/if}}>No</label>
+          </div>
 
-            <div id="epiceditor" style="height: 520px; padding: 0px;" class="form-control">
-              <textarea style="display:none" class="form-control" rows="15" name="markdown" id="markdown" required="">{{post.markdown}}</textarea>
-            </div>
+          <div class="clearfix"></div><br>
+
+          <div class="clearfix btn-group" data-toggle="buttons">
+            <label class="control-label" for="featured">
+             Featured
+            </label>
+            <br>
+            <label class="btn btn-default btn-on {{#if post.featured}}active{{/if}}">
+            <input type="radio" value="1" name="published" {{#if post.featured}}checked="checked"{{/if}}>Yes</label>
+            <label class="btn btn-default btn-off {{#if post.featured}} {{else}}active{{/if}}">
+            <input type="radio" value="0" name="featured" {{#if post.featured}} {{else}}checked="checked"{{/if}}>No</label>
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-12">
-          <div class="form-group">
-            <div class="pull-right">
-              <button class="btn btn-success" type="submit">
-                <span class="glyphicon glyphicon-ok"></span> Update Post
-              </button>
-              <a href="/admin/blog" class="btn btn-default">
-                  <span class="glyphicon glyphicon-remove"></span> Close
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
     </form>
     </div>
   </div>
 </div>
+{{/extend}}
 
 
 {{#extend "footer"}}

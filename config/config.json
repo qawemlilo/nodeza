@@ -1,21 +1,21 @@
 {
     "site": {
         "siteName": "NodeZA",
-        "title": "Welcome to NodeZA, a Node.js information portal for developers in South Africa",
-        "description": "NodeZA is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa",
+        "title": "Welcome to NodeZA, a Node.js information portal for developers in South Africa.",
+        "description": "NodeZA is a platform that aims to make it easy to find information about Node.js, learn, and connect with other Node users in South Africa.",
         "keywords": "node, node.js, events, tutorials, jobs, companies, news, south africa, meetups",
+        "twitter_url": "http://twitter.com/nodeza",
+        "github_url": "http://github.com/nodeza",
+        "port": "3080",
+        "maxAge": "7",
+        "rssLimit": "10",
+        "email": "info@nodeza.co.za",
         "baseUrl": "",
-        "cache": true,
-        "maxAge": 7,
         "activateCSRF": true,
         "csrfWhitelist": [
             "/this-url-will-bypass-csrf"
         ],
-        "port": 3080,
-        "sessionSecret": "secret_1476389762324",
-        "twitter_url": "http://twitter.com/nodeza",
-        "github_url": "http://github.com/nodeza",
-        "email": "info@nodeza.co.za"
+        "sessionSecret": "secret_1476389762324"
     },
     "db": {
         "production": {

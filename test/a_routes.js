@@ -17,7 +17,7 @@ describe('Routes', function(){
 
       secret: config.site.sessionSecret,
 
-      db: config.db,
+      db: config.db['test'],
 
       cache: false,
 

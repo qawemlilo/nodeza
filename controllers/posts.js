@@ -8,6 +8,7 @@ const Category = App.getModel('Category');
 const moment = require('moment');
 const path =  require('path');
 const _ = require('lodash');
+const gulpfile = require('../lib/process-images');
 
 
 function processTags(tags) {
@@ -93,10 +94,9 @@ const PostsController = App.Controller.extend({
 
     categories.fetch()
     .then(function (cats) {
-      Post.forge({id: id})
+      return Post.forge({id: id})
       .fetch({withRelated: ['tags']})
       .then(function (post) {
-
         res.render('posts/edit', {
           page: 'postedit',
           title: 'Post edit',
@@ -104,10 +104,6 @@ const PostsController = App.Controller.extend({
           categories: cats.toJSON(),
           post: post.toJSON()
         });
-      })
-      .catch(function (error) {
-        req.flash('errors', {'msg': error.message});
-        next(error);
       });
     })
     .catch(function (error) {
@@ -307,6 +303,15 @@ const PostsController = App.Controller.extend({
       featured: !!req.body.featured
     };
 
+
+    if (req.files && req.files.length) {
+      postData.image_url = req.files[0].filename;
+
+      setTimeout(function () {
+        gulpfile('public/uploads/' + postData.image_url);
+      }, 100);
+    }
+
     let tags = processTags(req.body.tags);
 
     post.save(postData, {
@@ -316,7 +321,6 @@ const PostsController = App.Controller.extend({
       updateTags: tags
     })
     .then(function(model) {
-      App.clearCache();
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/blog/edit/' + model.get('id'));
     })
@@ -354,6 +358,14 @@ const PostsController = App.Controller.extend({
       featured: !!req.body.featured
     };
 
+    if (req.files && req.files.length) {
+      postData.image_url = req.files[0].filename;
+
+      setTimeout(function () {
+        gulpfile('public/uploads/' + postData.image_url);
+      }, 100);
+    }
+
     let options = {method: 'update'};
     let post = new Post({id: postData.id});
 
@@ -368,15 +380,10 @@ const PostsController = App.Controller.extend({
 
     post.fetch()
     .then(function (model) {
-      model.save(postData, options)
+      return model.save(postData, options)
       .then(function(post) {
-        App.clearCache();
         req.flash('success', { msg: 'Post successfully updated.' });
         res.redirect('back');
-      })
-      .catch(function (error) {
-        req.flash('error', {msg: error.message});
-        next(error);
       });
     })
     .catch(function (error) {
@@ -397,7 +404,6 @@ const PostsController = App.Controller.extend({
 
     post.remove(req.params.id)
     .then(function () {
-      App.clearCache();
       req.flash('success', {msg: 'Post successfully deleted.'});
       res.redirect('back');
     })

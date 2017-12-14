@@ -13,8 +13,6 @@ const widgetLoader = require('widget-loader');
 const widgetsDir = path.join(process.cwd(), 'widgets');
 const env = process.env.NODE_ENV || 'development';
 
-// test comment
-
 
 app.config(_.defaults({
 

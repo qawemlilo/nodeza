@@ -4,9 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 exports.up = function(knex, Promise) {
-  let sql = fs.readFileSync('db/data/nodeza.sql').toString();
+  //let sql = fs.readFileSync('db/data/nodeza.sql').toString();
 
-  return knex.raw(sql);
+  //return knex.raw(sql);
+  return Promise.resolve('Cannot drop the entire database');
 };
 
 exports.down = function(knex, Promise) {

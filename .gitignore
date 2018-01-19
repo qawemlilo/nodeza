@@ -9,14 +9,15 @@
 *.docx
 *.log
 *.pem
+*.DS_Store
 *.secret
 Procfile~
 *~
 *.gitignore~
 *.secret
-*.sql
 *.sqlite
 node_modules/
+bower_modules/
 build/
 temp/
 public/img/120/
@@ -28,3 +29,5 @@ public/uploads/
 .env.testing.js
 .env.js
 ecosystem.config.js
+_migrations
+_schemas

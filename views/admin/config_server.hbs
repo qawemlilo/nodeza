@@ -33,12 +33,12 @@
       </a>
     </li>
   </ul>
-  
+
   <div class="panel panel-default">
     <div class="panel-heading">
       <span class="glyphicon glyphicon-tasks"></span> MySQL
     </div>
-    
+
     <div class="panel-body">
       <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
         <input type="hidden" name="_csrf" value="{{_csrf}}" />
@@ -50,63 +50,34 @@
               <input class="form-control" type="text" name="host" id="host"   placeholder="e.g localhost" value="{{mysql.host}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label class="col-sm-3 control-label" for="database">Database Name</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" name="database" id="database"   placeholder="clientSecret" value="{{mysql.database}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label class="col-sm-3 control-label" for="user">Database User</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" name="user" id="user" value="{{mysql.user}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label class="col-sm-3 control-label" for="password">Password</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" name="password" id="password" value="{{mysql.password}}" />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label class="col-sm-3 control-label" for="charset">Charset</label>
             <div class="col-sm-7">
               <input class="form-control" type="text" name="charset" id="charset" value="{{mysql.charset}}" />
             </div>
           </div>
-    
-          <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-7">
-              <button class="btn btn-success" type="submit">
-                <i class="fa fa-check"></i> Update
-              </button>
-            </div>
-          </div>
-      </form>
-    </div>
-  </div>
-
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <span class="glyphicon glyphicon-hdd"></span> MongoDB
-    </div>
-    
-    <div class="panel-body">
-      <form class="form-horizontal" id="signup-form" action="/admin/config" method="POST">
-        <input type="hidden" name="_csrf" value="{{_csrf}}" />
-        <input type="hidden" name="id" value="mongodb" />
-
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="mongodb">Database Url</label>
-            <div class="col-sm-7">
-              <input class="form-control" type="text" name="url" id="url" value="{{mongodb.url}}" />
-            </div>
-          </div>
 
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-7">
@@ -118,6 +89,7 @@
       </form>
     </div>
   </div>
+
 </div>
 
 {{#extend "footer"}}

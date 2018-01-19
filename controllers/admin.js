@@ -54,17 +54,6 @@ const AdminController = App.Controller.extend({
   },
 
 
-  getServerConfig: function (req, res) {
-    res.render('admin/config_server', {
-      title: 'Global Config',
-      description: 'Global Config',
-      mysql: App.getConfig('mysql'),
-      mongodb: App.getConfig('mongodb'),
-      page: 'serverconfig'
-    });
-  },
-
-
   getAccountConfig: function (req, res) {
     res.render('admin/config_account', {
       title: 'Account Config',

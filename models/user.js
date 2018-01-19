@@ -142,17 +142,19 @@ const User = App.Model.extend({
 
     return user.fetch({withRelated: ['tokens'], require: true})
     .then(function (model) {
+
       let tokens = model.related('tokens');
 
       if (tokens.length > 0) {
-        model.tokens().detach();
-
-        return model.destroy();
+        return tokens.invokeThen('destroy')
+        .then(function () {
+          return model.destroy();
+        });
       }
       else {
         return model.destroy();
       }
-    });
+    })
   },
 
 

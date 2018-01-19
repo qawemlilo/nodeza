@@ -43,7 +43,8 @@ module.exports = {
         database: env_vars.MYSQL_DATABASE,
         user: env_vars.MYSQL_USER,
         password: env_vars.MYSQL_PASSWORD,
-        charset: env_vars.MYSQL_CHARSET || "utf8"
+        charset: env_vars.MYSQL_CHARSET || "utf8",
+        multipleStatements: true
       },
       useNullAsDefault: true
     },

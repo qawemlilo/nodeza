@@ -13,7 +13,6 @@ const widgetLoader = require('widget-loader');
 const widgetsDir = path.join(process.cwd(), 'widgets');
 const env = process.env.NODE_ENV || 'development';
 
-// hjj
 
 app.config(_.defaults({
 

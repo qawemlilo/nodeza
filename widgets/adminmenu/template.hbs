@@ -1,9 +1,9 @@
 
 
+<div style="text-align:center;margin-bottom:20px;">
+  <img src="{{#gravatar user.email '300'}}{{/gravatar}}" class="img-circle" style="margin:0px;line-height:0;width:70%">
+</div>
 <div class="panel panel-success">
-  <div class="panel-heading">
-    <img src="{{#gravatar user.email '24'}}{{/gravatar}}" class="img-circle" style="margin:0px;line-height:0;"> {{user.name}}
-  </div>
   <ul class="list-group">
     <li class="list-group-item {{#activeAdminMenu 'account' page}}{{/activeAdminMenu}}">
       <span class="glyphicon glyphicon-user"></span> <a href="/admin/account">Account</a>

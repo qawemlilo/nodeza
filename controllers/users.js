@@ -47,7 +47,7 @@ async function sendMessage(from, to, message, host) {
         `<a href="https://${host}/admin/messages/${conversation.get('id')}">View your message</a>`
     };
 
-    //let sentMessage = await mailGun.sendEmail(mailOptions);
+    let sentMessage = await mailGun.sendEmail(mailOptions);
 
     return sentMessage;
   }

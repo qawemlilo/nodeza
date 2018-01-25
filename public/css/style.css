@@ -28,6 +28,10 @@ h1, .h1 {
   margin-left: 0px;
 }
 
+.badge {
+  background-color:#d9534f
+}
+
 a, a.text-primary, .navbar-default .navbar-nav>li>a, .dropdown-menu>li>a, .pagination>li>a, .pagination>li>span {
   color: #3c763d;
 }

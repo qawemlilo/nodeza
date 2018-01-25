@@ -1,0 +1,49 @@
+
+
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+
+{{> leftsidebar}}
+
+<div class="col-sm-9 blog-main">
+
+  <div class="container-fluid">
+    <div class="row" style="margin-top:5px;">
+      {{#ifCond conversations.length '===' 0}}
+         <div class="col-sm-12" style="text-align:center">
+           <span class="glyphicon glyphicon-envelope" style="display:block;font-size:60px;opacity:0.2;margin-top:100px;"></span>
+           Your message inbox is empty.
+         </div>
+      {{/ifCond}}
+
+      <div class="list-group">
+
+        {{#each conversations}}
+        <a href="/admin/messages/{{id}}" class="list-group-item">
+
+          <span class="badge">{{#countUnread messages ../user.id}}{{/countUnread}}</span>
+
+          <h4 class="list-group-item-heading">
+            {{#ifCond ../user.id '===' from.id}}
+               <img src="{{#gravatar to.email '24'}}{{/gravatar}}" class="img-circle" alt="{{to.name}}" title="Read all messages"> {{to.name}} <small>{{#lastMessageDate messages}}{{/lastMessageDate}}</small>
+            {{else}}
+              <img src="{{#gravatar from.email '24'}}{{/gravatar}}" class="img-circle" alt="{{from.name}}" title="Read all messages"> {{from.name}} <small>{{#parseDate created_at 'MMM D, YYYY'}}{{/parseDate}}</small>
+            {{/ifCond}}
+          </h4>
+          <p>{{#lastMessage messages}}{{/lastMessage}}</p>
+        </a>
+        {{/each}}
+     </div>
+
+     {{> pagination}}
+     
+   </div>
+  </div>
+</div>
+
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

@@ -22,15 +22,21 @@
       {{#if user}}
         <li class="{{#activeMenu 'admin' page}}{{/activeMenu}}">
           <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="{{#gravatar user.email '14'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle" style="margin:0px;line-height:0;"> {{user.name}}
+            <img src="{{#gravatar user.email '14'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle" style="margin:0px;line-height:0;">
+            {{user.name}}
+            {{#if user.unreadmessages.length}}<sup class="text-danger">{{user.unreadmessages.length}}</sup>{{/if}}
             <span class="caret"></span>
+
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="/admin/account">Account</a>
+              <a href="/admin/account">My Account</a>
             </li>
             <li>
-              <a href="/admin/account/password">Change password</a>
+              <a href="/admin/messages">
+                Messages
+                {{#if user.unreadmessages.length}}<span class="badge badge-danger">{{user.unreadmessages.length}}</span>{{/if}}
+              </a>
             </li>
 
             {{#ifCond user.role.name '==' 'Super Administrator'}}

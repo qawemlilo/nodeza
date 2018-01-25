@@ -5,11 +5,11 @@
 </div>
 <div class="panel panel-success">
   <ul class="list-group">
-    <li class="list-group-item {{#activeAdminMenu 'account' page}}{{/activeAdminMenu}}">
-      <span class="glyphicon glyphicon-user"></span> <a href="/admin/account">Account</a>
+    <li class="list-group-item {{#activeAdminMenu 'account' page}}{{/activeAdminMenu}}{{#activeAdminMenu 'password' page}}{{/activeAdminMenu}}">
+      <span class="glyphicon glyphicon-user"></span> <a href="/admin/account">My Account</a>
     </li>
-    <li class="list-group-item {{#activeAdminMenu 'password' page}}{{/activeAdminMenu}}">
-      <span class="fa fa-keyboard-o"></span> <a href="/admin/account/password">Change password</a>
+    <li class="list-group-item {{#activeAdminMenu 'messages' page}}{{/activeAdminMenu}}">
+      <span class="fa fa-envelope"></span> <a href="/admin/messages">Messages </a> {{#if user.unreadmessages.length}}<span class="badge badge-danger">{{user.unreadmessages.length}}</span>{{/if}}
     </li>
     {{#ifCond user.role.name '==' 'Super Administrator'}}
     <li class="list-group-item {{#activeAdminMenu 'events' page}}{{/activeAdminMenu}}">

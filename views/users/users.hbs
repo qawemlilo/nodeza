@@ -11,6 +11,40 @@
 
   {{> flash}}
 
+  <div class="modal fade" id="contactform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Send message to all users</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" action="/contact/all" method="POST">
+            <input type="hidden" name="_csrf" value="{{_csrf}}" />
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="message">
+                Message:
+              </label>
+              <div class="col-sm-10">
+                <textarea class="form-control" rows="8" name="message" id="message" required=""></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-success" type="submit">
+                  <span class="glyphicon glyphicon-check"></span> Send
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <ul class="nav nav-tabs" style="margin-bottom: 20px;">
     <li class="active">
       <a href="/admin/users">
@@ -22,6 +56,10 @@
         <span class="glyphicon glyphicon-lock"></span> Roles
       </a>
     </li>
+    <button class="btn btn-success pull-right" style="margin-left: 5px;" data-toggle="modal" data-target="#contactform">
+      <i class="fa fa-envelope"></i> Send Message
+    </button>
+
     <a role="button" href="/users/new" class="btn btn-danger pull-right">
       <span class="glyphicon glyphicon-user"></span> New User
     </a>
@@ -55,7 +93,7 @@
             </th>
           </tr>
         </thead>
-  
+
         <tbody>
           {{#each users}}
             <tr>
@@ -77,17 +115,17 @@
               <td style="text-align:center">
                 <a href="/loginas/{{id}}" title="Login As">
                   <span class="fa fa-unlock-alt"></span>
-                </a> 
+                </a>
               </td>
               <td style="text-align:center">
                 <a href="/users/edit/{{id}}" title="Edit">
                   <span class="glyphicon glyphicon-pencil"></span>
-                </a> 
+                </a>
               </td>
               <td style="text-align:center">
                 <a href="/users/delete/{{id}}" onclick="return confirm('Are you sure you want to delete that post?')" class="text-danger delete-post" title="Delete">
-                  <span class="glyphicon glyphicon-trash"></span> 
-                </a> 
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
               </td>
               <td style="text-align:center">
                 {{views}}
@@ -97,9 +135,9 @@
         </tbody>
       </table>
     </div>
-  
+
     {{> pagination}}
-  
+
   </div>
 </div>
 

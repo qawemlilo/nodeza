@@ -213,7 +213,6 @@ const EventsController = App.Controller.extend({
 
     events.fetchBy('dt', opts)
     .then(function (collection) {
-      console.log(collection.toJSON())
       res.render('events/admin', {
         title: 'Events',
         pagination: events.pages,

@@ -193,6 +193,11 @@ const User = App.Model.extend({
     let views = this.get('views') || 0;
 
     return this.save({'views': views + 1}, {patch: true});
+  },
+
+
+  unreadmessages: function () {
+    return this.hasMany('Message','to_id').query('where', 'read', '=', 0);
   }
 });
 

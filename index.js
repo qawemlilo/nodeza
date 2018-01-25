@@ -33,7 +33,7 @@ app.config(_.defaults({
 
   middleware: {
     enableForms: true,
-    enableCSRF: false,
+    enableCSRF: true,
     inputValidation: true,
     enableSessions: true
   }

@@ -1,0 +1,122 @@
+
+
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+{{#extend "stylesheets"}}
+<style>
+
+.message {
+    border: 1px solid #e5e5e5;
+    background-color: #fefefe;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Darker chat container */
+.darker {
+  border: 1px solid #e5e5e5;
+  background-color: #f9f9f9;
+}
+
+/* Clear floats */
+.message::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Style images */
+.message img {
+    float: left;
+    margin-right: 10px;
+}
+
+/* Style the right image */
+.message img.right {
+    float: right;
+    margin-left: 10px;
+    margin-right:0;
+}
+
+/* Style time text */
+.time-right {
+    float: right;
+    color: #aaa;
+    font-size: .8em
+}
+
+/* Style time text */
+.time-left {
+    float: left;
+    color: #999;
+    font-size: .8em
+}
+
+.msg-left {
+  margin-right: 30px;
+}
+
+.msg-right {
+  margin-left: 30px;
+}
+</style>
+{{/extend}}
+
+
+{{> leftsidebar}}
+
+<div class="col-sm-9 blog-main">
+  <ol class="breadcrumb">
+    <li><a href="/admin/messages">Messages</a></li>
+    <li class="active">Inbox</li>
+  </ol>
+  <div class="container-fluid">
+    <div class="row" id="messages-container" style="margin-top:5px;height:500px;overflow-y:auto;">
+      {{#each messages}}
+        {{#ifCond ../user.id '===' from.id}}
+        <div class="message msg-right">
+          <img src="{{#gravatar from.email '48'}}{{/gravatar}}" class="right img-circle" />
+          {{{html}}}
+          <span class="time-left">{{#parseDate created_at 'HH:MM MMM D, YYYY'}}{{/parseDate}}</span>
+        </div>
+        {{else}}
+        <div class="message darker msg-left">
+          <img src="{{#gravatar from.email '48'}}{{/gravatar}}" class="img-circle" />
+          <h4><a href="/devs/{{from.slug}}">{{from.name}}</a></h4>
+          {{{html}}}
+          <span class="time-right">{{#parseDate created_at 'HH:MM MMM D, YYYY'}}{{/parseDate}}</span>
+        </div>
+        {{/ifCond}}
+
+      {{/each}}
+   </div>
+   <div class="row" style="margin-top:10px;">
+     <form action="/contact" method="POST">
+       <input type="hidden" name="_csrf" value="{{_csrf}}" />
+       <input type="hidden" name="to" value="{{#ifCond user.id '===' conversation.from_id}}{{conversation.to_id}}{{else}}{{conversation.from_id}}{{/ifCond}}" />
+       <input type="hidden" name="conversation_id" value="{{conversation.id}}" />
+       <div class="form-group">
+         <textarea class="form-control" rows="2" name="message" id="message" required="" onfocus="this.rows=4" placeholder="Write your message..."></textarea>
+       </div>
+       <button type="submit" class="btn btn-success pull-right">Send</button>
+     </form>
+  </div>
+</div>
+</div>
+
+{{#extend "scripts"}}
+<script>
+  (function ($) {
+    $("html, body").animate({ scrollTop: $(document).height()-$(window).height() });
+    $("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")});
+  })(jQuery);
+</script>
+
+{{/extend}}
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

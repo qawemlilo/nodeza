@@ -20,7 +20,9 @@
     "/admin/settings",
     "/admin/settings/server",
     "/admin/settings/account",
-    "/admin/menus"
+    "/admin/menus",
+    "/admin/messages",
+    "/admin/messages/:any"
   ],
   "description": "Admin Menu",
   "author": "Qawelesizwe Mlilo",

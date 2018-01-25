@@ -29,7 +29,7 @@
             {{#ifCond ../user.id '===' from.id}}
                <img src="{{#gravatar to.email '24'}}{{/gravatar}}" class="img-circle" alt="{{to.name}}" title="Read all messages"> {{to.name}} <small>{{#lastMessageDate messages}}{{/lastMessageDate}}</small>
             {{else}}
-              <img src="{{#gravatar from.email '24'}}{{/gravatar}}" class="img-circle" alt="{{from.name}}" title="Read all messages"> {{from.name}} <small>{{#parseDate created_at 'MMM D, YYYY'}}{{/parseDate}}</small>
+              <img src="{{#gravatar from.email '24'}}{{/gravatar}}" class="img-circle" alt="{{from.name}}" title="Read all messages"> {{from.name}} <small>{{#lastMessageDate messages}}{{/lastMessageDate}}</small>
             {{/ifCond}}
           </h4>
           <p>{{#lastMessage messages}}{{/lastMessage}}</p>

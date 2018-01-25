@@ -47,9 +47,9 @@ async function sendMessage(from, to, message, host) {
         `<a href="https://${host}/admin/messages/${conversation.get('id')}">View your message</a>`
     };
 
-    //let sentMessage = await mailGun.sendEmail(mailOptions);
+    let sentMessage = await mailGun.sendEmail(mailOptions);
 
-    return 'sentMessage';
+    return sentMessage;
   }
   catch (e) {
     console.error(e);
@@ -163,7 +163,7 @@ const MessagesController = App.Controller.extend({
           `<a href="https://${req.headers.host}/admin/messages/${conversation.get('id')}">View your message</a>`
       };
 
-      //let sentMessage = await mailGun.sendEmail(mailOptions);
+      let sentMessage = await mailGun.sendEmail(mailOptions);
 
       if (req.body.conversation_id) {
         return res.redirect('back');

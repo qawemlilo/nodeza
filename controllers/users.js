@@ -47,7 +47,7 @@ async function sendMessage(from, to, message, host) {
         `<a href="https://${host}/admin/messages/${conversation.get('id')}">View your message</a>`
     };
 
-    let sentMessage = await mailGun.sendEmail(mailOptions);
+    //let sentMessage = await mailGun.sendEmail(mailOptions);
 
     return sentMessage;
   }
@@ -332,18 +332,15 @@ const UsersController = App.Controller.extend({
 
     try {
       let conversations = await Conversations.forge()
-      .fetchBy('id', {
-        page: 1,
-        limit: 10,
-        where: ['from_id', '=', req.user.get('id')],
-        orWhere: ['to_id', '=', req.user.get('id')]
-      },
-      {
-        withRelated: [
-          'from',
-          'to',
-          { messages: function(query) { query.orderBy('created_at','desc'); }}
-        ]
+      .query(function(qb) {
+        qb.where('from_id', '=', req.user.get('id')).orWhere('to_id', '=', req.user.get('id'));
+      })
+      .fetch({
+         withRelated: [
+           'from',
+           'to',
+           { messages: function(query) { query.orderBy('created_at','desc'); }}
+         ] // Passed to Model#fetchAll
       });
 
       res.render('users/messages', {

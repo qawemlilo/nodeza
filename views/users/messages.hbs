@@ -36,6 +36,14 @@
         </a>
         {{/each}}
      </div>
+
+     {{#if pagination.pageCount}}
+     <div class="row" style="text-align: center">
+       <ul class="pagination">
+         {{#paginator pagination}}{{/paginator}}
+       </ul>
+     </div>
+     {{/if}}
    </div>
   </div>
 </div>

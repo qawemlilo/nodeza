@@ -2,6 +2,7 @@
 
 const App = require('widget-cms');
 const UsersController = App.getController('Users');
+const MessagesController = App.getController('Messages');
 const auth = require('../lib/auth');
 
 
@@ -13,7 +14,7 @@ App.post('/users/edit', auth.isUserAdmin, UsersController.postEditUser);
 App.get('/users/delete/:id', auth.isAuthenticated, UsersController.getDeleteUser);
 App.get('/devs/:slug', auth.isAuthenticated, UsersController.getProfile);
 App.get('/devs', auth.isAuthenticated, UsersController.getDevs);
-App.get('/admin/messages', auth.isAuthenticated, UsersController.getConversations);
-App.get('/admin/messages/:id', auth.isAuthenticated, UsersController.getConversation);
-App.post('/contact', auth.isAuthenticated, UsersController.postContact);
-App.post('/contact/all', auth.isUserAdmin, UsersController.postContactToAll);
+App.get('/admin/messages', auth.isAuthenticated, MessagesController.getConversations);
+App.get('/admin/messages/:id', auth.isAuthenticated, MessagesController.getConversation);
+App.post('/contact', auth.isAuthenticated, MessagesController.postMessage);
+App.post('/contact/all', auth.isUserAdmin, MessagesController.postMessageToAll);

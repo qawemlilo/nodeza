@@ -70,7 +70,7 @@ const MessagesController = App.Controller.extend({
     try {
       let conversations = await Conversation.forge()
       .query(function(qb) {
-        qb.where('from_id', '=', req.user.get('id')).orWhere('to_id', '=', req.user.get('id')).orderBy('created_at','asc');
+        qb.where('from_id', '=', req.user.get('id')).orWhere('to_id', '=', req.user.get('id')).orderBy('id','asc');
       })
       .fetchPage({
         pageSize: 10,
@@ -78,7 +78,7 @@ const MessagesController = App.Controller.extend({
         withRelated: [
           'from',
           'to',
-          { messages: function(query) { query.orderBy('created_at','desc'); }}
+          'messages'
         ]
       });
 

@@ -49,6 +49,8 @@ async function sendMessage(from, to, message, host) {
 
     let sentMessage = await mailGun.sendEmail(mailOptions);
 
+    conversation = await conversation.save({updated_at: new Date()});
+
     return sentMessage;
   }
   catch (e) {
@@ -70,16 +72,22 @@ const MessagesController = App.Controller.extend({
     try {
       let conversations = await Conversation.forge()
       .query(function(qb) {
-        qb.where('from_id', '=', req.user.get('id')).orWhere('to_id', '=', req.user.get('id')).orderBy('id','asc');
+        qb.where('from_id', '=', req.user.get('id'))
+        .orWhere('to_id', '=', req.user.get('id'));
       })
+      .orderBy('updated_at', 'desc')
       .fetchPage({
-        pageSize: 10,
-        page: req.query.p || 1,
-        withRelated: [
-          'from',
-          'to',
-          'messages'
-        ]
+         pageSize: 10,
+         page: req.query.p || 1,
+         withRelated: [
+           'from',
+           'to',
+           {
+             messages: function(query) {
+               return query.orderBy('created_at','desc');
+             }
+           }
+         ]
       });
 
       let pagination = conversations.pagination;
@@ -88,8 +96,8 @@ const MessagesController = App.Controller.extend({
 
       res.render('users/messages', {
         title: 'Mesaages',
-        pagination: pagination,
         conversations: conversations.toJSON(),
+        pagination: pagination,
         description: 'Mesaages',
         page: 'messages',
         query: {}
@@ -164,6 +172,8 @@ const MessagesController = App.Controller.extend({
       };
 
       let sentMessage = await mailGun.sendEmail(mailOptions);
+
+      await conversation.save({updated_at: new Date()});
 
       if (req.body.conversation_id) {
         return res.redirect('back');

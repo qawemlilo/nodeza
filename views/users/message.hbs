@@ -80,14 +80,14 @@
         <div class="message msg-right">
           <img src="{{#gravatar from.email '48'}}{{/gravatar}}" class="right img-circle" />
           {{{html}}}
-          <span class="time-left">{{#parseDate created_at 'HH:MM MMM D, YYYY'}}{{/parseDate}}</span>
+          <span class="time-left">{{#parseDate created_at 'HH:mm MMM D, YYYY'}}{{/parseDate}}</span>
         </div>
         {{else}}
         <div class="message darker msg-left">
           <img src="{{#gravatar from.email '48'}}{{/gravatar}}" class="img-circle" />
           <h4><a href="/devs/{{from.slug}}">{{from.name}}</a></h4>
           {{{html}}}
-          <span class="time-right">{{#parseDate created_at 'HH:MM MMM D, YYYY'}}{{/parseDate}}</span>
+          <span class="time-right">{{#parseDate created_at 'HH:mm MMM D, YYYY'}}{{/parseDate}}</span>
         </div>
         {{/ifCond}}
 

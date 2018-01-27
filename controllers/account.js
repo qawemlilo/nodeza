@@ -193,7 +193,8 @@ const AccountController = App.Controller.extend({
       let mailOptions = {
         to: 'qawemlilo@gmail.com',
         subject: 'New NodeZA user has registered',
-        body: 'https://nodeza.co.za/devs/' + model.get('slug')
+        body: 'https://nodeza.co.za/devs/' + model.get('slug'),
+        user_id: 1
       };
 
       mailGun.sendEmail(mailOptions)
@@ -285,7 +286,8 @@ const AccountController = App.Controller.extend({
       return mailGun.sendEmail({
         to: userModel.get('email'),
         subject: 'Your NodeZA password has been changed',
-        body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.'
+        body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.',
+        user_id: userModel.get('id')
       });
     })
     .then(function (mailRes) {
@@ -359,7 +361,8 @@ const AccountController = App.Controller.extend({
           'You are receiving this email because you (or someone else) have requested the reset of the password for your account.<br>' +
           'Please click on the following link, or paste this into your browser to complete the process:<br><br>' +
           'http://' + req.headers.host + '/reset/' + userModel.get('resetPasswordToken') + '<br><br>' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.'
+          'If you did not request this, please ignore this email and your password will remain unchanged.',
+        user_id: userModel.get('id')
       };
 
       return mailGun.sendEmail(mailOptions);

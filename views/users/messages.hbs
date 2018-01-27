@@ -11,6 +11,23 @@
 
   <div class="container-fluid">
     <div class="row" style="margin-top:5px;">
+      <h1>Messages</h1>
+      <div style="margin-bottom:10px;" class="breadcrumb">
+        Do you want to receive email notifications?
+
+        <div class="btn-group" role="group" aria-label="...">
+          {{#if user.subscribed}}
+            <a href="/users/subscribe/link" class="btn btn-primary btn-sm">Yes</a>
+            <a href="/users/unsubscribe/link" class="btn btn-default btn-sm">No</a>
+          {{else}}
+            <a href="/users/subscribe/link" class="btn btn-default btn-sm">Yes</a>
+            <a href="/users/unsubscribe/link" class="btn btn-danger btn-sm">No</a>
+          {{/if}}
+        </div>
+
+
+      </div>
+
       {{#ifCond conversations.length '===' 0}}
          <div class="col-sm-12" style="text-align:center">
            <span class="glyphicon glyphicon-envelope" style="display:block;font-size:60px;opacity:0.2;margin-top:100px;"></span>

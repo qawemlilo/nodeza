@@ -18,3 +18,7 @@ App.get('/admin/messages', auth.isAuthenticated, MessagesController.getConversat
 App.get('/admin/messages/:id', auth.isAuthenticated, MessagesController.getConversation);
 App.post('/contact', auth.isAuthenticated, MessagesController.postMessage);
 App.post('/contact/all', auth.isUserAdmin, MessagesController.postMessageToAll);
+App.get('/users/unsubscribe/:id', UsersController.getUnsubscribe);
+App.post('/users/unsubscribe', UsersController.postUnsubscribe);
+App.get('/users/subscribe/link', auth.isAuthenticated, UsersController.getSubscribeLink);
+App.get('/users/unsubscribe/link', auth.isAuthenticated, UsersController.getUnsubscribeLink);

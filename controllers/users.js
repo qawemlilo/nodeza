@@ -2,7 +2,7 @@
 "use strict";
 
 const App = require('widget-cms');
-const mailGun = require('../lib/mailgun');
+const utils = require('../lib/utils');
 
 
 const UsersController = App.Controller.extend({
@@ -253,6 +253,64 @@ const UsersController = App.Controller.extend({
       req.flash('error', { msg: error.message });
       next(error);
     }
+  },
+
+
+  getUnsubscribe: async function (req, res) {
+    let User = App.getModel('User');
+    let user = await User.forge({id: req.params.id}).fetch();
+
+    if (!user) {
+      req.flash('errors', {msg: 'Record does not exist.'});
+      return res.redirect('/register');
+    }
+
+    res.render('users/unsubscribe', {
+      title: 'Unsubscribe',
+      email: user.get('email'),
+      title: 'Unsubscribe',
+      description: 'Unsubscribe',
+      page: 'unsubscribe'
+    });
+  },
+
+
+  postUnsubscribe: async function (req, res) {
+    req.assert('email', 'Email is not valid').isEmail();
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+
+    let User = App.getModel('User');
+    let user = await User.forge({email: req.body.email}).fetch();
+
+    if (user) {
+      await user.save({subscribed: 0});
+      req.flash('success', {msg: 'You have been unsubscribed from all our emails.'});
+    }
+    else {
+      req.flash('errors', {msg: 'Your email does not exist in our database'});
+    }
+
+    res.redirect('back');
+  },
+
+
+  getSubscribeLink: async function (req, res) {
+    let user =  await req.user.save({subscribed: true});
+
+    res.redirect('back');
+  },
+
+
+  getUnsubscribeLink: async function (req, res) {
+    let user =  await req.user.save({subscribed: false});
+
+    res.redirect('back');
   }
 });
 

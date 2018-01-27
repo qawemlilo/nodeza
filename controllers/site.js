@@ -122,7 +122,8 @@ const SiteController = App.Controller.extend({
     let opts = {
       email: req.params.email,
       subscribed: 'yes',
-      host: req.headers.host
+      host: req.headers.host,
+      secret: App.getConfig('secret')
     };
 
     mailGun.confirmSubscription(opts, function (error, message) {

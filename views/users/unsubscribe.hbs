@@ -1,0 +1,42 @@
+
+
+{{#extend "navigation"}}
+  {{> navigation}}
+{{/extend}}
+
+
+<div class="col-sm-12">
+  {{> flash}}
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <i class="fa fa-unlock-alt"></i> Unsubscribe
+    </div>
+
+    <div class="panel-body">
+      <form class="form-horizontal" id="signup-form" action="/users/unsubscribe" method="POST">
+
+        <input type="hidden" name="_csrf" value="{{_csrf}}" />
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="email">Email</label>
+          <div class="col-sm-7">
+            <input class="form-control" type="email" name="email" id="email" value={{email}} placeholder="Email" required="" autofocus />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-7">
+            <button class="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#extend "footer"}}
+  {{> footer}}
+{{/extend}}

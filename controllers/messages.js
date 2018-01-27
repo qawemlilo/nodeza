@@ -39,15 +39,19 @@ async function sendMessage(from, to, message, host) {
     })
     .save();
 
-    let mailOptions = {
-      to: to.get('email'),
-      subject: `${from.get('name')} has sent you a message on NodeZA`,
-      body: `Hi there ${to.get('name')}, <br><br>` +
-        `You have a new message from ${from.get('name')} on NodeZA. Please follow the link below to read your message.<br><br>` +
-        `<a href="https://${host}/admin/messages/${conversation.get('id')}">View your message</a>`
-    };
+    if (to.get('subscribed')) {
+      let mailOptions = {
+        to: to.get('email'),
+        subject: `${from.get('name')} has sent you a message on NodeZA`,
+        body: `Hi there ${to.get('name')}, <br><br>` +
+          `You have a new message from ${from.get('name')} on NodeZA. Please follow the link below to read your message.<br><br>` +
+          `<a href="https://${host}/admin/messages/${conversation.get('id')}">View your message</a>`,
+        user_id: to.get('id')
+      };
 
-    let sentMessage = await mailGun.sendEmail(mailOptions);
+      let sentMessage = await mailGun.sendEmail(mailOptions);
+    }
+
 
     conversation = await conversation.save({updated_at: new Date()});
 
@@ -163,15 +167,18 @@ const MessagesController = App.Controller.extend({
       })
       .save();
 
-      let mailOptions = {
-        to: to.get('email'),
-        subject: `${from.get('name')} has sent you a message on NodeZA`,
-        body: `Hi there ${to.get('name')}, <br><br>` +
-          `You have a new message from ${from.get('name')} on NodeZA. Please follow the link below to read your message.<br><br>` +
-          `<a href="https://${req.headers.host}/admin/messages/${conversation.get('id')}">View your message</a>`
-      };
+      if (to.get('subscribed')) {
+        let mailOptions = {
+          to: to.get('email'),
+          subject: `${from.get('name')} has sent you a message on NodeZA`,
+          body: `Hi there ${to.get('name')}, <br><br>` +
+            `You have a new message from ${from.get('name')} on NodeZA. Please follow the link below to read your message.<br><br>` +
+            `<a href="https://${req.headers.host}/admin/messages/${conversation.get('id')}">View your message</a>`,
+          user_id: to.get('id')
+        };
 
-      let sentMessage = await mailGun.sendEmail(mailOptions);
+        let sentMessage = await mailGun.sendEmail(mailOptions);
+      }
 
       await conversation.save({updated_at: new Date()});
 

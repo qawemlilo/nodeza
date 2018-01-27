@@ -115,14 +115,17 @@ const AccountController = App.Controller.extend({
   postLogin: function(req, res, next) {
     passport.authenticate('local', function(error, user, info) {
       if (error) {
-        console.error(error.stack);
-        req.flash('errors', { msg: err.message });
+        req.flash('errors', { msg: error.message });
+        return res.redirect('/login');
+      }
+
+      if(!user) {
+        req.flash('errors', { msg: info.message });
         return res.redirect('/login');
       }
 
       req.logIn(user, function(error) {
         if (error) {
-          console.error(error.stack);
           req.flash('errors', { msg: error.message });
           return res.redirect('/login');
         }

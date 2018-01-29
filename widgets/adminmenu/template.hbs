@@ -18,7 +18,7 @@
 
 <div style="text-align:center;margin-bottom:20px;">
   <img src="{{#gravatar user '300'}}{{/gravatar}}" id="profileImg" class="img-circle" style="margin:0px;margin-bottom:10px;line-height:0;width:90%">
-  <p><button class="btn btn-link" id="logouploadbtn"><i class="menu-icon icon-pencil"></i> Change Pic</button></p>
+  <p><button class="btn btn-link" id="logouploadbtn"><span class="glyphicon glyphicon-pencil"></span> Change Pic</button></p>
   <form action="/users/upload-image" id="image-upload-form" enctype="multipart/form-data" method="post">
     <input type="hidden" name="_csrf"  id="csrf-token" value="{{_csrf}}" />
     <input type="file" name="logo" id="logofileinput" style="display: none;" />

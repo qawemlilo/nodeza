@@ -130,6 +130,9 @@ const AccountController = App.Controller.extend({
           return res.redirect('/login');
         }
 
+        user.save({last_login: new Date()});
+
+
         res.redirect(req.session.returnTo || '/dashboard');
       });
     })(req, res, next);

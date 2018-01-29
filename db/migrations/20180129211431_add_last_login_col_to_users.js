@@ -2,12 +2,12 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.alterTable('users', function(table) {
-    return table.boolean('subscribed').defaultTo(true).after('views');
+    return table.dateTime('last_login').nullable().after('subscribed');
   });
 };
 
 exports.down = function(knex, Promise) {
   return knex.schema.alterTable('users', function(table) {
-    return table.dropColumn('subscribed');
+    return table.dropColumn('last_login');
   });
 };

@@ -3,7 +3,7 @@
 
 const App = require('widget-cms');
 const utils = require('../lib/utils');
-
+const gulpfile = require('../lib/process-images');
 
 const UsersController = App.Controller.extend({
 
@@ -311,6 +311,34 @@ const UsersController = App.Controller.extend({
     let user =  await req.user.save({subscribed: false});
 
     res.redirect('back');
+  },
+
+
+  uploadImage: async function (req, res) {
+    let image_url = '';
+
+    if (req.files && req.files.length) {
+      image_url = '/uploads/' + req.files[0].filename;
+
+      let user = await req.user.save({image_url: image_url});
+
+      setTimeout(function () {
+        gulpfile('public/uploads/' + req.files[0].filename);
+      }, 100);
+
+      res.json({
+        success: true,
+        image_url: image_url
+      });
+    }
+    else {
+      res.json({
+        success: false,
+        errorMsg: 'No file included'
+      });
+    }
+
+
   }
 });
 

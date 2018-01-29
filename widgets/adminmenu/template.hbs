@@ -1,7 +1,28 @@
 
 
+<div class="modal fade" id="cropPopup" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="img-container" style="width:inherit; text-align:center">
+          <img src="{{#gravatar user '300'}}{{/gravatar}}" id="profilePic">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="cropImage" class="btn btn-primary crop-image">Crop Image</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div style="text-align:center;margin-bottom:20px;">
-  <img src="{{#gravatar user.email '300'}}{{/gravatar}}" class="img-circle" style="margin:0px;line-height:0;width:70%">
+  <img src="{{#gravatar user '300'}}{{/gravatar}}" id="profileImg" class="img-circle" style="margin:0px;margin-bottom:10px;line-height:0;width:90%">
+  <p><a href="#" id="logouploadbtn"><i class="menu-icon icon-pencil"></i> Change Pic</a></p>
+  <form action="/users/upload-image" id="image-upload-form" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="_csrf"  id="csrf-token" value="{{_csrf}}" />
+    <input type="file" name="logo" id="logofileinput" style="display: none;" />
+  </form>
 </div>
 <div class="panel panel-success">
   <ul class="list-group">

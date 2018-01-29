@@ -22,7 +22,7 @@
       {{#if user}}
         <li class="{{#activeMenu 'admin' page}}{{/activeMenu}}">
           <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="{{#gravatar user.email '14'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle" style="margin:0px;line-height:0;">
+            <img src="{{#gravatar user '14'}}{{/gravatar}}" alt="{{user.name}}" class="img-circle" style="width:14px;margin:0px;line-height:0;">
             {{user.name}}
             {{#if user.unreadmessages.length}}<sup class="text-danger">{{user.unreadmessages.length}}</sup>{{/if}}
             <span class="caret"></span>

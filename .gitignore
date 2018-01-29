@@ -24,6 +24,8 @@ public/img/120/
 public/img/320/
 public/img/48/
 public/uploads/
+public/uploads/
+/public/img/image_*
 .env.production.js
 .env.development.js
 .env.testing.js

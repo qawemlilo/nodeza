@@ -13,7 +13,8 @@
         "baseUrl": "",
         "activateCSRF": true,
         "csrfWhitelist": [
-            "/this-url-will-bypass-csrf"
+            "/this-url-will-bypass-csrf",
+            "/users/upload-image"
         ],
         "sessionSecret": "secret_1476389762324"
     },

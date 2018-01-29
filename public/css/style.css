@@ -32,6 +32,10 @@ h1, .h1 {
   background-color:#d9534f
 }
 
+.img-container img {
+  max-width: 100%;
+}
+
 a, a.text-primary, .navbar-default .navbar-nav>li>a, .dropdown-menu>li>a, .pagination>li>a, .pagination>li>span {
   color: #3c763d;
 }

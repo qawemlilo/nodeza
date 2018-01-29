@@ -12,6 +12,7 @@ App.get('/users/edit/:id', auth.isUserAdmin, UsersController.getEditUser);
 App.post('/users/new', auth.isUserAdmin, UsersController.postUser);
 App.post('/users/edit', auth.isUserAdmin, UsersController.postEditUser);
 App.get('/users/delete/:id', auth.isAuthenticated, UsersController.getDeleteUser);
+App.post('/users/upload-image', auth.isAuthenticated, UsersController.uploadImage);
 App.get('/devs/:slug', auth.isAuthenticated, UsersController.getProfile);
 App.get('/devs', auth.isAuthenticated, UsersController.getDevs);
 App.get('/admin/messages', auth.isAuthenticated, MessagesController.getConversations);

@@ -36,7 +36,11 @@ app.config(_.defaults({
     enableCSRF: true,
     inputValidation: true,
     enableSessions: true
-  }
+  },
+
+  csrfWhitelist: [
+    '/users/upload-image'
+  ]
 }, config));
 
 // load widgets

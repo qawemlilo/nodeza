@@ -9,6 +9,8 @@ const moment = require('moment');
 const path =  require('path');
 const _ = require('lodash');
 const gulpfile = require('../lib/process-images');
+const xmlrpc = require('../lib/xmlrpc');
+const TwitBot = require('../bots/twit');
 
 
 function processTags(tags) {
@@ -255,22 +257,21 @@ const PostsController = App.Controller.extend({
    * GET /blog/new
    * load new blog post form
    */
-  getNew: function (req, res, next) {
-    let categories = new Categories();
+  getNew: async function (req, res, next) {
+    try {
+      let collection = await Categories.forge().fetch();
 
-    categories.fetch()
-    .then(function (collection) {
       res.render('posts/new', {
         title: 'New Post',
         description: 'Create a new post',
         page: 'newpost',
         categories: collection.toJSON()
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('errors', {'msg': error.error});
       next(error)
-    });
+    }
   },
 
 
@@ -279,7 +280,7 @@ const PostsController = App.Controller.extend({
    * POST /blog/new
    * save blog post
   */
-  postNew: function(req, res, next) {
+  postNew: async function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
     req.assert('markdown', 'Post must be at least 16 characters long').len(16);
 
@@ -290,45 +291,50 @@ const PostsController = App.Controller.extend({
       return res.redirect('back');
     }
 
-    let post = new Post();
-    let imagesDir = App.getConfig('imagesDir');
+    try {
+      let post = new Post();
+      let imagesDir = App.getConfig('imagesDir');
 
-    let postData = {
-      user_id: req.user.get('id'),
-      title: req.body.title,
-      category_id: req.body.category,
-      meta_description: req.body.meta_description || req.body.title,
-      markdown: req.body.markdown,
-      published: !!req.body.published,
-      featured: !!req.body.featured
-    };
+      let postData = {
+        user_id: req.user.get('id'),
+        title: req.body.title,
+        category_id: req.body.category,
+        meta_description: req.body.meta_description || req.body.title,
+        markdown: req.body.markdown,
+        published: !!req.body.published,
+        featured: !!req.body.featured
+      };
 
 
-    if (req.files && req.files.length) {
-      postData.image_url = req.files[0].filename;
+      if (req.files && req.files.length) {
+        postData.image_url = '/uploads/' + req.files[0].filename;
 
-      setTimeout(function () {
-        gulpfile('public/uploads/' + postData.image_url);
-      }, 100);
-    }
+        setTimeout(function () {
+          gulpfile('public/uploads/' + postData.image_url);
+        }, 100);
+      }
 
-    let tags = processTags(req.body.tags);
+      let tags = processTags(req.body.tags);
 
-    post.save(postData, {
-      context: {
-        user_id: req.user.get('id')
-      },
-      updateTags: tags
-    })
-    .then(function(model) {
+      post = await post.save(postData, {context: {user_id: req.user.get('id')}, updateTags: tags});
+
+      if (post.get('published')) {
+        xmlrpc.ping(post.toJSON());
+        TwitBot.tweet('post', {
+          title: post.get('title'),
+          url: 'https://nodeza/blog/' + post.get('slug')
+        });
+      }
+
       req.flash('success', { msg: 'Post successfully created.' });
       res.redirect('/blog/edit/' + model.get('id'));
-    })
-    .catch(function (error) {
-      console.error(error.stack);
+    }
+    catch (error) {
+      console.error(error);
       req.flash('error', {msg: 'Database error, post not saved.'});
       res.redirect('back');
-    });
+    }
+
   },
 
 

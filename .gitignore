@@ -18,6 +18,7 @@ Procfile~
 *.sqlite
 node_modules/
 bower_modules/
+bower_components/
 build/
 temp/
 public/img/120/

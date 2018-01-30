@@ -5,6 +5,7 @@ const App = require('widget-cms');
 const Events = App.getCollection('Events');
 const nodeEvent = App.getModel('Event');
 const moment = require('moment');
+const TwitBot = require('../bots/twit');
 
 
 const EventsController = App.Controller.extend({
@@ -233,7 +234,7 @@ const EventsController = App.Controller.extend({
    * POST /events/new
    * save a new event
    */
-  postNew: function (req, res) {
+  postNew: async function (req, res) {
     req.assert('title', 'Title must be at least 4 characters long').len(4);
     req.assert('markdown', 'Full description must be at least 12 characters long').len(12);
     req.assert('date', 'Date cannot be blank').notEmpty();
@@ -249,47 +250,49 @@ const EventsController = App.Controller.extend({
       return res.redirect('/events/new');
     }
 
-    eventData.user_id = req.user.get('id');
-    eventData.title = req.body.title;
-    eventData.short_desc = req.body.short_desc;
-    eventData.markdown = req.body.markdown;
-    eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
-    eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
+    try {
+      eventData.user_id = req.user.get('id');
+      eventData.title = req.body.title;
+      eventData.short_desc = req.body.short_desc;
+      eventData.markdown = req.body.markdown;
+      eventData.dt = moment(cleanDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      eventData.start_time = moment(req.body.start_time, 'HH:MM').format('HH:mm:ss');
 
-    if(req.body.finish_time) {
-      eventData.finish_time = moment(req.body.finish_time, 'h:mm A').format('HH:mm:ss');
-    }
-    else {
-      eventData.finish_time = null;
-    }
-
-    eventData.province = req.body.administrative_area_level_1 || '';
-    eventData.city = req.body.locality || '';
-    eventData.town = req.body.sublocality || '';
-    eventData.address = req.body.formatted_address || '';
-    eventData.website = req.body.webpage;
-    eventData.url = req.body.url;
-    eventData.lng = req.body.lng;
-    eventData.lat = req.body.lat;
-    eventData.email = req.body.email;
-    eventData.number = req.body.number;
-
-    let event = new nodeEvent(eventData);
-
-    event.save(null, {
-      context: {
-        user_id: req.user.get('id')
+      if(req.body.finish_time) {
+        eventData.finish_time = moment(req.body.finish_time, 'HH:MM').format('HH:mm:ss');
       }
-    })
-    .then(function (model) {
+      else {
+        eventData.finish_time = null;
+      }
+
+      eventData.province = req.body.administrative_area_level_1 || '';
+      eventData.city = req.body.locality || '';
+      eventData.town = req.body.sublocality || '';
+      eventData.address = req.body.formatted_address || '';
+      eventData.website = req.body.webpage;
+      eventData.url = req.body.url;
+      eventData.lng = req.body.lng;
+      eventData.lat = req.body.lat;
+      eventData.email = req.body.email;
+      eventData.number = req.body.number;
+
+      let event = new nodeEvent(eventData);
+
+      event = await event.save(null, {context: {user_id: req.user.get('id')}});
+
+      TwitBot.tweet('post', {
+        title: event.get('title'),
+        url: 'https://nodeza/events/' + event.get('slug')
+      });
+
       req.flash('success', { msg: 'Event successfully created!' });
       res.redirect('back');
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       console.error(error.stack);
       req.flash('errors', {'msg': 'Database error. Event not created.'});
       res.redirect('/events/new');
-    });
+    }
   },
 
 
@@ -318,7 +321,7 @@ const EventsController = App.Controller.extend({
     eventData.title = req.body.title;
     eventData.short_desc = req.body.short_desc;
     eventData.markdown = req.body.markdown;
-    eventData.dt = moment(cleanDate, 'MM DD YYYY').format('YYYY-MM-DD');
+    eventData.dt = moment(cleanDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
     eventData.start_time = moment(req.body.start_time, 'h:mm A').format('HH:mm:ss');
 
     if(req.body.finish_time) {

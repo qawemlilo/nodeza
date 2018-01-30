@@ -10,26 +10,26 @@
   {{> flash}}
 
   <div class="panel panel-default">
-  
+
     <div class="panel-heading">
       <span class="glyphicon glyphicon-align-justify"></span> New Category
       <a href="/admin/blog/categories" class="close pull-right text-danger">&times;</a>
     </div>
-  
+
     <div class="panel-body">
     <form class="form-horizontal" id="category-form" action="/category/new" method="POST">
       <input type="hidden" name="_csrf" value="{{_csrf}}" />
-  
+
       <div class="form-group">
         <label class="col-sm-3 control-label" for="name">
           Name <span class="text-danger">*</span>
         </label>
-  
+
         <div class="col-sm-7">
           <input class="form-control" type="text" name="name" id="name" required="" autofocus />
         </div>
       </div>
-  
+
       <div class="form-group">
         <label class="col-sm-3 control-label" for="description">
           Description <span class="text-danger">*</span>
@@ -39,13 +39,13 @@
         </div>
       </div>
 
-  
+
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-7">
           <button class="btn btn-success" type="submit">
             <i class="fa fa-check"></i> Create Category
           </button>
-  
+
           <a href="/admin/blog/categories" class="btn btn-default">
             <span class="glyphicon glyphicon-remove"></span> Close
           </a>
@@ -63,22 +63,22 @@
 
 
 {{#extend "scripts"}}
-<script src="/js/epiceditor/js/epiceditor.min.js"></script>
-<script>
+<script data-cfasync="false" src="/js/epiceditor/js/epiceditor.min.js"></script>
+<script data-cfasync="false">
  (function ($) {
-  
+
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-  
+
       reader.onload = function (e) {
           $('#imagepreview').attr('src', e.target.result).fadeIn();
       }
-  
+
       reader.readAsDataURL(input.files[0]);
     }
   }
-  
+
   var editor = new EpicEditor({
     textarea: 'markdown',
     basePath: '/js/epiceditor',
@@ -88,7 +88,7 @@
       editor: '/themes/editor/epic-light.css'
     }
   }).load();
-  
+
   $("#image_url").change(function(){
     readURL(this);
   });

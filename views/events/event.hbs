@@ -67,10 +67,10 @@
 
 
 {{#extend "scripts"}}
-<script src="http://maps.googleapis.com/maps/api/js?&key=AIzaSyDgznfZ1jpCB3oE0djY4vj1wKZs6QXDcNQ"></script>
-<script src="/js/jquery.geocomplete.min.js"></script>
-<script src="/js/maps.js"></script>
-<script>
+<script data-cfasync="false" src="http://maps.googleapis.com/maps/api/js?&key=AIzaSyDgznfZ1jpCB3oE0djY4vj1wKZs6QXDcNQ"></script>
+<script data-cfasync="false" src="/js/jquery.geocomplete.min.js"></script>
+<script data-cfasync="false" src="/js/maps.js"></script>
+<script data-cfasync="false">
   var map = new GMaps({
     div: '#eventVenue',
     lat: "{{myEvent.lat}}",

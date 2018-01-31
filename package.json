@@ -43,6 +43,7 @@
     "passport-local": "^1.0.0",
     "rss": "0.3.2",
     "sqlite3": "^3.1.13",
+    "twit": "^2.2.9",
     "twitter": "^1.2.5",
     "type-is": "^1.6.12",
     "unidecode": "0.1.7",

@@ -124,7 +124,7 @@
 {{/extend}}
 
 {{#extend "scripts"}}
-<script>
+<script data-cfasync="false">
   jQuery('.profile-pic').on('error', function () {
     jQuery(this).attr('data-src', 'holder.js/300x200');
   });

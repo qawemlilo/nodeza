@@ -11,7 +11,7 @@ const helpers = require('./lib/helpers');
 const middleware = require('./lib/middleware');
 const widgetLoader = require('widget-loader');
 const widgetsDir = path.join(process.cwd(), 'widgets');
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'staging';
 
     //dfdfd
 
@@ -39,7 +39,8 @@ app.config(_.defaults({
   },
 
   csrfWhitelist: [
-    '/users/upload-image'
+    '/users/upload-image',
+    '/blog/new'
   ]
 }, config));
 

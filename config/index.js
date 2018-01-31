@@ -1,7 +1,7 @@
 "use strict";
 
 const config = require('./config.json');
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'staging';
 const env_vars = require('../.env.js');
 
 

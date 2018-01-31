@@ -15,13 +15,13 @@ const TwitBot = require('../bots/twit');
 
 function processTags(tags) {
   if (!tags) {
-    return [{name: 'uncategorised'}];
+    return [{name: 'uncategorised', description: 'uncategorised'}];
   }
 
   tags = tags.split(',');
 
   tags = tags.map(function (tag) {
-    return {name: tag.trim()};
+    return {name: tag.trim(), description: tag.trim()};
   });
 
   return tags;
@@ -68,7 +68,7 @@ const PostsController = App.Controller.extend({
         config: settings,
         gravatar: post.related('created_by').gravatar(48),
         title: post.get('title'),
-        description: post.get('meta_description'),
+        description: post.get('meta_description') || '',
         author: author,
         category: post.related('category').toJSON(),
         url: 'http://' + req.headers.host + '/blog/' + slug,
@@ -320,14 +320,16 @@ const PostsController = App.Controller.extend({
 
       if (post.get('published')) {
         xmlrpc.ping(post.toJSON());
+
         TwitBot.tweet('post', {
+          id: post.get('id'),
           title: post.get('title'),
-          url: 'https://nodeza/blog/' + post.get('slug')
+          body: 'https://nodeza/blog/' + post.get('slug')
         });
       }
 
       req.flash('success', { msg: 'Post successfully created.' });
-      res.redirect('/blog/edit/' + model.get('id'));
+      res.redirect('/blog/edit/' + post.get('id'));
     }
     catch (error) {
       console.error(error);

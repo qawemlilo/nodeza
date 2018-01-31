@@ -4,6 +4,8 @@
 const App = require('widget-cms');
 const utils = require('../lib/utils');
 const gulpfile = require('../lib/process-images');
+const TwitBot = require('../bots/twit');
+
 
 const UsersController = App.Controller.extend({
 
@@ -337,8 +339,35 @@ const UsersController = App.Controller.extend({
         errorMsg: 'No file included'
       });
     }
+  },
 
 
+  sendTweet: function (req, res) {
+    req.assert('type', 'Tweet type should not be empty').notEmpty();
+    req.assert('body', 'Tweet body should not be empty').notEmpty();
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      return res.redirect('back');
+    }
+
+    try {
+      TwitBot.tweet(req.body.type, {
+        id: null,
+        title: req.body.title ? req.body.title : '',
+        body: req.body.body
+      });
+
+      req.flash('success', {msg: 'Tweet sent'});
+
+      return res.redirect('back');
+    }
+    catch (error) {
+      req.flash('errors', {msg: error.message});
+      return res.redirect('back');
+    }
   }
 });
 

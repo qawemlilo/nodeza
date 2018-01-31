@@ -108,7 +108,7 @@
 </div>
 
 {{#extend "scripts"}}
-<script>
+<script  data-cfasync="false">
   (function ($) {
     $("html, body").animate({ scrollTop: $(document).height()-$(window).height() });
     $("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")});

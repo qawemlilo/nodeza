@@ -172,7 +172,7 @@ const Post = App.Model.extend({
 
         // Create tags that don't exist and attach to post
         _.each(doNotExist, function (tag) {
-          createAndAttachOperation = Tag.forge({name: tag.name}, options).save().then(function (createdTag) {
+          createAndAttachOperation = Tag.forge({name: tag.name, description: tag.description}, options).save().then(function (createdTag) {
             createdTag = createdTag.toJSON();
 
             // _.omit(options, 'query') is a fix for using bookshelf 0.6.8

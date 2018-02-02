@@ -5,9 +5,8 @@
 {{/extend}}
 
 {{#extend "jumbotron"}}
-<div id="jumbotron" class="jumbotron">
-  <div class="container">
-    <h1>Events</h1>
+<div id="jumbotron" class="jumbotron" style="padding:0px;">
+  <div class="row" id="eventVenue" style="height: 300px;background-color:#F5F5F5;color:#333">
   </div>
 </div>
 {{/extend}}
@@ -17,15 +16,12 @@
 
   <div class="container-fluid">
 
-    <div class="row" id="eventVenue" style="height: 250px;background-color:#F5F5F5">
-    </div>
-
     <div class="row" style="margin-bottom: 40px;">
       <div class="event panel  panel-success">
         <div class="panel-body">
-          <h2 class="blog-post-title">
-            {{myEvent.title}}
-          </h2>
+          <h3>
+            {{myEvent.title}} sdjksdf ksdf dsfds
+          </h3>
           <p class="blog-post-meta">
             <span class="glyphicon glyphicon-tag"></span>
             {{myEvent.city}}

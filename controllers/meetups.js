@@ -58,7 +58,7 @@ const MeetupsController = App.Controller.extend({
         config: settings,
         title: meetup.get('title'),
         description: meetup.get('short_desc'),
-        page: 'meetups',
+        page: 'meetupgroups',
         meetup: meetup.toJSON()
       });
 

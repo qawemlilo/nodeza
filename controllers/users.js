@@ -31,7 +31,7 @@ const UsersController = App.Controller.extend({
         myevents: user.related('events').toJSON(),
         description: 'NodeZA profile of ' + user.get('name'),
         profile: user.toJSON(),
-        page: 'profile',
+        page: 'devs',
         tweets: tweets
       });
     }

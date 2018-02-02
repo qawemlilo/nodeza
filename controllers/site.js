@@ -3,6 +3,8 @@
 const App = require('widget-cms');
 const mailGun = require('../lib/mailgun');
 const RSS = require('rss');
+const redis = require('redis');
+const Queue = redis.createClient();
 
 
 const SiteController = App.Controller.extend({
@@ -101,41 +103,33 @@ const SiteController = App.Controller.extend({
 
 
   postSubscribe: function (req, res) {
-    let opts = {
+    let to = {
       name: req.body.name,
-      email: req.body.email,
-      host: req.headers.host
+      email: req.body.email
     };
 
-    mailGun.subscribe(opts, function (error, message) {
-      if (error) {
-        console.log(error);
-        return res.status(501).send('An error occured');
-      }
+    Queue.publish('email', JSON.stringify({
+      type: 'subscribe',
+      to: to
+    }));
 
-      res.end('Success!');
-    });
+    res.end('Success!');
   },
 
 
   getConfirmSubscription: function (req, res) {
-    let opts = {
+    let to = {
       email: req.params.email,
-      subscribed: 'yes',
-      host: req.headers.host,
-      secret: App.getConfig('secret')
+      subscribed: 'yes'
     };
 
-    mailGun.confirmSubscription(opts, function (error, message) {
-      if (error) {
-        console.error(error);
-        req.flash('errors',  { msg: 'An error occured, subscription not confirmed :('});
-        return res.redirect('/');
-      }
+    Queue.publish('email', JSON.stringify({
+      type: 'subscription-confirm',
+      to: to
+    }));
 
-      req.flash('success',  {msg: 'You have successfully subscribed to our website'});
-      res.redirect('/');
-    });
+    req.flash('success',  {msg: 'You have successfully subscribed to our website'});
+    res.redirect('/');
   },
 
 

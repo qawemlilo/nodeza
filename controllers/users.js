@@ -3,7 +3,8 @@
 
 const App = require('widget-cms');
 const utils = require('../lib/utils');
-const gulpfile = require('../lib/process-images');
+const redis = require('redis');
+const Queue = redis.createClient();
 const TwitBot = require('../bots/twit');
 
 
@@ -324,9 +325,10 @@ const UsersController = App.Controller.extend({
 
       let user = await req.user.save({image_url: image_url});
 
-      setTimeout(function () {
-        gulpfile('public/uploads/' + req.files[0].filename);
-      }, 100);
+      Queue.publish('email', JSON.stringify({
+        type: 'minify',
+        url: 'public/uploads/' + req.files[0].filename
+      }));
 
       res.json({
         success: true,

@@ -8,7 +8,8 @@ const Category = App.getModel('Category');
 const moment = require('moment');
 const path =  require('path');
 const _ = require('lodash');
-const gulpfile = require('../lib/process-images');
+const redis = require('redis');
+const Queue = redis.createClient();
 const xmlrpc = require('../lib/xmlrpc');
 const TwitBot = require('../bots/twit');
 
@@ -309,9 +310,10 @@ const PostsController = App.Controller.extend({
       if (req.files && req.files.length) {
         postData.image_url = '/uploads/' + req.files[0].filename;
 
-        setTimeout(function () {
-          gulpfile('public/uploads/' + postData.image_url);
-        }, 100);
+        Queue.publish('email', JSON.stringify({
+          type: 'minify',
+          url: 'public/uploads/' + postData.image_url
+        }));
       }
 
       let tags = processTags(req.body.tags);
@@ -369,9 +371,10 @@ const PostsController = App.Controller.extend({
     if (req.files && req.files.length) {
       postData.image_url = req.files[0].filename;
 
-      setTimeout(function () {
-        gulpfile('public/uploads/' + postData.image_url);
-      }, 100);
+      Queue.publish('email', JSON.stringify({
+        type: 'minify',
+        url: 'public/uploads/' + postData.image_url
+      }));
     }
 
     let options = {method: 'update'};

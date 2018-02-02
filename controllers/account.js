@@ -2,7 +2,8 @@
 
 const App = require('widget-cms');
 const User = App.getModel('User');
-const mailGun = require('../lib/mailgun');
+const redis = require('redis');
+const Queue = redis.createClient();
 const auth = require('../lib/auth');
 const Promise = require('bluebird');
 const crypto = require('crypto');
@@ -42,7 +43,7 @@ const AccountController = App.Controller.extend({
    * POST /login
    * Log in user
    */
-  getLoginAs: function(req, res, next) {
+  getLoginAs: async function(req, res, next) {
     req.assert('id', 'id cannot be blank').notEmpty();
 
     let errors = req.validationErrors();
@@ -52,11 +53,10 @@ const AccountController = App.Controller.extend({
       return res.redirect('/login');
     }
 
-    req.session.isAdmin = req.user.get('id');
+    try {
+      req.session.isAdmin = req.user.get('id');
 
-    User.forge({'id': req.params.id})
-    .fetch({required: true})
-    .then(function(user) {
+      let user = await User.forge({'id': req.params.id}).fetch({required: true});
 
       req.logIn(user, function(error) {
         if (error) {
@@ -66,12 +66,12 @@ const AccountController = App.Controller.extend({
 
         res.redirect('/');
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.session.isAdmin = null;
       req.flash('errors', { msg: error.message });
-      next({'errors': {msg: error.message}});
-    });
+      next(error);
+    }
   },
 
 
@@ -79,15 +79,14 @@ const AccountController = App.Controller.extend({
    * POST /login
    * Log in user
    */
-  restoreAdmin: function(req, res, next) {
+  restoreAdmin: async function(req, res, next) {
 
     if (!req.session.isAdmin) {
       return res.redirect('back');
     }
 
-    User.forge({'id': req.session.isAdmin})
-    .fetch({required: true})
-    .then(function(user) {
+    try {
+      let user = await User.forge({'id': req.session.isAdmin}).fetch({required: true});
 
       req.logIn(user, function(error) {
         if (error) {
@@ -99,12 +98,12 @@ const AccountController = App.Controller.extend({
 
         res.redirect('/admin/users');
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       console.error(error);
       req.flash('errors', { msg: error.message });
       res.redirect('/admin/users');
-    });
+    }
   },
 
 
@@ -167,7 +166,7 @@ const AccountController = App.Controller.extend({
    * POST /signup
    * Registers user
   **/
-  postSignup: function(req, res, next) {
+  postSignup: async function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 6 characters long').len(6);
     req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
@@ -180,33 +179,22 @@ const AccountController = App.Controller.extend({
       return res.redirect('/signup');
     }
 
-    userData.name = req.body.name;
-    userData.last_name = '';
-    userData.email = req.body.email;
-    userData.password = req.body.password;
-    userData.role_id = 1;
-    userData.updated_by = 1;
+    try {
+      userData.name = req.body.name;
+      userData.last_name = '';
+      userData.email = req.body.email;
+      userData.password = req.body.password;
+      userData.role_id = 1;
+      userData.updated_by = 1;
 
-    User.forge(userData)
-    .save()
-    .then(function (model) {
+      let model = await User.forge(userData).save();
 
       req.flash('success', {msg: 'Account successfully created! Please complete your profile.'});
 
-      let mailOptions = {
-        to: 'qawemlilo@gmail.com',
-        subject: 'New NodeZA user has registered',
-        body: 'https://nodeza.co.za/devs/' + model.get('slug'),
-        user_id: 1
-      };
-
-      mailGun.sendEmail(mailOptions)
-      .then(function () {
-        console.info('Registration email sent');
-      })
-      .catch(function (error) {
-        console.error('Registration email error: %s', error.message);
-      });
+      Queue.publish('email', JSON.stringify({
+        type: 'registration',
+        to: model.toJSON()
+      }));
 
       req.logIn(model, function(error) {
         if (error) {
@@ -216,12 +204,12 @@ const AccountController = App.Controller.extend({
 
         res.redirect('/admin/account');
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       console.error(error)
       req.flash('errors', {'msg': 'An error occured, account not created.'});
       res.redirect('back');
-    });
+    }
   },
 
 
@@ -229,15 +217,13 @@ const AccountController = App.Controller.extend({
    * GET /reset/:token
    * Loads password reset form.
    */
-  getReset: function(req, res) {
-    let user =  new User();
+  getReset: async function(req, res) {
+    try {
+      let user =  await User.forge().query(function (qb) {
+        return qb.where('resetPasswordToken', '=', req.params.token)
+        .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
+      }).fetch();
 
-    user.query(function (qb) {
-      return qb.where('resetPasswordToken', '=', req.params.token)
-      .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
-    })
-    .fetch()
-    .then(function(user) {
       if (!user) {
         req.flash('errors', {msg: 'Password reset token is invalid or has expired.'});
         return res.redirect('/forgot');
@@ -249,11 +235,11 @@ const AccountController = App.Controller.extend({
         description: 'Reset your password',
         page: 'resetpassword'
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
       res.redirect('/forgot');
-    });
+    }
   },
 
 
@@ -261,48 +247,44 @@ const AccountController = App.Controller.extend({
    * POST /reset/:token
    * Process the reset password request.
    */
-  postReset: function (req, res, next) {
+  postReset: async function (req, res, next) {
     req.assert('password', 'Password must be at least 6 characters long.').len(6);
     req.assert('confirm', 'Passwords must match.').equals(req.body.password);
 
     let errors = req.validationErrors();
-    let user =  new User();
+
 
     if (errors) {
       req.flash('errors', errors);
       return res.redirect('back');
     }
 
-    user.query(function (qb) {
-      return qb.where('resetPasswordToken', '=', req.params.token)
-      .andWhere('resetPasswordExpires', '>', datetime(Date.now()));
-    })
-    .fetch()
-    .then(function(userModel) {
-      return userModel.save({
+    try {
+      let user =  await User.forge().query(function (qb) {
+        return qb.where('resetPasswordToken', '=', req.params.token).andWhere('resetPasswordExpires', '>', datetime(Date.now()));
+      })
+      .fetch();
+
+      user = await user.save({
         password: req.body.password,
         resetPasswordToken: '',
         resetPasswordExpires: ''
-      });
-    })
-    .then(function (userModel) {
-      return mailGun.sendEmail({
-        to: userModel.get('email'),
-        subject: 'Your NodeZA password has been changed',
-        body: 'Hello, <br><br>' + 'This is a confirmation that the password for your account ' + user.get('email') + ' has just been changed.',
-        user_id: userModel.get('id')
-      });
-    })
-    .then(function (mailRes) {
+      })
+
+      Queue.publish('email', JSON.stringify({
+        type: 'password-changed',
+        to: user.toJSON()
+      }));
+
       req.logIn(user, function (err) {
         req.flash('success', {msg: 'Your account has been updated'});
         res.redirect('/');
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('error', {msg: 'An error has occured, account not updated.'});
       res.redirect('back');
-    });
+    }
   },
 
 
@@ -357,18 +339,10 @@ const AccountController = App.Controller.extend({
       });
     })
     .then(function(userModel) {
-      let mailOptions = {
-        to: userModel.get('email'),
-        subject: 'Reset your password on NodeZA',
-        body: 'Hi there ' + userModel.get('name') + ', <br><br>' +
-          'You are receiving this email because you (or someone else) have requested the reset of the password for your account.<br>' +
-          'Please click on the following link, or paste this into your browser to complete the process:<br><br>' +
-          'http://' + req.headers.host + '/reset/' + userModel.get('resetPasswordToken') + '<br><br>' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.',
-        user_id: userModel.get('id')
-      };
-
-      return mailGun.sendEmail(mailOptions);
+      Queue.publish('email', JSON.stringify({
+        type: 'reset',
+        to: userModel.toJSON()
+      }));
     })
     .then(function(resp) {
       req.flash('info', {msg: 'An e-mail has been sent to ' + user.get('email') + ' with further instructions.'});

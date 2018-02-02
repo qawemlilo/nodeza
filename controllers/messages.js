@@ -2,7 +2,8 @@
 "use strict";
 
 const App = require('widget-cms');
-const mailGun = require('../lib/mailgun');
+const redis = require('redis');
+const Queue = redis.createClient();
 
 
 async function sendMessage(from, to, message, host) {
@@ -40,16 +41,13 @@ async function sendMessage(from, to, message, host) {
     .save();
 
     if (to.get('subscribed')) {
-      let mailOptions = {
-        to: to.get('email'),
-        subject: `${from.get('name')} has sent you a message on NodeZA`,
-        body: `Hi there ${to.get('name')}, <br><br>` +
-          `You have a new message from ${from.get('name')} on NodeZA. Please follow the link below to read your message.<br><br>` +
-          `<a href="https://${host}/admin/messages/${conversation.get('id')}">View your message</a>`,
-        user_id: to.get('id')
-      };
-
-      let sentMessage = await mailGun.sendEmail(mailOptions);
+      Queue.publish('email', JSON.stringify({
+        type: 'message',
+        from: from.toJSON(),
+        message: newMessage.get('body'),
+        to: to.toJSON(),
+        conversation_id: conversation.get('id')
+      }));
     }
 
 
@@ -168,16 +166,13 @@ const MessagesController = App.Controller.extend({
       .save();
 
       if (to.get('subscribed')) {
-        let mailOptions = {
-          to: to.get('email'),
-          subject: `${from.get('name')} has sent you a message on NodeZA`,
-          body: `Hi there ${to.get('name')}, <br><br>` +
-            `You have a new message from ${from.get('name')} on NodeZA. Please follow the link below to read your message.<br><br>` +
-            `<a href="https://${req.headers.host}/admin/messages/${conversation.get('id')}">View your message</a>`,
-          user_id: to.get('id')
-        };
-
-        let sentMessage = await mailGun.sendEmail(mailOptions);
+        Queue.publish('email', JSON.stringify({
+          type: 'message',
+          from: from.toJSON(),
+          to: to.toJSON(),
+          message: newMessage.get('body'),
+          conversation_id: conversation.get('id')
+        }));
       }
 
       await conversation.save({updated_at: new Date()});

@@ -1,9 +1,9 @@
 "use strict";
 
-
 const App = require('widget-cms');
 const Twitter = require('twit');
 const config = require('../.env');
+
 
 const client = new Twitter({
   consumer_key: config.TWITTER_BOT_KEY,
@@ -20,7 +20,7 @@ module.exports.tweet = function (type, payload) {
 
   switch (type) {
     case 'post':
-      tweet = 'New #nodejs post: ' + payload.title + ' - ' + payload.body;
+      tweet = 'New post: ' + payload.title + ' - ' + payload.body + ' #nodejs #javascript';
     break;
     case 'event':
       tweet = 'Upcoming #nodejs event: ' + payload.title + ' - ' + payload.body;

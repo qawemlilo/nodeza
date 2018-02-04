@@ -134,10 +134,10 @@ const UsersController = App.Controller.extend({
       let opts = {
         limit: 10,
         page: currentpage,
-        order: "asc"
+        order: "desc"
       };
 
-      let collection =  await users.fetchBy('id', opts, {withRelated: ['role']});
+      let collection =  await users.fetchBy('last_login', opts, {withRelated: ['role']});
 
       res.render('users/users', {
         title: 'Registered Users',

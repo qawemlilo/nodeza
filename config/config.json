@@ -55,8 +55,8 @@
         "password": ""
     },
     "github": {
-        "clientID": "455439633ad348f76e56",
-        "clientSecret": "dcb76a33a8f819c1a257c414ba404a1d4da3504f",
+        "clientID": "",
+        "clientSecret": "",
         "callbackURL": "/auth/github/callback",
         "passReqToCallback": true,
         "authorizationURL": "https://github.com/login/oauth/authorize",
@@ -73,8 +73,8 @@
         "passReqToCallback": true
     },
     "google": {
-        "clientID": "120319527086-gmesiqv48vf9u4ja51fb6m92f1p2b8ko.apps.googleusercontent.com",
-        "clientSecret": "120319527086-gmesiqv48vf9u4ja51fb6m92f1p2b8ko@developer.gserviceaccount.com",
+        "clientID": "",
+        "clientSecret": "",
         "callbackURL": "/auth/google/callback",
         "passReqToCallback": true
     },

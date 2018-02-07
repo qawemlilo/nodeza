@@ -5,14 +5,12 @@ const path = require('path');
 const fs = require('fs');
 const hbs = require('hbs');
 const mailGun = require('../lib/mailgun');
-const gulpfile = require('../lib/process-images');
+const resizer = path.resolve(__dirname, '../lib/process-images');
 
 const Queue = redis.createClient();
 const client = redis.createClient();
 
 const MailQueue = 'mailQueue';
-
-
 
 let workerBusy =  false;
 let activeMessage = null;
@@ -25,6 +23,26 @@ let resetPasswordTmpl = fs.readFileSync(path.resolve(__dirname, '../views/emails
 let passwordChangedTmpl = fs.readFileSync(path.resolve(__dirname, '../views/emails/password_changed.hbs'), 'utf8');
 let subscribeTmpl = fs.readFileSync(path.resolve(__dirname, '../views/emails/subscribe.hbs'), 'utf8');
 
+
+function compressAndResize (imageUrl) {
+  // We need to spawn a child process so that we do not block
+  // the EventLoop with cpu intensive image manipulation
+  let childProcess = require('child_process').fork(resizer);
+
+  childProcess.on('message', function(message) {
+    console.log(message);
+  });
+
+  childProcess.on('error', function(error) {
+    console.error(error.stack)
+  });
+
+  childProcess.on('exit', function() {
+    console.log('Child process exited');
+  });
+
+  childProcess.send(imageUrl);
+}
 
 Queue.on('message', function(channel, payload) {
   try {
@@ -85,7 +103,7 @@ function mailWorker() {
           await confirmSubscription(payload)
         break;
         case 'minify':
-          gulpfile(payload.url);
+          compressAndResize(payload.url);
         break;
       }
 

@@ -7,6 +7,7 @@ const Posts = App.getCollection('Posts');
 const Post = App.getModel('Post');
 const User = App.getModel('User');
 
+
 function processTags(tags) {
   if (!tags) {
     return [{name: 'uncategorised'}];
@@ -34,7 +35,7 @@ const DashboardController = App.Controller.extend({
   },
 
 
-  getPosts: function (req, res) {
+  getPosts: async function (req, res) {
     let posts = new Posts();
     let page = parseInt(req.query.p, 10);
     let currentpage = page || 1;
@@ -52,8 +53,9 @@ const DashboardController = App.Controller.extend({
       opts.where = null;
     }
 
-    posts.fetchBy('id', opts, {withRelated: ['category']})
-    .then(function (collection) {
+    try {
+      let collection = await posts.fetchBy('id', opts, {withRelated: ['category']});
+
       res.render('dashboard/posts.hbs', {
         title: 'Posts',
         pagination: posts.pages,
@@ -63,18 +65,18 @@ const DashboardController = App.Controller.extend({
         query: {},
         layout: 'dashboard-layout.hbs'
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('errors', {'msg': error.message});
       next(error);
-    });
+    }
   },
 
 
-  getNewPost: function (req, res) {
-    Categories.forge()
-    .fetch()
-    .then(function (collection) {
+  getNewPost: async function (req, res) {
+    try {
+      let collection = await Categories.forge().fetch();
+
       res.render('dashboard/newpost', {
         title: 'New Post',
         description: 'Create a new post',
@@ -82,41 +84,32 @@ const DashboardController = App.Controller.extend({
         categories: collection.toJSON(),
         layout: 'dashboard-layout.hbs'
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('errors', {'msg': error.error});
       next(error)
-    });
+    }
   },
 
 
-  getEditPost: function (req, res) {
-    let id = req.params.id;
-    let categories = new Categories();
+  getEditPost: async function (req, res) {
+    try {
+      let categories = await Categories.forge().fetch();
+      let post = await Post.forge({id: req.params.id}).fetch({withRelated: ['tags']});
 
-    categories.fetch()
-    .then(function (cats) {
-      return Post.forge({id: id})
-      .fetch({withRelated: ['tags']})
-      .then(function (post) {
-        return res.render('dashboard/editpost', {
-          page: 'postedit',
-          title: 'Post edit',
-          description: 'Post edit',
-          categories: cats.toJSON(),
-          post: post.toJSON(),
-          layout: 'dashboard-layout.hbs'
-        });
-      })
-      .catch(function (error) {
-        req.flash('errors', {'msg': error.message});
-        next(error);
+      res.render('dashboard/editpost', {
+        page: 'postedit',
+        title: 'Post edit',
+        description: 'Post edit',
+        categories: categories.toJSON(),
+        post: post.toJSON(),
+        layout: 'dashboard-layout.hbs'
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('errors', {'msg': error.message});
-      next(error)
-    });
+      next(error);
+    }
   },
 
 
@@ -125,7 +118,7 @@ const DashboardController = App.Controller.extend({
    * POST /dashboard/posts/new
    * save blog post
   */
-  createPost: function(req, res, next) {
+  createPost: async function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
 
@@ -136,35 +129,31 @@ const DashboardController = App.Controller.extend({
       return res.redirect('back');
     }
 
-    let post = new Post();
-
-    let postData = {
-      user_id: req.user.get('id'),
-      title: req.body.title,
-      category_id: req.body.category,
-      meta_description: req.body.meta_description || req.body.title,
-      markdown: req.body.markdown,
-      published: !!req.body.published,
-      featured: !!req.body.featured
-    };
-
-    let tags = processTags(req.body.tags);
-
-    post.save(postData, {
-      context: {
-        user_id: req.user.get('id')
+    try {
+      let post = await Post.forge().save({
+        user_id: req.user.get('id'),
+        title: req.body.title,
+        category_id: req.body.category,
+        meta_description: req.body.meta_description || req.body.title,
+        markdown: req.body.markdown,
+        published: !!req.body.published,
+        featured: !!req.body.featured
       },
-      updateTags: tags
-    })
-    .then(function(model) {
+      {
+        context: {
+          user_id: req.user.get('id')
+        },
+        updateTags: processTags(req.body.tags)
+      });
+
       req.flash('success', { msg: 'Post successfully created.' });
-      res.redirect('/dashboard/posts/edit/' + model.get('id'));
-    })
-    .catch(function (error) {
+      res.redirect('/dashboard/posts/edit/' + post.get('id'));
+    }
+    catch (error) {
       console.error(error.stack);
       req.flash('error', {msg: 'Database error, post not saved.'});
       res.redirect('back');
-    });
+    }
   },
 
 
@@ -172,7 +161,7 @@ const DashboardController = App.Controller.extend({
    * POST /dashboard/posts/edit/:id
    * save post update
   */
-  editPost: function(req, res, next) {
+  editPost: async function(req, res, next) {
     req.assert('title', 'Title must be at least 6 characters long').len(6);
     req.assert('tags', 'Tags must not be empty').notEmpty();
     req.assert('markdown', 'Post must be at least 32 characters long').len(32);
@@ -184,45 +173,39 @@ const DashboardController = App.Controller.extend({
       return res.redirect('back');
     }
 
-    let postData = {
-      id: req.body.id,
-      title: req.body.title,
-      category_id: req.body.category,
-      meta_description: req.body.meta_description || req.body.title,
-      markdown: req.body.markdown,
-      published: !!req.body.published,
-      featured: !!req.body.featured
-    };
+    try {
+      let postData = {
+        id: req.body.id,
+        title: req.body.title,
+        category_id: req.body.category,
+        meta_description: req.body.meta_description || req.body.title,
+        markdown: req.body.markdown,
+        published: !!req.body.published,
+        featured: !!req.body.featured
+      };
 
-    let options = {method: 'update'};
-    let post = new Post({id: postData.id});
+      let options = {method: 'update'};
 
-    if (req.body.tags) {
-      // specify explicitly if you want to update tags
-      options.updateTags = processTags(req.body.tags);
-    }
+      if (req.body.tags) {
+        // specify explicitly if you want to update tags
+        options.updateTags = processTags(req.body.tags);
+      }
 
-    options.context = {
-      user_id: req.user.get('id')
-    }
+      options.context = {
+        user_id: req.user.get('id')
+      }
 
-    post.fetch()
-    .then(function (model) {
-      return model.save(postData, options)
-      .then(function(post) {
-        req.flash('success', { msg: 'Post successfully updated.' });
-        res.redirect('back');
-      })
-      .catch(function (error) {
-        req.flash('error', {msg: error.message});
-        next(error);
-      });
-    })
-    .catch(function (error) {
-      console.error(error.stack);
-      req.flash('error', 'Database error, post not saved.');
+      let post = await Post.forge({id: postData.id}).fetch();
+
+      post = await post.save(postData, options);
+
+      req.flash('success', { msg: 'Post successfully updated.' });
       res.redirect('back');
-    });
+    }
+    catch (error) {
+      req.flash('error', {msg: error.message});
+      next(error);
+    }
   },
 
 
@@ -259,7 +242,7 @@ const DashboardController = App.Controller.extend({
    * POST /account
    * Edit user account.
   */
-  postAccount: function(req, res, next) {
+  postAccount: async function(req, res, next) {
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('name', 'Name must be at least 3 characters long').len(3);
 
@@ -270,36 +253,29 @@ const DashboardController = App.Controller.extend({
       return res.redirect('back');
     }
 
-    let details = {
-      last_name: req.body.last_name,
-      name: req.body.name,
-      email: req.body.email,
-      gender: req.body.gender,
-      location:req.body.location,
-      website: req.body.website,
-      twitter_url: req.body.twitter_url,
-      github_url: req.body.github_url,
-      about: req.body.about,
-      updated_by: req.user.get('id')
-    };
+    try {
+      let user = await User.forge({id: req.body.id}).fetch();
 
-    User.forge({id: req.body.id})
-    .fetch()
-    .then(function (user) {
-      return user.save(details)
-      .then(function() {
-        req.flash('success', {msg: 'Account information updated.'});
-        res.redirect('back');
-      })
-      .catch(function (error) {
-        req.flash('error', {msg: error.message});
-        next(error);
+      await user.save({
+        last_name: req.body.last_name,
+        name: req.body.name,
+        email: req.body.email,
+        gender: req.body.gender,
+        location:req.body.location,
+        website: req.body.website,
+        twitter_url: req.body.twitter_url,
+        github_url: req.body.github_url,
+        about: req.body.about,
+        updated_by: req.user.get('id')
       });
-    })
-    .catch(function (error) {
+
+      req.flash('success', {msg: 'Account information updated.'});
+      res.redirect('back');
+    }
+    catch (error) {
       req.flash('error', {msg: error.message});
       next(error);
-    });
+    }
   }
 });
 

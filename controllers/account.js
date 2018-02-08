@@ -11,9 +11,6 @@ const passport = App.passport;
 const _ = require('lodash');
 
 
-
-
-
 /**
  * Converts date in milliseconds to MySQL datetime format
  * @param: ts - date in milliseconds

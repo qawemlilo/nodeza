@@ -8,8 +8,6 @@ const fs = require('fs');
 const secrets = require('../config/config.json');
 
 
-
-
 function updateConfig(configs) {
 
   let filepath = path.resolve(__dirname, '../config/config.json');

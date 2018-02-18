@@ -511,7 +511,7 @@ const AccountController = App.Controller.extend({
     req.user.unlink(provider)
     .then(function (msg) {
       req.flash('info', {msg: msg});
-      res.redirect('/admin/account/linked');
+      res.redirect('back');
     })
     .catch(function (error) {
       req.flash('error', {msg: error.message});

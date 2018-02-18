@@ -164,7 +164,7 @@ const User = App.Model.extend({
    */
   unlink: function(provider) {
     let tokens = this.related('tokens').toJSON();
-    let token = _.findWhere(tokens, {kind: provider});
+    let token = _.find(tokens, {kind: provider});
     let Tokens = App.getCollection('Tokens');
 
     if (token) {

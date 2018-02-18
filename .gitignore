@@ -11,6 +11,7 @@
 *.pem
 *.DS_Store
 *.secret
+node.md
 Procfile~
 *~
 *.gitignore~

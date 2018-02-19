@@ -16,6 +16,8 @@ const stream = client.stream('user');
 
 
 stream.on('follow', function (res) {
+  if (res.source.screen_name === 'node_za') return false;
+
   console.log('> @' + res.source.screen_name + ' is now following @node_za');
   client.post('friendships/create', { screen_name: res.source.screen_name }, function (error, data, response) {
    if (error) {

@@ -16,13 +16,15 @@ const stream = client.stream('user');
 
 
 stream.on('follow', function (res) {
-  console.log(res.source);
-
-  client.post('friendships/create', {
-    screen_name: res.source.screen_name
-  }, function (err, data, response) {
-   console.log('AutoFollowed @' + res.source.screen_name);
- });
+  console.log('> @' + res.source.screen_name + ' is now following @node_za');
+  client.post('friendships/create', { screen_name: res.source.screen_name }, function (err, data, response) {
+   if (error) {
+     console.error(error);
+   }
+   else {
+     console.log('> NodeZA TweetBot auto followed @' + res.source.screen_name);
+   }
+  });
 });
 
 stream.on('error', function (error) {

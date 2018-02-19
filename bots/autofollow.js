@@ -12,7 +12,7 @@ const client = new Twitter({
 });
 
 
-const stream = client.stream('node_za');
+const stream = client.stream('user');
 
 
 stream.on('follow', function (res) {

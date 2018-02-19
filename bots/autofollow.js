@@ -18,9 +18,8 @@ const stream = client.stream('user');
 stream.on('follow', function (res) {
   console.log(res.source);
 
-  twitter.post('friendships/create', {
-    screen_name: res.source.screen_name,
-    follow: true,
+  client.post('friendships/create', {
+    screen_name: res.source.screen_name
   }, function (err, data, response) {
    console.log('AutoFollowed @' + res.source.screen_name);
  });

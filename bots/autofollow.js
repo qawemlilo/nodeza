@@ -16,6 +16,8 @@ const stream = client.stream('node_za');
 
 
 stream.on('follow', function (res) {
+  console.log(res.source);
+
   twitter.post('friendships/create', {
     screen_name: res.source.screen_name
   }, function (err, data, response) {

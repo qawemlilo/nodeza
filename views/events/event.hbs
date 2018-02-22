@@ -18,6 +18,17 @@
 
     <div class="row" style="margin-bottom: 40px;">
       <div class="event panel  panel-success">
+        <div class="panel-header">
+          <div class="row">
+            <div class="col-md-6" style="text-align: left">
+              <span class="glyphicon glyphicon-calendar text-danger"></span> {{#parseDate myEvent.dt ''}}{{/parseDate}}
+            </div>
+
+            <div class="col-md-6" style="text-align: right">
+              <span class="glyphicon glyphicon-time text-danger"></span> {{parseTime}}
+            </div>
+          </div>
+        </div>
         <div class="panel-body">
           <h3>
             {{myEvent.title}} sdjksdf ksdf dsfds
@@ -33,17 +44,6 @@
           </p>
 
           <p>{{{myEvent.html}}}</p>
-        </div>
-        <div class="panel-footer">
-          <div class="row">
-            <div class="col-md-6" style="text-align: left">
-              <span class="glyphicon glyphicon-calendar text-danger"></span> {{#parseDate myEvent.dt ''}}{{/parseDate}}
-            </div>
-
-            <div class="col-md-6" style="text-align: right">
-              <span class="glyphicon glyphicon-time text-danger"></span> {{parseTime}}
-            </div>
-          </div>
         </div>
       </div>
     </div>

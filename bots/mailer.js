@@ -44,6 +44,8 @@ function compressAndResize (imageUrl) {
   childProcess.send(imageUrl);
 }
 
+
+// push all new actionz to MailQueue
 Queue.on('message', function(channel, payload) {
   try {
     client.rpush(MailQueue, payload);

@@ -24,7 +24,7 @@ stream.on('follow', function (res) {
      console.error(error);
    }
    else {
-     console.log('> NodeZA TweetBot auto followed @' + res.source.screen_name);
+     console.log('> NodeZA TweetBot auto followed back @' + res.source.screen_name);
    }
   });
 });

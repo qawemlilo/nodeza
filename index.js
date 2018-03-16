@@ -40,7 +40,8 @@ app.config(_.defaults({
 
   csrfWhitelist: [
     '/users/upload-image',
-    '/blog/new'
+    '/blog/new',
+    '/blog/edit'
   ]
 }, config));
 

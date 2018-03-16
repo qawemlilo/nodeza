@@ -91,28 +91,24 @@ const PostsController = App.Controller.extend({
    * GET /blog/edit/:id
    * edit post form
    */
-  getEdit: function (req, res, next) {
-    let id = req.params.id;
-    let categories = new Categories();
+  getEdit: async function (req, res, next) {
+    try {
+      let id = req.params.id;
+      let categories = await Categories.forge().fetch();
+      let post = await Post.forge({id: req.params.id}).fetch({withRelated: ['tags']});
 
-    categories.fetch()
-    .then(function (cats) {
-      return Post.forge({id: id})
-      .fetch({withRelated: ['tags']})
-      .then(function (post) {
-        res.render('posts/edit', {
-          page: 'postedit',
-          title: 'Post edit',
-          description: 'Post edit',
-          categories: cats.toJSON(),
-          post: post.toJSON()
-        });
+      res.render('posts/edit', {
+        page: 'postedit',
+        title: 'Post edit',
+        description: 'Post edit',
+        categories: categories.toJSON(),
+        post: post.toJSON()
       });
-    })
-    .catch(function (error) {
+    }
+    catch (error) {
       req.flash('errors', {'msg': error.message});
-      next(error)
-    });
+      next(error);
+    }
   },
 
 
@@ -375,6 +371,9 @@ const PostsController = App.Controller.extend({
         type: 'minify',
         url: 'public/uploads/' + postData.image_url
       }));
+    }
+    else {
+      console.log(req.files)
     }
 
     let options = {method: 'update'};

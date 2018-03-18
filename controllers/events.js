@@ -283,7 +283,7 @@ const EventsController = App.Controller.extend({
       TwitBot.tweet('event', {
         id: event.get('id'),
         title: event.get('title'),
-        body: 'https://nodeza/events/' + event.get('slug')
+        body: 'https://nodeza.co.za/events/' + event.get('slug')
       });
 
       req.flash('success', { msg: 'Event successfully created!' });

@@ -322,7 +322,7 @@ const PostsController = App.Controller.extend({
         TwitBot.tweet('post', {
           id: post.get('id'),
           title: post.get('title'),
-          body: 'https://nodeza/blog/' + post.get('slug')
+          body: 'https://nodeza.co.za/blog/' + post.get('slug')
         });
       }
 

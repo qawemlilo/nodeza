@@ -42,8 +42,9 @@ async function findAndTweetNewReleases(name, url) {
         }
       });
     }
-
-    return true;
+    else {
+      console.log(` > No #${name} new releases`);
+    }
   }
   catch (error) {
     console.error(error);

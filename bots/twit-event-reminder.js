@@ -28,7 +28,7 @@ async function findAndTweetDueEvents () {
 
     if (events && events.length) {
       events.forEach(function (event) {
-        let tweet = `#nodejs event happening today - https://nodeza.co.za/events/${event.slug}`;
+        let tweet = `#nodejs event happening today in #${event.city} - https://nodeza.co.za/events/${event.slug}`;
 
         client.post('statuses/update', { status: tweet }, function(err, data, response) {
           if (error) {

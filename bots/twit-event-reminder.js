@@ -30,7 +30,7 @@ async function findAndTweetDueEvents () {
       events.forEach(function (event) {
         let tweet = `#nodejs event happening today in #${event.city} - https://nodeza.co.za/events/${event.slug}`;
 
-        tweeterClient.post('statuses/update', { status: tweet }, function(err, data, response) {
+        tweeterClient.post('statuses/update', {status: tweet}, function(err, data, response) {
           if (error) {
             console.error(error)
           }
@@ -43,8 +43,6 @@ async function findAndTweetDueEvents () {
     else {
       console.log(' > No events due today');
     }
-
-    process.exit(1);
   }
   catch (error) {
     console.error(error);

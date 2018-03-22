@@ -24,7 +24,7 @@ const knex = require('knex')(appConfig.db[env]);
 async function findAndTweetDueEvents () {
   try {
 
-    let events = await knex('events').where({dt: moment().subtract(48, 'days').format('YYYY-MM-DD')});
+    let events = await knex('events').where({dt: moment().format('YYYY-MM-DD')});
 
     if (events && events.length) {
       events.forEach(function (event) {

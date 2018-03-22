@@ -44,7 +44,7 @@ app.config(_.defaults({
   ]
 }, config));
 
-// load widgets
+
 app.registerMiddleware(widgetLoader(app, {
   widgetDirectory: widgetsDir
 }));

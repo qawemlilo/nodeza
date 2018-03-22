@@ -8,15 +8,6 @@ const moment = require('moment');
 const util = require('util');
 const config = require('../.env');
 
-
-const tweeterClient = new Twitter({
-  consumer_key: config.TWITTER_BOT_KEY,
-  consumer_secret: config.TWITTER_BOT_SECRET,
-  access_token: config.TWITTER_BOT_TOKEN_KEY,
-  access_token_secret: config.TWITTER_BOT_TOKEN_SECRET
-});
-
-
 console.log();
 console.log(' > Checking for new packages releases');
 console.log();
@@ -24,6 +15,13 @@ console.log();
 
 async function findAndTweetNewReleases(name, url) {
   try {
+    const tweeterClient = new Twitter({
+      consumer_key: config.TWITTER_BOT_KEY,
+      consumer_secret: config.TWITTER_BOT_SECRET,
+      access_token: config.TWITTER_BOT_TOKEN_KEY,
+      access_token_secret: config.TWITTER_BOT_TOKEN_SECRET
+    });
+
     let res = await axios.get(url);
     let releases = res.data;
 

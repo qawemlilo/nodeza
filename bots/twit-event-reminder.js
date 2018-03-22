@@ -34,9 +34,10 @@ async function findAndTweetDueEvents () {
           if (error) {
             console.error(error)
           }
+          else {
+            console.log(' > ' + tweet);
+          }
         });
-
-        console.log(' > ' + tweet);
       });
     }
     else {

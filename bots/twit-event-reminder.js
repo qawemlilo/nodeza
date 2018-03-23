@@ -8,13 +8,14 @@ const env = process.env.NODE_ENV || 'production';
 
 
 if (!appConfig.db[env]) {
+  console.log(' > Config not found');
    return process.exit(1);
 }
 
 const knex = require('knex')(appConfig.db[env]);
 
 
-async function findAndTweetDueEvents () {
+async function findAndTweetDueEvents (done) {
   try {
 
     const tweeterClient = new Twitter({
@@ -24,11 +25,16 @@ async function findAndTweetDueEvents () {
       access_token_secret: config.TWITTER_BOT_TOKEN_SECRET
     });
 
+    const jobQueue = [];
+
+
     let events = await knex('events').where({dt: moment().format('YYYY-MM-DD')});
 
     if (events && events.length) {
-      events.forEach(function (event) {
+      events.forEach(function (event, i) {
         let tweet = `#nodejs event happening today in #${event.city} - https://nodeza.co.za/events/${event.slug}`;
+
+        jobQueue.push(i+1);
 
         tweeterClient.post('statuses/update', {status: tweet}, function(error, data, response) {
           if (error) {
@@ -37,17 +43,27 @@ async function findAndTweetDueEvents () {
           else {
             console.log(' > ' + tweet);
           }
+
+          jobQueue.shift()
+
+          done(jobQueue)
         });
       });
     }
     else {
       console.log(' > No events due today');
+      process.exit(1);
     }
   }
   catch (error) {
     console.error(error);
+    process.exit(1);
   }
 }
 
 
-findAndTweetDueEvents();
+findAndTweetDueEvents(function (jobQueue) {
+  if (jobQueue.length) return;
+
+  process.exit(1);
+});

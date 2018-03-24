@@ -9,7 +9,7 @@ const env = process.env.NODE_ENV || 'production';
 
 if (!appConfig.db[env]) {
   console.log(' > Config not found');
-   return process.exit(1);
+  return process.exit(1);
 }
 
 const knex = require('knex')(appConfig.db[env]);
@@ -34,7 +34,7 @@ async function findAndTweetDueEvents (done) {
       events.forEach(function (event, i) {
         let tweet = `#nodejs event happening today in #${event.city} - https://nodeza.co.za/events/${event.slug}`;
 
-        jobQueue.push(i+1);
+        jobQueue.push(event.id);
 
         tweeterClient.post('statuses/update', {status: tweet}, function(error, data, response) {
           if (error) {
@@ -44,9 +44,9 @@ async function findAndTweetDueEvents (done) {
             console.log(' > ' + tweet);
           }
 
-          jobQueue.shift()
+          jobQueue.shift();
 
-          done(jobQueue)
+          done(jobQueue);
         });
       });
     }
@@ -63,7 +63,10 @@ async function findAndTweetDueEvents (done) {
 
 
 findAndTweetDueEvents(function (jobQueue) {
-  if (jobQueue.length) return;
+  if (jobQueue.length) {
+    return console.log(' > still working: %s', jobQueue.length);
+  }
 
+  console.log(' > complete');
   process.exit(1);
 });

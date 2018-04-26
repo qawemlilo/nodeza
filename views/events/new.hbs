@@ -6,7 +6,7 @@
 
 
 {{#extend "stylesheets"}}
-<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css" />
+<link rel="stylesheet" href="/css/flatpickr.min.css" />
 {{/extend}}
 
 
@@ -35,7 +35,7 @@
 
         <div class="col-sm-7">
             <div class='input-group date' id='dateDiv'>
-              <input class="form-control" type="text" name="date" id="date" required="">
+              <input class="form-control" type="text" name="date" id="date-input" required="">
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -186,7 +186,7 @@
 <script data-cfasync="false" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDgznfZ1jpCB3oE0djY4vj1wKZs6QXDcNQ"></script>
 <script data-cfasync="false" src="/js/jquery.geocomplete.min.js"></script>
 <script data-cfasync="false" src="/js/moment.min.js?v=01"></script>
-<script data-cfasync="false" src="/js/bootstrap-datetimepicker.min.js?v=02"></script>
+<script data-cfasync="false" src="/js/flatpickr.min.js"></script>
 <script data-cfasync="false">
 jQuery.noConflict();
 
@@ -208,16 +208,24 @@ jQuery.noConflict();
       $('#googlemap').slideDown('slow');
     });
 
-    $('#dateDiv').datetimepicker({
-      format: 'DD/MM/YYYY'
+
+    $("#date-input").flatpickr({
+      minDate: "today",
+      dateFormat: 'd/m/Y'
     });
 
-    $('#startTimeDiv').datetimepicker({
-      format: 'HH:MM'
+    $('#start_time').flatpickr({
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      defaultDate: "12:00"
     });
 
-    $('#finishTimeDiv').datetimepicker({
-      format: 'HH:MM'
+    $('#finish_time').flatpickr({
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      defaultDate: "12:00"
     });
   });
 })(jQuery);

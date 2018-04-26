@@ -6,7 +6,7 @@
 
 
 {{#extend "stylesheets"}}
-<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css" />
+<link rel="stylesheet" href="/css/flatpickr.min.css" />
 {{/extend}}
 
 <div class="col-sm-12 blog-main">
@@ -34,7 +34,7 @@
 
         <div class="col-sm-7">
             <div class='input-group date' id='dateDiv'>
-              <input class="form-control" type="text" name="date" value="{{#parseDate event.dt 'MM-DD-YYYY'}}{{/parseDate}}" id="date" required="">
+              <input class="form-control" type="text" name="date" value="{{#parseDate event.dt 'MM/DD/YYYY'}}{{/parseDate}}" id="date-input" required="">
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -53,7 +53,7 @@
                 </label>
 
                 <div class='input-group date' id='startTimeDiv'>
-                  <input class="form-control" type="text" name="start_time" id="start_time" value="{{#myTime event.start_time 'h:mm A'}}{{/myTime}}" required="">
+                  <input class="form-control" type="text" name="start_time" id="start_time" value="{{#myTime event.start_time 'HH:mm'}}{{/myTime}}" required="">
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-time"></span>
                   </span>
@@ -69,7 +69,7 @@
                 </label>
 
                 <div class='input-group date' id='finishTimeDiv'>
-                  <input class="form-control" type="text" name="finish_time" id="finish_time" value="{{#myTime event.finish_time 'h:mm A'}}{{/myTime}}" >
+                  <input class="form-control" type="text" name="finish_time" id="finish_time" value="{{#myTime event.finish_time 'HH:mm'}}{{/myTime}}" >
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-time"></span>
                   </span>
@@ -233,37 +233,30 @@
 <script data-cfasync="false" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDgznfZ1jpCB3oE0djY4vj1wKZs6QXDcNQ"></script>
 <script data-cfasync="false" src="/js/jquery.geocomplete.min.js"></script>
 <script data-cfasync="false" src="/js/moment.min.js"></script>
-<script data-cfasync="false" src="/js/bootstrap-datetimepicker.min.js"></script>
+<script data-cfasync="false" src="/js/flatpickr.min.js"></script>
 <script data-cfasync="false">
 (function ($) {
   $(function(){
-    if (typeof google !== 'undefined') {
-      $("#geocomplete").geocomplete({
-        details: "#event-form",
-        map: "#googlemap",
-        mapOptions: {
-          zoom: 10
-        },
-        componentRestrictions: {country: 'za'}
-      });
-    }
-
 
     $('#googlemap').on("focus", function() {
       $('#googlemap').slideDown('slow');
     });
 
-    $('#dateDiv').datetimepicker({
-      pickTime: false,
-      minDate: moment().format('l')
+    $("#date-input").flatpickr({
+      minDate: "today",
+      dateFormat: 'd/m/Y'
     });
 
-    $('#startTimeDiv').datetimepicker({
-      pickDate: false
+    $('#start_time').flatpickr({
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i"
     });
 
-    $('#finishTimeDiv').datetimepicker({
-      pickDate: false
+    $('#finish_time').flatpickr({
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i"
     });
   });
 })(jQuery);

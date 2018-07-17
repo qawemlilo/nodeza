@@ -1,3 +1,10 @@
+{{#extend "twitterCard"}}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@node_za" />
+<meta name="twitter:title" content="{{meetup.title}}" />
+<meta name="twitter:description" content="{{meetup.short_desc}}" />
+<meta name="twitter:image" content="https://nodeza.co.za/img/twitter_banner.jpg" />
+{{/extend}}
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -66,7 +73,7 @@
   {{> flash}}
 
   <div class="container-fluid">
-    
+
     <div class="row" style="margin-bottom: 40px;">
       <div class="meetup panel panel-default">
         <div class="panel-body">

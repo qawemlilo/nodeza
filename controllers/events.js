@@ -256,10 +256,10 @@ const EventsController = App.Controller.extend({
       eventData.short_desc = req.body.short_desc;
       eventData.markdown = req.body.markdown;
       eventData.dt = moment(cleanDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-      eventData.start_time = moment(req.body.start_time, 'HH:MM').format('HH:mm:ss');
+      eventData.start_time = moment(req.body.start_time, 'HH:mm').format('HH:mm:ss');
 
       if(req.body.finish_time) {
-        eventData.finish_time = moment(req.body.finish_time, 'HH:MM').format('HH:mm:ss');
+        eventData.finish_time = moment(req.body.finish_time, 'HH:mm').format('HH:mm:ss');
       }
       else {
         eventData.finish_time = null;

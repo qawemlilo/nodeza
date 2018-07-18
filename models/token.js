@@ -13,6 +13,9 @@ const Token = App.Model.extend({
   tableName: 'tokens',
 
 
+  hasTimestamps: false,
+
+
   /*
    * delete post
   **/

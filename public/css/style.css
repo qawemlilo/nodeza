@@ -3,7 +3,7 @@
  */
 
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: 'Raleway', sans-serif, Georgia, "Times New Roman", Times, serif;
   color: #555;
 }
 
@@ -14,7 +14,7 @@ h4, .h4,
 h5, .h5,
 h6, .h6 {
   margin-top: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Raleway', sans-serif, Georgia, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   color: #3c763d;
 }
@@ -120,42 +120,44 @@ ul.styled-lists li:before {
 
 #jumbotron.home {
   background: url(../img/banner_io.jpg) no-repeat center center;
+  padding-top:90px;
+  padding-bottom:90px;
 }
 
 #jumbotron.cape-town-nodebots {
   background: url(../img/cape_town_nodebots.jpg) no-repeat center center;
-  padding-top:80px;
-  padding-bottom:80px;
+  padding-top:120px;
+  padding-bottom:120px;
 }
 
 #jumbotron.jozi-node-js {
   background: url(../img/jozi.jpg) no-repeat center center;
-  padding-top:80px;
-  padding-bottom:80px;
+  padding-top:120px;
+  padding-bottom:120px;
 }
 
 #jumbotron.events {
-  background: url(../img/map.jpg) no-repeat center center;
-  padding-top:80px;
-  padding-bottom:80px;
+  background: url(../img/events1.jpg) no-repeat center center;
+  padding-top:120px;
+  padding-bottom:120px;
 }
 
 #jumbotron.meetups {
   background: url(../img/meetup_jozi.jpg) no-repeat center center;
-  padding-top:80px;
-  padding-bottom:80px;
+  padding-top:120px;
+  padding-bottom:120px;
 }
 
 #jumbotron.blog {
-  background: url(../img/intro-bg.jpg) no-repeat center center;
-  padding-top:80px;
-  padding-bottom:80px;
+  background: url(../img/blog-background.jpg) no-repeat center center;
+  padding-top:120px;
+  padding-bottom:120px;
 }
 
 #jumbotron.devs {
   background: url(../img/banner_io.jpg) no-repeat center center;
-  padding-top:80px;
-  padding-bottom:80px;
+  padding-top:120px;
+  padding-bottom:120px;
 }
 
 .dl-horizontal dd {

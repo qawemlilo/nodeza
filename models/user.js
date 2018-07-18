@@ -179,12 +179,14 @@ const User = App.Model.extend({
       }
 
       return this.save()
-      .then(function (user) {
-        return Tokens.forge().remove(token.id);
+      .then((user) => {
+        let currentToken = this.related('tokens').get(token.id);
+
+        return currentToken.destroy();
       });
     }
     else {
-      return Promise.resolve(null);
+      return Promise.resolve('Token not found');
     }
   },
 

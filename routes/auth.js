@@ -5,8 +5,9 @@ const auth = require('../lib/auth');
 const passport = App.passport;
 
 
-function authCallback(req, res) {
+function authCallback(req, res, next) {
   res.redirect(req.session.returnTo || '/');
+  next();
 }
 
 

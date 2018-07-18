@@ -510,7 +510,7 @@ const AccountController = App.Controller.extend({
 
     req.user.unlink(provider)
     .then(function (msg) {
-      req.flash('error', {msg: msg});
+      req.flash('success', {msg: `${provider} successfully unlinked`});
       res.redirect('back');
     })
     .catch(function (error) {

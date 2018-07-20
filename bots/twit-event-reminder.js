@@ -32,7 +32,7 @@ async function findAndTweetDueEvents (done) {
 
     if (events && events.length) {
       events.forEach(function (event, i) {
-        let tweet = `#nodejs event happening today in #${event.city} - https://nodeza.co.za/events/${event.slug}`;
+        let tweet = `#nodejs event happening today in #${event.city} https://nodeza.co.za/events/${event.slug}`;
 
         jobQueue.push(event.id);
 

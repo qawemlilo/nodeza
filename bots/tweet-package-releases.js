@@ -32,7 +32,7 @@ async function findAndTweetNewReleases(name, url) {
         let hoursAgo = moment().diff(moment(release.published_at), 'hours');
 
         if (hoursAgo < 24) {
-        let tweet = `New #${name} release: ${release.tag_name} - ${release.html_url}`;
+        let tweet = `New #${name} release: ${release.tag_name} ${release.html_url}`;
 
           tweeterClient.post('statuses/update', { status: tweet }, function(error, data, response) {
             if (error) {

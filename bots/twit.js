@@ -20,10 +20,10 @@ module.exports.tweet = function (type, payload) {
 
   switch (type) {
     case 'post':
-      tweet = 'New post: ' + payload.title + ' - ' + payload.body + ' #nodejs #javascript';
+      tweet = `New post #nodejs #javascript: ${payload.title} ${payload.body}`;
     break;
     case 'event':
-      tweet = 'Upcoming #nodejs event: ' + payload.title + ' - ' + payload.body;
+      tweet = `Upcoming #nodejs event in ${payload.city}:  ${payload.title} ${payload.body}`;
     break;
     case 'text':
       tweet = payload.title ? payload.title + ' ' + payload.body : payload.body;

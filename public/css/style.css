@@ -119,7 +119,8 @@ ul.styled-lists li:before {
 }
 
 #jumbotron.home {
-  background: url(../img/banner_io.jpg) no-repeat center center;
+  background: url(../img/home_banner.jpg) no-repeat center center;
+  background-size: cover;
   padding-top:90px;
   padding-bottom:90px;
 }

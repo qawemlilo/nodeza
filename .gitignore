@@ -16,6 +16,7 @@ Procfile~
 *~
 *.gitignore~
 *.secret
+*.sql
 *.sqlite
 node_modules/
 bower_modules/

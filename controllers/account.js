@@ -279,6 +279,7 @@ const AccountController = App.Controller.extend({
       });
     }
     catch (error) {
+      console.error(error);
       req.flash('error', {msg: 'An error has occured, account not updated.'});
       res.redirect('back');
     }

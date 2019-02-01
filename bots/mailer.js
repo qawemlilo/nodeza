@@ -184,4 +184,6 @@ function confirmSubscription (data) {
   return mailGun.confirmSubscription(data);
 }
 
+mailWorker();
+
 console.log(`> ${new Date().toISOString()} - Mail worker now active is listening to email channel`);

@@ -264,8 +264,7 @@ const AccountController = App.Controller.extend({
 
       user = await user.save({
         password: req.body.password,
-        resetPasswordToken: '',
-        resetPasswordExpires: ''
+        resetPasswordToken: ''
       })
 
       Queue.publish('email', JSON.stringify({

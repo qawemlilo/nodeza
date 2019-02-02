@@ -14,7 +14,6 @@ const SiteController = App.Controller.extend({
    * load home page
   */
   getIndex: function (req, res, next) {
-    req.logout();
     res.render('site/index',{
       title: App._config.site.title,
       description: App._config.site.description,

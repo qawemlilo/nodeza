@@ -36,3 +36,6 @@ public/uploads/
 ecosystem.config.js
 _migrations
 _schemas
+nodeza.co.za
+server.crt
+server.key

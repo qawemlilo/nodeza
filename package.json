@@ -7,7 +7,7 @@
     "migrate": "knex migrate:latest && knex seed:run",
     "start": "export NODE_ENV=staging && nodemon index.js",
     "debug": "export NODE_ENV=staging && node --inspect index.js",
-    "production": "export NODE_ENV=production && pm2 start index.js",
+    "production": "export NODE_ENV=production && pm2 start index.js --name='NodeZA'",
     "dev": "export NODE_ENV=development && nodemon",
     "staging": "export NODE_ENV=staging && nodemon",
     "test": "export NODE_ENV=testing && ./node_modules/mocha/bin/mocha test",

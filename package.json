@@ -27,7 +27,7 @@
     "url": "https://github.com/nodeza/nodeza/issues"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.2",
     "express-redis-cache": "^1.1.3",

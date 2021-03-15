@@ -36,55 +36,53 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-3">
-
-      <div class="thumbnail">
-        <img src="{{#gravatar profile '220'}}{{/gravatar}}" style="width:220px" class="profile-pic img-responsive" alt="{{profile.name}}" title="{{profile.name}}">
-
-        <div class="caption">
-          {{#if profile.location}}
-          <p>
-            <span class="glyphicon glyphicon-map-marker text-danger"></span>
-            {{profile.location}}
-          </p>
-          {{/if}}
-          {{#if profile.website}}
-          <p>
-            <span class="glyphicon glyphicon-globe"></span>
-            <a href="{{#parseUrl profile.website}}{{/parseUrl}}" target="_blank">Website</a>
-          </p>
-          {{/if}}
-          {{#if profile.twitter_url}}
-          <p>
-            <span class="fa fa-twitter text-primary"></span>
-            <a href="{{#parseUrl profile.twitter_url}}{{/parseUrl}}" target="_blank">Twitter</a>
-          </p>
-          {{/if}}
-          {{#if profile.github_url}}
-          <p>
-            <span class="fa fa-github"></span>
-            <a href="{{#parseUrl profile.github_url}}{{/parseUrl}}" target="_blank">Github</a>
-          </p>
-          {{/if}}
-        </div>
-      </div>
-
-      <button class="btn btn-success btn-block" data-toggle="modal" data-target="#contactform">
-        <i class="fa fa-envelope"></i> Send Message
-      </button>
+  <div class="row" style="padding-top: 5rem; padding-bottom: 5rem;">
+    <div class="col-sm-3 text-center">
+      <img src="{{#gravatar profile '152'}}{{/gravatar}}" style="width:152px" class="profile-pic img-circle" alt="{{profile.name}}" title="{{profile.name}}">
 
       {{#if @WidgetCollection.leftsidebar}}
         {{#list @WidgetCollection.leftsidebar}}{{/list}}
       {{/if}}
     </div>
 
-    <div class="col-sm-9">
+    <div class="col-sm-8 offset-col-sm-1">
 
       {{> flash}}
 
-      <h1 class="blog-post-title">{{profile.name}}</h1>
+      <h1 class="blog-post-title">
+        {{profile.name}}
 
+        <button class="btn btn-dafault">
+          <i class="fa fa-cog"></i> Edit profie
+        </button>
+      </h1>
+
+      <ul class="list-inline">
+        {{#if profile.location}}
+        <li>
+          <span class="glyphicon glyphicon-map-marker text-danger"></span>
+          {{profile.location}}
+        </li>
+        {{/if}}
+        {{#if profile.website}}
+        <li>
+          <span class="glyphicon glyphicon-globe"></span>
+          <a href="{{#parseUrl profile.website}}{{/parseUrl}}" target="_blank">Website</a>
+        </li>
+        {{/if}}
+        {{#if profile.twitter_url}}
+        <li>
+          <span class="fa fa-twitter text-primary"></span>
+          <a href="{{#parseUrl profile.twitter_url}}{{/parseUrl}}" target="_blank">Twitter</a>
+        </li>
+        {{/if}}
+        {{#if profile.github_url}}
+        <li>
+          <span class="fa fa-github"></span>
+          <a href="{{#parseUrl profile.github_url}}{{/parseUrl}}" target="_blank">Github</a>
+        </li>
+        {{/if}}
+      </ul>
 
       <div class="bs-callout">
         {{#if profile.about}}
@@ -94,19 +92,37 @@
         {{/if}}
       </div>
 
+      <button class="btn btn-success" data-toggle="modal" data-target="#contactform">
+        <i class="fa fa-envelope"></i> Send Message
+      </button>
 
-      {{#if tweets}}
-      <div class="bs-callout bs-callout-info box">
-        <p class="text-center" style="font-size:24px"><span class="fa fa-twitter text-primary">&nbsp;</span></p>
-        <div class="info">
-        {{#each tweets}}
-          <p class="text-center">{{#richHTML text}}{{/richHTML}}</p>
-        {{/each}}
+    </div>
+  </div>
+  <div class="row">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified">
+      <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><span class="fa fa-twitter text-primary">&nbsp;</span> Tweets</a></li>
+      <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><span class="fa fa-globe text-primary">&nbsp;</span> Showcase</a></li>
+      <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><span class="fa fa-pencil text-primary">&nbsp;</span> Posts</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="home">
+        {{#if tweets}}
+        <div class="bs-callout bs-callout-info box">
+          <p class="text-center" style="font-size:24px"><span class="fa fa-twitter text-primary">&nbsp;</span></p>
+          <div class="info">
+          {{#each tweets}}
+            <p class="text-center">{{#richHTML text}}{{/richHTML}}</p>
+          {{/each}}
+          </div>
+          <div class="twitter-timeline"><a href="{{profile.twitter_url}}" target="_blank" width="500">Recent tweets by @ {{profile.name}}</a> &middot; <a href="#" class="tiny-tweet prev">&laquo; prev</a> | <a href="#" class="tiny-tweet next">next &raquo;</a></div>
         </div>
-        <div class="twitter-timeline"><a href="{{profile.twitter_url}}" target="_blank" width="500">Recent tweets by @ {{profile.name}}</a> &middot; <a href="#" class="tiny-tweet prev">&laquo; prev</a> | <a href="#" class="tiny-tweet next">next &raquo;</a></div>
+        {{/if}}
       </div>
-      {{/if}}
-
+      <div role="tabpanel" class="tab-pane" id="profile"><h1>Showcase</h1></div>
+      <div role="tabpanel" class="tab-pane" id="messages">Posts</div>
     </div>
   </div>
 </div>

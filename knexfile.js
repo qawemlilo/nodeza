@@ -5,21 +5,6 @@ const config = require('./config');
 
 module.exports = {
 
-  development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './development.sqlite'
-    },
-    useNullAsDefault: true,
-    migrations: {
-      tableName: 'knex_migrations',
-      directory: __dirname + '/db/migrations'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds/development'
-    }
-  },
-
   testing: {
     client: 'sqlite3',
     connection: {
@@ -51,7 +36,7 @@ module.exports = {
     useNullAsDefault: true
   },
 
-  staging: {
+  development: {
     client: config.db.staging.client,
     connection: config.db.staging.connection,
     pool: {

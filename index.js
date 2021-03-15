@@ -11,7 +11,7 @@ const helpers = require('./lib/helpers');
 const middleware = require('./lib/middleware');
 const widgetLoader = require('widget-loader');
 const widgetsDir = path.join(process.cwd(), 'widgets');
-const env = process.env.NODE_ENV || 'staging';
+const env = process.env.NODE_ENV || 'development';
 
 
 app.config(_.defaults({

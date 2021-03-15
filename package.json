@@ -69,9 +69,5 @@
     "simple-prompt": "^0.2.1",
     "standard": "^11.0.1",
     "supertest": "^3.3.0"
-  },
-  "engines": {
-    "node": "^8.9.3",
-    "npm": "^5.5.1"
   }
 }

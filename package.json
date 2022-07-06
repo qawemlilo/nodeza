@@ -41,7 +41,7 @@
     "mailgun-js": "^0.21.0",
     "markdown-it": "^8.4.2",
     "minimatch": "^3.0.4",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",

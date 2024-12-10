@@ -65,7 +65,7 @@
     "gulp": "^4.0.0",
     "gulp-image-resize": "^0.13.1",
     "gulp-imagemin": "^4.1.0",
-    "mocha": "^5.2.0",
+    "mocha": "^10.2.0",
     "simple-prompt": "^0.2.1",
     "standard": "^11.0.1",
     "supertest": "^3.3.0"
